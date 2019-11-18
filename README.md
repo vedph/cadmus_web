@@ -2,8 +2,6 @@
 
 This project was generated using [Nx](https://nx.dev).
 
-<p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/nx-logo.png" width="450"></p>
-
 🔎 **Nx is a set of Extensible Dev Tools for Monorepos.**
 
 ## Quick Start & Documentation
@@ -13,6 +11,14 @@ This project was generated using [Nx](https://nx.dev).
 [10-minute video showing all Nx features](https://nx.dev/angular/getting-started/what-is-nx)
 
 [Interactive Tutorial](https://nx.dev/angular/tutorial/01-create-application)
+
+## Documentation with Compodoc
+
+- <https://compodoc.app/>
+
+Ensure that you have installed compodoc globally: `npm install -g @compodoc/compodoc`.
+
+Generate the documentation for each project like this: `compodoc -p apps/demo/src/tsconfig.app.json -s`.
 
 ## Adding capabilities to your workspace
 

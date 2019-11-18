@@ -1,0 +1,556 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cadmus documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">cadmus documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>HistoricalDateModel</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>libs/core/src/lib/historical-date.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Interface implemented by a historical date, as returned from the server.</p>
+
+            </p>
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#a">a</a>
+                                </li>
+                                <li>
+                                        <a href="#b">b</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="a"></a>
+                                        <span class="name"><b>a</b><a href="#a"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>a:         <code><a href="../interfaces/DatationModel.html" target="_self" >DatationModel</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../interfaces/DatationModel.html" target="_self" >DatationModel</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="b"></a>
+                                        <span class="name"><b>b</b><a href="#b"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>b:         <code><a href="../interfaces/DatationModel.html" target="_self" >DatationModel</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../interfaces/DatationModel.html" target="_self" >DatationModel</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Datation, DatationFormatOptions, DATATION_FORMAT_OPTIONS, DatationModel } from &#x27;./datation&#x27;;
+
+const APPROX_DELTA &#x3D; 10;
+
+/**
+ * Type of historical date.
+ */
+export enum HistoricalDateType {
+  undefined &#x3D; 0,
+  point,
+  range
+}
+
+/**
+ * Interface implemented by a historical date, as returned from the server.
+ */
+export interface HistoricalDateModel {
+  a: DatationModel;
+  b: DatationModel;
+}
+
+/**
+ * A historical date, including 0, 1, or 2 datation points.
+ */
+export class HistoricalDate implements HistoricalDateModel {
+  public a: Datation;
+  public b: Datation;
+
+  constructor(date: HistoricalDateModel &#x3D; null) {
+    if (!date) {
+      this.a &#x3D; new Datation();
+    } else {
+      this.a &#x3D; new Datation(date.a);
+      this.b &#x3D; new Datation(date.b);
+    }
+  }
+
+  /**
+   * Parse the specified text representing a historical datation.
+   * @param text The text to be parsed.
+   * @param options The datation formatter options.
+   */
+  public static parse(text: string,
+    options: DatationFormatOptions &#x3D; DATATION_FORMAT_OPTIONS): HistoricalDate {
+    if (!text) {
+      return null;
+    }
+    const dates &#x3D; text.split(&#x27;--&#x27;);
+    let s1 &#x3D; dates[0].trim();
+    const s2 &#x3D; dates.length &gt; 1 ? dates[1].trim() : null;
+    if (!s1) {
+      return null;
+    }
+
+    const date &#x3D; new HistoricalDate();
+    if (dates.length &gt; 1) {
+      // if both terms are specified, integrate BC/AD indication in 1st if required
+      if (s1 &amp;&amp; s2) {
+        const bcad &#x3D; Datation.getErasOptionsForRegex(options);
+        const tailRegexp &#x3D; new RegExp(
+          // era (1)
+          &#x27;(&#x27; + bcad[0] + &#x27;|&#x27; + bcad[1] + &#x27;)?&#x27; +
+          // dubious (2)
+          &#x27;(\\s*\\?)?&#x27; +
+          // hint (3)
+          &#x27;(?:\\s*\\{?:([^)]+)\\})?\\s*$&#x27;, &#x27;gi&#x27;);
+        const m1 &#x3D; tailRegexp.exec(s1);
+
+        // if 1st has no era try integration from 2nd
+        if (m1 &amp;&amp; m1[1]) {
+          // get era from 2nd (if 2nd hasn&#x27;t it too, give up and AD will be assumed)
+          const m2 &#x3D; tailRegexp.exec(s2);
+          if (m2 &amp;&amp; m2[1]) {
+            const era &#x3D; m2[1] || &#x27;p.C.&#x27;;
+            const sb1: string[] &#x3D; [];
+            if (m1.index &gt; 0) {
+              sb1.push(s1.substr(0, m1.index));
+            }
+            sb1.push(&#x27; &#x27; + era);
+            if (m1[2]) {
+              sb1.push(&#x27;?&#x27;);
+            }
+            if (m1[3]) {
+              sb1.push(&#x60; (${m1[3]})&#x60;);
+            }
+            s1 &#x3D; sb1.join(&#x27;&#x27;);
+          }
+        }
+      }
+      date.setStartPoint(Datation.parse(s1, options));
+      date.setEndPoint(Datation.parse(s2, options));
+    } else {
+      const d &#x3D; Datation.parse(s1, options);
+      if (d &amp;&amp; !d.isUndefined()) {
+        date.setSinglePoint(d);
+      }
+    }
+
+    return date;
+  }
+
+  public getStartPoint(): Datation {
+    return this.getDateType() &#x3D;&#x3D;&#x3D; HistoricalDateType.range ? this.a : null;
+  }
+
+  public setStartPoint(value: Datation) {
+    this.a &#x3D; new Datation(value);
+    // it&#x27;s a range, ensure max is not null
+    if (!this.b) {
+      this.b &#x3D; new Datation();
+    }
+  }
+
+  public getEndPoint(): Datation {
+    return this.getDateType() &#x3D;&#x3D;&#x3D; HistoricalDateType.range ? this.b : null;
+  }
+
+  public setEndPoint(value: Datation) {
+    this.b &#x3D; new Datation(value);
+  }
+
+  public getSinglePoint(): Datation {
+    return this.getDateType() &#x3D;&#x3D;&#x3D; HistoricalDateType.point ? this.a : null;
+  }
+
+  public setSinglePoint(value: Datation) {
+    this.a &#x3D; new Datation(value);
+    // it&#x27;s a point, ensure max is null
+    this.b &#x3D; null;
+  }
+
+  /**
+   * True if this date is undefined.
+   */
+  public isUndefined(): boolean {
+    return !this.a ||
+      (this.a.isUndefined() &amp;&amp; (!this.b || this.b.isUndefined()));
+  }
+
+  /**
+   * Get the type of this date.
+   */
+  public getDateType(): HistoricalDateType {
+    if (this.isUndefined()) {
+      return HistoricalDateType.undefined;
+    }
+    return this.b ? HistoricalDateType.range : HistoricalDateType.point;
+  }
+
+  /**
+   * Validate this date.
+   * @returns Error message if invalid, or null if valid.
+   */
+  public validate(): string {
+    if (!this.a) {
+      return &#x27;Missing point A&#x27;;
+    }
+
+    if (this.getDateType() &#x3D;&#x3D;&#x3D; HistoricalDateType.range) {
+      const av &#x3D; this.a.getSortValue();
+      const bv &#x3D; this.b.getSortValue();
+      if (av &amp;&amp; bv &amp;&amp; av &gt;&#x3D; bv) {
+        return &#x27;Point A is past point B&#x27;;
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Get the sort value for this date.
+   */
+  public getSortValue(): number {
+    switch (this.getDateType()) {
+      case HistoricalDateType.point:
+        return this.a.getSortValue();
+
+      case HistoricalDateType.range:
+        if (this.a.isUndefined()) {
+          return this.b.getSortValue() - APPROX_DELTA;
+        }
+        if (this.b.isUndefined()) {
+          return this.a.getSortValue() + APPROX_DELTA;
+        }
+        return (this.a.getSortValue() + this.b.getSortValue()) / 2;
+
+      default:
+        return 0;
+    }
+  }
+
+  /**
+   * Build a textual representation of this date.
+   * @param format The format string.
+   * @param options The formatter options.
+   */
+  public toString(format &#x3D; &#x27;G&#x27;,
+    options: DatationFormatOptions &#x3D; DATATION_FORMAT_OPTIONS) {
+    const sb: string[] &#x3D; [];
+
+    switch (this.getDateType()) {
+      case HistoricalDateType.point:
+        sb.push(this.a.toString(format, options));
+        break;
+
+      case HistoricalDateType.range:
+        // if both terms are present and belong to same era, omit it in 1st
+        if (!this.a.isUndefined() &amp;&amp;
+          this.b &amp;&amp; !this.b.isUndefined() &amp;&amp;
+          this.a.value * this.b.value &gt; 0) {
+          sb.push(this.a.toString(Datation.stripFormatStringEra(format), options));
+          sb.push(&#x27; -- &#x27;);
+          sb.push(this.b.toString(format, options));
+          break;
+        }
+
+        if (!this.a.isUndefined()) {
+          sb.push(this.a.toString(format, options) + &#x27; &#x27;);
+        }
+        sb.push(&#x27;--&#x27;);
+        if (this.b &amp;&amp; !this.b.isUndefined()) {
+          sb.push(this.b.toString(format, options));
+        }
+        break;
+    }
+
+    return sb.join(&#x27;&#x27;);
+  }
+
+  /**
+   * Get the approximate year value from the specified century value.
+   * @param century The century number, negative if B.C.
+   */
+  private centuryToYear(century: number): number {
+    return century * 100 + (century &lt; 0 ? 50 : -50);
+  }
+
+  /**
+   * Convert this date into a single approximate year value.
+   * For centuries, the central century year is returned (e.g. -350 for IV B.C.
+   * and +350 for IV A.D.); when the date is a range with a single boundary only
+   * (max or min) the corresponding year minus or plus a predefined delta value
+   * (10) is returned; if it&#x27;s a range with both boundaries (max and min),
+   * the middle year between them is returned.
+   * @param useTerminusSpan True to add or remove the predefined span from
+   * a terminus ante or post.
+   */
+  public toYear(useTerminusSpan &#x3D; true): number {
+    let year &#x3D; 0;
+
+    switch (this.getDateType()) {
+      case HistoricalDateType.point:
+        year &#x3D; Math.trunc(this.a.isCentury ? this.centuryToYear(this.a.value) : this.a.value);
+        break;
+
+      case HistoricalDateType.range:
+        // min is missing: terminus ante
+        if (this.a.isUndefined()) {
+          year &#x3D; Math.trunc((this.b.isCentury ? this.centuryToYear(this.b.value) : this.b.value) -
+            (useTerminusSpan ? APPROX_DELTA : 0));
+          break;
+        }
+        // max is missing: terminus post
+        if (!this.b || this.b.isUndefined()) {
+          year &#x3D; Math.trunc((this.a.isCentury ? this.centuryToYear(this.a.value) : this.a.value) +
+            (useTerminusSpan ? APPROX_DELTA : 0));
+          break;
+        }
+        // both min and max
+        const min &#x3D; this.a.isCentury ? this.centuryToYear(this.a.value) : this.a.value;
+        const max &#x3D; this.b.isCentury ? this.centuryToYear(this.b.value) : this.b.value;
+        year &#x3D; Math.trunc(((max - min) / 2) + min);
+        if (year &#x3D;&#x3D;&#x3D; 0) {
+          year &#x3D; 1;
+        }
+        break;
+    }
+
+    return year;
+  }
+
+  /**
+   * True if any value (either in point or in range) has an about flag.
+   */
+  public isAbout(): boolean {
+    let about &#x3D; false;
+
+    switch (this.getDateType()) {
+      case HistoricalDateType.point:
+        about &#x3D; this.a.isApproximate;
+        break;
+      case HistoricalDateType.range:
+        if (!this.a.isUndefined()) {
+          about &#x3D; this.a.isApproximate;
+          break;
+        }
+        if (!this.b.isUndefined()) {
+          about &#x3D; this.b.isApproximate;
+        }
+        break;
+    }
+
+    return about;
+  }
+
+  /**
+   * True if any value (either in point or in range) has an about flag.
+   */
+  public isDubious(): boolean {
+    let dubious &#x3D; false;
+
+    switch (this.getDateType()) {
+      case HistoricalDateType.point:
+        dubious &#x3D; this.a.isDubious;
+        break;
+      case HistoricalDateType.range:
+        if (!this.a.isUndefined()) {
+          dubious &#x3D; this.a.isDubious;
+          break;
+        }
+        if (!this.b.isUndefined()) {
+          dubious &#x3D; this.b.isDubious;
+        }
+        break;
+    }
+
+    return dubious;
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'HistoricalDateModel.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
