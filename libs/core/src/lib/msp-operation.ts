@@ -28,7 +28,7 @@ export class MspOperation {
       // [6]=rbs [7]=rbl
       '(?:\\@(\\d+)(?:[x×](\\d+))?)?' +
       // [8]=tag
-      '(?:\\s*\\[([^]{]+)\\])?' +
+      '(?:\\s*\\[([^\\]{]+)\\])?' +
       // [9]=note
       '(?:\\s*\\{([^}]+)})?',
     'gi'
@@ -154,7 +154,8 @@ export class MspOperation {
    * An optional tag used to group and categorize misspellings operations.
    * E.g. you might want to categorize an operation like
    * "vowels.itacism". A tag can include only letters A-Z or a-z,
-   * digits 0-9, underscore, dash, and dot.   */
+   * digits 0-9, underscore, dash, and dot.
+   */
   public get tag(): string {
     return this._tag;
   }
