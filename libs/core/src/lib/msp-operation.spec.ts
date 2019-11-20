@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { MspOperation, MspOperator } from './msp-operation';
 import { TextRange } from './text-range';
+import { EPERM } from 'constants';
 
 describe('Class: MspOperation', () => {
   beforeEach(() => {
@@ -323,6 +324,68 @@ describe('Class: MspOperation', () => {
     op.tag = 'tag';
     op.note = 'note';
     expect(op.toString()).toBe('"old"@2×3~"new"@6×3 [tag] {note}');
+  });
+
+  // parse
+  it('parse null should be null', () => {
+    const op = MspOperation.parse(null);
+    expect(op).toBeNull();
+  });
+  it('parse empty should be null', () => {
+    const op = MspOperation.parse('');
+    expect(op).toBeNull();
+  });
+  it('parse whitespaces should be null', () => {
+    const op = MspOperation.parse('  \n  ');
+    expect(op).toBeNull();
+  });
+
+  // parse del
+  it('parse "@2x1=" should be del', () => {
+    const op = MspOperation.parse('@2x1=');
+    expect(op.operator).toBe(MspOperator.delete);
+    expect(op.rangeA.toString()).toBe('@2×1');
+    expect(op.rangeB).toBeFalsy();
+    expect(op.valueA).toBeFalsy();
+    expect(op.valueB).toBeFalsy();
+    expect(op.tag).toBeFalsy();
+    expect(op.note).toBeFalsy();
+  });
+
+  // parse del tag
+  it('parse "@2x1= [tag]" should be del tag', () => {
+    const op = MspOperation.parse('@2x1= [tag]');
+    expect(op.operator).toBe(MspOperator.delete);
+    expect(op.rangeA.toString()).toBe('@2×1');
+    expect(op.rangeB).toBeFalsy();
+    expect(op.valueA).toBeFalsy();
+    expect(op.valueB).toBeFalsy();
+    expect(op.tag).toBe('tag');
+    expect(op.note).toBeFalsy();
+  });
+
+  // parse del note
+  it('parse "@2x1= {note}" should be del note', () => {
+    const op = MspOperation.parse('@2x1=');
+    expect(op.operator).toBe(MspOperator.delete);
+    expect(op.rangeA.toString()).toBe('@2×1');
+    expect(op.rangeB).toBeFalsy();
+    expect(op.valueA).toBeFalsy();
+    expect(op.valueB).toBeFalsy();
+    expect(op.tag).toBeFalsy();
+    expect(op.note).toBe('note');
+  });
+
+  // parse del tag note
+  it('parse "@2x1= [tag] {note}" should be del tag note', () => {
+    const op = MspOperation.parse('@2x1=');
+    expect(op.operator).toBe(MspOperator.delete);
+    expect(op.rangeA.toString()).toBe('@2×1');
+    expect(op.rangeB).toBeFalsy();
+    expect(op.valueA).toBeFalsy();
+    expect(op.valueB).toBeFalsy();
+    expect(op.tag).toBe('tag');
+    expect(op.note).toBe('note');
   });
 
   // TODO: other tests
