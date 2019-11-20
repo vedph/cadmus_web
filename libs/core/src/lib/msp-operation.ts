@@ -137,14 +137,16 @@ export class MspOperation {
         break;
       case MspOperator.insert:
         // RAL=0, VA=null, VB!=null
-        if (this.rangeA.length > 0)
+        if (this.rangeA && this.rangeA.length > 0) {
           this.rangeA = new TextRange(this.rangeA.start, 0);
+        }
         this._valueA = null;
         break;
       case MspOperator.move:
         // RAL>0, RBL=0, VB=null
-        if (this.rangeB.length > 0)
+        if (this.rangeB && this.rangeB.length > 0) {
           this.rangeB = new TextRange(this.rangeB.start, 0);
+        }
         this._valueB = null;
         break;
     }
@@ -160,9 +162,9 @@ export class MspOperation {
     return this._tag;
   }
   public set tag(value: string) {
-    if (value && !MspOperation._tagRegExp.test(value)) {
-      throw new Error(`Invalid msp tag: "${value}"`);
-    }
+    // if (value && !MspOperation._tagRegExp.test(value)) {
+    //   throw new Error(`Invalid msp tag: "${value}"`);
+    // }
     this._tag = value;
   }
 

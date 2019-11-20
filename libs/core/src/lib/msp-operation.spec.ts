@@ -121,7 +121,7 @@ describe('Class: MspOperation', () => {
     op.valueA = 'old';
     op.valueB = 'new';
     op.tag = 'tag';
-    expect(op.toString()).toBe('"old"A@2×3="new" [tag]');
+    expect(op.toString()).toBe('"old"@2×3="new" [tag]');
   });
   it('toString rep A 2x3 note = "A@2×3=B {note}"', () => {
     const op = new MspOperation();
@@ -172,6 +172,8 @@ describe('Class: MspOperation', () => {
     op.operator = MspOperator.insert;
     op.rangeA = TextRange.parse('2x0');
     op.valueB = 'new';
+    op.tag = 'tag';
+    op.note = 'note';
     expect(op.toString()).toBe('@2×0="new" [tag] {note}');
   });
 
