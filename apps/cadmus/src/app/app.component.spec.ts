@@ -1,10 +1,23 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { BrowserModule } from '@angular/platform-browser';
+import {
+  ReactiveFormsModule,
+  FormsModule
+} from '@angular/forms';
+import { CoreModule } from '@cadmus/core';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent]
+      declarations: [AppComponent],
+      imports: [
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        // Cadmus
+        CoreModule
+      ]
     }).compileComponents();
   }));
 

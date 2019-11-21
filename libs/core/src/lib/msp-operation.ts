@@ -17,19 +17,19 @@ export enum MspOperator {
 export class MspOperation {
   private static _tagRegExp: RegExp = new RegExp('^[-0-9a-zA-Z_.]+$', 'gi');
   private static _opRegExp: RegExp = new RegExp(
-    // [1]=va
+    // [1]=va ("A")
     '(?:"([^"]+)")?' +
-      // [2]=ras [3]=ral
+      // [2]=ras [3]=ral (@2x1)
       '\\@(\\d+)(?:[x×](\\d+))?' +
-      // [4]=op
+      // [4]=op (=)
       '([=>~])' +
-      // [5]=vb
+      // [5]=vb ("B")
       '(?:"([^"]*)")?' +
-      // [6]=rbs [7]=rbl
+      // [6]=rbs [7]=rbl (@2x1)
       '(?:\\@(\\d+)(?:[x×](\\d+))?)?' +
-      // [8]=tag
+      // [8]=tag ( [tag])
       '(?:\\s*\\[([^\\]{]+)\\])?' +
-      // [9]=note
+      // [9]=note ( {note})
       '(?:\\s*\\{([^}]+)})?',
     'gi'
   );
@@ -106,7 +106,7 @@ export class MspOperation {
     if (op.operator !== MspOperator.move
         && op.operator !== MspOperator.swap)
     {
-        op.rangeB = new TextRange(0, 0);
+        op.rangeB = null;
     }
 
     // value B is allowed only for insert/replace/swap
