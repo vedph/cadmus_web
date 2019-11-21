@@ -11,22 +11,6 @@
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}\\serve",
       "outFiles": ["${workspaceFolder}/**/*.js"]
-    },
-    // https://blog.nrwl.io/debugging-nx-in-vs-code-cb1dbe9eeeba
-    {
-      "name": "debug-jest-lib",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceFolder}/node_modules/@angular/cli/bin/ng",
-      "args": [
-        "test",
-        "core",
-        "--codeCoverage=false",
-        "--testNamePattern=CoreMspOperation",
-        "--testFile=${workspaceFolder}/libs/core/src/lib/msp-operation.spec.ts"
-      ],
-      "cwd": "${workspaceFolder}",
-      "console": "internalConsole"
     }
   ]
 }

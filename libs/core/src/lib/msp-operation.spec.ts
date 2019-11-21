@@ -343,7 +343,7 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1=" should be del', () => {
     const op = MspOperation.parse('@2x1=');
     expect(op.operator).toBe(MspOperator.delete);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBeFalsy();
@@ -353,7 +353,7 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1= [tag]" should be del tag', () => {
     const op = MspOperation.parse('@2x1= [tag]');
     expect(op.operator).toBe(MspOperator.delete);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBeFalsy();
@@ -363,7 +363,7 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1= {note}" should be del note', () => {
     const op = MspOperation.parse('@2x1=');
     expect(op.operator).toBe(MspOperator.delete);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBeFalsy();
@@ -373,7 +373,7 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1= [tag] {note}" should be del tag note', () => {
     const op = MspOperation.parse('@2x1=');
     expect(op.operator).toBe(MspOperator.delete);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBeFalsy();
@@ -385,7 +385,7 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1=""" should be del', () => {
     const op = MspOperation.parse('@2x1=""');
     expect(op.operator).toBe(MspOperator.delete);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBeFalsy();
@@ -395,7 +395,7 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1="" [tag]" should be del tag', () => {
     const op = MspOperation.parse('@2x1="" [tag]');
     expect(op.operator).toBe(MspOperator.delete);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBeFalsy();
@@ -405,7 +405,7 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1="" {note}" should be del note', () => {
     const op = MspOperation.parse('@2x1="" {note}');
     expect(op.operator).toBe(MspOperator.delete);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBeFalsy();
@@ -415,7 +415,7 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1="" [tag] {note}" should be del tag note', () => {
     const op = MspOperation.parse('@2x1="" [tag] {note}');
     expect(op.operator).toBe(MspOperator.delete);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBeFalsy();
@@ -427,7 +427,7 @@ describe('Class: MspOperation', () => {
   it('parse "A@2x1=" should be del', () => {
     const op = MspOperation.parse('"a"@2x1=');
     expect(op.operator).toBe(MspOperator.delete);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBe('a');
     expect(op.valueB).toBeFalsy();
@@ -437,7 +437,7 @@ describe('Class: MspOperation', () => {
   it('parse "A@2x1= [tag]" should be del tag', () => {
     const op = MspOperation.parse('"a"@2x1= [tag]');
     expect(op.operator).toBe(MspOperator.delete);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBe('a');
     expect(op.valueB).toBeFalsy();
@@ -447,7 +447,7 @@ describe('Class: MspOperation', () => {
   it('parse "A@2x1= {note}" should be del note', () => {
     const op = MspOperation.parse('"a"@2x1=');
     expect(op.operator).toBe(MspOperator.delete);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBe('a');
     expect(op.valueB).toBeFalsy();
@@ -457,7 +457,7 @@ describe('Class: MspOperation', () => {
   it('parse "A@2x1= [tag] {note}" should be del tag note', () => {
     const op = MspOperation.parse('"a"@2x1=');
     expect(op.operator).toBe(MspOperator.delete);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBe('a');
     expect(op.valueB).toBeFalsy();
@@ -469,7 +469,7 @@ describe('Class: MspOperation', () => {
   it('parse "@2x0="s"" should be ins', () => {
     const op = MspOperation.parse('@2x0="s"');
     expect(op.operator).toBe(MspOperator.insert);
-    expect(op.rangeA.toString()).toBe('@2×0');
+    expect(op.rangeA.toString()).toBe('2×0');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBe('s');
@@ -479,7 +479,7 @@ describe('Class: MspOperation', () => {
   it('parse "@2x0="s" [tag]" should be ins tag', () => {
     const op = MspOperation.parse('@2x0="s" [tag]');
     expect(op.operator).toBe(MspOperator.insert);
-    expect(op.rangeA.toString()).toBe('@2×0');
+    expect(op.rangeA.toString()).toBe('2×0');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBe('s');
@@ -489,7 +489,7 @@ describe('Class: MspOperation', () => {
   it('parse "@2x0="s" {note}" should be ins note', () => {
     const op = MspOperation.parse('@2x0="s"');
     expect(op.operator).toBe(MspOperator.insert);
-    expect(op.rangeA.toString()).toBe('@2×0');
+    expect(op.rangeA.toString()).toBe('2×0');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBe('s');
@@ -499,7 +499,7 @@ describe('Class: MspOperation', () => {
   it('parse "@2x0="s" [tag] {note}" should be ins tag note', () => {
     const op = MspOperation.parse('@2x0="s"');
     expect(op.operator).toBe(MspOperator.insert);
-    expect(op.rangeA.toString()).toBe('@2×0');
+    expect(op.rangeA.toString()).toBe('2×0');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBe('s');
@@ -511,7 +511,7 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1="b"" should be rep', () => {
     const op = MspOperation.parse('@2x1="b"');
     expect(op.operator).toBe(MspOperator.replace);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBe('b');
@@ -521,7 +521,7 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1="b" [tag]" should be rep tag', () => {
     const op = MspOperation.parse('@2x1="b" [tag]');
     expect(op.operator).toBe(MspOperator.replace);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBe('b');
@@ -531,7 +531,7 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1="b" {note}" should be rep note', () => {
     const op = MspOperation.parse('@2x1="b" {note}');
     expect(op.operator).toBe(MspOperator.replace);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBe('b');
@@ -541,7 +541,7 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1="b" [tag] {note}" should be rep tag note', () => {
     const op = MspOperation.parse('@2x1="b" [tag] {note}');
     expect(op.operator).toBe(MspOperator.replace);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBe('b');
@@ -553,7 +553,7 @@ describe('Class: MspOperation', () => {
   it('parse "A@2x1="b"" should be rep', () => {
     const op = MspOperation.parse('"a"@2x1="b"');
     expect(op.operator).toBe(MspOperator.replace);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBe('a');
     expect(op.valueB).toBe('b');
@@ -563,7 +563,7 @@ describe('Class: MspOperation', () => {
   it('parse "A@2x1="b" [tag]" should be rep tag', () => {
     const op = MspOperation.parse('"a"@2x1="b" [tag]');
     expect(op.operator).toBe(MspOperator.replace);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBe('a');
     expect(op.valueB).toBe('b');
@@ -573,7 +573,7 @@ describe('Class: MspOperation', () => {
   it('parse "A@2x1="b" {note}" should be rep note', () => {
     const op = MspOperation.parse('"a"@2x1="b" {note}');
     expect(op.operator).toBe(MspOperator.replace);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBe('a');
     expect(op.valueB).toBe('b');
@@ -583,7 +583,7 @@ describe('Class: MspOperation', () => {
   it('parse "A@2x1="b" [tag] {note}" should be rep tag note', () => {
     const op = MspOperation.parse('"a"@2x1="b" [tag] {note}');
     expect(op.operator).toBe(MspOperator.replace);
-    expect(op.rangeA.toString()).toBe('@2');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB).toBeFalsy();
     expect(op.valueA).toBe('a');
     expect(op.valueB).toBe('b');
@@ -595,8 +595,8 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1>@4" should be mov', () => {
     const op = MspOperation.parse('@2x1>@4');
     expect(op.operator).toBe(MspOperator.move);
-    expect(op.rangeA.toString()).toBe('@2×1');
-    expect(op.rangeB.toString()).toBe('@4×0');
+    expect(op.rangeA.toString()).toBe('2×1');
+    expect(op.rangeB.toString()).toBe('4×0');
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBeFalsy();
     expect(op.tag).toBeFalsy();
@@ -605,8 +605,8 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1>@4 [tag]" should be mov tag', () => {
     const op = MspOperation.parse('@2x1>@4 [tag]');
     expect(op.operator).toBe(MspOperator.move);
-    expect(op.rangeA.toString()).toBe('@2×1');
-    expect(op.rangeB.toString()).toBe('@4×0');
+    expect(op.rangeA.toString()).toBe('2×1');
+    expect(op.rangeB.toString()).toBe('4×0');
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBeFalsy();
     expect(op.tag).toBe('tag');
@@ -615,8 +615,8 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1>@4 {note}" should be mov note', () => {
     const op = MspOperation.parse('@2x1>@4 {note}');
     expect(op.operator).toBe(MspOperator.move);
-    expect(op.rangeA.toString()).toBe('@2×1');
-    expect(op.rangeB.toString()).toBe('@4×0');
+    expect(op.rangeA.toString()).toBe('2×1');
+    expect(op.rangeB.toString()).toBe('4×0');
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBeFalsy();
     expect(op.tag).toBeFalsy();
@@ -625,8 +625,8 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1>@4 [tag] {note}" should be mov tag note', () => {
     const op = MspOperation.parse('@2x1>@4');
     expect(op.operator).toBe(MspOperator.move);
-    expect(op.rangeA.toString()).toBe('@2×1');
-    expect(op.rangeB.toString()).toBe('@4×0');
+    expect(op.rangeA.toString()).toBe('2×1');
+    expect(op.rangeB.toString()).toBe('4×0');
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBeFalsy();
     expect(op.tag).toBe('tag');
@@ -637,8 +637,8 @@ describe('Class: MspOperation', () => {
   it('parse "A@2x1>@4" should be mov', () => {
     const op = MspOperation.parse('"a"@2x1>@4');
     expect(op.operator).toBe(MspOperator.move);
-    expect(op.rangeA.toString()).toBe('@2×1');
-    expect(op.rangeB.toString()).toBe('@4×0');
+    expect(op.rangeA.toString()).toBe('2×1');
+    expect(op.rangeB.toString()).toBe('4×0');
     expect(op.valueA).toBe('a');
     expect(op.valueB).toBeFalsy();
     expect(op.tag).toBeFalsy();
@@ -647,8 +647,8 @@ describe('Class: MspOperation', () => {
   it('parse "A@2x1>@4 [tag]" should be mov tag', () => {
     const op = MspOperation.parse('"a"@2x1>@4 [tag]');
     expect(op.operator).toBe(MspOperator.move);
-    expect(op.rangeA.toString()).toBe('@2×1');
-    expect(op.rangeB.toString()).toBe('@4×0');
+    expect(op.rangeA.toString()).toBe('2×1');
+    expect(op.rangeB.toString()).toBe('4×0');
     expect(op.valueA).toBe('a');
     expect(op.valueB).toBeFalsy();
     expect(op.tag).toBe('tag');
@@ -657,8 +657,8 @@ describe('Class: MspOperation', () => {
   it('parse "A@2x1>@4 {note}" should be mov note', () => {
     const op = MspOperation.parse('"a"@2x1>@4 {note}');
     expect(op.operator).toBe(MspOperator.move);
-    expect(op.rangeA.toString()).toBe('@2×1');
-    expect(op.rangeB.toString()).toBe('@4×0');
+    expect(op.rangeA.toString()).toBe('2×1');
+    expect(op.rangeB.toString()).toBe('4×0');
     expect(op.valueA).toBe('a');
     expect(op.valueB).toBeFalsy();
     expect(op.tag).toBeFalsy();
@@ -667,8 +667,8 @@ describe('Class: MspOperation', () => {
   it('parse "A@2x1>@4 [tag] {note}" should be mov tag note', () => {
     const op = MspOperation.parse('"a"@2x1>@4');
     expect(op.operator).toBe(MspOperator.move);
-    expect(op.rangeA.toString()).toBe('@2×1');
-    expect(op.rangeB.toString()).toBe('@4×0');
+    expect(op.rangeA.toString()).toBe('2×1');
+    expect(op.rangeB.toString()).toBe('4×0');
     expect(op.valueA).toBe('a');
     expect(op.valueB).toBeFalsy();
     expect(op.tag).toBe('tag');
@@ -679,8 +679,8 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1~@4x1" should be swp', () => {
     const op = MspOperation.parse('@2x1~@4x1');
     expect(op.operator).toBe(MspOperator.swap);
-    expect(op.rangeA.toString()).toBe('@2');
-    expect(op.rangeB.toString()).toBe('@4');
+    expect(op.rangeA.toString()).toBe('2');
+    expect(op.rangeB.toString()).toBe('4');
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBeFalsy();
     expect(op.tag).toBeFalsy();
@@ -689,8 +689,8 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1~@4x1 [tag]" should be swp tag', () => {
     const op = MspOperation.parse('@2x1~@4x1 [tag]');
     expect(op.operator).toBe(MspOperator.swap);
-    expect(op.rangeA.toString()).toBe('@2');
-    expect(op.rangeB.toString()).toBe('@4');
+    expect(op.rangeA.toString()).toBe('2');
+    expect(op.rangeB.toString()).toBe('4');
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBeFalsy();
     expect(op.tag).toBe('tag');
@@ -699,8 +699,8 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1~@4x1 {note}" should be swp note', () => {
     const op = MspOperation.parse('@2x1~@4x1 {note}');
     expect(op.operator).toBe(MspOperator.swap);
-    expect(op.rangeA.toString()).toBe('@2');
-    expect(op.rangeB.toString()).toBe('@4');
+    expect(op.rangeA.toString()).toBe('2');
+    expect(op.rangeB.toString()).toBe('4');
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBeFalsy();
     expect(op.tag).toBeFalsy();
@@ -709,8 +709,8 @@ describe('Class: MspOperation', () => {
   it('parse "@2x1~@4x1 [tag] {note}" should be swp tag note', () => {
     const op = MspOperation.parse('@2x1~@4x1 [tag] {note}');
     expect(op.operator).toBe(MspOperator.swap);
-    expect(op.rangeA.toString()).toBe('@2');
-    expect(op.rangeB.toString()).toBe('@4');
+    expect(op.rangeA.toString()).toBe('2');
+    expect(op.rangeB.toString()).toBe('4');
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBeFalsy();
     expect(op.tag).toBe('tag');
@@ -721,8 +721,8 @@ describe('Class: MspOperation', () => {
   it('parse "A@2x1~B@4x1" should be swp', () => {
     const op = MspOperation.parse('"a"@2x1~"b"@4x1');
     expect(op.operator).toBe(MspOperator.swap);
-    expect(op.rangeA.toString()).toBe('@2');
-    expect(op.rangeB.toString()).toBe('@4');
+    expect(op.rangeA.toString()).toBe('2');
+    expect(op.rangeB.toString()).toBe('4');
     expect(op.valueA).toBe('a');
     expect(op.valueB).toBe('b');
     expect(op.tag).toBeFalsy();
@@ -731,8 +731,8 @@ describe('Class: MspOperation', () => {
   it('parse "A@2x1~B@4x1 [tag]" should be swp tag', () => {
     const op = MspOperation.parse('"a"@2x1~"b"@4x1 [tag]');
     expect(op.operator).toBe(MspOperator.swap);
-    expect(op.rangeA.toString()).toBe('@2');
-    expect(op.rangeB.toString()).toBe('@4');
+    expect(op.rangeA.toString()).toBe('2');
+    expect(op.rangeB.toString()).toBe('4');
     expect(op.valueA).toBe('a');
     expect(op.valueB).toBe('b');
     expect(op.tag).toBe('tag');
@@ -741,8 +741,8 @@ describe('Class: MspOperation', () => {
   it('parse "A@2x1~B@4x1 {note}" should be swp note', () => {
     const op = MspOperation.parse('"a"@2x1~"b"@4x1 {note}');
     expect(op.operator).toBe(MspOperator.swap);
-    expect(op.rangeA.toString()).toBe('@2');
-    expect(op.rangeB.toString()).toBe('@4');
+    expect(op.rangeA.toString()).toBe('2');
+    expect(op.rangeB.toString()).toBe('4');
     expect(op.valueA).toBe('a');
     expect(op.valueB).toBe('b');
     expect(op.tag).toBeFalsy();
@@ -751,8 +751,8 @@ describe('Class: MspOperation', () => {
   it('parse "A@2x1~B@4x1 [tag] {note}" should be swp tag note', () => {
     const op = MspOperation.parse('"a"@2x1~"b"@4x1 [tag] {note}');
     expect(op.operator).toBe(MspOperator.swap);
-    expect(op.rangeA.toString()).toBe('@2');
-    expect(op.rangeB.toString()).toBe('@4');
+    expect(op.rangeA.toString()).toBe('2');
+    expect(op.rangeB.toString()).toBe('4');
     expect(op.valueA).toBe('a');
     expect(op.valueB).toBe('b');
     expect(op.tag).toBe('tag');

@@ -91,9 +91,11 @@ export class MspOperation {
       this.parseRangeNumber(m[2]),
       this.parseRangeNumber(m[3]));
     op.valueA = m[1] || null;
-    op.rangeB = new TextRange(
-      this.parseRangeNumber(m[6]),
-      this.parseRangeNumber(m[7]));
+    if (m[6]) {
+      op.rangeB = new TextRange(
+        this.parseRangeNumber(m[6]),
+        this.parseRangeNumber(m[7]));
+    }
     op.valueB = m[5] || null;
     op.tag = m[8] || null;
     op.note = m[9] || null;
