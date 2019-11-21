@@ -2,7 +2,9 @@
 
 This project was generated using [Nx](https://nx.dev).
 
-🔎 **Nx is a set of Extensible Dev Tools for Monorepos.**
+1. `npx create-nx-workspace@latest cadmus`.
+2. `nx migrate @nrwl/workspace` to eventually upgrade nrwl.
+3. `ng update` if some packages are still outdated.
 
 ## Quick Start & Documentation
 
