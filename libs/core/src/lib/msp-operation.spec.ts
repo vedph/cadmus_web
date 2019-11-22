@@ -42,14 +42,14 @@ describe('Class: MspOperation', () => {
     const op = new MspOperation();
     op.operator = MspOperator.delete;
     op.rangeA = TextRange.parse('2x3');
-    op.valueA = "old";
+    op.valueA = 'old';
     expect(op.toString()).toBe('"old"@2×3=');
   });
   it('toString del A 2x3 tag = ""A"@2×3= [tag]"', () => {
     const op = new MspOperation();
     op.operator = MspOperator.delete;
     op.rangeA = TextRange.parse('2x3');
-    op.valueA = "old";
+    op.valueA = 'old';
     op.tag = 'tag';
     expect(op.toString()).toBe('"old"@2×3= [tag]');
   });
@@ -57,7 +57,7 @@ describe('Class: MspOperation', () => {
     const op = new MspOperation();
     op.operator = MspOperator.delete;
     op.rangeA = TextRange.parse('2x3');
-    op.valueA = "old";
+    op.valueA = 'old';
     op.note = 'note';
     expect(op.toString()).toBe('"old"@2×3= {note}');
   });
@@ -65,7 +65,7 @@ describe('Class: MspOperation', () => {
     const op = new MspOperation();
     op.operator = MspOperator.delete;
     op.rangeA = TextRange.parse('2x3');
-    op.valueA = "old";
+    op.valueA = 'old';
     op.tag = 'tag';
     op.note = 'note';
     expect(op.toString()).toBe('"old"@2×3= [tag] {note}');
@@ -631,7 +631,7 @@ describe('Class: MspOperation', () => {
     const op = MspOperation.parse('@2x1>@4 [tag]');
     expect(op).toBeTruthy();
     expect(op.operator).toBe(MspOperator.move);
-    expect(op.rangeA.toString()).toBe('2×1');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB.toString()).toBe('4×0');
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBeFalsy();
@@ -653,7 +653,7 @@ describe('Class: MspOperation', () => {
     const op = MspOperation.parse('@2x1>@4');
     expect(op).toBeTruthy();
     expect(op.operator).toBe(MspOperator.move);
-    expect(op.rangeA.toString()).toBe('2×1');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB.toString()).toBe('4×0');
     expect(op.valueA).toBeFalsy();
     expect(op.valueB).toBeFalsy();
@@ -677,7 +677,7 @@ describe('Class: MspOperation', () => {
     const op = MspOperation.parse('"a"@2x1>@4 [tag]');
     expect(op).toBeTruthy();
     expect(op.operator).toBe(MspOperator.move);
-    expect(op.rangeA.toString()).toBe('2×1');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB.toString()).toBe('4×0');
     expect(op.valueA).toBe('a');
     expect(op.valueB).toBeFalsy();
@@ -699,7 +699,7 @@ describe('Class: MspOperation', () => {
     const op = MspOperation.parse('"a"@2x1>@4');
     expect(op).toBeTruthy();
     expect(op.operator).toBe(MspOperator.move);
-    expect(op.rangeA.toString()).toBe('2×1');
+    expect(op.rangeA.toString()).toBe('2');
     expect(op.rangeB.toString()).toBe('4×0');
     expect(op.valueA).toBe('a');
     expect(op.valueB).toBeFalsy();

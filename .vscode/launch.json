@@ -11,6 +11,15 @@
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}\\serve",
       "outFiles": ["${workspaceFolder}/**/*.js"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Jest Test",
+      "program": "${workspaceFolder}\\node_modules\\jest\\bin\\jest",
+      "args": ["--runInBand", "--config=${workspaceFolder}\\jest.config.js"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
     }
   ]
 }
