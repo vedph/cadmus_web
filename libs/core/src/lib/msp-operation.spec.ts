@@ -466,7 +466,7 @@ describe('Class: MspOperation', () => {
     expect(op.note).toBe('note');
   });
   it('parse "A@2x1= [tag] {note}" should be del tag note', () => {
-    const op = MspOperation.parse('"a"@2x1=');
+    const op = MspOperation.parse('"a"@2x1= [tag] {note}');
     expect(op).toBeTruthy();
     expect(op.operator).toBe(MspOperator.delete);
     expect(op.rangeA.toString()).toBe('2');
@@ -512,7 +512,7 @@ describe('Class: MspOperation', () => {
     expect(op.note).toBe('note');
   });
   it('parse "@2x0="s" [tag] {note}" should be ins tag note', () => {
-    const op = MspOperation.parse('@2x0="s"');
+    const op = MspOperation.parse('@2x0="s" [tag] {note}');
     expect(op).toBeTruthy();
     expect(op.operator).toBe(MspOperator.insert);
     expect(op.rangeA.toString()).toBe('2×0');
@@ -650,7 +650,7 @@ describe('Class: MspOperation', () => {
     expect(op.note).toBe('note');
   });
   it('parse "@2x1>@4 [tag] {note}" should be mov tag note', () => {
-    const op = MspOperation.parse('@2x1>@4');
+    const op = MspOperation.parse('@2x1>@4 [tag] {note}');
     expect(op).toBeTruthy();
     expect(op.operator).toBe(MspOperator.move);
     expect(op.rangeA.toString()).toBe('2');
@@ -696,7 +696,7 @@ describe('Class: MspOperation', () => {
     expect(op.note).toBe('note');
   });
   it('parse "A@2x1>@4 [tag] {note}" should be mov tag note', () => {
-    const op = MspOperation.parse('"a"@2x1>@4');
+    const op = MspOperation.parse('"a"@2x1>@4 [tag] {note}');
     expect(op).toBeTruthy();
     expect(op.operator).toBe(MspOperator.move);
     expect(op.rangeA.toString()).toBe('2');

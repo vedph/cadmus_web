@@ -15,14 +15,14 @@ export enum MspOperator {
  * Misspelling operation.
  */
 export class MspOperation {
-  private static _tagRegExp: RegExp = new RegExp('^[-0-9a-zA-Z_.]+$', 'gi');
-  private static _opRegExp: RegExp = new RegExp(
+  private static readonly _tagRegExp: RegExp = new RegExp('^[-0-9a-zA-Z_.]+$', 'gi');
+  private static readonly _opRegExp: RegExp = new RegExp(
     // [1]=va ("A")
     '(?:"([^"]+)")?' +
       // [2]=ras [3]=ral (@2x1)
       '\\@(\\d+)(?:[x×](\\d+))?' +
       // [4]=op (=)
-      '([=>~])' +
+      '\\s*([=>~])\\s*' +
       // [5]=vb ("B")
       '(?:"([^"]*)")?' +
       // [6]=rbs [7]=rbl (@2x1)
@@ -164,9 +164,9 @@ export class MspOperation {
     return this._tag;
   }
   public set tag(value: string) {
-    // if (value && !MspOperation._tagRegExp.test(value)) {
-    //   throw new Error(`Invalid msp tag: "${value}"`);
-    // }
+    if (value && !MspOperation._tagRegExp.test(value)) {
+      throw new Error(`Invalid msp tag: "${value}"`);
+    }
     this._tag = value;
   }
 
