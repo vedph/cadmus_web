@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { MspOperation } from '@cadmus/core';
+import { MspOperation, DifferResultToMspAdapter } from '@cadmus/core';
+import { diff_match_patch } from 'diff-match-patch';
 
 @Component({
   selector: 'cadmus-root',
@@ -8,23 +9,51 @@ import { MspOperation } from '@cadmus/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  private readonly _differ: diff_match_patch;
+  private readonly _adapter: DifferResultToMspAdapter;
+
   title = 'cadmus';
 
-  public test: FormGroup;
+  public parseGroup: FormGroup;
   public text: FormControl;
   public operation: MspOperation;
 
+  public diffGroup: FormGroup;
+  public textA: FormControl;
+  public textB: FormControl;
+
+  public operations: MspOperation[];
+
   constructor(formBuilder: FormBuilder) {
+    this._differ = new diff_match_patch();
+    this._adapter = new DifferResultToMspAdapter();
+
+    // forms
     this.text = formBuilder.control(null, Validators.required);
-    this.test = formBuilder.group({
+    this.parseGroup = formBuilder.group({
       text: this.text
+    });
+
+    this.textA = formBuilder.control('bixit', Validators.required);
+    this.textB = formBuilder.control('vixit', Validators.required);
+    this.diffGroup = formBuilder.group({
+      textA: this.textA,
+      textB: this.textB
     });
   }
 
   public parseMsp() {
-    if (!this.test.valid) {
+    if (!this.parseGroup.valid) {
       return;
     }
     this.operation = MspOperation.parse(this.text.value);
+  }
+
+  public diffMsp() {
+    if (!this.diffGroup.valid) {
+      return;
+    }
+    const result = this._differ.diff_main(this.textA.value, this.textB.value);
+    this.operations = this._adapter.adapt(result);
   }
 }

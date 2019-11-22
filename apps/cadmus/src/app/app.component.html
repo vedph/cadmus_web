@@ -2,12 +2,34 @@
   <h1>Welcome to {{ title }}!</h1>
 </header>
 <main>
-  <h2>Test</h2>
-  <form [formGroup]="test">
-    <input formControlName="text" type="text" autofocus>
-    <button type="submit" (click)="parseMsp()">submit</button>
-  </form>
-  <div>
-    {{operation | json}}
-  </div>
+  <article>
+    <h2>MSP Parser</h2>
+    <form [formGroup]="parseGroup">
+      <input formControlName="text" type="text" autofocus />
+      <button type="submit" (click)="parseMsp()">parse</button>
+    </form>
+    <div *ngIf="operation">
+      <h3>Operation</h3>
+      {{ operation | json }}
+    </div>
+  </article>
+  <hr />
+  <article>
+    <h2>MSP Diffing</h2>
+    <form [formGroup]="diffGroup">
+      <div>
+        <input formControlName="textA" type="text" />
+      </div>
+      <div>
+        <input formControlName="textB" type="text" />
+      </div>
+      <button type="submit" (click)="diffMsp()">diff</button>
+    </form>
+    <div *ngIf="operations">
+      <h3>Operations</h3>
+      <ol>
+        <li *ngFor="let op of operations">{{ op.toString() }}</li>
+      </ol>
+    </div>
+  </article>
 </main>
