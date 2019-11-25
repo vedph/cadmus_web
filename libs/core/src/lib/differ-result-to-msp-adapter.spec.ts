@@ -208,5 +208,65 @@ describe('Class: DifferResultToMspAdapter', () => {
     expect(rep.valueB).toBe('Z');
   });
 
-  // TODO: other tests
+  it('ins rep del final should provide ins rep del', () => {
+    const differ = new diff_match_patch();
+    const adapter = new DifferResultToMspAdapter();
+    const ops = adapter.adapt(differ.diff_main('bxdf', 'AbCd'));
+    expect(ops.length).toBe(3);
+    // ins
+    const ins = ops[0];
+    expect(ins.operator).toBe(MspOperator.insert);
+    expect(ins.rangeA.toString()).toBe('1×0');
+    expect(ins.valueB).toBe('A');
+    // rep
+    const rep = ops[1];
+    expect(rep.operator).toBe(MspOperator.replace);
+    expect(rep.rangeA.toString()).toBe('2');
+    expect(rep.valueA).toBe('x');
+    expect(rep.valueB).toBe('C');
+    // del
+    const del = ops[2];
+    expect(del.operator).toBe(MspOperator.delete);
+    expect(del.rangeA.toString()).toBe('4');
+    expect(del.valueA).toBe('f');
+  });
+
+  it('mov from start should provide mov', () => {
+    const differ = new diff_match_patch();
+    const adapter = new DifferResultToMspAdapter();
+    const ops = adapter.adapt(differ.diff_main('Xab', 'abX'));
+    expect(ops.length).toBe(1);
+    // mov
+    const mov = ops[0];
+    expect(mov.operator).toBe(MspOperator.move);
+    expect(mov.rangeA.toString()).toBe('1');
+    expect(mov.rangeB.toString()).toBe('4×0');
+    expect(mov.valueA).toBe('X');
+  });
+
+  it('mov from inner should provide mov', () => {
+    const differ = new diff_match_patch();
+    const adapter = new DifferResultToMspAdapter();
+    const ops = adapter.adapt(differ.diff_main('aXbc', 'abcX'));
+    expect(ops.length).toBe(1);
+    // mov
+    const mov = ops[0];
+    expect(mov.operator).toBe(MspOperator.move);
+    expect(mov.rangeA.toString()).toBe('2');
+    expect(mov.rangeB.toString()).toBe('5×0');
+    expect(mov.valueA).toBe('X');
+  });
+
+  it('mov from end should provide mov', () => {
+    const differ = new diff_match_patch();
+    const adapter = new DifferResultToMspAdapter();
+    const ops = adapter.adapt(differ.diff_main('abX', 'Xab'));
+    expect(ops.length).toBe(1);
+    // mov
+    const mov = ops[0];
+    expect(mov.operator).toBe(MspOperator.move);
+    expect(mov.rangeA.toString()).toBe('3');
+    expect(mov.rangeB.toString()).toBe('1×0');
+    expect(mov.valueA).toBe('X');
+  });
 });
