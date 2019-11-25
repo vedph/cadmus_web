@@ -24,7 +24,7 @@ Generate the documentation for each project like this: `compodoc -p apps/demo/sr
 
 ## Plans
 
-Sample msp UI:
+Sample msp UI: `MspOperationComponent`:
 
 ```plantuml
 @startuml
@@ -49,6 +49,14 @@ salt
 @enduml
 ```
 
+- input: operation (MspOperation)
+- output:
+  - operationChange (MspOperation)
+  - moveUpRequest (MspOperation)
+  - moveDownRequest (MspOperation)
+  - appendRequest(MspOperation)
+  - prependRequest(MspOperation)
+  - deleteRequest(MspOperation)
 
 ## Adding capabilities to your workspace
 
