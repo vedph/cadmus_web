@@ -21,12 +21,12 @@ export class TextRange {
    */
   public static parse(text: string): TextRange {
     if (!text) {
-      throw new Error('No range text to be parsed');
+      return null;
     }
     // [1]=start, ([2]=length)
     const m = new RegExp('(\\d+)(?:[×x](\\d+))?', 'gm').exec(text);
     if (!m) {
-      throw new Error(`Invalid range text: "${text}"`);
+      return null;
     }
     return new TextRange(
       parseInt(m[1], 10),

@@ -16,7 +16,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@cadmus/core": ["libs/core/src/index.ts"]
+      "@cadmus/core": ["libs/core/src/index.ts"],
+      "@cadmus/parts/philology/philology-ui": [
+        "libs/parts/philology/philology-ui/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

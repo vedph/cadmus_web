@@ -22,42 +22,6 @@ Ensure that you have installed compodoc globally: `npm install -g @compodoc/comp
 
 Generate the documentation for each project like this: `compodoc -p apps/demo/src/tsconfig.app.json -s`.
 
-## Plans
-
-Sample msp UI: `MspOperationComponent`:
-
-```plantuml
-@startuml
-salt
-{+
-  "&#34;b&#34;@1x1=&#34;v&#34; [tag here] &#123;note here&#125;"
-  ==
-  {
-    ^replace^
-    A | "b" | "1"
-    B | "v" | ""
-    tag | "tag here"
-    note | "note here"
-    [Set]
-  }
-  ==
-  {
-    [OK] | [Cancel] | [Up] | [Down] | [Append new] | [Prepend new] | [Delete]
-  }
-}
-}
-@enduml
-```
-
-- input: operation (MspOperation)
-- output:
-  - operationChange (MspOperation)
-  - moveUpRequest (MspOperation)
-  - moveDownRequest (MspOperation)
-  - appendRequest(MspOperation)
-  - prependRequest(MspOperation)
-  - deleteRequest(MspOperation)
-
 ## Adding capabilities to your workspace
 
 Nx supports many plugins which add capabilities for developing different types of applications and different tools.

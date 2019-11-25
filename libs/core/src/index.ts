@@ -4,3 +4,4 @@ export * from './lib/datation';
 export * from './lib/historical-date';
 export * from './lib/msp-operation';
 export * from './lib/roman-number';
+export * from './lib/text-range';
