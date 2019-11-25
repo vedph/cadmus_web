@@ -85,5 +85,51 @@ describe('Class: DifferResultToMspAdapter', () => {
     expect(ins.valueB).toBe('h');
   });
 
+  it('ins internal should provide ins', () => {
+    const differ = new diff_match_patch();
+    const adapter = new DifferResultToMspAdapter();
+    const ops = adapter.adapt(differ.diff_main('meses', 'menses'));
+    expect(ops.length).toBe(1);
+    // ins
+    const ins = ops[0];
+    expect(ins.operator).toBe(MspOperator.insert);
+    expect(ins.rangeA.toString()).toBe('3×0');
+    expect(ins.valueB).toBe('n');
+  });
+
+  it('ins final should provide ins', () => {
+    const differ = new diff_match_patch();
+    const adapter = new DifferResultToMspAdapter();
+    const ops = adapter.adapt(differ.diff_main('viru', 'virum'));
+    expect(ops.length).toBe(1);
+    // ins
+    const ins = ops[0];
+    expect(ins.operator).toBe(MspOperator.insert);
+    expect(ins.rangeA.toString()).toBe('5×0');
+    expect(ins.valueB).toBe('m');
+  });
+
+  it('ins multiple should provide 3 ins\'s', () => {
+    const differ = new diff_match_patch();
+    const adapter = new DifferResultToMspAdapter();
+    const ops = adapter.adapt(differ.diff_main('abcd', 'XabYcdZ'));
+    expect(ops.length).toBe(3);
+    // X
+    let ins = ops[0];
+    expect(ins.operator).toBe(MspOperator.insert);
+    expect(ins.rangeA.toString()).toBe('1×0');
+    expect(ins.valueB).toBe('X');
+    // Y
+    ins = ops[1];
+    expect(ins.operator).toBe(MspOperator.insert);
+    expect(ins.rangeA.toString()).toBe('3×0');
+    expect(ins.valueB).toBe('Y');
+    // Z
+    ins = ops[2];
+    expect(ins.operator).toBe(MspOperator.insert);
+    expect(ins.rangeA.toString()).toBe('5×0');
+    expect(ins.valueB).toBe('Z');
+  });
+
   // TODO: other tests
 });
