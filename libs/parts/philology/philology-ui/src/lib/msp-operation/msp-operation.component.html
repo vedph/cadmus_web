@@ -1,1 +1,166 @@
-<p>TODO</p>
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-content>
+      <!-- text -->
+      <mat-form-field class="full-width">
+        <input
+          matInput
+          type="text"
+          formControlName="text"
+          placeholder="operation"
+        />
+        <button
+          mat-button
+          *ngIf="text.value"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="text.reset()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-hint>operation (e.g. @1x2="v")</mat-hint>
+        <mat-error
+          *ngIf="text.hasError('required') && (text.touched || text.dirty)"
+          >please enter an operation</mat-error
+        >
+      </mat-form-field>
+
+      <form [formGroup]="visual">
+        <!-- range A -->
+        <div>
+          <mat-form-field>
+            <input
+              matInput
+              type="text"
+              formControlName="rangeA"
+              placeholder="A-range"
+            />
+            <mat-error
+              *ngIf="
+                rangeA.hasError('required') && (rangeA.touched || rangeA.dirty)
+              "
+              >please enter a range</mat-error
+            >
+            <mat-error
+              *ngIf="
+                rangeA.hasError('pattern') && (rangeA.touched || rangeA.dirty)
+              "
+              >invalid range (NxM)</mat-error
+            >
+          </mat-form-field>
+
+          <!-- value A -->
+          <mat-form-field>
+            <input
+              matInput
+              type="text"
+              formControlName="valueA"
+              placeholder="A-value"
+            />
+            <mat-error
+              *ngIf="
+                valueA.hasError('maxLength') && (valueA.touched || valueA.dirty)
+              "
+              >too long</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <!-- range B -->
+        <div>
+          <mat-form-field>
+            <input
+              matInput
+              type="text"
+              formControlName="rangeB"
+              placeholder="B-range"
+            />
+            <mat-error
+              *ngIf="
+                rangeB.hasError('pattern') && (rangeB.touched || rangeB.dirty)
+              "
+              >invalid range (NxM)</mat-error
+            >
+          </mat-form-field>
+
+          <!-- value B -->
+          <mat-form-field>
+            <input
+              matInput
+              type="text"
+              formControlName="valueB"
+              placeholder="B-value"
+            />
+            <mat-error
+              *ngIf="
+                valueB.hasError('maxLength') && (valueB.touched || valueB.dirty)
+              "
+              >too long</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <!-- tag -->
+        <div>
+          <mat-form-field>
+            <input
+              matInput
+              type="text"
+              formControlName="tag"
+              placeholder="tag"
+            />
+            <mat-error
+              *ngIf="tag.hasError('maxLength') && (tag.touched || tag.dirty)"
+              >too long</mat-error
+            >
+            <mat-error
+              *ngIf="tag.hasError('pattern') && (tag.touched || tag.dirty)"
+              >invalid tag</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <!-- note -->
+        <div>
+          <mat-form-field>
+            <input
+              matInput
+              type="text"
+              formControlName="note"
+              placeholder="note"
+            />
+            <mat-error
+              *ngIf="note.hasError('maxLength') && (note.touched || note.dirty)"
+              >too long</mat-error
+            >
+            <mat-error
+              *ngIf="note.hasError('pattern') && (note.touched || note.dirty)"
+              >invalid note</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        mat-icon-button
+        color="primary"
+        type="submit"
+        [disabled]="form.invalid || form.pristine"
+        matTooltip="Save this operation"
+      >
+        <mat-icon>check_circle</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        color="warn"
+        type="button"
+        [disabled]="form.pristine"
+        matTooltip="Discard changes to this operation"
+      >
+        <mat-icon>settings_backup_restore</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>

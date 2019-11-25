@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MspOperationComponent } from './msp-operation/msp-operation.component';
 import { CoreModule } from '@cadmus/core';
+import { MaterialModule } from '@cadmus/material';
 
 @NgModule({
   imports: [
@@ -10,8 +11,14 @@ import { CoreModule } from '@cadmus/core';
     FormsModule,
     ReactiveFormsModule,
     // cadmus
-    CoreModule
+    CoreModule,
+    MaterialModule
   ],
-  declarations: [MspOperationComponent]
+  declarations: [
+    MspOperationComponent
+  ],
+  exports: [
+    MspOperationComponent
+  ]
 })
 export class PartsPhilologyPhilologyUiModule {}

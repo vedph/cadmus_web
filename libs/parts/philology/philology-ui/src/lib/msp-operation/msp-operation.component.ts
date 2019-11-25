@@ -69,7 +69,6 @@ export class MspOperationComponent implements OnInit {
     this.valueA = formBuilder.control(null, Validators.maxLength(100));
 
     this.rangeB = formBuilder.control(null, [
-      Validators.required,
       Validators.pattern(rangeRegExp)
     ]);
     this.valueB = formBuilder.control(null, Validators.maxLength(100));
@@ -146,9 +145,12 @@ export class MspOperationComponent implements OnInit {
       return;
     }
     this.operator.setValue(operation.operator);
-    this.rangeA.setValue(operation.rangeA.toString());
+    this.rangeA.setValue(operation.rangeA
+      ? operation.rangeA.toString() : null);
     this.valueA.setValue(operation.valueA);
-    this.rangeB.setValue(operation.rangeB.toString());
+    this.rangeB.setValue(operation.rangeB
+      ? operation.rangeB.toString() : null
+    );
     this.tag.setValue(operation.tag);
     this.note.setValue(operation.note);
   }

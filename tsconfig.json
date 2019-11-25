@@ -19,7 +19,8 @@
       "@cadmus/core": ["libs/core/src/index.ts"],
       "@cadmus/parts/philology/philology-ui": [
         "libs/parts/philology/philology-ui/src/index.ts"
-      ]
+      ],
+      "@cadmus/material": ["libs/material/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
