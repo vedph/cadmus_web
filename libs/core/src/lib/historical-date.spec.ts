@@ -1,7 +1,6 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async, inject } from '@angular/core/testing';
-import { Datation } from './datation';
+import { TestBed } from '@angular/core/testing';
 import { HistoricalDate, HistoricalDateType } from './historical-date';
 
 describe('Class: HistoricalDate', () => {
