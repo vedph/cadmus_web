@@ -131,5 +131,82 @@ describe('Class: DifferResultToMspAdapter', () => {
     expect(ins.valueB).toBe('Z');
   });
 
+  it('rep initial should provide rep', () => {
+    const differ = new diff_match_patch();
+    const adapter = new DifferResultToMspAdapter();
+    const ops = adapter.adapt(differ.diff_main('bixit', 'vixit'));
+    expect(ops.length).toBe(1);
+    // rep
+    const rep = ops[0];
+    expect(rep.operator).toBe(MspOperator.replace);
+    expect(rep.rangeA.toString()).toBe('1');
+    expect(rep.valueA).toBe('b');
+    expect(rep.valueB).toBe('v');
+  });
+
+  it('rep internal should provide rep', () => {
+    const differ = new diff_match_patch();
+    const adapter = new DifferResultToMspAdapter();
+    const ops = adapter.adapt(differ.diff_main('gaudis', 'gaudes'));
+    expect(ops.length).toBe(1);
+    // rep
+    const rep = ops[0];
+    expect(rep.operator).toBe(MspOperator.replace);
+    expect(rep.rangeA.toString()).toBe('5');
+    expect(rep.valueA).toBe('i');
+    expect(rep.valueB).toBe('e');
+  });
+
+  it('rep final should provide rep', () => {
+    const differ = new diff_match_patch();
+    const adapter = new DifferResultToMspAdapter();
+    const ops = adapter.adapt(differ.diff_main('victo', 'victu'));
+    expect(ops.length).toBe(1);
+    // rep
+    const rep = ops[0];
+    expect(rep.operator).toBe(MspOperator.replace);
+    expect(rep.rangeA.toString()).toBe('5');
+    expect(rep.valueA).toBe('o');
+    expect(rep.valueB).toBe('u');
+  });
+
+  it('rep with shorter should provide rep', () => {
+    const differ = new diff_match_patch();
+    const adapter = new DifferResultToMspAdapter();
+    const ops = adapter.adapt(differ.diff_main('vicsit', 'vixit'));
+    expect(ops.length).toBe(1);
+    // rep
+    const rep = ops[0];
+    expect(rep.operator).toBe(MspOperator.replace);
+    expect(rep.rangeA.toString()).toBe('3×2');
+    expect(rep.valueA).toBe('cs');
+    expect(rep.valueB).toBe('x');
+  });
+
+  it('rep multiple should provide 3 rep\'s', () => {
+    const differ = new diff_match_patch();
+    const adapter = new DifferResultToMspAdapter();
+    const ops = adapter.adapt(differ.diff_main('abcde', 'XbYdZ'));
+    expect(ops.length).toBe(3);
+    // X
+    let rep = ops[0];
+    expect(rep.operator).toBe(MspOperator.replace);
+    expect(rep.rangeA.toString()).toBe('1');
+    expect(rep.valueA).toBe('a');
+    expect(rep.valueB).toBe('X');
+    // X
+    rep = ops[1];
+    expect(rep.operator).toBe(MspOperator.replace);
+    expect(rep.rangeA.toString()).toBe('3');
+    expect(rep.valueA).toBe('c');
+    expect(rep.valueB).toBe('Y');
+    // Z
+    rep = ops[2];
+    expect(rep.operator).toBe(MspOperator.replace);
+    expect(rep.rangeA.toString()).toBe('5');
+    expect(rep.valueA).toBe('e');
+    expect(rep.valueB).toBe('Z');
+  });
+
   // TODO: other tests
 });
