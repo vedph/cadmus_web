@@ -155,6 +155,7 @@ export class DifferResultToMspAdapter {
         index += mspDiffs[i].msp.rangeA.length;
         continue;
       }
+
       const md = mspDiffs[i];
       switch (md.diff[DIFF_OP]) {
         case DIFF_EQUAL:
@@ -178,6 +179,10 @@ export class DifferResultToMspAdapter {
           ins.operator = MspOperator.insert;
           ins.rangeA = new TextRange(index + 1, 0);
           ins.valueB = md.diff[DIFF_TXT];
+          mspDiffs[i] = {
+            diff: md.diff,
+            msp: ins
+          };
           break;
       }
     }

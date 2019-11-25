@@ -80,9 +80,9 @@ describe('Class: DifferResultToMspAdapter', () => {
     expect(ops.length).toBe(1);
     // ins
     const ins = ops[0];
-    expect(ins.operator).toBe(MspOperator.delete);
+    expect(ins.operator).toBe(MspOperator.insert);
     expect(ins.rangeA.toString()).toBe('1×0');
-    expect(ins.valueA).toBe('h');
+    expect(ins.valueB).toBe('h');
   });
 
   // TODO: other tests
