@@ -15,7 +15,7 @@ export enum MspOperator {
  * Misspelling operation.
  */
 export class MspOperation {
-  private static readonly _tagRegExp: RegExp = new RegExp('^[-0-9a-zA-Z_.]+$', 'gi');
+  private static readonly _tagRegExp: RegExp = /^[0-9a-zA-Z_\.\-]+$/;
   private static readonly _opRegExp: RegExp = new RegExp(
     // [1]=va ("A")
     '(?:"([^"]+)")?' +
@@ -30,8 +30,7 @@ export class MspOperation {
       // [8]=tag ( [tag])
       '(?:\\s*\\[([^\\]{]+)\\])?' +
       // [9]=note ( {note})
-      '(?:\\s*\\{([^}]+)})?',
-    'gi'
+      '(?:\\s*\\{([^}]+)})?'
   );
 
   private _operator: MspOperator;
@@ -164,8 +163,8 @@ export class MspOperation {
     return this._tag;
   }
   public set tag(value: string) {
-    if (value && !MspOperation._tagRegExp.test(value)) {
-      throw new Error(`Invalid msp tag: "${value}"`);
+    if (value && MspOperation._tagRegExp.test(value) === false) {
+      throw new Error(`Invalid msp tag: "${value}"\n` + MspOperation._tagRegExp.source);
     }
     this._tag = value;
   }
