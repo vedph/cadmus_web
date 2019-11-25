@@ -30,7 +30,7 @@ export class MspOperationComponent implements OnInit {
   }
   public set operation(value: MspOperation) {
     this._operation = value;
-    this.updateFormControls(value);
+    this.updateFormControls(value, true);
     this.form.markAsPristine();
   }
 
@@ -139,11 +139,12 @@ export class MspOperationComponent implements OnInit {
       });
   }
 
-  private updateFormControls(operation: MspOperation) {
+  private updateFormControls(operation: MspOperation, updateText: boolean) {
     if (!operation) {
       this.form.reset();
       return;
     }
+
     this.operator.setValue(operation.operator);
     this.rangeA.setValue(operation.rangeA
       ? operation.rangeA.toString() : null);
@@ -151,8 +152,13 @@ export class MspOperationComponent implements OnInit {
     this.rangeB.setValue(operation.rangeB
       ? operation.rangeB.toString() : null
     );
+    this.valueB.setValue(operation.valueB);
     this.tag.setValue(operation.tag);
     this.note.setValue(operation.note);
+
+    if (updateText) {
+      this.text.setValue(operation.toString());
+    }
   }
 
   /**
@@ -163,7 +169,7 @@ export class MspOperationComponent implements OnInit {
     if (!operation) {
       return;
     }
-    this.updateFormControls(operation);
+    this.updateFormControls(operation, false);
   }
 
   /**
@@ -196,7 +202,7 @@ export class MspOperationComponent implements OnInit {
    * Cancel edits and revert to pristine input.
    */
   public cancel() {
-    this.updateFormControls(this._operation);
+    this.updateFormControls(this._operation, true);
     this.form.markAsPristine();
   }
 
