@@ -24,6 +24,8 @@ export class AppComponent {
 
   public operations: MspOperation[];
 
+  public sampleMsp: MspOperation;
+
   constructor(formBuilder: FormBuilder) {
     this._differ = new diff_match_patch();
     this._adapter = new DifferResultToMspAdapter();
@@ -40,6 +42,8 @@ export class AppComponent {
       textA: this.textA,
       textB: this.textB
     });
+
+    this.sampleMsp = MspOperation.parse('"b"@1="v"');
   }
 
   public parseMsp() {

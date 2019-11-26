@@ -29,7 +29,7 @@ salt
   }
   ==
   {
-    [Save] | [Cancel] | [Up] | [Down] | [Append new] | [Prepend new] | [Delete]
+    [Save] | [Cancel] | [Up] | [Down] | [Append new] | [Delete]
   }
 }
 }
@@ -42,5 +42,4 @@ salt
   - moveUpRequest (MspOperation)
   - moveDownRequest (MspOperation)
   - appendRequest(MspOperation)
-  - prependRequest(MspOperation)
   - deleteRequest(MspOperation)
