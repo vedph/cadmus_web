@@ -6,6 +6,8 @@ This project was generated using [Nx](https://nx.dev).
 2. `nx migrate @nrwl/workspace` to eventually upgrade nrwl.
 3. `ng update` if some packages are still outdated.
 
+View dependencies: `nx dep-graph`.
+
 ## Quick Start & Documentation
 
 [Nx Documentation](https://nx.dev/angular)

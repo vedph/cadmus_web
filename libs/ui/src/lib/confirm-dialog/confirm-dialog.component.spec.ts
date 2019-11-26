@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConfirmDialogComponent } from './confirm-dialog.component';
-import { MaterialModule } from '@daskalos/material';
+import { MaterialModule } from '@cadmus/material';
 
 describe('ConfirmDialogComponent', () => {
   let component: ConfirmDialogComponent;
