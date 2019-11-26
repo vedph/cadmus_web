@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject, Optional } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 // https://medium.com/@tarik.nzl/making-use-of-dialogs-in-material-2-mddialog-7533d27df41
 
@@ -15,13 +15,15 @@ export class ConfirmDialogComponent implements OnInit {
   public ok: string;
   public cancel: string;
 
-  constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>) {
+  constructor(
+    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
     this.title = 'Confirm';
     this.prompt = 'Confirm operation?';
     this.ok = 'yes';
     this.cancel = 'no';
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }

@@ -3,6 +3,11 @@
 </header>
 <main>
   <article>
+    <h2>Dialog</h2>
+    <button type="button" (click)="showDialog()">dialog</button>
+    <p>result: {{dialogResult}}</p>
+  </article>
+  <article>
     <h2>MSP Parser</h2>
     <form [formGroup]="parseGroup">
       <input formControlName="text" type="text" autofocus />

@@ -6,6 +6,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 
 import { CoreModule } from '@cadmus/core';
+import { UiModule } from '@cadmus/ui';
 import { PartsPhilologyPhilologyUiModule } from '@cadmus/parts/philology/philology-ui';
 
 @NgModule({
@@ -19,7 +20,8 @@ import { PartsPhilologyPhilologyUiModule } from '@cadmus/parts/philology/philolo
     ReactiveFormsModule,
     // Cadmus
     CoreModule,
-    PartsPhilologyPhilologyUiModule
+    PartsPhilologyPhilologyUiModule,
+    UiModule
   ],
   providers: [],
   bootstrap: [AppComponent]

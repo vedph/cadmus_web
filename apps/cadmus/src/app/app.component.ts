@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MspOperation, DifferResultToMspAdapter } from '@cadmus/core';
 import { diff_match_patch } from 'diff-match-patch';
+import { DialogService } from '@cadmus/ui';
 
 @Component({
   selector: 'cadmus-root',
@@ -13,6 +14,7 @@ export class AppComponent {
   private readonly _adapter: DifferResultToMspAdapter;
 
   title = 'cadmus';
+  public dialogResult: boolean;
 
   public parseGroup: FormGroup;
   public text: FormControl;
@@ -26,7 +28,8 @@ export class AppComponent {
 
   public sampleMsp: MspOperation;
 
-  constructor(formBuilder: FormBuilder) {
+  constructor(formBuilder: FormBuilder,
+    private _dialogService: DialogService) {
     this._differ = new diff_match_patch();
     this._adapter = new DifferResultToMspAdapter();
 
@@ -59,5 +62,12 @@ export class AppComponent {
     }
     const result = this._differ.diff_main(this.textA.value, this.textB.value);
     this.operations = this._adapter.adapt(result);
+  }
+
+  public showDialog() {
+    this._dialogService.confirm('Armageddon', 'Destroy the whole Earth?')
+      .subscribe(r => {
+        this.dialogResult = r;
+      });
   }
 }
