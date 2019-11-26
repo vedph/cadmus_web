@@ -1,0 +1,94 @@
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-content>
+      <div>
+        <mat-form-field>
+          <input type="text" matInput formControlName="standard" />
+          TODO: errors
+        </mat-form-field>
+        <div formArrayName="operations">
+          <div>
+            <button
+              type="button"
+              mat-icon-button
+              matTooltip="Add a new operation"
+              (click)="addOperation()"
+            >
+              <mat-icon>add_circle</mat-icon>
+            </button>
+          </div>
+          <ol *ngFor="let item of operations.controls; let i = index">
+            <!-- child form -->
+            <li [formGroupName]="i">
+              <!-- child controls -->
+              <mat-form-field>
+                <input
+                  matInput
+                  formControlName="text"
+                  placeholder="operation"
+                  autofocus
+                />
+              </mat-form-field>
+              <!-- child actions -->
+              <button
+                mat-icon-button
+                type="button"
+                matTooltip="Edit this operation"
+                color="primary"
+                (click)="editOperation(i)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                type="button"
+                matTooltip="Remove this operation"
+                color="warn"
+                (click)="removeOperation(i)"
+              >
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+              <button
+                [disabled]="!i"
+                mat-icon-button
+                type="button"
+                matTooltip="Move this operation up"
+                (click)="moveOperationUp(i)"
+              >
+                <mat-icon>arrow_upward</mat-icon>
+              </button>
+              <button
+                [disabled]="(i + 1) < operations.controls.length"
+                mat-icon-button
+                type="button"
+                matTooltip="Move this operation down"
+                (click)="moveOperationDown(i)"
+              >
+                <mat-icon>arrow_downward</mat-icon>
+              </button>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        mat-icon-button
+        type="button"
+        matTooltip="Close this fragment"
+        (click)="close()"
+      >
+        <mat-icon>settings_backup_restore</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        color="primary"
+        type="submit"
+        [disabled]="form.invalid || form.pristine"
+        matTooltip="Save this fragment"
+      >
+        <mat-icon>check_circle</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>

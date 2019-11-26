@@ -186,43 +186,6 @@
       >
         <mat-icon>settings_backup_restore</mat-icon>
       </button>
-      <ng-container *ngIf="inList">
-        <button
-          mat-icon-button
-          type="button"
-          [disabled]="firstInList"
-          matTooltip="Move this operation up"
-          (click)="request('move-up')"
-        >
-          <mat-icon>arrow_upward</mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          type="button"
-          [disabled]="lastInList"
-          matTooltip="Move this operation down"
-          (click)="request('move-down')"
-        >
-          <mat-icon>arrow_downward</mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          type="button"
-          matTooltip="Delete this operation"
-          color="warn"
-          (click)="request('delete')"
-        >
-          <mat-icon>remove_circle</mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          type="button"
-          matTooltip="Add a new operation below this one"
-          (click)="request('append')"
-        >
-          <mat-icon>add_circle</mat-icon>
-        </button>
-      </ng-container>
     </mat-card-actions>
   </mat-card>
 </form>

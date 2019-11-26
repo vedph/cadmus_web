@@ -36,32 +36,9 @@ export class MspOperationComponent implements OnInit {
   }
 
   /**
-   * True if this operation is inside a list and the control should
-   * display buttons for moving it or adding an operation before or
-   * after the operation it represents.
-   */
-  @Input()
-  public inList: boolean;
-  /**
-   * True if this is the last operation being edited in a list
-   * of operations.
-   */
-  @Input()
-  public firstInList: boolean;
-  /**
-   * True if this is the first operation being edited in a list
-   * of operations.
-   */ @Input()
-  public lastInList: boolean;
-
-  /**
    * Fired when the operation being edited has changed.
    */
   public operationChange: EventEmitter<MspOperation>;
-  public moveUpRequest: EventEmitter<MspOperation>;
-  public moveDownRequest: EventEmitter<MspOperation>;
-  public appendRequest: EventEmitter<MspOperation>;
-  public deleteRequest: EventEmitter<MspOperation>;
 
   public visualExpanded: boolean;
 
@@ -80,10 +57,6 @@ export class MspOperationComponent implements OnInit {
   constructor(formBuilder: FormBuilder) {
     // events
     this.operationChange = new EventEmitter<MspOperation>();
-    this.moveUpRequest = new EventEmitter<MspOperation>();
-    this.moveDownRequest = new EventEmitter<MspOperation>();
-    this.appendRequest = new EventEmitter<MspOperation>();
-    this.deleteRequest = new EventEmitter<MspOperation>();
 
     // form
     const rangeRegExp = /^\@?\d+(?:[x×]\d+)?$/;
@@ -202,20 +175,6 @@ export class MspOperationComponent implements OnInit {
       noEvent
     );
 
-    // this.operator.setValue(operation.operator, noEvent);
-    // this.rangeA.setValue(
-    //   operation.rangeA ? operation.rangeA.toString() : null,
-    //   noEvent
-    // );
-    // this.valueA.setValue(operation.valueA, noEvent);
-    // this.rangeB.setValue(
-    //   operation.rangeB ? operation.rangeB.toString() : null,
-    //   noEvent
-    // );
-    // this.valueB.setValue(operation.valueB, noEvent);
-    // this.tag.setValue(operation.tag, noEvent);
-    // this.note.setValue(operation.note, noEvent);
-
     if (updateText) {
       this.text.setValue(operation.toString(), noEvent);
     }
@@ -330,23 +289,5 @@ export class MspOperationComponent implements OnInit {
     }
     this.operation = this.getOperation();
     this.operationChange.emit({ ...this._operation } as MspOperation);
-    this.visualExpanded = false;
-  }
-
-  public request(op: string) {
-    switch (op) {
-      case 'move-up':
-        this.moveUpRequest.emit(this.getOperation());
-        break;
-      case 'move-down':
-        this.moveDownRequest.emit(this.getOperation());
-        break;
-      case 'append':
-        this.appendRequest.emit(this.getOperation());
-        break;
-      case 'delete':
-        this.deleteRequest.emit(this.getOperation());
-        break;
-    }
   }
 }
