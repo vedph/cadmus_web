@@ -19,13 +19,13 @@
         >
           <mat-icon>close</mat-icon>
         </button>
-        <mat-hint>operation (e.g. @1x2="v")</mat-hint>
+        <!-- <mat-hint>operation (e.g. @1x2="v")</mat-hint> -->
         <mat-error
           *ngIf="text.hasError('required') && (text.touched || text.dirty)"
           >please enter an operation</mat-error
         >
       </mat-form-field>
-      <mat-expansion-panel>
+      <mat-expansion-panel [(expanded)]="visualExpanded">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Visual
@@ -38,8 +38,8 @@
             <mat-form-field>
               <mat-select formControlName="operator">
                 <mat-option [value]="0">delete</mat-option>
-                <mat-option [value]="1">insert</mat-option>
-                <mat-option [value]="2">replace</mat-option>
+                <mat-option [value]="1">replace</mat-option>
+                <mat-option [value]="2">insert</mat-option>
                 <mat-option [value]="3">move</mat-option>
                 <mat-option [value]="4">swap</mat-option>
               </mat-select>

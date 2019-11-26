@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { MspOperation, TextRange, MspOperator } from '@cadmus/core';
+import { MspValidators } from '../msp-validators';
 
 /**
  * Single misspelling operation editor.
@@ -39,6 +40,8 @@ export class MspOperationComponent implements OnInit {
    */
   public operationChange: EventEmitter<MspOperation>;
 
+  public visualExpanded: boolean;
+
   // form
   public form: FormGroup;
   public visual: FormGroup;
@@ -57,8 +60,10 @@ export class MspOperationComponent implements OnInit {
 
     // form
     const rangeRegExp = /^\@?\d+(?:[x×]\d+)?$/;
-    // TODO: add specific validator for text
-    this.text = formBuilder.control(null, Validators.required);
+    this.text = formBuilder.control(null, [
+      Validators.required,
+      MspValidators.msp
+    ]);
 
     this.operator = formBuilder.control(
       MspOperator.delete,
@@ -157,15 +162,18 @@ export class MspOperationComponent implements OnInit {
 
     const noEvent = { emitEvent: false };
 
-    this.visual.patchValue({
-      operator: operation.operator,
-      rangeA: operation.rangeA ? operation.rangeA.toString() : null,
-      valueA: operation.valueA,
-      rangeB: operation.rangeB ? operation.rangeB.toString() : null,
-      valueB: operation.valueB,
-      tag: operation.tag,
-      note: operation.note
-    }, noEvent);
+    this.visual.patchValue(
+      {
+        operator: operation.operator,
+        rangeA: operation.rangeA ? operation.rangeA.toString() : null,
+        valueA: operation.valueA,
+        rangeB: operation.rangeB ? operation.rangeB.toString() : null,
+        valueB: operation.valueB,
+        tag: operation.tag,
+        note: operation.note
+      },
+      noEvent
+    );
 
     // this.operator.setValue(operation.operator, noEvent);
     // this.rangeA.setValue(
@@ -295,5 +303,6 @@ export class MspOperationComponent implements OnInit {
     }
     this.operation = this.getOperation();
     this.operationChange.emit({ ...this._operation } as MspOperation);
+    this.visualExpanded = false;
   }
 }

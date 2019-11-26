@@ -248,19 +248,19 @@ export class MspOperation {
     switch (this._operator) {
       case MspOperator.delete:
         // RAL>0, VB=null
-        if (this.rangeA.length === 0) {
+        if (!this.rangeA || this.rangeA.length === 0) {
           errors.push('Delete operation must span at least 1 character');
         }
-        if (this._valueB != null) {
+        if (this._valueB) {
           errors.push('Delete operation must not include a non zero B-value');
         }
         break;
       case MspOperator.insert:
         // RAL=0, VB!=null, VA=null
-        if (this.rangeA.length > 0) {
+        if (this.rangeA && this.rangeA.length > 0) {
           errors.push('Insert operation must not span');
         }
-        if (this._valueA != null) {
+        if (this._valueA) {
           errors.push('Insert operation must not include an A-value');
         }
         if (this._valueB == null) {
@@ -269,7 +269,7 @@ export class MspOperation {
         break;
       case MspOperator.replace:
         // RAL>0, VB!=null
-        if (this.rangeA.length === 0) {
+        if (!this.rangeA || this.rangeA.length === 0) {
           errors.push('Replace operation must span at least 1 character');
         }
         if (this._valueB == null) {
@@ -278,10 +278,10 @@ export class MspOperation {
         break;
       case MspOperator.move:
         // RAL>0, RBL=0, VB=null
-        if (this.rangeA.length === 0) {
+        if (!this.rangeA || this.rangeA.length === 0) {
           errors.push('Move operation must span at least 1 character');
         }
-        if (this.rangeB.length > 0) {
+        if (this.rangeB && this.rangeB.length > 0) {
           errors.push('Move operation must not span across the B-value');
         }
         if (this._valueB != null) {
@@ -290,12 +290,12 @@ export class MspOperation {
         break;
       case MspOperator.swap:
         // RAL>0, RBL>0
-        if (this.rangeA.length === 0) {
+        if (!this.rangeA || this.rangeA.length === 0) {
           errors.push(
             'Swap operation must span at least 1 character across the A-value'
           );
         }
-        if (this.rangeB.length === 0) {
+        if (!this.rangeB || this.rangeB.length === 0) {
           errors.push(
             'Swap operation must span at least 1 character across the B-value'
           );
