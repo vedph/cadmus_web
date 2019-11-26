@@ -157,19 +157,29 @@ export class MspOperationComponent implements OnInit {
 
     const noEvent = { emitEvent: false };
 
-    this.operator.setValue(operation.operator, noEvent);
-    this.rangeA.setValue(
-      operation.rangeA ? operation.rangeA.toString() : null,
-      noEvent
-    );
-    this.valueA.setValue(operation.valueA, noEvent);
-    this.rangeB.setValue(
-      operation.rangeB ? operation.rangeB.toString() : null,
-      noEvent
-    );
-    this.valueB.setValue(operation.valueB, noEvent);
-    this.tag.setValue(operation.tag, noEvent);
-    this.note.setValue(operation.note, noEvent);
+    this.visual.patchValue({
+      operator: operation.operator,
+      rangeA: operation.rangeA ? operation.rangeA.toString() : null,
+      valueA: operation.valueA,
+      rangeB: operation.rangeB ? operation.rangeB.toString() : null,
+      valueB: operation.valueB,
+      tag: operation.tag,
+      note: operation.note
+    }, noEvent);
+
+    // this.operator.setValue(operation.operator, noEvent);
+    // this.rangeA.setValue(
+    //   operation.rangeA ? operation.rangeA.toString() : null,
+    //   noEvent
+    // );
+    // this.valueA.setValue(operation.valueA, noEvent);
+    // this.rangeB.setValue(
+    //   operation.rangeB ? operation.rangeB.toString() : null,
+    //   noEvent
+    // );
+    // this.valueB.setValue(operation.valueB, noEvent);
+    // this.tag.setValue(operation.tag, noEvent);
+    // this.note.setValue(operation.note, noEvent);
 
     if (updateText) {
       this.text.setValue(operation.toString(), noEvent);
