@@ -1,8 +1,16 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { OrthographyFragment } from '../models';
-import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormArray,
+  FormBuilder,
+  Validators
+} from '@angular/forms';
 import { MspOperation } from '@cadmus/core';
 import { MspValidators } from '../msp-validators';
+import { DialogService } from '@cadmus/ui';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cadmus-orthography-fragment',
@@ -38,13 +46,19 @@ export class OrthographyFragmentComponent implements OnInit {
   @Output()
   public fragmentClose: EventEmitter<any>;
 
-  constructor(private _formBuilder: FormBuilder) {
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _dialog: DialogService
+  ) {
     // events
     this.fragmentChange = new EventEmitter<OrthographyFragment>();
     this.fragmentClose = new EventEmitter<any>();
 
     // form
-    this.standard = _formBuilder.control(null, Validators.required);
+    this.standard = _formBuilder.control(null, [
+      Validators.required,
+      Validators.maxLength(100)
+    ]);
     this.operations = _formBuilder.array([]);
     this.form = _formBuilder.group({
       standard: this.standard,
@@ -52,26 +66,38 @@ export class OrthographyFragmentComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   private updateForm(fragment: OrthographyFragment) {
     this.standard.setValue(fragment.standard);
-    // TODO: operations
+    if (fragment.operations) {
+      for (let i = 0; i < fragment.operations.length; i++) {
+        this.addOperation(fragment.operations[i]);
+      }
+    }
     this.form.markAsPristine();
   }
 
   public addOperation(operation: string = null) {
-    this.operations.push(this._formBuilder.group({
-      text: this._formBuilder.control(operation, [
-        Validators.required,
-        MspValidators.msp
-      ])
-    }));
+    this.operations.push(
+      this._formBuilder.group({
+        text: this._formBuilder.control(operation, [
+          Validators.required,
+          MspValidators.msp
+        ])
+      })
+    );
   }
 
-  public removeOperation(index: number) {
-    this.operations.removeAt(index);
+  public deleteOperation(index: number) {
+    this._dialog
+      .confirm('Warning', `Delete operation #${index+1}?`)
+      .pipe(take(1))
+      .subscribe(ok => {
+        if (ok) {
+          this.operations.removeAt(index);
+        }
+      });
   }
 
   public clearOperations() {
@@ -137,15 +163,23 @@ export class OrthographyFragmentComponent implements OnInit {
   }
 
   public close() {
-    // TODO: prompt for confirmation if dirty
-    if (this.form.dirty) {
-      // TODO: prompt
+    // if not dirty just close, else prompt
+    if (!this.form.dirty) {
+      this.fragmentClose.emit();
+    } else {
+      this._dialog
+        .confirm('Warning', 'Close without saving?')
+        .pipe(take(1))
+        .subscribe(ok => {
+          if (ok) {
+            this.fragmentClose.emit();
+          }
+        });
     }
-    this.fragmentClose.emit();
   }
 
   public save() {
     this._fragment = this.getFragment();
-    this.fragmentChange.emit({...this._fragment});
+    this.fragmentChange.emit({ ...this._fragment });
   }
 }

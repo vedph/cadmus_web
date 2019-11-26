@@ -5,8 +5,9 @@
   <article>
     <h2>Dialog</h2>
     <button type="button" (click)="showDialog()">dialog</button>
-    <p>result: {{dialogResult}}</p>
+    <p>result: {{ dialogResult }}</p>
   </article>
+  <hr />
   <article>
     <h2>MSP Parser</h2>
     <form [formGroup]="parseGroup">
@@ -37,8 +38,14 @@
       </ol>
     </div>
   </article>
+  <hr />
   <article>
     <h2>Misspelling Editor</h2>
     <cadmus-msp-operation [operation]="sampleMsp"></cadmus-msp-operation>
+  </article>
+  <hr />
+  <article>
+    <h2>Orthography Fragment</h2>
+    <cadmus-orthography-fragment></cadmus-orthography-fragment>
   </article>
 </main>

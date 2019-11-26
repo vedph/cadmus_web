@@ -3,8 +3,21 @@
     <mat-card-content>
       <div>
         <mat-form-field>
-          <input type="text" matInput formControlName="standard" />
-          TODO: errors
+          <input type="text" matInput formControlName="standard" placeholder="standard" />
+          <mat-error
+            *ngIf="
+              standard.hasError('required') &&
+              (standard.touched || standard.dirty)
+            "
+            >please enter the standard orthography</mat-error
+          >
+          <mat-error
+            *ngIf="
+              standard.hasError('maxLength') &&
+              (standard.touched || standard.dirty)
+            "
+            >too long</mat-error
+          >
         </mat-form-field>
         <div formArrayName="operations">
           <div>
@@ -17,7 +30,7 @@
               <mat-icon>add_circle</mat-icon>
             </button>
           </div>
-          <ol *ngFor="let item of operations.controls; let i = index">
+          <ol *ngFor="let item of operations.controls; let i=index; let first=first; let last=last">
             <!-- child form -->
             <li [formGroupName]="i">
               <!-- child controls -->
@@ -42,14 +55,14 @@
               <button
                 mat-icon-button
                 type="button"
-                matTooltip="Remove this operation"
+                matTooltip="Delete this operation"
                 color="warn"
-                (click)="removeOperation(i)"
+                (click)="deleteOperation(i)"
               >
                 <mat-icon>remove_circle</mat-icon>
               </button>
               <button
-                [disabled]="!i"
+                [disabled]="first"
                 mat-icon-button
                 type="button"
                 matTooltip="Move this operation up"
@@ -58,7 +71,7 @@
                 <mat-icon>arrow_upward</mat-icon>
               </button>
               <button
-                [disabled]="(i + 1) < operations.controls.length"
+                [disabled]="last"
                 mat-icon-button
                 type="button"
                 matTooltip="Move this operation down"
