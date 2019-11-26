@@ -225,7 +225,7 @@ export class MspOperationComponent implements OnInit {
       case MspOperator.replace:
       case MspOperator.insert:
         this.rangeA.enable(noEvent);
-        this.valueA.disable(noEvent);
+        this.valueA.enable(noEvent);
         this.rangeB.disable(noEvent);
         this.valueB.enable(noEvent);
         this.tag.enable(noEvent);
