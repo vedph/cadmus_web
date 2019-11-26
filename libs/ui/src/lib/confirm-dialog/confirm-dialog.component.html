@@ -1,0 +1,12 @@
+<h1 mat-dialog-title class="primary-color">{{ title }}</h1>
+<mat-dialog-content class="accent-color">
+  {{ prompt }}
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button type="button" mat-raised-button (click)="dialogRef.close(true)">
+    {{ ok }}
+  </button>
+  <button type="button" mat-button (click)="dialogRef.close()">
+    {{ cancel }}
+  </button>
+</mat-dialog-actions>
