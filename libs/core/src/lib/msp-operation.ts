@@ -318,7 +318,9 @@ export class MspOperation {
       sb.push(`"${this._valueA}"`);
     }
     // @N[xN]
-    sb.push('@' + this.rangeA.toString());
+    if (this.rangeA) {
+      sb.push('@' + this.rangeA.toString());
+    }
 
     // operator
     switch (this._operator) {
@@ -332,7 +334,9 @@ export class MspOperation {
         break;
 
       case MspOperator.move:
-        sb.push('>@' + this.rangeB.toString());
+        if (this.rangeB) {
+          sb.push('>@' + this.rangeB.toString());
+        }
         break;
 
       case MspOperator.swap:
@@ -340,7 +344,9 @@ export class MspOperation {
         if (this._valueB) {
           sb.push(`"${this._valueB}"`);
         }
-        sb.push('@' + this.rangeB.toString());
+        if (this.rangeB) {
+          sb.push('@' + this.rangeB.toString());
+        }
         break;
     }
 

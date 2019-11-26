@@ -5,8 +5,8 @@ import {
   FormControl,
   Validators
 } from '@angular/forms';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { MspOperation, TextRange } from '@cadmus/core';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
+import { MspOperation, TextRange, MspOperator } from '@cadmus/core';
 
 /**
  * Single misspelling operation editor.
@@ -60,7 +60,10 @@ export class MspOperationComponent implements OnInit {
     // TODO: add specific validator for text
     this.text = formBuilder.control(null, Validators.required);
 
-    this.operator = formBuilder.control(0, Validators.required);
+    this.operator = formBuilder.control(
+      MspOperator.delete,
+      Validators.required
+    );
 
     this.rangeA = formBuilder.control(null, [
       Validators.required,
@@ -68,9 +71,7 @@ export class MspOperationComponent implements OnInit {
     ]);
     this.valueA = formBuilder.control(null, Validators.maxLength(100));
 
-    this.rangeB = formBuilder.control(null, [
-      Validators.pattern(rangeRegExp)
-    ]);
+    this.rangeB = formBuilder.control(null, [Validators.pattern(rangeRegExp)]);
     this.valueB = formBuilder.control(null, Validators.maxLength(100));
 
     this.tag = formBuilder.control(null, [
@@ -104,18 +105,16 @@ export class MspOperationComponent implements OnInit {
     // (unless instructed to ignore the change)
     this.text.valueChanges
       .pipe(
+        filter(_ => !this._ignoreTextUpdate),
         debounceTime(300),
         distinctUntilChanged()
       )
       .subscribe(_ => {
-        if (this._ignoreTextUpdate) {
-          return;
-        }
         try {
-          this._ignoreVisualUpdate = true;
+          this._ignoreTextUpdate = true;
           this.updateVisual();
         } finally {
-          this._ignoreVisualUpdate = false;
+          this._ignoreTextUpdate = false;
         }
       });
 
@@ -123,20 +122,31 @@ export class MspOperationComponent implements OnInit {
     // (unless instructed to ignore the change)
     this.visual.valueChanges
       .pipe(
+        filter(_ => !this._ignoreVisualUpdate),
         debounceTime(300),
         distinctUntilChanged()
       )
       .subscribe(_ => {
-        if (this._ignoreVisualUpdate) {
-          return;
-        }
         try {
-          this._ignoreTextUpdate = true;
+          this._ignoreVisualUpdate = true;
           this.updateText();
         } finally {
-          this._ignoreTextUpdate = false;
+          this._ignoreVisualUpdate = false;
         }
       });
+
+    // adjust visual UI for current operator
+    this.operator.valueChanges
+      .pipe(
+        filter(_ => !this._ignoreVisualUpdate),
+        debounceTime(300),
+        distinctUntilChanged()
+      )
+      .subscribe(_ => {
+        this.adjustVisualForOperator();
+      });
+
+    this.adjustVisualForOperator();
   }
 
   private updateFormControls(operation: MspOperation, updateText: boolean) {
@@ -145,19 +155,24 @@ export class MspOperationComponent implements OnInit {
       return;
     }
 
-    this.operator.setValue(operation.operator);
-    this.rangeA.setValue(operation.rangeA
-      ? operation.rangeA.toString() : null);
-    this.valueA.setValue(operation.valueA);
-    this.rangeB.setValue(operation.rangeB
-      ? operation.rangeB.toString() : null
+    const noEvent = { emitEvent: false };
+
+    this.operator.setValue(operation.operator, noEvent);
+    this.rangeA.setValue(
+      operation.rangeA ? operation.rangeA.toString() : null,
+      noEvent
     );
-    this.valueB.setValue(operation.valueB);
-    this.tag.setValue(operation.tag);
-    this.note.setValue(operation.note);
+    this.valueA.setValue(operation.valueA, noEvent);
+    this.rangeB.setValue(
+      operation.rangeB ? operation.rangeB.toString() : null,
+      noEvent
+    );
+    this.valueB.setValue(operation.valueB, noEvent);
+    this.tag.setValue(operation.tag, noEvent);
+    this.note.setValue(operation.note, noEvent);
 
     if (updateText) {
-      this.text.setValue(operation.toString());
+      this.text.setValue(operation.toString(), noEvent);
     }
   }
 
@@ -165,6 +180,9 @@ export class MspOperationComponent implements OnInit {
    * Update the visual editor from the text editor, if valid.
    */
   private updateVisual() {
+    if (this._ignoreVisualUpdate) {
+      return;
+    }
     const operation = MspOperation.parse(this.text.value);
     if (!operation) {
       return;
@@ -176,10 +194,58 @@ export class MspOperationComponent implements OnInit {
    * Update the text editor from the visual editor, if valid.
    */
   private updateText() {
-    if (this.visual.invalid) {
+    if (this._ignoreTextUpdate || this.visual.invalid) {
       return;
     }
-    this.text.setValue(this.getOperation().toString());
+    this.text.setValue(this.getOperation().toString(), { emitEvent: false });
+  }
+
+  private adjustVisualForOperator() {
+    const noEvent = { emitEvent: false };
+
+    switch (this.operator.value) {
+      case MspOperator.delete:
+        this.rangeA.enable(noEvent);
+        this.valueA.enable(noEvent);
+        this.rangeB.disable(noEvent);
+        this.valueB.disable(noEvent);
+        this.tag.enable(noEvent);
+        this.note.enable(noEvent);
+        break;
+      case MspOperator.replace:
+      case MspOperator.insert:
+        this.rangeA.enable(noEvent);
+        this.valueA.disable(noEvent);
+        this.rangeB.disable(noEvent);
+        this.valueB.enable(noEvent);
+        this.tag.enable(noEvent);
+        this.note.enable(noEvent);
+        break;
+      case MspOperator.move:
+        this.rangeA.enable(noEvent);
+        this.valueA.enable(noEvent);
+        this.rangeB.enable(noEvent);
+        this.valueB.disable(noEvent);
+        this.tag.enable(noEvent);
+        this.note.enable(noEvent);
+        break;
+      case MspOperator.swap:
+        this.rangeA.enable(noEvent);
+        this.valueA.enable(noEvent);
+        this.rangeB.enable(noEvent);
+        this.valueB.enable(noEvent);
+        this.tag.enable(noEvent);
+        this.note.enable(noEvent);
+        break;
+      default:
+        this.rangeA.disable(noEvent);
+        this.valueA.disable(noEvent);
+        this.rangeB.disable(noEvent);
+        this.valueB.disable(noEvent);
+        this.tag.disable(noEvent);
+        this.note.disable(noEvent);
+        break;
+    }
   }
 
   /**
@@ -196,6 +262,10 @@ export class MspOperationComponent implements OnInit {
     op.note = this.note.value;
 
     return op;
+  }
+
+  public resetText() {
+    this.form.reset();
   }
 
   /**

@@ -15,7 +15,7 @@
           matSuffix
           mat-icon-button
           aria-label="Clear"
-          (click)="text.reset()"
+          (click)="resetText()"
         >
           <mat-icon>close</mat-icon>
         </button>
@@ -25,122 +25,147 @@
           >please enter an operation</mat-error
         >
       </mat-form-field>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Visual
+          </mat-panel-title>
+        </mat-expansion-panel-header>
 
-      <form [formGroup]="visual">
-        <!-- range A -->
-        <div>
-          <mat-form-field>
-            <input
-              matInput
-              type="text"
-              formControlName="rangeA"
-              placeholder="A-range"
-            />
-            <mat-error
-              *ngIf="
-                rangeA.hasError('required') && (rangeA.touched || rangeA.dirty)
-              "
-              >please enter a range</mat-error
-            >
-            <mat-error
-              *ngIf="
-                rangeA.hasError('pattern') && (rangeA.touched || rangeA.dirty)
-              "
-              >invalid range (NxM)</mat-error
-            >
-          </mat-form-field>
+        <form [formGroup]="visual">
+          <!-- operator -->
+          <div>
+            <mat-form-field>
+              <mat-select formControlName="operator">
+                <mat-option value="0">delete</mat-option>
+                <mat-option value="1">insert</mat-option>
+                <mat-option value="2">replace</mat-option>
+                <mat-option value="3">move</mat-option>
+                <mat-option value="4">swap</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-          <!-- value A -->
-          <mat-form-field>
-            <input
-              matInput
-              type="text"
-              formControlName="valueA"
-              placeholder="A-value"
-            />
-            <mat-error
-              *ngIf="
-                valueA.hasError('maxLength') && (valueA.touched || valueA.dirty)
-              "
-              >too long</mat-error
-            >
-          </mat-form-field>
-        </div>
+          <!-- range A -->
+          <div>
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                formControlName="rangeA"
+                placeholder="A-range"
+              />
+              <mat-error
+                *ngIf="
+                  rangeA.hasError('required') &&
+                  (rangeA.touched || rangeA.dirty)
+                "
+                >please enter a range</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  rangeA.hasError('pattern') && (rangeA.touched || rangeA.dirty)
+                "
+                >invalid range (NxM)</mat-error
+              >
+            </mat-form-field>
 
-        <!-- range B -->
-        <div>
-          <mat-form-field>
-            <input
-              matInput
-              type="text"
-              formControlName="rangeB"
-              placeholder="B-range"
-            />
-            <mat-error
-              *ngIf="
-                rangeB.hasError('pattern') && (rangeB.touched || rangeB.dirty)
-              "
-              >invalid range (NxM)</mat-error
-            >
-          </mat-form-field>
+            <!-- value A -->
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                formControlName="valueA"
+                placeholder="A-value"
+              />
+              <mat-error
+                *ngIf="
+                  valueA.hasError('maxLength') &&
+                  (valueA.touched || valueA.dirty)
+                "
+                >too long</mat-error
+              >
+            </mat-form-field>
+          </div>
 
-          <!-- value B -->
-          <mat-form-field>
-            <input
-              matInput
-              type="text"
-              formControlName="valueB"
-              placeholder="B-value"
-            />
-            <mat-error
-              *ngIf="
-                valueB.hasError('maxLength') && (valueB.touched || valueB.dirty)
-              "
-              >too long</mat-error
-            >
-          </mat-form-field>
-        </div>
+          <!-- range B -->
+          <div>
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                formControlName="rangeB"
+                placeholder="B-range"
+              />
+              <mat-error
+                *ngIf="
+                  rangeB.hasError('pattern') && (rangeB.touched || rangeB.dirty)
+                "
+                >invalid range (NxM)</mat-error
+              >
+            </mat-form-field>
 
-        <!-- tag -->
-        <div>
-          <mat-form-field>
-            <input
-              matInput
-              type="text"
-              formControlName="tag"
-              placeholder="tag"
-            />
-            <mat-error
-              *ngIf="tag.hasError('maxLength') && (tag.touched || tag.dirty)"
-              >too long</mat-error
-            >
-            <mat-error
-              *ngIf="tag.hasError('pattern') && (tag.touched || tag.dirty)"
-              >invalid tag</mat-error
-            >
-          </mat-form-field>
-        </div>
+            <!-- value B -->
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                formControlName="valueB"
+                placeholder="B-value"
+              />
+              <mat-error
+                *ngIf="
+                  valueB.hasError('maxLength') &&
+                  (valueB.touched || valueB.dirty)
+                "
+                >too long</mat-error
+              >
+            </mat-form-field>
+          </div>
 
-        <!-- note -->
-        <div>
-          <mat-form-field>
-            <input
-              matInput
-              type="text"
-              formControlName="note"
-              placeholder="note"
-            />
-            <mat-error
-              *ngIf="note.hasError('maxLength') && (note.touched || note.dirty)"
-              >too long</mat-error
-            >
-            <mat-error
-              *ngIf="note.hasError('pattern') && (note.touched || note.dirty)"
-              >invalid note</mat-error
-            >
-          </mat-form-field>
-        </div>
-      </form>
+          <!-- tag -->
+          <div>
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                formControlName="tag"
+                placeholder="tag"
+              />
+              <mat-error
+                *ngIf="tag.hasError('maxLength') && (tag.touched || tag.dirty)"
+                >too long</mat-error
+              >
+              <mat-error
+                *ngIf="tag.hasError('pattern') && (tag.touched || tag.dirty)"
+                >invalid tag</mat-error
+              >
+            </mat-form-field>
+          </div>
+
+          <!-- note -->
+          <div>
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                formControlName="note"
+                placeholder="note"
+              />
+              <mat-error
+                *ngIf="
+                  note.hasError('maxLength') && (note.touched || note.dirty)
+                "
+                >too long</mat-error
+              >
+              <mat-error
+                *ngIf="note.hasError('pattern') && (note.touched || note.dirty)"
+                >invalid note</mat-error
+              >
+            </mat-form-field>
+          </div>
+        </form>
+      </mat-expansion-panel>
     </mat-card-content>
     <mat-card-actions>
       <button
