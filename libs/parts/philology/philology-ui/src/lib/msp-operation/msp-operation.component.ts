@@ -40,6 +40,8 @@ export class MspOperationComponent implements OnInit {
    */
   public operationChange: EventEmitter<MspOperation>;
 
+  public operationClose: EventEmitter<any>;
+
   public visualExpanded: boolean;
 
   // form
@@ -57,6 +59,7 @@ export class MspOperationComponent implements OnInit {
   constructor(formBuilder: FormBuilder) {
     // events
     this.operationChange = new EventEmitter<MspOperation>();
+    this.operationClose = new EventEmitter<any>();
 
     // form
     const rangeRegExp = /^\@?\d+(?:[x×]\d+)?$/;
@@ -278,6 +281,7 @@ export class MspOperationComponent implements OnInit {
   public cancel() {
     this.updateFormControls(this._operation, true);
     this.form.markAsPristine();
+    this.operationClose.emit();
   }
 
   /**

@@ -105,6 +105,9 @@
           </ol>
         </div>
       </div>
+      <div *ngIf="currentOperation">
+        <cadmus-msp-operation [operation]="currentOperation" (operationChange)="currentOperationSaved($event)" (operationClose)="currentOperation=null"></cadmus-msp-operation>
+      </div>
     </mat-card-content>
     <mat-card-actions>
       <button
@@ -113,7 +116,7 @@
         matTooltip="Close this fragment"
         (click)="close()"
       >
-        <mat-icon>settings_backup_restore</mat-icon>
+        <mat-icon>cancel</mat-icon>
       </button>
       <button
         mat-icon-button
