@@ -265,6 +265,36 @@
         }
       },
       "schematics": {}
+    },
+    "parts-general-general-ui": {
+      "projectType": "library",
+      "root": "libs/parts/general/general-ui",
+      "sourceRoot": "libs/parts/general/general-ui/src",
+      "prefix": "cadmus",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/parts/general/general-ui/tsconfig.lib.json",
+              "libs/parts/general/general-ui/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/parts/general/general-ui/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/parts/general/general-ui/jest.config.js",
+            "tsConfig": "libs/parts/general/general-ui/tsconfig.spec.json",
+            "setupFile": "libs/parts/general/general-ui/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {}
     }
   },
   "cli": {

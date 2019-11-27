@@ -24,6 +24,9 @@
       "@cadmus/ui": ["libs/ui/src/index.ts"],
       "@cadmus/features/feature-layer-demo": [
         "libs/features/feature-layer-demo/src/index.ts"
+      ],
+      "@cadmus/parts/general/general-ui": [
+        "libs/parts/general/general-ui/src/index.ts"
       ]
     }
   },
