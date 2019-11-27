@@ -19,8 +19,8 @@ The planned architecture is:
 
 For each part there is a folder under `libs/parts`, with 2 libraries:
 
-- `<partname>-ui`: core services and models plus dumb UI components for the part.
-- `<partname>-editor`: editor page for the part, with its state.
+- `<partgroup>-ui`: core services and models plus dumb UI components for the part. E.g. `libs/parts/general-ui`.
+- `<partgroup>-<partname>-part`: editor page for the part, with its state. E.g. `libs/parts/general-note-part`, `libs/parts/general-keywords-part`, `libs/parts/general-categories-part`, etc.
 
 ## Quick Start & Documentation
 
