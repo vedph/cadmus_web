@@ -5,4 +5,4 @@ export * from './lib/historical-date';
 export * from './lib/msp-operation';
 export * from './lib/roman-number';
 export * from './lib/text-range';
-export * from './lib/view-models';
+export * from './lib/models';

@@ -9,8 +9,7 @@ import {
 } from '@angular/forms';
 import {
   MspOperation,
-  DifferResultToMspAdapter,
-  FragmentViewModel
+  DifferResultToMspAdapter
 } from '@cadmus/core';
 import { MspValidators } from '../msp-validators';
 import { DialogService } from '@cadmus/ui';
@@ -47,7 +46,7 @@ import {
   ]
 })
 export class OrthographyFragmentComponent implements OnInit {
-  private _fragment: FragmentViewModel<OrthographyFragment>;
+  private _fragment: OrthographyFragment;
   private _currentOperationIndex: number;
   private _differ: diff_match_patch;
   private _adapter: DifferResultToMspAdapter;
@@ -56,15 +55,15 @@ export class OrthographyFragmentComponent implements OnInit {
    * The fragment being edited.
    */
   @Input()
-  public get fragment(): FragmentViewModel<OrthographyFragment> {
+  public get fragment(): OrthographyFragment {
     return this._fragment;
   }
-  public set fragment(value: FragmentViewModel<OrthographyFragment>) {
+  public set fragment(value: OrthographyFragment) {
     if (this._fragment === value) {
       return;
     }
     this._fragment = value;
-    this.updateForm(value.value);
+    this.updateForm(value);
   }
 
   public form: FormGroup;
@@ -73,7 +72,7 @@ export class OrthographyFragmentComponent implements OnInit {
   public currentOperation: MspOperation;
 
   @Output()
-  public fragmentChange: EventEmitter<FragmentViewModel<OrthographyFragment>>;
+  public fragmentChange: EventEmitter<OrthographyFragment>;
   @Output()
   public fragmentClose: EventEmitter<any>;
 
@@ -82,9 +81,7 @@ export class OrthographyFragmentComponent implements OnInit {
     private _dialog: DialogService
   ) {
     // events
-    this.fragmentChange = new EventEmitter<
-      FragmentViewModel<OrthographyFragment>
-    >();
+    this.fragmentChange = new EventEmitter<OrthographyFragment>();
     this.fragmentClose = new EventEmitter<any>();
 
     // form
@@ -197,6 +194,7 @@ export class OrthographyFragmentComponent implements OnInit {
 
   private getFragment(): OrthographyFragment {
     const fr: OrthographyFragment = {
+      location: this._fragment.location,
       standard: this.standard.value,
       operations: this.getOperations()
     };
@@ -245,7 +243,7 @@ export class OrthographyFragmentComponent implements OnInit {
   }
 
   public save() {
-    this._fragment.value = this.getFragment();
+    this._fragment = this.getFragment();
     this.fragmentChange.emit({ ...this._fragment });
   }
 }

@@ -4,7 +4,7 @@
       <div mat-card-avatar>
         <mat-icon>textsms</mat-icon>
       </div>
-      <mat-card-title> Fragment {{ fragment?.location }} </mat-card-title>
+      <mat-card-title>Fragment {{ fragment?.location }}</mat-card-title>
       <mat-card-subtitle>
         {{ fragment?.baseText }}
       </mat-card-subtitle>
@@ -138,21 +138,23 @@
     </mat-card-content>
     <mat-card-actions>
       <button
-        mat-icon-button
+        mat-raised-button
         type="button"
         matTooltip="Close this fragment"
         (click)="close()"
       >
         <mat-icon>cancel</mat-icon>
+        close
       </button>
       <button
-        mat-icon-button
+        mat-raised-button
         color="primary"
         type="submit"
         [disabled]="form.invalid || form.pristine"
         matTooltip="Save this fragment"
       >
         <mat-icon>check_circle</mat-icon>
+        save
       </button>
     </mat-card-actions>
   </mat-card>
