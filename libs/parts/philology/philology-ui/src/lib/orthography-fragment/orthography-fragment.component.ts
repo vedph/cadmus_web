@@ -134,7 +134,15 @@ export class OrthographyFragmentComponent implements OnInit {
   }
 
   public clearOperations() {
-    this.operations.clear();
+    this._dialog
+      .confirm('Warning', 'Delete all the operations?')
+      .pipe(take(1))
+      .subscribe((ok: boolean) => {
+        if (ok) {
+          this.operations.clear();
+          this.currentOperationClosed();
+        }
+      });
   }
 
   public moveOperationUp(index: number) {

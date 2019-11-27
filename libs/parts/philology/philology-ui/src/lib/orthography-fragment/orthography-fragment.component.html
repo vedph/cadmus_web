@@ -4,17 +4,21 @@
       <div mat-card-avatar>
         <mat-icon>textsms</mat-icon>
       </div>
-      <mat-card-title>
-        Fragment {{fragment?.location}}
-      </mat-card-title>
+      <mat-card-title> Fragment {{ fragment?.location }} </mat-card-title>
       <mat-card-subtitle>
-        {{fragment?.baseText}}
+        {{ fragment?.baseText }}
       </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <div>
         <mat-form-field>
-          <input type="text" matInput formControlName="standard" placeholder="standard" autofocus/>
+          <input
+            type="text"
+            matInput
+            formControlName="standard"
+            placeholder="standard"
+            autofocus
+          />
           <mat-error
             *ngIf="
               standard.hasError('required') &&
@@ -30,12 +34,14 @@
             >too long</mat-error
           >
         </mat-form-field>
-        <span *ngIf="fragment?.baseText" class="base-text">{{fragment.baseText}}</span>
+        <span *ngIf="fragment?.baseText" class="base-text">{{
+          fragment.baseText
+        }}</span>
         <div formArrayName="operations">
           <div>
             <button
-              color="primary"
               type="button"
+              color="primary"
               mat-icon-button
               matTooltip="Add a new operation"
               (click)="addOperation()"
@@ -51,8 +57,25 @@
             >
               <mat-icon>post_add</mat-icon>
             </button>
+            <button
+              type="button"
+              color="warn"
+              mat-icon-button
+              matTooltip="Delete all the operations"
+              [disabled]="operations?.length === 0"
+              (click)="clearOperations()"
+            >
+              <mat-icon>delete_sweep</mat-icon>
+            </button>
           </div>
-          <ol *ngFor="let item of operations.controls; let i=index; let first=first; let last=last">
+          <ol
+            *ngFor="
+              let item of operations.controls;
+              let i = index;
+              let first = first;
+              let last = last
+            "
+          >
             <!-- child form -->
             <li [formGroupName]="i">
               <!-- child controls -->
@@ -106,7 +129,11 @@
         </div>
       </div>
       <div *ngIf="currentOperation" [@slideInOut]>
-        <cadmus-msp-operation [operation]="currentOperation" (operationChange)="currentOperationSaved($event)" (operationClose)="currentOperationClosed()"></cadmus-msp-operation>
+        <cadmus-msp-operation
+          [operation]="currentOperation"
+          (operationChange)="currentOperationSaved($event)"
+          (operationClose)="currentOperationClosed()"
+        ></cadmus-msp-operation>
       </div>
     </mat-card-content>
     <mat-card-actions>
