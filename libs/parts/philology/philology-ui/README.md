@@ -34,9 +34,10 @@ salt
 @enduml
 ```
 
-- input: operation (MspOperation)
+- input: operation (`MspOperation`).
 - output:
-  - operationChange (MspOperation)
+  - operationChange: operation has changed (`MspOperation`).
+  - operationClose: request to close editor.
 
 ### OrthographyFragmentComponent
 
@@ -58,9 +59,7 @@ salt
 ```
 
 - input:
-  - fragment
-  - selectedText
+  - fragment (`FragmentViewModel<OrthographyFragment>`).
 - output:
-  - fragmentChange
-  - cancel: request to cancel edit.
-  - save (fragment model): request to save edit.
+  - fragmentChange: fragment has changed (`FragmentViewModel<OrthographyFragment>`).
+  - fragmentClose: request to close editor.
