@@ -44,6 +44,7 @@ import { DifferResultToMspAdapter } from '../differ-result-to-msp-adapter';
   ]
 })
 export class OrthographyFragmentComponent implements OnInit {
+  private _json: string;
   private _fragment: OrthographyFragment;
   private _currentOperationIndex: number;
   private _differ: diff_match_patch;
@@ -64,6 +65,21 @@ export class OrthographyFragmentComponent implements OnInit {
     this.updateForm(value);
   }
 
+  @Input()
+  public get json(): string {
+    return this._json;
+  }
+  public set json(value: string) {
+    try {
+      this.fragment = JSON.parse(value);
+      this._json = value;
+    } catch {
+      console.error('Invalid JSON code: ' + value);
+    }
+  }
+  @Output()
+  public jsonChange: EventEmitter<string>;
+
   public form: FormGroup;
   public standard: FormControl;
   public operations: FormArray;
@@ -81,6 +97,7 @@ export class OrthographyFragmentComponent implements OnInit {
     // events
     this.fragmentChange = new EventEmitter<OrthographyFragment>();
     this.fragmentClose = new EventEmitter<any>();
+    this.jsonChange = new EventEmitter<string>();
 
     // form
     this.standard = _formBuilder.control(null, [
@@ -243,5 +260,6 @@ export class OrthographyFragmentComponent implements OnInit {
   public save() {
     this._fragment = this.getFragment();
     this.fragmentChange.emit({ ...this._fragment });
+    this.jsonChange.emit(JSON.stringify(this._fragment));
   }
 }

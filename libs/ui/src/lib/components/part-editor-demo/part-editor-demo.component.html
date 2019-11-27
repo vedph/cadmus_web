@@ -1,0 +1,32 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Part Editor Demo</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-tab-group>
+      <mat-tab label="Code">
+        <form [formGroup]="codeForm" (submit)="setJson()">
+          <ngx-monaco-editor
+            id="editor"
+            [options]="editorOptions"
+            formControlName="json"
+          ></ngx-monaco-editor>
+          <button
+            type="submit"
+            color="primary"
+            mat-raised-button
+            matTooltip="Apply JSON code to editor"
+          >
+            <mat-icon>save</mat-icon>
+            apply code
+          </button>
+        </form>
+      </mat-tab>
+      <mat-tab label="Editor">
+        <ng-content></ng-content>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>

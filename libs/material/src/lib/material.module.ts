@@ -16,6 +16,7 @@ import {
   MatRadioModule,
   MatSelectModule,
   MatSidenavModule,
+  MatTabsModule,
   MatTableModule,
   MatToolbarModule,
   MatTooltipModule,
@@ -42,6 +43,7 @@ import {
     MatSelectModule,
     MatSidenavModule,
     MatTableModule,
+    MatTabsModule,
     MatToolbarModule
   ],
   exports: [
@@ -62,6 +64,7 @@ import {
     MatSelectModule,
     MatSidenavModule,
     MatTableModule,
+    MatTabsModule,
     MatTooltipModule,
     MatToolbarModule
   ]

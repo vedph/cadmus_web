@@ -7,6 +7,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { config } from '../environments/environment';
 import { AppComponent } from './app.component';
 
+// Monaco
+import { MonacoEditorModule } from 'ngx-monaco-editor';
+
 import { CoreModule } from '@cadmus/core';
 import { UiModule } from '@cadmus/ui';
 import { PartsPhilologyPhilologyUiModule } from '@cadmus/parts/philology/philology-ui';
@@ -38,6 +41,8 @@ import { MaterialModule } from '@cadmus/material';
         useHash: true
       }
     ),
+    // Monaco
+    MonacoEditorModule.forRoot(),
     // Cadmus
     CoreModule,
     MaterialModule,

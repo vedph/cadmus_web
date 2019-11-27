@@ -17,7 +17,15 @@
             "polyfills": "apps/cadmus/src/polyfills.ts",
             "tsConfig": "apps/cadmus/tsconfig.app.json",
             "aot": false,
-            "assets": ["apps/cadmus/src/favicon.ico", "apps/cadmus/src/assets"],
+            "assets": [
+              "apps/cadmus/src/favicon.ico",
+              "apps/cadmus/src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-monaco-editor/assets/monaco",
+                "output": "/assets/monaco"
+              }
+            ],
             "styles": ["apps/cadmus/src/styles.css"],
             "scripts": []
           },
