@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { PartEditorDemoComponent } from './components/part-editor-demo/part-editor-demo.component';
 import { CoreModule } from '@cadmus/core';
+import { PartEditorBaseComponent } from './components/part-editor-base/part-editor-base.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { CoreModule } from '@cadmus/core';
   declarations: [
     ConfirmDialogComponent,
     SafeHtmlPipe,
-    PartEditorDemoComponent
+    PartEditorDemoComponent,
+    PartEditorBaseComponent
   ],
   exports: [
     ConfirmDialogComponent,
