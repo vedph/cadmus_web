@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { MspOperation, MspOperator } from './msp-operation';
-import { TextRange } from './text-range';
+import { TextRange } from '@cadmus/core';
 
 describe('Class: MspOperation', () => {
   beforeEach(() => {

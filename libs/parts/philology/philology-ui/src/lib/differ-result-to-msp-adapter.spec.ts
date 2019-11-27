@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { diff_match_patch } from 'diff-match-patch';
 import { DifferResultToMspAdapter } from './differ-result-to-msp-adapter';
-import { MspOperator } from '..';
+import { MspOperator } from './msp-operation';
 
 describe('Class: DifferResultToMspAdapter', () => {
   beforeEach(() => {
@@ -51,7 +51,7 @@ describe('Class: DifferResultToMspAdapter', () => {
     expect(del.valueA).toBe('c');
   });
 
-  it('del multiple should provide 3 del\'s', () => {
+  it("del multiple should provide 3 del's", () => {
     const differ = new diff_match_patch();
     const adapter = new DifferResultToMspAdapter();
     const ops = adapter.adapt(differ.diff_main('XabYcdZ', 'abcd'));
@@ -109,7 +109,7 @@ describe('Class: DifferResultToMspAdapter', () => {
     expect(ins.valueB).toBe('m');
   });
 
-  it('ins multiple should provide 3 ins\'s', () => {
+  it("ins multiple should provide 3 ins's", () => {
     const differ = new diff_match_patch();
     const adapter = new DifferResultToMspAdapter();
     const ops = adapter.adapt(differ.diff_main('abcd', 'XabYcdZ'));
@@ -183,7 +183,7 @@ describe('Class: DifferResultToMspAdapter', () => {
     expect(rep.valueB).toBe('x');
   });
 
-  it('rep multiple should provide 3 rep\'s', () => {
+  it("rep multiple should provide 3 rep's", () => {
     const differ = new diff_match_patch();
     const adapter = new DifferResultToMspAdapter();
     const ops = adapter.adapt(differ.diff_main('abcde', 'XbYdZ'));

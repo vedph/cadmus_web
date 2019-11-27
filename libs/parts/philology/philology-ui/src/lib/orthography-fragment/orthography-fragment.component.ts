@@ -7,10 +7,6 @@ import {
   FormBuilder,
   Validators
 } from '@angular/forms';
-import {
-  MspOperation,
-  DifferResultToMspAdapter
-} from '@cadmus/core';
 import { MspValidators } from '../msp-validators';
 import { DialogService } from '@cadmus/ui';
 import { take } from 'rxjs/operators';
@@ -22,6 +18,8 @@ import {
   animate,
   state
 } from '@angular/animations';
+import { MspOperation } from '../msp-operation';
+import { DifferResultToMspAdapter } from '../differ-result-to-msp-adapter';
 
 @Component({
   selector: 'cadmus-orthography-fragment',

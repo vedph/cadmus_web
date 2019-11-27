@@ -1,5 +1,5 @@
 import { AbstractControl } from '@angular/forms';
-import { MspOperation } from '@cadmus/core';
+import { MspOperation } from './msp-operation';
 
 export class MspValidators {
   public static msp(

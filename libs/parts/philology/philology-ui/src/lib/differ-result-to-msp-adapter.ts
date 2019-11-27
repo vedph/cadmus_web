@@ -3,7 +3,7 @@
 
 import { MspOperation, MspOperator } from './msp-operation';
 import { Diff, DIFF_DELETE, DIFF_INSERT, DIFF_EQUAL } from 'diff-match-patch';
-import { TextRange } from './text-range';
+import { TextRange } from '@cadmus/core';
 
 class DiffAndMsp {
   diff: Diff;

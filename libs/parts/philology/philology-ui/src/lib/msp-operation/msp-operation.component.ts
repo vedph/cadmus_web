@@ -6,8 +6,9 @@ import {
   Validators
 } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
-import { MspOperation, TextRange, MspOperator } from '@cadmus/core';
+import { TextRange } from '@cadmus/core';
 import { MspValidators } from '../msp-validators';
+import { MspOperation, MspOperator } from '../msp-operation';
 
 /**
  * Single misspelling operation editor.

@@ -8,6 +8,20 @@ This project was generated using [Nx](https://nx.dev).
 
 View dependencies: `nx dep-graph`.
 
+## Architecture
+
+The planned architecture is:
+
+- `apps/cadmus`: the frontend app.
+- `libs/core`: core services and models.
+- `libs/material`: Angular material.
+- `libs/ui`: shared dumb UI components.
+
+For each part there is a folder under `libs/parts`, with 2 libraries:
+
+- `<partname>-ui`: core services and models plus dumb UI components for the part.
+- `<partname>-editor`: editor page for the part, with its state.
+
 ## Quick Start & Documentation
 
 [Nx Documentation](https://nx.dev/angular)

@@ -1,4 +1,4 @@
-import { TextRange } from './text-range';
+import { TextRange } from '@cadmus/core';
 
 /**
  * Misspelling operator type.

@@ -1,49 +1,7 @@
 <header class="flex">
-  <h1>Welcome to {{ title }}!</h1>
+  <h1>Cadmus</h1>
 </header>
 <main>
-  <!-- <article>
-    <h2>Dialog</h2>
-    <button type="button" (click)="showDialog()">dialog</button>
-    <p>result: {{ dialogResult }}</p>
-  </article>
-  <hr />
-  <article>
-    <h2>MSP Parser</h2>
-    <form [formGroup]="parseGroup">
-      <input formControlName="text" type="text" autofocus />
-      <button type="submit" (click)="parseMsp()">parse</button>
-    </form>
-    <div *ngIf="operation">
-      <h3>Operation</h3>
-      {{ operation | json }}
-    </div>
-  </article>
-  <hr />
-  <article>
-    <h2>MSP Diffing</h2>
-    <form [formGroup]="diffGroup">
-      <div>
-        <input formControlName="textA" type="text" />
-      </div>
-      <div>
-        <input formControlName="textB" type="text" />
-      </div>
-      <button type="submit" (click)="diffMsp()">diff</button>
-    </form>
-    <div *ngIf="operations">
-      <h3>Operations</h3>
-      <ol>
-        <li *ngFor="let op of operations">{{ op.toString() }}</li>
-      </ol>
-    </div>
-  </article>
-  <hr />
-  <article>
-    <h2>Misspelling Editor</h2>
-    <cadmus-msp-operation [operation]="sampleMsp"></cadmus-msp-operation>
-  </article>
-  <hr /> -->
   <article>
     <h2>Orthography Fragment</h2>
     <cadmus-orthography-fragment [fragment]="orthographyFragment"></cadmus-orthography-fragment>
