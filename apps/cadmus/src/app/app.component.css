@@ -8,3 +8,7 @@ footer {
 .active {
   font-size: 100% !important;
 }
+
+mat-icon.small-icon {
+  font-size:85% !important;
+}

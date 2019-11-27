@@ -1,11 +1,19 @@
 <header>
-  <mat-toolbar color="primary">
+  <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="start center">
+    <span style="flex: 0 0 60px"
+      ><img src="./assets/img/logo-white-40.png" alt="Fusisoft"
+    /></span>
     <a mat-button routerLink="/home">Cadmus</a>
 
     <span class="tb-fill-remaining-space"></span>
 
     <a mat-button routerLink="/home" routerLinkActive="active">Home</a>
-    <a mat-button routerLink="/demo/layers" routerLinkActive="active">Layers Demo</a>
+
+    <button mat-button [matMenuTriggerFor]="demoMenu">Demo</button>
+    <mat-menu #demoMenu>
+      <a mat-menu-item routerLink="/demo/layers">Layers</a>
+    </mat-menu>
+
   </mat-toolbar>
 </header>
 
@@ -15,7 +23,8 @@
 
 <footer>
   <div layout="row" layout-align="center center">
-    <p>Cadmus by
+    <p>
+      Cadmus by
       <a href="http://www.fusisoft.net" target="_blank">Daniele Fusi</a>
     </p>
   </div>
