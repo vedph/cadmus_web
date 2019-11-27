@@ -50,6 +50,24 @@ export interface TokenTextLayerPart extends Part {
 }
 
 /**
+ * A text line in a base text part.
+ */
+export interface TextLine {
+  y: number;
+  tokens: string[];
+}
+
+/**
+ * Token-based text coordinates.
+ */
+export interface TextCoords {
+  y: number;
+  x: number;
+  at?: number;
+  run?: number;
+}
+
+/**
  * A single entry in a thesaurus.
  */
 export interface ThesaurusEntry {
