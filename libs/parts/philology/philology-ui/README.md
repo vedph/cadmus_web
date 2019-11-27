@@ -46,9 +46,9 @@ Editor for an orthography layer fragment.
 @startuml
 salt
 {
-  "standard"
+  "standard" | original
   
-  [Add] | [Clear]
+  [Add] | [Auto] | [Clear]
   1 | { "&#34;b&#34;@1=&#34;v&#34;" | [...] | [X] | [Up] | [Dn] }
   2 | { "&#34;b&#34;@1=&#34;v&#34;" | [...] | [X] | [Up] | [Dn] }
   . | msp operation editor | *
@@ -57,7 +57,9 @@ salt
 @enduml
 ```
 
-- input: fragment
+- input:
+  - fragment
+  - selectedText
 - output:
   - fragmentChange
   - cancel: request to cancel edit.

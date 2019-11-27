@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { MspOperation, DifferResultToMspAdapter } from '@cadmus/core';
+import { MspOperation, DifferResultToMspAdapter, FragmentViewModel } from '@cadmus/core';
 import { diff_match_patch } from 'diff-match-patch';
 import { DialogService } from '@cadmus/ui';
+import { OrthographyFragment } from '@cadmus/parts/philology/philology-ui';
 
 @Component({
   selector: 'cadmus-root',
@@ -28,6 +29,8 @@ export class AppComponent {
 
   public sampleMsp: MspOperation;
 
+  public orthographyFragment: FragmentViewModel<OrthographyFragment>;
+
   constructor(formBuilder: FormBuilder,
     private _dialogService: DialogService) {
     this._differ = new diff_match_patch();
@@ -47,6 +50,15 @@ export class AppComponent {
     });
 
     this.sampleMsp = MspOperation.parse('"b"@1="v"');
+
+    this.orthographyFragment = {
+      location: '2.2',
+      baseText: 'bixit',
+      value: {
+        standard: null,
+        operations: []
+      }
+    };
   }
 
   public parseMsp() {

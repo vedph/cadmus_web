@@ -1,9 +1,20 @@
 <form [formGroup]="form" (submit)="save()">
   <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>textsms</mat-icon>
+      </div>
+      <mat-card-title>
+        Fragment {{fragment?.location}}
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{fragment?.baseText}}
+      </mat-card-subtitle>
+    </mat-card-header>
     <mat-card-content>
       <div>
         <mat-form-field>
-          <input type="text" matInput formControlName="standard" placeholder="standard" />
+          <input type="text" matInput formControlName="standard" placeholder="standard" autofocus/>
           <mat-error
             *ngIf="
               standard.hasError('required') &&
@@ -19,15 +30,26 @@
             >too long</mat-error
           >
         </mat-form-field>
+        <span *ngIf="fragment?.baseText" class="base-text">{{fragment.baseText}}</span>
         <div formArrayName="operations">
           <div>
             <button
+              color="primary"
               type="button"
               mat-icon-button
               matTooltip="Add a new operation"
               (click)="addOperation()"
             >
               <mat-icon>add_circle</mat-icon>
+            </button>
+            <button
+              type="button"
+              mat-icon-button
+              matTooltip="Automatically set operations from differences"
+              [disabled]="!standard.value || !fragment?.baseText"
+              (click)="autoAddOperations()"
+            >
+              <mat-icon>post_add</mat-icon>
             </button>
           </div>
           <ol *ngFor="let item of operations.controls; let i=index; let first=first; let last=last">

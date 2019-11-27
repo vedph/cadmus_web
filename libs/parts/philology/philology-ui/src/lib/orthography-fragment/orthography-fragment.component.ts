@@ -7,10 +7,15 @@ import {
   FormBuilder,
   Validators
 } from '@angular/forms';
-import { MspOperation } from '@cadmus/core';
+import {
+  MspOperation,
+  DifferResultToMspAdapter,
+  FragmentViewModel
+} from '@cadmus/core';
 import { MspValidators } from '../msp-validators';
 import { DialogService } from '@cadmus/ui';
 import { take } from 'rxjs/operators';
+import { diff_match_patch } from 'diff-match-patch';
 
 @Component({
   selector: 'cadmus-orthography-fragment',
@@ -18,22 +23,24 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./orthography-fragment.component.css']
 })
 export class OrthographyFragmentComponent implements OnInit {
-  private _fragment: OrthographyFragment;
+  private _fragment: FragmentViewModel<OrthographyFragment>;
   private _currentOperationIndex: number;
+  private _differ: diff_match_patch;
+  private _adapter: DifferResultToMspAdapter;
 
   /**
    * The fragment being edited.
    */
   @Input()
-  public get fragment(): OrthographyFragment {
+  public get fragment(): FragmentViewModel<OrthographyFragment> {
     return this._fragment;
   }
-  public set fragment(value: OrthographyFragment) {
+  public set fragment(value: FragmentViewModel<OrthographyFragment>) {
     if (this._fragment === value) {
       return;
     }
     this._fragment = value;
-    this.updateForm(value);
+    this.updateForm(value.value);
   }
 
   public form: FormGroup;
@@ -42,7 +49,7 @@ export class OrthographyFragmentComponent implements OnInit {
   public currentOperation: MspOperation;
 
   @Output()
-  public fragmentChange: EventEmitter<OrthographyFragment>;
+  public fragmentChange: EventEmitter<FragmentViewModel<OrthographyFragment>>;
   @Output()
   public fragmentClose: EventEmitter<any>;
 
@@ -51,7 +58,7 @@ export class OrthographyFragmentComponent implements OnInit {
     private _dialog: DialogService
   ) {
     // events
-    this.fragmentChange = new EventEmitter<OrthographyFragment>();
+    this.fragmentChange = new EventEmitter<FragmentViewModel<OrthographyFragment>>();
     this.fragmentClose = new EventEmitter<any>();
 
     // form
@@ -91,9 +98,9 @@ export class OrthographyFragmentComponent implements OnInit {
 
   public deleteOperation(index: number) {
     this._dialog
-      .confirm('Warning', `Delete operation #${index+1}?`)
+      .confirm('Warning', `Delete operation #${index + 1}?`)
       .pipe(take(1))
-      .subscribe(ok => {
+      .subscribe((ok: boolean) => {
         if (ok) {
           this.operations.removeAt(index);
         }
@@ -162,6 +169,31 @@ export class OrthographyFragmentComponent implements OnInit {
     return fr;
   }
 
+  public autoAddOperations() {
+    // we must have both A and B text
+    if (!this._fragment.baseText || !this.standard.value) {
+      return;
+    }
+
+    // instantiate the diffing engine if required
+    if (!this._differ) {
+      this._differ = new diff_match_patch();
+      this._adapter = new DifferResultToMspAdapter();
+    }
+
+    // set operations
+    const result = this._differ.diff_main(
+      this._fragment.baseText,
+      this.standard.value
+    );
+    const ops = this._adapter.adapt(result);
+
+    this.operations.clear();
+    for (let i = 0; i < ops.length; i++) {
+      this.addOperation(ops[i].toString());
+    }
+  }
+
   public close() {
     // if not dirty just close, else prompt
     if (!this.form.dirty) {
@@ -170,7 +202,7 @@ export class OrthographyFragmentComponent implements OnInit {
       this._dialog
         .confirm('Warning', 'Close without saving?')
         .pipe(take(1))
-        .subscribe(ok => {
+        .subscribe((ok: boolean) => {
           if (ok) {
             this.fragmentClose.emit();
           }
@@ -179,7 +211,7 @@ export class OrthographyFragmentComponent implements OnInit {
   }
 
   public save() {
-    this._fragment = this.getFragment();
+    this._fragment.value = this.getFragment();
     this.fragmentChange.emit({ ...this._fragment });
   }
 }
