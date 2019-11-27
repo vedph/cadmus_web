@@ -24,4 +24,4 @@ import { UiModule } from '@cadmus/ui';
   declarations: [LayerDemoComponent],
   exports: [LayerDemoComponent]
 })
-export class FeaturesFeatureLayerDemoModule {}
+export class FeatureLayerDemoModule {}

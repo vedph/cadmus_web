@@ -1,1 +1,1 @@
-export * from './lib/features-feature-layer-demo.module';
+export * from './lib/feature-layer-demo.module';

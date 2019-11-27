@@ -4,11 +4,11 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
+import { config } from '../environments/environment';
 import { AppComponent } from './app.component';
 
 import { CoreModule } from '@cadmus/core';
 import { UiModule } from '@cadmus/ui';
-import { FeaturesFeatureLayerDemoModule } from '@cadmus/features/feature-layer-demo';
 import { PartsPhilologyPhilologyUiModule } from '@cadmus/parts/philology/philology-ui';
 import { HomeComponent } from './home/home.component';
 import { MaterialModule } from '@cadmus/material';
@@ -28,7 +28,7 @@ import { MaterialModule } from '@cadmus/material';
           path: 'demo/layers',
           loadChildren: () =>
             import('@cadmus/features/feature-layer-demo').then(
-              module => module.FeaturesFeatureLayerDemoModule
+              module => module.FeatureLayerDemoModule
             )
         },
         { path: '**', component: HomeComponent }
@@ -41,11 +41,17 @@ import { MaterialModule } from '@cadmus/material';
     // Cadmus
     CoreModule,
     MaterialModule,
-    FeaturesFeatureLayerDemoModule,
     PartsPhilologyPhilologyUiModule,
     UiModule
   ],
-  providers: [],
+  providers: [
+    // config
+    // https://github.com/nrwl/nx/issues/208#issuecomment-384102058
+    {
+      provide: 'apiEndpoint',
+      useValue: config.apiEndpoint
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
