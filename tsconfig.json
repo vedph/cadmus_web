@@ -21,7 +21,10 @@
         "libs/parts/philology/philology-ui/src/index.ts"
       ],
       "@cadmus/material": ["libs/material/src/index.ts"],
-      "@cadmus/ui": ["libs/ui/src/index.ts"]
+      "@cadmus/ui": ["libs/ui/src/index.ts"],
+      "@cadmus/features/feature-layer-demo": [
+        "libs/features/feature-layer-demo/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

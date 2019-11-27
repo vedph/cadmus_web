@@ -1,0 +1,142 @@
+<mat-card>
+  <mat-card-header>
+    <h2>Layered Text Demo</h2>
+  </mat-card-header>
+  <mat-card-content>
+    <article>
+      <p>
+        Enter some base text and zero or more layer fragments locations, then
+        click the render button. This renders the base text with all its ranges.
+      </p>
+      <p>
+        Once the text has been decorated, select any portion of it, either
+        including a decorated part, or not. Then, if you selected a part
+        including decorations, click the location button with the checkmark
+        (=get the location of the fragment to edit); else, click the location
+        button with the plus (=get the location of a new fragment).
+      </p>
+      <p>
+        This will show you the token-based coordinates corresponding to your
+        selection, provided that if you include any portion of a decorated text
+        you will get the full coordinates of the decoration; otherwise, you will
+        just get the coordinates of the selected character(s).
+      </p>
+      <p>
+        This behavior is used to allow users edit existing part fragments by
+        just selecting any part of it, even partially; while they must be
+        precise when they are creating a new fragment.
+      </p>
+    </article>
+    <hr />
+
+    <form [formGroup]="rendition" (ngSubmit)="render()">
+      <div>
+        <mat-form-field>
+          <textarea
+            matInput
+            type="text"
+            id="text"
+            maxlength="1000"
+            spellcheck="false"
+            placeholder="enter the base text"
+            formControlName="text"
+          ></textarea>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            id="location"
+            required
+            spellcheck="false"
+            placeholder="location: Y.X@AxR"
+            formControlName="location"
+          />
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-toolbar>
+          <span>
+            <button
+              mat-icon-button
+              (click)="addLocation()"
+              type="button"
+              matTooltip="Add the specified location"
+            >
+              <mat-icon style="color:#66CC75">add_circle</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="clearLocations()"
+              type="button"
+              matTooltip="Remove all the locations"
+            >
+              <mat-icon>clear</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="primary"
+              type="submit"
+              matTooltip="Render the decorated base text"
+            >
+              <mat-icon>play_circle_outline</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              (click)="getLocationForNew()"
+              type="button"
+              matTooltip="Get location for new item"
+            >
+              <mat-icon>playlist_add</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              (click)="getLocationForEdit()"
+              type="button"
+              matTooltip="Get location for selected item"
+            >
+              <mat-icon>playlist_add_check</mat-icon>
+            </button>
+          </span>
+          <span class="tb-fill-remaining-space"></span>
+          <span>{{ userLocation }}</span>
+        </mat-toolbar>
+      </div>
+
+      <table>
+        <tbody>
+          <tr *ngFor="let loc of locations">
+            <td>
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="removeLocation(loc)"
+              >
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+            </td>
+            <td>{{ loc.toString() }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
+    <h3>Rendition</h3>
+  </mat-card-header>
+  <mat-card-content>
+    <div [innerHtml]="result | safeHtml" id="result" #resultElem></div>
+    <hr />
+    <div>
+      <code>{{ result }}</code>
+    </div>
+  </mat-card-content>
+</mat-card>

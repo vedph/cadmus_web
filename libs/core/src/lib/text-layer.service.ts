@@ -268,7 +268,7 @@ export class TextLayerService {
           }
         } else {
           // else, check if this token starts a fragment
-          loc = _.detect(locations, l => {
+          loc = locations.find(l => {
             return l.primary.y === y + 1 && l.primary.x === x + 1;
           });
           if (loc) {

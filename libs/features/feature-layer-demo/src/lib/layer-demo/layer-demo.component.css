@@ -1,0 +1,25 @@
+textarea#text {
+  min-width: 300px;
+  min-height: 100px;
+}
+/* https://stackoverflow.com/questions/36265026/angular-2-innerhtml-styling */
+:host >>> div#result {
+  counter-reset: text-y-counter;
+}
+
+:host >>> div#result p:before {
+  content: counter(text-y-counter);
+  counter-increment: text-y-counter;
+  margin-right: 6px;
+  color: #A0A0A0;
+}
+
+:host >>> span.fr {
+  background-color: yellow;
+  font-weight: bold;
+  border: 1px solid #404040;
+}
+
+article {
+  column-width: 20em;
+}

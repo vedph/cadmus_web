@@ -1,9 +1,22 @@
-<header class="flex">
-  <h1>Cadmus</h1>
+<header>
+  <mat-toolbar color="primary">
+    <a mat-button routerLink="/home">Cadmus</a>
+
+    <span class="tb-fill-remaining-space"></span>
+
+    <a mat-button routerLink="/home" routerLinkActive="active">Home</a>
+    <a mat-button routerLink="/demo/layers" routerLinkActive="active">Layers Demo</a>
+  </mat-toolbar>
 </header>
+
 <main>
-  <article>
-    <h2>Orthography Fragment</h2>
-    <cadmus-orthography-fragment [fragment]="orthographyFragment"></cadmus-orthography-fragment>
-  </article>
+  <router-outlet></router-outlet>
 </main>
+
+<footer>
+  <div layout="row" layout-align="center center">
+    <p>Cadmus by
+      <a href="http://www.fusisoft.net" target="_blank">Daniele Fusi</a>
+    </p>
+  </div>
+</footer>
