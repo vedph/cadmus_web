@@ -16,11 +16,35 @@ import { MspValidators } from '../msp-validators';
 import { DialogService } from '@cadmus/ui';
 import { take } from 'rxjs/operators';
 import { diff_match_patch } from 'diff-match-patch';
+import {
+  trigger,
+  transition,
+  style,
+  animate,
+  state
+} from '@angular/animations';
 
 @Component({
   selector: 'cadmus-orthography-fragment',
   templateUrl: './orthography-fragment.component.html',
-  styleUrls: ['./orthography-fragment.component.css']
+  styleUrls: ['./orthography-fragment.component.css'],
+  animations: [
+    trigger('slideInOut', [
+      state(
+        'open',
+        style({
+          height: '100%'
+        })
+      ),
+      state(
+        'close',
+        style({
+          height: 0
+        })
+      ),
+      transition('open <=> closed', [animate('300ms ease-in')])
+    ])
+  ]
 })
 export class OrthographyFragmentComponent implements OnInit {
   private _fragment: FragmentViewModel<OrthographyFragment>;
@@ -58,7 +82,9 @@ export class OrthographyFragmentComponent implements OnInit {
     private _dialog: DialogService
   ) {
     // events
-    this.fragmentChange = new EventEmitter<FragmentViewModel<OrthographyFragment>>();
+    this.fragmentChange = new EventEmitter<
+      FragmentViewModel<OrthographyFragment>
+    >();
     this.fragmentClose = new EventEmitter<any>();
 
     // form
@@ -135,14 +161,14 @@ export class OrthographyFragmentComponent implements OnInit {
     this.currentOperation = MspOperation.parse(form.controls['text'].value);
   }
 
-  public currentOperationCanceled() {
+  public currentOperationSaved(operation: MspOperation) {
+    const form = this.operations.at(this._currentOperationIndex) as FormGroup;
+    form.controls['text'].setValue(operation.toString());
     this._currentOperationIndex = null;
     this.currentOperation = null;
   }
 
-  public currentOperationSaved(operation: MspOperation) {
-    const form = this.operations.at(this._currentOperationIndex) as FormGroup;
-    form.controls['text'].setValue(operation.toString());
+  public currentOperationClosed() {
     this._currentOperationIndex = null;
     this.currentOperation = null;
   }

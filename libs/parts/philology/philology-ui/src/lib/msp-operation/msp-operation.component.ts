@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -38,8 +38,9 @@ export class MspOperationComponent implements OnInit {
   /**
    * Fired when the operation being edited has changed.
    */
+  @Output()
   public operationChange: EventEmitter<MspOperation>;
-
+  @Output()
   public operationClose: EventEmitter<any>;
 
   public visualExpanded: boolean;
@@ -276,11 +277,9 @@ export class MspOperationComponent implements OnInit {
   }
 
   /**
-   * Cancel edits and revert to pristine input.
+   * Close the editor.
    */
   public cancel() {
-    this.updateFormControls(this._operation, true);
-    this.form.markAsPristine();
     this.operationClose.emit();
   }
 

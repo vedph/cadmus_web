@@ -105,8 +105,8 @@
           </ol>
         </div>
       </div>
-      <div *ngIf="currentOperation">
-        <cadmus-msp-operation [operation]="currentOperation" (operationChange)="currentOperationSaved($event)" (operationClose)="currentOperation=null"></cadmus-msp-operation>
+      <div *ngIf="currentOperation" [@slideInOut]>
+        <cadmus-msp-operation [operation]="currentOperation" (operationChange)="currentOperationSaved($event)" (operationClose)="currentOperationClosed()"></cadmus-msp-operation>
       </div>
     </mat-card-content>
     <mat-card-actions>
