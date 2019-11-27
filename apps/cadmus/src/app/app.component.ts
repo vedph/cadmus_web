@@ -29,7 +29,7 @@ export class AppComponent {
 
   public sampleMsp: MspOperation;
 
-  public orthographyFragment: FragmentViewModel<OrthographyFragment>;
+  public orthographyFragment: OrthographyFragment;
 
   constructor(formBuilder: FormBuilder,
     private _dialogService: DialogService) {
@@ -54,10 +54,8 @@ export class AppComponent {
     this.orthographyFragment = {
       location: '2.2',
       baseText: 'bixit',
-      value: {
-        standard: null,
-        operations: []
-      }
+      standard: null,
+      operations: []
     };
   }
 

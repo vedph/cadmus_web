@@ -59,7 +59,7 @@ salt
 ```
 
 - input:
-  - fragment (`FragmentViewModel<OrthographyFragment>`).
+  - fragment (`OrthographyFragment`).
 - output:
-  - fragmentChange: fragment has changed (`FragmentViewModel<OrthographyFragment>`).
+  - fragmentChange: fragment has changed (`OrthographyFragment`).
   - fragmentClose: request to close editor.
