@@ -22,6 +22,8 @@ For each part there is a folder under `libs/parts`, with 2 libraries:
 - `<partgroup>-ui`: core services and models plus dumb UI components for the part. E.g. `libs/parts/general-ui`.
 - `<partgroup>-<partname>-part`: editor page for the part, with its state. E.g. `libs/parts/general-note-part`, `libs/parts/general-keywords-part`, `libs/parts/general-categories-part`, etc.
 
+To add a new library with parts: create a new Nrwl Angular library named `<partgroup>-ui` under `parts/<partgroup>` (use simple module name in generator).
+
 ## Quick Start & Documentation
 
 [Nx Documentation](https://nx.dev/angular)
