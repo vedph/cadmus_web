@@ -1,5 +1,6 @@
 <h2>Home</h2>
-<mat-tab-group [selectedIndex]="currentTabIndex">
+<!-- note 2-way databinding for selectedIndex: it's a bug in Angular, need it -->
+<mat-tab-group [(selectedIndex)]="currentTabIndex">
   <mat-tab label="Code">
     <cadmus-json-editor-resources
       title="Note"
@@ -14,6 +15,7 @@
       [(json)]="partJson"
       [thesauri]="thesauriJson"
       (jsonChange)="onEditorSaved()"
+      (editorClose)="onEditorSaved()"
     ></cadmus-note-part>
   </mat-tab>
 </mat-tab-group>

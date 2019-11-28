@@ -96,7 +96,7 @@ export class NotePartComponent extends PartEditorBaseComponent<NotePart>
 
   public close() {
     if (!this.form.dirty) {
-      super.editorClose.emit();
+      this.editorClose.emit();
       return;
     }
     this._dialog
@@ -104,7 +104,7 @@ export class NotePartComponent extends PartEditorBaseComponent<NotePart>
       .pipe(take(1))
       .subscribe((ok: boolean) => {
         if (ok) {
-          super.editorClose.emit();
+          this.editorClose.emit();
         }
       });
   }
@@ -114,7 +114,7 @@ export class NotePartComponent extends PartEditorBaseComponent<NotePart>
       return;
     }
     const part = this.getPartFromForm();
-    super.updateJson(JSON.stringify(part));
+    this.updateJson(JSON.stringify(part));
     this.form.markAsPristine();
   }
 }
