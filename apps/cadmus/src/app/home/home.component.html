@@ -1,11 +1,19 @@
 <h2>Home</h2>
 <mat-tab-group>
   <mat-tab label="Code">
-    <cadmus-json-editor-resources title="Note"></cadmus-json-editor-resources>
+    <cadmus-json-editor-resources
+      title="Note"
+      [partJson]="ed.json"
+      (partJsonChange)="partJson=$event"
+      (thesauriJsonChange)="thesauriJson=$event"
+    ></cadmus-json-editor-resources>
   </mat-tab>
   <mat-tab label="Editor">
-      <cadmus-note-part></cadmus-note-part>
-    </mat-tab>
-  </mat-tab-group>
+    <cadmus-note-part #ed
+      [json]="partJson"
+      [thesauri]="thesauriJson"
+    ></cadmus-note-part>
+  </mat-tab>
+</mat-tab-group>
 <!-- <cadmus-part-editor-demo></cadmus-part-editor-demo> -->
 <!-- <cadmus-orthography-fragment [fragment]="orthographyFragment"></cadmus-orthography-fragment> -->

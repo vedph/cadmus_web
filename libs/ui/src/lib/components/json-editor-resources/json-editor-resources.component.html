@@ -2,7 +2,7 @@
   <mat-card>
     <mat-card-header *ngIf="title">
       <mat-card-title>
-        <h2>{{title}}</h2>
+        <h2>{{ title }}</h2>
       </mat-card-title>
     </mat-card-header>
 
@@ -27,13 +27,24 @@
           >
             invalid part JSON code
           </mat-error>
+          <button
+            type="button"
+            [disabled]="!part.value || part.invalid"
+            mat-button
+            matTooltip="Prettify code"
+            (click)="prettifyPartJson()"
+          >
+            <mat-icon>format_align_right</mat-icon>
+            prettify
+          </button>
         </mat-tab>
 
         <mat-tab>
           <ng-template mat-tab-label>
             <span
               [class.error-label]="
-              thesauri.hasError('json') && (thesauri.dirty || thesauri.touched)
+                thesauri.hasError('json') &&
+                (thesauri.dirty || thesauri.touched)
               "
               >Thesauri</span
             >
@@ -50,6 +61,16 @@
           >
             invalid thesauri JSON code
           </mat-error>
+          <button
+            type="button"
+            [disabled]="!thesauri.value || thesauri.invalid"
+            mat-button
+            matTooltip="Prettify code"
+            (click)="prettifyThesauriJson()"
+          >
+            <mat-icon>format_align_right</mat-icon>
+            prettify
+          </button>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

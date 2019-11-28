@@ -88,6 +88,30 @@ export class JsonEditorResourcesComponent implements OnInit {
 
   ngOnInit() {}
 
+  private prettifyJson(json: string): string {
+    try {
+      const p = JSON.parse(json);
+      return JSON.stringify(p, null, 4);
+    } catch {
+      console.error('Error parsing JSON');
+      return json;
+    }
+  }
+
+  public prettifyPartJson() {
+    if (this.part.invalid) {
+      return;
+    }
+    this.part.setValue(this.prettifyJson(this.part.value));
+  }
+
+  public prettifyThesauriJson() {
+    if (this.thesauri.invalid) {
+      return;
+    }
+    this.thesauri.setValue(this.prettifyJson(this.thesauri.value));
+  }
+
   public clear() {
     this._dialog
       .confirm('Warning', 'Clear the whole code?')

@@ -7,18 +7,12 @@ import { OrthographyFragment } from '@cadmus/parts/philology/philology-ui';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  public orthographyFragment: OrthographyFragment;
+  public partJson: string;
+  public thesauriJson: string;
 
   constructor() {
-    this.orthographyFragment = {
-      location: '2.2',
-      baseText: 'bixit',
-      standard: null,
-      operations: []
-    };
   }
 
   ngOnInit() {
   }
-
 }

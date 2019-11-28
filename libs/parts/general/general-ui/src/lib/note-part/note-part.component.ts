@@ -78,9 +78,19 @@ export class NotePartComponent extends PartEditorBaseComponent<NotePart>
   }
 
   private getPart(): NotePart {
-    const part = super.getPartFromJson();
-    part.tag = this.tag.value;
-    part.text = this.text.value.trim();
+    let part = super.getPartFromJson();
+    if (!part) {
+      part = {
+        itemId: null,
+        id: null,
+        typeId: 'net.fusisoft.note',
+        roleId: null,
+        tag: this.tag.value,
+        text: this.text.value,
+        timeModified: new Date(),
+        userId: null
+      };
+    }
     return part;
   }
 
