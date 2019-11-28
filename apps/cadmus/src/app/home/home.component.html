@@ -3,14 +3,13 @@
   <mat-tab label="Code">
     <cadmus-json-editor-resources
       title="Note"
-      [partJson]="ed.json"
-      (partJsonChange)="partJson=$event"
-      (thesauriJsonChange)="thesauriJson=$event"
+      [(partJson)]="partJson"
+      [(thesauriJson)]="thesauriJson"
     ></cadmus-json-editor-resources>
   </mat-tab>
   <mat-tab label="Editor">
-    <cadmus-note-part #ed
-      [json]="partJson"
+    <cadmus-note-part
+      [(json)]="partJson"
       [thesauri]="thesauriJson"
     ></cadmus-note-part>
   </mat-tab>

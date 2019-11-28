@@ -23,7 +23,7 @@ import { FormGroup } from '@angular/forms';
   styles: []
 })
 export class PartEditorBaseComponent<T = Part> implements OnInit {
-  private _partJson: string;
+  private _json: string;
   private _ignoreJsonChange: boolean;
 
   // thesaurus
@@ -40,10 +40,10 @@ export class PartEditorBaseComponent<T = Part> implements OnInit {
    */
   @Input()
   public get json(): string {
-    return this._partJson;
+    return this._json;
   }
   public set json(value: string) {
-    this._partJson = value;
+    this._json = value;
     if (!this._ignoreJsonChange) {
       this.onPartSet(this.getPartFromJson());
     }
@@ -111,7 +111,7 @@ export class PartEditorBaseComponent<T = Part> implements OnInit {
    */
   protected getPartFromJson(json: string = null): T {
     if (!json) {
-      json = this._partJson;
+      json = this._json;
     }
     return json ? JSON.parse(json) : null;
   }
@@ -126,6 +126,7 @@ export class PartEditorBaseComponent<T = Part> implements OnInit {
     this._ignoreJsonChange = true;
     try {
       this.json = json;
+      this.jsonChange.emit(json);
     } finally {
       this._ignoreJsonChange = false;
     }
