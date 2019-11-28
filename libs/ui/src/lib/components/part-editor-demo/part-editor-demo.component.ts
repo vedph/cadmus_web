@@ -14,7 +14,7 @@ export class PartEditorDemoComponent implements OnInit {
   // (this is not a CSS selector:
   // https://stackoverflow.com/questions/51673978/how-do-i-select-a-contentchild-of-a-native-element-in-angular-6)
   @ContentChild('editor', { static: true })
-  private _editor: PartEditorBaseComponent;
+   private _editor: PartEditorBaseComponent;
 
   /**
    * The JSON code representing the part being edited.
@@ -49,7 +49,7 @@ export class PartEditorDemoComponent implements OnInit {
 
   ngOnInit() {
     // subscribe to the editor JSON change event
-    // https://stackoverflow.com/questions/41858516/capturing-events-emitted-from-components-inside-ng-content
+    https://stackoverflow.com/questions/41858516/capturing-events-emitted-from-components-inside-ng-content
     this._editor.jsonChange.subscribe((json: string) => {
       this.jsonEditor.setValue(json);
     });

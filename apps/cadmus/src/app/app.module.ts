@@ -7,12 +7,15 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { config } from '../environments/environment';
 import { AppComponent } from './app.component';
 
-// Monaco
+// ngx monaco
 import { MonacoEditorModule } from 'ngx-monaco-editor';
+// ngx markdown
+import { MarkdownModule } from 'ngx-markdown';
 
 import { CoreModule } from '@cadmus/core';
 import { UiModule } from '@cadmus/ui';
-import { PartsPhilologyPhilologyUiModule } from '@cadmus/parts/philology/philology-ui';
+import { GeneralUiModule } from '@cadmus/parts/general/general-ui';
+import { PhilologyUiModule } from '@cadmus/parts/philology/philology-ui';
 import { HomeComponent } from './home/home.component';
 import { MaterialModule } from '@cadmus/material';
 
@@ -43,10 +46,13 @@ import { MaterialModule } from '@cadmus/material';
     ),
     // Monaco
     MonacoEditorModule.forRoot(),
+    // markdown
+    MarkdownModule.forRoot(),
     // Cadmus
     CoreModule,
     MaterialModule,
-    PartsPhilologyPhilologyUiModule,
+    GeneralUiModule,
+    PhilologyUiModule,
     UiModule
   ],
   providers: [

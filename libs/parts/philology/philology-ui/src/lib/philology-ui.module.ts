@@ -26,4 +26,4 @@ import { OrthographyFragmentComponent } from './orthography-fragment/orthography
     OrthographyFragmentComponent
   ]
 })
-export class PartsPhilologyPhilologyUiModule {}
+export class PhilologyUiModule {}

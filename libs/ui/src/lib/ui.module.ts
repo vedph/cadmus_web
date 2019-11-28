@@ -9,8 +9,8 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { PartEditorDemoComponent } from './components/part-editor-demo/part-editor-demo.component';
-import { CoreModule } from '@cadmus/core';
 import { PartEditorBaseComponent } from './components/part-editor-base/part-editor-base.component';
+import { CoreModule } from '@cadmus/core';
 
 @NgModule({
   imports: [
@@ -25,12 +25,13 @@ import { PartEditorBaseComponent } from './components/part-editor-base/part-edit
     ConfirmDialogComponent,
     SafeHtmlPipe,
     PartEditorDemoComponent,
-    PartEditorBaseComponent
+    PartEditorBaseComponent,
   ],
   exports: [
     ConfirmDialogComponent,
     SafeHtmlPipe,
-    PartEditorDemoComponent
+    PartEditorDemoComponent,
+    PartEditorBaseComponent
   ],
   entryComponents: [
     ConfirmDialogComponent

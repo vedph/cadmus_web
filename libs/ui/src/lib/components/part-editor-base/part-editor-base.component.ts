@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { Part, Thesaurus } from '@cadmus/core';
+import { FormGroup } from '@angular/forms';
 
 // Angular abstract components:
 // https://medium.com/@ozak/stop-repeating-yourself-in-angular-how-to-create-abstract-components-9726d43c99ab
@@ -23,8 +25,9 @@ import { Part, Thesaurus } from '@cadmus/core';
 export class PartEditorBaseComponent<T = Part> implements OnInit {
   private _partJson: string;
   private _ignoreJsonChange: boolean;
+
   // thesaurus
-  private _thesauri: Thesaurus[];
+  private _thesauri: { [key: string]: Thesaurus } | null;
 
   /**
    * True if the control is disabled.
@@ -42,42 +45,71 @@ export class PartEditorBaseComponent<T = Part> implements OnInit {
   public set json(value: string) {
     this._partJson = value;
     if (!this._ignoreJsonChange) {
-      this.onJsonSet();
+      this.onPartSet(this.getPartFromJson());
     }
   }
   /**
-   * Event emitted when the edited part's json is saved.
+   * Event emitted when the edited part's JSON is saved.
    */
   @Output()
   public jsonChange: EventEmitter<string>;
-
-  constructor() {
-    this.jsonChange = new EventEmitter<string>();
-  }
 
   /**
    * The optional thesauri to be used within this editor.
    */
   @Input()
-  public get thesauri(): Thesaurus[] | null {
+  public get thesauri(): { [key: string]: Thesaurus } | null {
     return this._thesauri;
   }
-  public set thesauri(value: Thesaurus[] | null) {
+  public set thesauri(value: { [key: string]: Thesaurus } | null) {
     this._thesauri = value;
     this.onThesauriSet();
   }
 
+  /**
+   * Event emitted whenever the dirty state of the editor changes.
+   */
+  @Output()
+  public editorDirty: EventEmitter<boolean>;
+
+  @Output()
+  public editorClose: EventEmitter<any>;
+
+  constructor() {
+    this.jsonChange = new EventEmitter<string>();
+    this.editorDirty = new EventEmitter<boolean>();
+    this.editorClose = new EventEmitter<any>();
+  }
+
   ngOnInit() {}
+
+  /**
+   * Subscribe to the status change of the specified form,
+   * so that whenever its dirty status changes, a corresponding
+   * editorDirty event is fired.
+   *
+   * @param form The form group to subscribe to.
+   */
+  protected subscribeToFormStatus(form: FormGroup) {
+    form.statusChanges
+      .pipe(
+        map(_ => form.dirty),
+        distinctUntilChanged()
+      )
+      .subscribe(dirty => {
+        this.editorDirty.emit(dirty);
+      });
+  }
 
   /**
    * Get the part from the specified JSON code, or from the current
    * json property if no JSON code is specified. This is just a helper
    * method for parsing JSON and casting it to the template argument type.
    *
-   * @param json The optionsl JSON code representing the part.
+   * @param json The optional JSON code representing the part.
    * @returns The part, or null.
    */
-  protected getPart(json: string = null): T {
+  protected getPartFromJson(json: string = null): T {
     if (!json) {
       json = this._partJson;
     }
@@ -85,23 +117,12 @@ export class PartEditorBaseComponent<T = Part> implements OnInit {
   }
 
   /**
-   * Set the json property from the specified part, without triggering
-   * a call to onJsonSet.
+   * Update the json property from the specified code, without triggering
+   * a call to onPartSet.
+   *
+   * @param json The JSON core representing the part.
    */
-  protected setPart(part: T) {
-    this._ignoreJsonChange = true;
-    try {
-      this.json = JSON.stringify(part);
-    } finally {
-      this._ignoreJsonChange = false;
-    }
-  }
-
-  /**
-   * Set the json property from the specified code, without triggering
-   * a call to onJsonSet.
-   */
-  protected setPartJson(json: string) {
+  protected updateJson(json: string) {
     this._ignoreJsonChange = true;
     try {
       this.json = json;
@@ -112,10 +133,10 @@ export class PartEditorBaseComponent<T = Part> implements OnInit {
 
   /**
    * Invoked whenever the json property is set, unless setting it via
-   * setPart methods. The default implementation does nothing. Override
+   * updateJson. The default implementation does nothing. Override
    * to add custom behavior, e.g. update the form to reflect the new part value.
    */
-  protected onJsonSet() {}
+  protected onPartSet(part: T) {}
 
   /**
    * Invoked whenever the thesauri property is set.
