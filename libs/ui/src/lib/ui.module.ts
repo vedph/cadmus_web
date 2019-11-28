@@ -11,6 +11,7 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { PartEditorDemoComponent } from './components/part-editor-demo/part-editor-demo.component';
 import { PartEditorBaseComponent } from './components/part-editor-base/part-editor-base.component';
 import { CoreModule } from '@cadmus/core';
+import { JsonEditorResourcesComponent } from './components/json-editor-resources/json-editor-resources.component';
 
 @NgModule({
   imports: [
@@ -26,12 +27,14 @@ import { CoreModule } from '@cadmus/core';
     SafeHtmlPipe,
     PartEditorDemoComponent,
     PartEditorBaseComponent,
+    JsonEditorResourcesComponent,
   ],
   exports: [
     ConfirmDialogComponent,
     SafeHtmlPipe,
     PartEditorDemoComponent,
-    PartEditorBaseComponent
+    PartEditorBaseComponent,
+    JsonEditorResourcesComponent
   ],
   entryComponents: [
     ConfirmDialogComponent

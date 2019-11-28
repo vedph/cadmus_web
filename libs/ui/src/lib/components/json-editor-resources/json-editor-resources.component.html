@@ -1,0 +1,78 @@
+<form [formGroup]="form" (submit)="apply()">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2>JSON Resources for Editors</h2>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-tab-group>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span
+              [class.error-label]="
+                part.hasError('json') && (part.dirty || part.touched)
+              "
+              >Part</span
+            >
+          </ng-template>
+          <ngx-monaco-editor
+            [options]="editorOptions"
+            formControlName="part"
+          ></ngx-monaco-editor>
+          <mat-error
+            *ngIf="part.hasError('json') && (part.dirty || part.touched)"
+          >
+            invalid part JSON code
+          </mat-error>
+        </mat-tab>
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span
+              [class.error-label]="
+              thesauri.hasError('json') && (thesauri.dirty || thesauri.touched)
+              "
+              >Thesauri</span
+            >
+          </ng-template>
+          <ngx-monaco-editor
+            [options]="editorOptions"
+            formControlName="thesauri"
+          ></ngx-monaco-editor>
+          <mat-error
+            *ngIf="
+              thesauri.hasError('json') && (thesauri.dirty || thesauri.touched)
+            "
+          >
+            invalid thesauri JSON code
+          </mat-error>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button
+        type="button"
+        color="warn"
+        mat-raised-button
+        matTooltip="Clear all the code"
+        (click)="clear()"
+      >
+        <mat-icon>delete_sweep</mat-icon>
+        clear
+      </button>
+      <button
+        type="submit"
+        [disabled]="form.invalid || form.pristine"
+        color="primary"
+        mat-raised-button
+        matTooltip="Apply JSON code to editor"
+      >
+        <mat-icon>check_circle</mat-icon>
+        apply
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>
