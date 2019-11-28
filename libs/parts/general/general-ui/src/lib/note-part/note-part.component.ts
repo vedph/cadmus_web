@@ -77,7 +77,7 @@ export class NotePartComponent extends PartEditorBaseComponent<NotePart>
     }
   }
 
-  private getPart(): NotePart {
+  private getPartFromForm(): NotePart {
     let part = super.getPartFromJson();
     if (!part) {
       part = {
@@ -94,7 +94,7 @@ export class NotePartComponent extends PartEditorBaseComponent<NotePart>
     return part;
   }
 
-  public cancel() {
+  public close() {
     if (!this.form.dirty) {
       super.editorClose.emit();
       return;
@@ -113,7 +113,7 @@ export class NotePartComponent extends PartEditorBaseComponent<NotePart>
     if (this.form.invalid) {
       return;
     }
-    const part = this.getPart();
+    const part = this.getPartFromForm();
     super.updateJson(JSON.stringify(part));
     this.form.markAsPristine();
   }
