@@ -32,8 +32,9 @@ export class NotePartComponent extends PartEditorBaseComponent<NotePart>
   public editorOptions = {
     theme: 'vs-light',
     language: 'markdown',
-    wordWrap: 'on'
-    // automaticLayout: true
+    wordWrap: 'on',
+    // https://github.com/atularen/ngx-monaco-editor/issues/19
+    automaticLayout: true
   };
 
   constructor(formBuilder: FormBuilder, private _dialog: DialogService) {
