@@ -94,11 +94,17 @@ The base component is not an abstract class (this is best for Angular), and prov
 - `subscribeToFormStatus`: used to subscribe to the status change of the specified form (usually the root form of the editor), so that whenever its dirty status changes, an `editorDirty` event is fired.
 - `getPartFromJson(json: string = null): T`: get the part from the specified JSON code, or from the current json property if no JSON code is specified. This is just a helper method for parsing JSON (when truthy) and casting it to the template argument type.
 - `updateJson(json: string)`: update the `json` property from the specified code, without triggering a call to `onPartSet`.
+- `onPartSet`: invoked whenever the json property is set, unless setting it via `updateJson`. The default implementation does nothing. Override to add custom behavior, e.g. update the form to reflect the new part value.
+- `onThesauriSet`: invoked whenever the thesauri property is set.
 
 A typical editor extending this base can follow these guidelines:
 
-- TODO:
-
+- add form controls and eventually thesaurus entries properties (`ThesaurusEntry[]`) to be consumed by the template. If thesaurus entries are required, set these properties in `onThesauriSet`.
+- when initializing, call `subscribeToFormStatus` passing it the root form, so that the control can automatically bubble its dirty status.
+- add an `updateForm(part)` method to update the form controls from the part's model, calling it from `onPartSet`.
+- add a `getPartFromForm` method to get a part object from the form controls. Among the common part's properties, only `typeId` gets set at this level; the other properties will be set by the page wrapping the editor.
+- add a `close` method for closing without saving (prompting when dirty).
+- add a `save` method which if the form is valid uses `getPartFromForm` to get the part, and `updateJson` to update the JSON code stringified from that part.
 - template: `form` including a `fieldset` (to use the `disabled` attribute), including a `mat-card`. Header and footer in the card should be standardized, while the content is free.
 
 ### Part Editors Demos
