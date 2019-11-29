@@ -14,6 +14,7 @@
         </ng-template>
         <cadmus-json-editor-resources
           title="Note"
+          [schemaName]="schemaName"
           [(partJson)]="partJson"
           [(thesauriJson)]="thesauriJson"
           (partJsonChange)="onCodeSaved()"

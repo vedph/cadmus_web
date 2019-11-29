@@ -11,9 +11,7 @@
         <mat-tab>
           <ng-template mat-tab-label>
             <span
-              [class.error-label]="
-                part.hasError('json') && (part.dirty || part.touched)
-              "
+              [class.error-label]="part.invalid && (part.dirty || part.touched)"
               >Part</span
             >
           </ng-template>
@@ -25,7 +23,12 @@
           <mat-error
             *ngIf="part.hasError('json') && (part.dirty || part.touched)"
           >
-            invalid part JSON code
+            malformed part JSON code
+          </mat-error>
+          <mat-error
+            *ngIf="part.hasError('jsonSchema') && (part.dirty || part.touched)"
+          >
+            invalid part JSON code: {{ part.errors['jsonSchema'].errors }}
           </mat-error>
           <button
             type="button"
@@ -43,8 +46,7 @@
           <ng-template mat-tab-label>
             <span
               [class.error-label]="
-                thesauri.hasError('json') &&
-                (thesauri.dirty || thesauri.touched)
+                thesauri.invalid && (thesauri.dirty || thesauri.touched)
               "
               >Thesauri</span
             >
@@ -59,7 +61,16 @@
               thesauri.hasError('json') && (thesauri.dirty || thesauri.touched)
             "
           >
-            invalid thesauri JSON code
+            malformed thesauri JSON code
+          </mat-error>
+          <mat-error
+            *ngIf="
+              thesauri.hasError('jsonSchema') &&
+              (thesauri.dirty || thesauri.touched)
+            "
+          >
+            invalid thesauri JSON code:
+            {{ thesauri.errors['jsonSchema'].errors }}
           </mat-error>
           <button
             type="button"

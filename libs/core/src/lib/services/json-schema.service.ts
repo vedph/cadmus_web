@@ -34,7 +34,9 @@ export class JsonSchemaService {
   }
 
   /**
-   * Add the specified schema to the validator schema set.
+   * Add the specified schema to the validator schema set. If a schema with
+   * the same name already exists, nothing happens unless you pass replace=true.
+   *
    * @param name The name of the schema; this will be used as the key to store it.
    * @param json The schema to be added.
    * @param replace True to replace an existing schema with the same name.

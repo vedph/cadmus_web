@@ -1,13 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-  FormBuilder
-} from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { DialogService } from '../../services/dialog.service';
 import { take } from 'rxjs/operators';
 import { JsonValidators } from '../../validators/json-validators';
 import { JsonSchemaService } from '@cadmus/core';
+import { JsonSchemaValidators } from '../../validators/json-schema-validators';
 
 /**
  * JSON resources for parts/fragments editors. This component is used
@@ -66,7 +63,7 @@ export class JsonEditorResourcesComponent implements OnInit {
       return;
     }
     this._schemaName = value;
-    // TODO: setup validators
+    this.updatePartValidators();
   }
 
   @Output()
@@ -87,15 +84,44 @@ export class JsonEditorResourcesComponent implements OnInit {
   public part: FormControl;
   public thesauri: FormControl;
 
-  constructor(formBuilder: FormBuilder,
+  constructor(
+    formBuilder: FormBuilder,
     private _dialog: DialogService,
-    private _schemaService: JsonSchemaService) {
+    private _schemaService: JsonSchemaService
+  ) {
+    const THESAURI_SCHEMA_NAME = '@thesauri';
+    // TODO: create schema using patternProperties
+    // https://stackoverflow.com/questions/32044761/json-schema-with-unknown-property-names
+    const THESAURI_SCHEMA = {};
+
     // events
     this.partJsonChange = new EventEmitter<string>();
     this.thesauriJsonChange = new EventEmitter<string>();
+    // thesauri schema
+    _schemaService.addSchema(THESAURI_SCHEMA_NAME, THESAURI_SCHEMA);
+    // form
+    this.part = formBuilder.control(null, JsonValidators.json);
+    this.thesauri = formBuilder.control(null,
+      JsonSchemaValidators.create(this._schemaService, '@thesauri'));
+    this.form = formBuilder.group({
+      part: this.part,
+      thesauri: this.thesauri
+    });
   }
 
   ngOnInit() {}
+
+  private updatePartValidators() {
+    this.part.clearValidators();
+
+    if (this._schemaName) {
+      this.part.setValidators(
+        JsonSchemaValidators.create(this._schemaService, this._schemaName)
+      );
+    } else {
+      this.part.setValidators(JsonValidators.json);
+    }
+  }
 
   private prettifyJson(json: string): string {
     try {
