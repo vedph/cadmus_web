@@ -10,22 +10,11 @@ import { NOTE_PART_SCHEMA, NotePart } from '@cadmus/parts/general/general-ui';
 })
 export class HomeComponent implements OnInit {
   public currentTabIndex: number;
-  public partJson: string;
-  public thesauriJson: string;
 
   constructor(private _schema: JsonSchemaService) {
-    this.currentTabIndex = 0;
   }
 
   ngOnInit() {}
-
-  public onCodeSaved() {
-    this.currentTabIndex = 1;
-  }
-
-  public onEditorSaved() {
-    this.currentTabIndex = 0;
-  }
 
   public validateJson() {
     this._schema.addSchema('note', NOTE_PART_SCHEMA);

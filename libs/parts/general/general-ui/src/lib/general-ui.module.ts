@@ -9,6 +9,7 @@ import { CoreModule } from '@cadmus/core';
 import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
 import { NotePartComponent } from './note-part/note-part.component';
+import { NotePartDemoComponent } from './note-part-demo/note-part-demo.component';
 
 @NgModule({
   imports: [
@@ -23,10 +24,12 @@ import { NotePartComponent } from './note-part/note-part.component';
     UiModule
   ],
   declarations: [
-    NotePartComponent
+    NotePartComponent,
+    NotePartDemoComponent
   ],
   exports: [
-    NotePartComponent
+    NotePartComponent,
+    NotePartDemoComponent
   ]
 })
 export class GeneralUiModule {}
