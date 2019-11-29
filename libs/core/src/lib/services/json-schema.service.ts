@@ -1,0 +1,68 @@
+import { Injectable, Inject, InjectionToken } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import * as Ajv from 'ajv';
+
+// npm i ajv --save
+// https://tane.dev/2019/09/validating-data-with-json-schema-angular-and-typescript/
+
+/**
+ * The response of a validation result.
+ */
+export interface ValidationResult {
+  /**
+   * If the result is valid or not
+   */
+  valid: boolean;
+
+  /**
+   * Error text from the validator
+   */
+  errorsText: string;
+}
+
+/**
+ * JSON schema validation service.
+ */
+@Injectable({
+  providedIn: 'root'
+})
+export class JsonSchemaService {
+  private readonly _ajv: Ajv.Ajv;
+
+  constructor(private readonly http: HttpClient) {
+    this._ajv = new Ajv({ allErrors: true });
+  }
+
+  /**
+   * Add the specified schema to the validator schema set.
+   * @param name The name of the schema; this will be used as the key to store it.
+   * @param json The schema to be added.
+   */
+  public addSchema(name: string, schema: object): void {
+    this._ajv.addSchema(schema, name);
+  }
+
+  /**
+   * Fetch the schema and add it to the validator schema set.
+   * @param name The name of the schema; this will be used as the key to store it.
+   * @param urlPath The URL path of the schema to load.
+   */
+  public loadSchema(name: string, urlPath: string): void {
+    this.http
+      .get(urlPath)
+      .subscribe(result => this._ajv.addSchema(result, name));
+  }
+
+  /**
+   * Validate data against a schema.
+   * @param name The name of the schema to validate.
+   * @param data The data to validate.
+   */
+  public validateData<T>(name: string, data: T): ValidationResult {
+    const valid = this._ajv.validate(name, data) as boolean;
+    return {
+      valid: valid,
+      errorsText: this._ajv.errorsText()
+    };
+  }
+}

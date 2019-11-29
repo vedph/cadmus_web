@@ -1,4 +1,6 @@
 <h2>Home</h2>
+<p><button type="button" (click)="validateJson()">JSON validation</button></p>
+
 <!-- note 2-way databinding for selectedIndex: it's a bug in Angular, need it -->
 <mat-tab-group [(selectedIndex)]="currentTabIndex">
   <mat-tab label="Code">

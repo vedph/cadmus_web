@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OrthographyFragment } from '@cadmus/parts/philology/philology-ui';
+import { JsonSchemaService } from '@cadmus/core';
+import { NOTE_PART_SCHEMA } from '@cadmus/parts/general/general-ui';
 
 @Component({
   selector: 'cadmus-home',
@@ -11,7 +13,7 @@ export class HomeComponent implements OnInit {
   public partJson: string;
   public thesauriJson: string;
 
-  constructor() {
+  constructor(private _schema: JsonSchemaService) {
     this.currentTabIndex = 0;
   }
 
@@ -24,5 +26,11 @@ export class HomeComponent implements OnInit {
 
   public onEditorSaved() {
     this.currentTabIndex = 0;
+  }
+
+  public validateJson() {
+    this._schema.addSchema('note', NOTE_PART_SCHEMA);
+    const result = this._schema.validateData('note', {tag:"tag",text:"text"});
+    console.log(JSON.stringify(result));
   }
 }
