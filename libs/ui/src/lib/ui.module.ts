@@ -8,7 +8,6 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
-import { PartEditorDemoComponent } from './components/part-editor-demo/part-editor-demo.component';
 import { PartEditorBaseComponent } from './components/part-editor-base/part-editor-base.component';
 import { CoreModule } from '@cadmus/core';
 import { JsonEditorResourcesComponent } from './components/json-editor-resources/json-editor-resources.component';
@@ -25,14 +24,12 @@ import { JsonEditorResourcesComponent } from './components/json-editor-resources
   declarations: [
     ConfirmDialogComponent,
     SafeHtmlPipe,
-    PartEditorDemoComponent,
     PartEditorBaseComponent,
     JsonEditorResourcesComponent,
   ],
   exports: [
     ConfirmDialogComponent,
     SafeHtmlPipe,
-    PartEditorDemoComponent,
     PartEditorBaseComponent,
     JsonEditorResourcesComponent
   ],

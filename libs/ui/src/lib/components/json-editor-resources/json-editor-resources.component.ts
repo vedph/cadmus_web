@@ -7,6 +7,7 @@ import {
 import { DialogService } from '../../services/dialog.service';
 import { take } from 'rxjs/operators';
 import { JsonValidators } from '../../validators/json-validators';
+import { JsonSchemaService } from '@cadmus/core';
 
 /**
  * JSON resources for parts/fragments editors. This component is used
@@ -25,6 +26,8 @@ import { JsonValidators } from '../../validators/json-validators';
 export class JsonEditorResourcesComponent implements OnInit {
   private _partJson: string;
   private _thesauriJson: string;
+  // validation
+  private _schemaName: string;
 
   @Input()
   public get partJson(): string {
@@ -54,6 +57,17 @@ export class JsonEditorResourcesComponent implements OnInit {
 
   @Input()
   public title: string;
+  @Input()
+  public get schemaName(): string {
+    return this._schemaName;
+  }
+  public set schemaName(value: string) {
+    if (this._schemaName === value) {
+      return;
+    }
+    this._schemaName = value;
+    // TODO: setup validators
+  }
 
   @Output()
   public partJsonChange: EventEmitter<string>;
@@ -73,17 +87,12 @@ export class JsonEditorResourcesComponent implements OnInit {
   public part: FormControl;
   public thesauri: FormControl;
 
-  constructor(formBuilder: FormBuilder, private _dialog: DialogService) {
+  constructor(formBuilder: FormBuilder,
+    private _dialog: DialogService,
+    private _schemaService: JsonSchemaService) {
     // events
     this.partJsonChange = new EventEmitter<string>();
     this.thesauriJsonChange = new EventEmitter<string>();
-    // form
-    this.part = formBuilder.control(null, JsonValidators.json);
-    this.thesauri = formBuilder.control(null, JsonValidators.json);
-    this.form = formBuilder.group({
-      part: this.part,
-      thesauri: this.thesauri
-    });
   }
 
   ngOnInit() {}
