@@ -1,4 +1,4 @@
-import { Injectable, Inject, InjectionToken } from '@angular/core';
+import { Injectable, Inject, InjectionToken, Optional } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as Ajv from 'ajv';
 
@@ -37,8 +37,17 @@ export class JsonSchemaService {
    * Add the specified schema to the validator schema set.
    * @param name The name of the schema; this will be used as the key to store it.
    * @param json The schema to be added.
+   * @param replace True to replace an existing schema with the same name.
    */
-  public addSchema(name: string, schema: object): void {
+  public addSchema(name: string, schema: object, replace = false): void {
+    const old = this._ajv.getSchema(name);
+    if (old) {
+      if (replace) {
+        this._ajv.removeSchema(name);
+      } else {
+        return;
+      }
+    }
     this._ajv.addSchema(schema, name);
   }
 

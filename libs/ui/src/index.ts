@@ -5,3 +5,5 @@ export * from './lib/components/part-editor-demo/part-editor-demo.component';
 export * from './lib/components/part-editor-base/part-editor-base.component';
 export * from './lib/pipes/safe-html.pipe';
 export * from './lib/services/dialog.service';
+export * from './lib/validators/json-schema-validators';
+export * from './lib/validators/json-validators';
