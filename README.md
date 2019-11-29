@@ -71,7 +71,37 @@ export const NOTE_PART_SCHEMA = {
 
 3. add a part editor demo _dumb_ component named after the part (e.g. `NotePartComponentDemo` after `NotePart`). This will essentially be a wrapper of two distinct controls: the part's editor component, and a `JsonEditorResourcesComponent`. These components are mutually connected, so that you can edit the JSON code for the part (and eventually for its thesauri sets) and set the visual editor to it, or vice-versa.
 
-### Using Part Editor Demos
+### Part Editors
+
+Part editors are dumb UI components extending `PartEditorBaseComponent<T>`, where `T` is the part's type.
+
+The base component is not an abstract class (this is best for Angular), and provides this API:
+
+**Input**:
+
+- `disabled` (type `boolean`): true to disable the control as a whole.
+- `json` (type `string`): the JSON code representing the part being edited. The corresponding output is implemented via the `jsonChange` event.
+- `thesauri` (type `{ [key: string]: Thesaurus } | null`): optional thesauri sets to be consumed by the editor. Each thesaurus is keyed under an ID which is meaningful and unique only within the context of the editor.
+
+**Output**:
+
+- `jsonChange` (type `string`): fired when the user saves the form with valid data.
+- `editorDirty` (type `boolean`): fired whenever the dirty status of the form changes. This is used to let this status bubble up to the container component page, which should eventually warn before navigating away from it.
+- `editorClose` (no argument): fired when the editor is closed without saving, by user request.
+
+**Helpers**:
+
+- `subscribeToFormStatus`: used to subscribe to the status change of the specified form (usually the root form of the editor), so that whenever its dirty status changes, an `editorDirty` event is fired.
+- `getPartFromJson(json: string = null): T`: get the part from the specified JSON code, or from the current json property if no JSON code is specified. This is just a helper method for parsing JSON (when truthy) and casting it to the template argument type.
+- `updateJson(json: string)`: update the `json` property from the specified code, without triggering a call to `onPartSet`.
+
+A typical editor extending this base can follow these guidelines:
+
+- TODO:
+
+- template: `form` including a `fieldset` (to use the `disabled` attribute), including a `mat-card`. Header and footer in the card should be standardized, while the content is free.
+
+### Part Editors Demos
 
 Each part editor usually is provided with a corresponding demo component, which allows users to play with the editor by passing JSON data to it, or getting JSON data from it.
 
