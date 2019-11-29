@@ -64,12 +64,56 @@ export const NOTE_PART_SCHEMA = {
   properties: {
     // ... etc ...
   }
+};
+```
+
+2. add a part editor _dumb_ component named after the part (e.g. `NotePartComponent` after `NotePart`), and extending `PartEditorBaseComponent<T>` where `T` is the part's type.
+
+3. add a part editor demo _dumb_ component named after the part (e.g. `NotePartComponentDemo` after `NotePart`). This will essentially be a wrapper of two distinct controls: the part's editor component, and a `JsonEditorResourcesComponent`. These components are mutually connected, so that you can edit the JSON code for the part (and eventually for its thesauri sets) and set the visual editor to it, or vice-versa.
+
+### Using Part Editor Demos
+
+Each part editor usually is provided with a corresponding demo component, which allows users to play with the editor by passing JSON data to it, or getting JSON data from it.
+
+The demo component is built of two distinct controls:
+
+- a general purpose `JsonEditorResourcesComponent`: JSON editors for part and eventually thesauri sets. This represents the _code_ editor.
+- a specific part editor component. This represents the _visual_ editor.
+
+In the code editor, you should enter the part's JSON code, and eventually one or more thesauri.
+
+The part's code must be valid according to its schema (the JSON schema specified in the models). For instance, a `NotePart` might appear as:
+
+```json
+{
+    "itemId": "4a26ad5c-0a82-4a21-b1d7-15cddbb1bfd1",
+    "id": "1bf411d8-54ad-4f4c-bde6-2fc78226ebd5",
+    "typeId": "net.fusisoft.note",
+    "roleId": "",
+    "tag": "some-tag",
+    "text": "This is a **sample** text.",
+    "timeModified": "2019-11-29T16:48:49.694Z",
+    "userId": "zeus"
 }
 ```
 
-2. add a part editor *dumb* component named after the part (e.g. `NotePartComponent` after `NotePart`), and extending `PartEditorBaseComponent<T>` where `T` is the part's type.
+The thesauri code is like in this sample (for the `NotePart` tags):
 
-3. add a part editor demo *dumb* component named after the part (e.g. `NotePartComponentDemo` after `NotePart`). This will essentially be a wrapper of two distinct controls: the part's editor component, and a `JsonEditorResourcesComponent`. These components are mutually connected, so that you can edit the JSON code for the part (and eventually for its thesauri sets) and set the visual editor to it, or vice-versa.
+```json
+{
+  "tags": {
+    "id": "colors",
+    "language": "ita",
+    "entries": [
+      { "id": "red", "value": "rosso" },
+      { "id": "green", "value": "verde" },
+      { "id": "blue", "value": "blu" }
+    ]
+  }
+}
+```
+
+As you can see, each thesaurus is keyed under a unique property name, like `tags` here. In the case of `NotePart`, if a thesaurus is found under the `tags` key, its entries are used to feed a closed list of tags. If no such thesaurus is found, then the tag is just an open value.
 
 ## Quick Start & Documentation
 

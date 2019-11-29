@@ -27,7 +27,7 @@ export class NotePartComponent extends PartEditorBaseComponent<NotePart>
   public tags: FormControl;
   public text: FormControl;
 
-  public thesEntries: ThesaurusEntry[];
+  public tagEntries: ThesaurusEntry[];
 
   public editorOptions = {
     theme: 'vs-light',
@@ -51,7 +51,7 @@ export class NotePartComponent extends PartEditorBaseComponent<NotePart>
   }
 
   ngOnInit() {
-    super.subscribeToFormStatus(this.form);
+    this.subscribeToFormStatus(this.form);
   }
 
   private updateForm(part: NotePart) {
@@ -60,6 +60,7 @@ export class NotePartComponent extends PartEditorBaseComponent<NotePart>
       return;
     }
     this.tag.setValue(part.tag);
+    this.tags.setValue(part.tag);
     this.text.setValue(part.text);
     this.form.markAsPristine();
   }
@@ -70,22 +71,22 @@ export class NotePartComponent extends PartEditorBaseComponent<NotePart>
 
   protected onThesauriSet() {
     const key = 'tags';
-    if (super.thesauri && super.thesauri[key]) {
-      this.thesEntries = super.thesauri[key].entries;
+    if (this.thesauri && this.thesauri[key]) {
+      this.tagEntries = this.thesauri[key].entries;
     } else {
-      this.thesEntries = null;
+      this.tagEntries = null;
     }
   }
 
   private getPartFromForm(): NotePart {
-    let part = super.getPartFromJson();
+    let part = this.getPartFromJson();
     if (!part) {
       part = {
         itemId: null,
         id: null,
         typeId: NOTE_PART_TYPEID,
         roleId: null,
-        tag: this.tag.value,
+        tag: this.tagEntries? this.tags.value : this.tag.value,
         text: this.text.value,
         timeModified: new Date(),
         userId: null
