@@ -134,14 +134,14 @@ export class JsonEditorResourcesComponent implements OnInit {
   }
 
   public prettifyPartJson() {
-    if (this.part.invalid) {
+    if (this.part.hasError('json')) {
       return;
     }
     this.part.setValue(this.prettifyJson(this.part.value));
   }
 
   public prettifyThesauriJson() {
-    if (this.thesauri.invalid) {
+    if (this.thesauri.hasError('json')) {
       return;
     }
     this.thesauri.setValue(this.prettifyJson(this.thesauri.value));

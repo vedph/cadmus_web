@@ -25,7 +25,8 @@ export const NOTE_PART_SCHEMA = {
   required: ['id', 'itemId', 'text', 'timeModified', 'typeId', 'userId'],
   properties: {
     timeModified: {
-      type: 'object'
+      type: 'string',
+      pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\.\\d+Z$'
     },
     userId: {
       type: 'string'

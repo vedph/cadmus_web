@@ -28,11 +28,14 @@
           <mat-error
             *ngIf="part.hasError('jsonSchema') && (part.dirty || part.touched)"
           >
-            invalid part JSON code: {{ part.errors['jsonSchema'].errors }}
+            invalid part JSON code:
+            <cadmus-error-list
+              [errors]="part.errors['jsonSchema'].errors.split(', ')"
+            ></cadmus-error-list>
           </mat-error>
           <button
             type="button"
-            [disabled]="!part.value || part.invalid"
+            [disabled]="!part.value || part.hasError('json')"
             mat-button
             matTooltip="Prettify code"
             (click)="prettifyPartJson()"
@@ -70,11 +73,13 @@
             "
           >
             invalid thesauri JSON code:
-            {{ thesauri.errors['jsonSchema'].errors }}
+            <cadmus-error-list
+              [errors]="thesauri.errors['jsonSchema'].errors.split(', ')"
+            ></cadmus-error-list>
           </mat-error>
           <button
             type="button"
-            [disabled]="!thesauri.value || thesauri.invalid"
+            [disabled]="!thesauri.value || thesauri.hasError('json')"
             mat-button
             matTooltip="Prettify code"
             (click)="prettifyThesauriJson()"
