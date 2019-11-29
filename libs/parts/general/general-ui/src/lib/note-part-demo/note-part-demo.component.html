@@ -7,7 +7,11 @@
   <mat-card-content>
     <!-- note 2-way databinding for selectedIndex: it's a bug in Angular, need it -->
     <mat-tab-group [(selectedIndex)]="currentTabIndex">
-      <mat-tab label="Code">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">code</mat-icon>
+          Code
+        </ng-template>
         <cadmus-json-editor-resources
           title="Note"
           [(partJson)]="partJson"
@@ -16,7 +20,11 @@
           (thesauriJsonChange)="onCodeSaved()"
         ></cadmus-json-editor-resources>
       </mat-tab>
-      <mat-tab label="Editor">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">dashboard</mat-icon>
+          Editor
+        </ng-template>
         <cadmus-note-part
           [(json)]="partJson"
           [thesauri]="thesauriJson"

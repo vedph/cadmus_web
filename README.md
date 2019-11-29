@@ -10,19 +10,66 @@ View dependencies: `nx dep-graph`.
 
 ## Architecture
 
+### Organization
+
 The planned architecture is:
 
 - `apps/cadmus`: the frontend app.
 - `libs/core`: core services and models.
+- `libs/features`: app's features libraries, one for each page.
+  - `<partgroup-feature>`: the pages for all the parts belonging to the specified group to be included in the app.
 - `libs/material`: Angular material.
+- `libs/parts`: Cadmus parts libraries, one for each group of parts. These only include models and dumb components.
+  - `<partgroup>-ui`: core services and models plus dumb UI components for the part. E.g. `libs/parts/general-ui`.
 - `libs/ui`: shared dumb UI components.
 
-For each part there is a folder under `libs/parts`, with 2 libraries:
+To include the part UI in your app, add a corresponding library for its page under `features`, where you will include the part's state and wrap its dumb editor component into the page.
 
-- `<partgroup>-ui`: core services and models plus dumb UI components for the part. E.g. `libs/parts/general-ui`.
-- `<partgroup>-<partname>-part`: editor page for the part, with its state. E.g. `libs/parts/general-note-part`, `libs/parts/general-keywords-part`, `libs/parts/general-categories-part`, etc.
+### Adding Parts
 
-To add a new library with parts: create a new Nrwl Angular library named `<partgroup>-ui` under `parts/<partgroup>` (use simple module name in generator).
+To **add a new parts library**:
+
+- create a new Nrwl Angular library named `<partgroup>-ui` under `parts/<partgroup>` (use simple module name in generator). For instance, for general purpose parts I created `parts/general/general-ui`.
+
+To **add a new part**:
+
+1. add the part model (derived from `Part`), its type ID constant, and its JSON schema constant to `models.ts`. For instance:
+
+```ts
+import { Part } from '@cadmus/core';
+
+/**
+ * Note part.
+ */
+export interface NotePart extends Part {
+  text: string;
+  tag: string;
+}
+
+/**
+ * The type ID used to identify the NotePart type.
+ */
+export const NOTE_PART_TYPEID = 'net.fusisoft.note';
+
+/**
+ * JSON schema for the note part. This is used in the editor demo.
+ * You can use the JSON schema tool at https://jsonschema.net/.
+ */
+export const NOTE_PART_SCHEMA = {
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  $id: 'www.fusisoft.net/cadmus/parts/general/note.json',
+  type: 'object',
+  title: 'NotePart',
+  required: ['id', 'itemId', 'text', 'timeModified', 'typeId', 'userId'],
+  properties: {
+    // ... etc ...
+  }
+}
+```
+
+2. add a part editor *dumb* component named after the part (e.g. `NotePartComponent` after `NotePart`), and extending `PartEditorBaseComponent<T>` where `T` is the part's type.
+
+3. add a part editor demo *dumb* component named after the part (e.g. `NotePartComponentDemo` after `NotePart`). This will essentially be a wrapper of two distinct controls: the part's editor component, and a `JsonEditorResourcesComponent`. These components are mutually connected, so that you can edit the JSON code for the part (and eventually for its thesauri sets) and set the visual editor to it, or vice-versa.
 
 ## Quick Start & Documentation
 

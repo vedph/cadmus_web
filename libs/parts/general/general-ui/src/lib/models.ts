@@ -9,12 +9,17 @@ export interface NotePart extends Part {
 }
 
 /**
+ * The type ID used to identify the NotePart type.
+ */
+export const NOTE_PART_TYPEID = 'net.fusisoft.note';
+
+/**
  * JSON schema for the note part. This is used in the editor demo.
  * You can use the JSON schema tool at https://jsonschema.net/.
  */
 export const NOTE_PART_SCHEMA = {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'www.fusisoft.net/cadmus/parts/general/note.json',
+  $id: 'www.fusisoft.net/cadmus/parts/general/' + NOTE_PART_TYPEID + '.json',
   type: 'object',
   title: 'NotePart',
   required: ['id', 'itemId', 'text', 'timeModified', 'typeId', 'userId'],

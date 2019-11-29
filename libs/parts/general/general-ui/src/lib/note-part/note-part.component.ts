@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService, PartEditorBaseComponent } from '@cadmus/ui';
-import { NotePart } from '../..';
+import { NotePart, NOTE_PART_TYPEID } from '../..';
 import {
   FormGroup,
   FormControl,
@@ -83,7 +83,7 @@ export class NotePartComponent extends PartEditorBaseComponent<NotePart>
       part = {
         itemId: null,
         id: null,
-        typeId: 'net.fusisoft.note',
+        typeId: NOTE_PART_TYPEID,
         roleId: null,
         tag: this.tag.value,
         text: this.text.value,
