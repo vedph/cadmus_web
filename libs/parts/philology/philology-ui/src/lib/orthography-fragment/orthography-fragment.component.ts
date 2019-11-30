@@ -8,7 +8,7 @@ import {
   Validators
 } from '@angular/forms';
 import { MspValidators } from '../msp-validators';
-import { DialogService } from '@cadmus/ui';
+import { DialogService, FragmentEditorBaseComponent } from '@cadmus/ui';
 import { take } from 'rxjs/operators';
 import { diff_match_patch } from 'diff-match-patch';
 import {
@@ -43,43 +43,12 @@ import { DifferResultToMspAdapter } from '../differ-result-to-msp-adapter';
     ])
   ]
 })
-export class OrthographyFragmentComponent implements OnInit {
-  private _json: string;
-  private _fragment: OrthographyFragment;
+export class OrthographyFragmentComponent extends FragmentEditorBaseComponent<OrthographyFragment> implements OnInit {
   private _currentOperationIndex: number;
   private _differ: diff_match_patch;
   private _adapter: DifferResultToMspAdapter;
 
-  /**
-   * The fragment being edited.
-   */
-  @Input()
-  public get fragment(): OrthographyFragment {
-    return this._fragment;
-  }
-  public set fragment(value: OrthographyFragment) {
-    if (this._fragment === value) {
-      return;
-    }
-    this._fragment = value;
-    this.updateForm(value);
-  }
-
-  @Input()
-  public get json(): string {
-    return this._json;
-  }
-  public set json(value: string) {
-    try {
-      this.fragment = JSON.parse(value);
-      this._json = value;
-    } catch {
-      console.error('Invalid JSON code: ' + value);
-    }
-  }
-  @Output()
-  public jsonChange: EventEmitter<string>;
-
+  public fragment: OrthographyFragment;
   public form: FormGroup;
   public standard: FormControl;
   public operations: FormArray;
@@ -93,7 +62,8 @@ export class OrthographyFragmentComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private _dialog: DialogService
-  ) {
+    ) {
+    super();
     // events
     this.fragmentChange = new EventEmitter<OrthographyFragment>();
     this.fragmentClose = new EventEmitter<any>();
@@ -111,7 +81,9 @@ export class OrthographyFragmentComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.subscribeToFormStatus(this.form);
+  }
 
   private updateForm(fragment: OrthographyFragment) {
     this.standard.setValue(fragment.standard);
@@ -207,9 +179,9 @@ export class OrthographyFragmentComponent implements OnInit {
     return ops;
   }
 
-  private getFragment(): OrthographyFragment {
+  private getFragmentFromForm(): OrthographyFragment {
     const fr: OrthographyFragment = {
-      location: this._fragment.location,
+      location: this.fragment.location,
       standard: this.standard.value,
       operations: this.getOperations()
     };
@@ -218,7 +190,7 @@ export class OrthographyFragmentComponent implements OnInit {
 
   public autoAddOperations() {
     // we must have both A and B text
-    if (!this._fragment.baseText || !this.standard.value) {
+    if (!this.fragment.baseText || !this.standard.value) {
       return;
     }
 
@@ -230,7 +202,7 @@ export class OrthographyFragmentComponent implements OnInit {
 
     // set operations
     const result = this._differ.diff_main(
-      this._fragment.baseText,
+      this.fragment.baseText,
       this.standard.value
     );
     const ops = this._adapter.adapt(result);
@@ -247,7 +219,7 @@ export class OrthographyFragmentComponent implements OnInit {
       this.fragmentClose.emit();
     } else {
       this._dialog
-        .confirm('Warning', 'Close without saving?')
+        .confirm('Warning', 'Discard changes?')
         .pipe(take(1))
         .subscribe((ok: boolean) => {
           if (ok) {
@@ -258,8 +230,8 @@ export class OrthographyFragmentComponent implements OnInit {
   }
 
   public save() {
-    this._fragment = this.getFragment();
-    this.fragmentChange.emit({ ...this._fragment });
-    this.jsonChange.emit(JSON.stringify(this._fragment));
+    this.fragment = this.getFragmentFromForm();
+    this.updateJson(JSON.stringify(this.fragment));
+    this.form.markAsPristine();
   }
 }
