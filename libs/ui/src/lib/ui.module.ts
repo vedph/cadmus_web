@@ -12,6 +12,7 @@ import { PartEditorBaseComponent } from './components/part-editor-base/part-edit
 import { CoreModule } from '@cadmus/core';
 import { JsonEditorResourcesComponent } from './components/json-editor-resources/json-editor-resources.component';
 import { ErrorListComponent } from './components/error-list/error-list.component';
+import { FragmentEditorBaseComponent } from './components/fragment-editor-base/fragment-editor-base.component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { ErrorListComponent } from './components/error-list/error-list.component
     ConfirmDialogComponent,
     SafeHtmlPipe,
     PartEditorBaseComponent,
+    FragmentEditorBaseComponent,
     JsonEditorResourcesComponent,
     ErrorListComponent,
   ],
@@ -33,6 +35,7 @@ import { ErrorListComponent } from './components/error-list/error-list.component
     ConfirmDialogComponent,
     SafeHtmlPipe,
     PartEditorBaseComponent,
+    FragmentEditorBaseComponent,
     JsonEditorResourcesComponent,
     ErrorListComponent
   ],
