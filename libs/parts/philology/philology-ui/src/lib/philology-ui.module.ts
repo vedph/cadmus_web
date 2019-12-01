@@ -6,6 +6,7 @@ import { CoreModule } from '@cadmus/core';
 import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
 import { OrthographyFragmentComponent } from './orthography-fragment/orthography-fragment.component';
+import { OrthographyFragmentDemoComponent } from './orthography-fragment-demo/orthography-fragment-demo.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { OrthographyFragmentComponent } from './orthography-fragment/orthography
   ],
   declarations: [
     MspOperationComponent,
-    OrthographyFragmentComponent
+    OrthographyFragmentComponent,
+    OrthographyFragmentDemoComponent
   ],
   exports: [
     MspOperationComponent,
