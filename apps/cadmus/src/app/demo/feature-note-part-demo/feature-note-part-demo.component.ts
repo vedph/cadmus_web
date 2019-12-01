@@ -1,15 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'cadmus-feature-note-part-demo',
-  templateUrl: './feature-note-part-demo.component.html',
-  styleUrls: ['./feature-note-part-demo.component.css']
+  template: `<cadmus-note-part-demo></cadmus-note-part-demo>`,
+  styles: []
 })
-export class FeatureNotePartDemoComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-}
+export class FeatureNotePartDemoComponent { }
