@@ -25,7 +25,8 @@ import { OrthographyFragmentDemoComponent } from './orthography-fragment-demo/or
   ],
   exports: [
     MspOperationComponent,
-    OrthographyFragmentComponent
+    OrthographyFragmentComponent,
+    OrthographyFragmentDemoComponent
   ]
 })
 export class PhilologyUiModule {}

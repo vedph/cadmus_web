@@ -1,3 +1,6 @@
+fieldset {
+  border: none;
+}
 .base-text {
   margin-left: 1em;
   background-color: #c2381f;

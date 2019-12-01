@@ -19,9 +19,16 @@ import { GeneralUiModule } from '@cadmus/parts/general/general-ui';
 import { PhilologyUiModule } from '@cadmus/parts/philology/philology-ui';
 import { HomeComponent } from './home/home.component';
 import { MaterialModule } from '@cadmus/material';
+import { FeatureNotePartDemoComponent } from './demo/feature-note-part-demo/feature-note-part-demo.component';
+import { FeatureOrthographyFragmentDemoComponent } from './demo/feature-orthography-fragment-demo/feature-orthography-fragment-demo.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    FeatureNotePartDemoComponent,
+    FeatureOrthographyFragmentDemoComponent
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -32,6 +39,16 @@ import { MaterialModule } from '@cadmus/material';
       [
         { path: '', redirectTo: 'home', pathMatch: 'full' },
         { path: 'home', component: HomeComponent },
+        {
+          path: 'demo/note-part',
+          component: FeatureNotePartDemoComponent,
+          pathMatch: 'full'
+        },
+        {
+          path: 'demo/orthography-fragment',
+          component: FeatureOrthographyFragmentDemoComponent,
+          pathMatch: 'full'
+        },
         {
           path: 'demo/layers',
           loadChildren: () =>

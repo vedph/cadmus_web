@@ -1,1 +1,38 @@
-<p>orthography-fragment-demo works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Orthography Fragment Editor Demo</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <!-- note 2-way databinding for selectedIndex: it's a bug in Angular, need it -->
+    <mat-tab-group [(selectedIndex)]="currentTabIndex">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">code</mat-icon>
+          Code
+        </ng-template>
+        <cadmus-json-editor-resources
+          title="Orthography fragment"
+          [schemaName]="schemaName"
+          [(partJson)]="partJson"
+          [(thesauriJson)]="thesauriJson"
+          (partJsonChange)="onCodeSaved()"
+          (thesauriJsonChange)="onCodeSaved()"
+        ></cadmus-json-editor-resources>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">dashboard</mat-icon>
+          Editor
+        </ng-template>
+        <cadmus-orthography-fragment
+          [(json)]="partJson"
+          [thesauri]="thesauri"
+          (jsonChange)="onEditorSaved()"
+          (editorClose)="onEditorSaved()"
+        ></cadmus-orthography-fragment>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>
