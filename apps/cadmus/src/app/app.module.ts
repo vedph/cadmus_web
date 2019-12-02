@@ -8,6 +8,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { config } from '../environments/environment';
 import { AppComponent } from './app.component';
 
+// flex
+import { FlexLayoutModule } from '@angular/flex-layout';
 // ngx monaco
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 // ngx markdown
@@ -78,6 +80,8 @@ import { FeatureOrthographyFragmentDemoComponent } from './demo/feature-orthogra
         useHash: true
       }
     ),
+    // flex
+    FlexLayoutModule,
     // Monaco
     MonacoEditorModule.forRoot(),
     // markdown

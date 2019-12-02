@@ -53,4 +53,12 @@ export class ItemListComponent implements OnInit {
     this.paginator.setPage(event.pageIndex + 1);
     // TODO: change size with event.pageSize
   }
+
+  public editItem(item: ItemInfo) {
+    // TODO: edit
+  }
+
+  public deleteItem(item: ItemInfo) {
+    // TODO: delete
+  }
 }

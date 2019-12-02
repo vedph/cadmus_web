@@ -7,29 +7,63 @@
   <mat-card-content>
     <p *ngIf="paginator.isLoading$ | async">Loading...</p>
 
-    <section *ngIf="pagination$ | async as pagination">
-      <table>
-        <thead>
-          <th>facet</th>
-          <th>title</th>
-          <th>description</th>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of pagination.data">
-            <td>{{ item.facet }}</td>
-            <td>{{ item.title }}</td>
-            <td>{{ item.description }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <mat-paginator
-        [length]="pagination.total"
-        [pageSize]="20"
-        [pageIndex]="pagination.currentPage - 1"
-        [hidePageSize]="true"
-        [showFirstLastButtons]="true"
-        (page)="pageChanged($event)"
-      ></mat-paginator>
-    </section>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="8px">
+      <!-- filters -->
+      <div fxFlex="0 0 auto">
+        TODO filters
+      </div>
+
+      <!-- list -->
+      <div fxFill fxLayout="column">
+        <section *ngIf="pagination$ | async as pagination">
+          <table>
+            <thead>
+              <th></th>
+              <th></th>
+              <th>facet</th>
+              <th>title</th>
+              <th>description</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of pagination.data">
+                <td>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    matTooltip="Edit {{ item.title }}"
+                    color="primary"
+                    (click)="editItem(item)"
+                  >
+                    <mat-icon>mode_edit</mat-icon>
+                  </button>
+                </td>
+                <td>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    matTooltip="Delete {{ item.title }}"
+                    color="warn"
+                    (click)="deleteItem(item)"
+                  >
+                    <mat-icon>remove_circle</mat-icon>
+                  </button>
+                </td>
+                <td>{{ item.facet }}</td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.description }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <mat-paginator
+            [length]="pagination.total"
+            [pageSize]="20"
+            [pageIndex]="pagination.currentPage - 1"
+            [hidePageSize]="true"
+            [showFirstLastButtons]="true"
+            (page)="pageChanged($event)"
+          ></mat-paginator>
+        </section>
+      </div>
+    </div>
   </mat-card-content>
 </mat-card>
