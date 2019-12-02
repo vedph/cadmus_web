@@ -25,6 +25,33 @@ The planned architecture is:
 
 To include the part UI in your app, add a corresponding library for its page under `features`, where you will include the part's state and wrap its dumb editor component into the page.
 
+```plantuml
+@startuml
+core <|-- api
+core <|-- "general-ui"
+core <|-- "philology-ui"
+core <|-- "feature-layer-demo"
+core <|-- "feature-item-list"
+api <|-- "feature-item-list"
+core <|-- api
+core <|-- cadmus
+material <|-- "general-ui"
+material <|-- "philology-ui"
+material <|-- "feature-layer-demo"
+material <|-- "feature-item-list"
+material <|-- cadmus
+ui <|-- "general-ui"
+ui <|-- "philology-ui"
+ui <|-- "feature-layer-demo"
+ui <|-- "feature-item-list"
+"general-ui" <|-- cadmus
+"philology-ui" <|-- cadmus
+"feature-layer-demo" <|-- cadmus
+"feature-item-list" <|-- cadmus
+cadmus <|-- "cadmus-e2e"
+@enduml
+```
+
 ### Adding Parts
 
 To **add a new parts library**:
