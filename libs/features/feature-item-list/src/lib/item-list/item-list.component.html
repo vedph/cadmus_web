@@ -4,8 +4,10 @@
       Items
     </mat-card-title>
   </mat-card-header>
-  <mat-card-content>
-    <p *ngIf="paginator.isLoading$ | async">Loading...</p>
+  <mat-card-content fxLayout="row">
+    <div *ngIf="paginator.isLoading$ | async" fxFlex fxLayoutAlign="center center">
+      <mat-spinner [diameter]="48" [strokeWidth]="4"></mat-spinner>
+    </div>
 
     <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="8px">
       <!-- filters -->
