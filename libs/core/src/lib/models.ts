@@ -7,6 +7,17 @@ export interface HasVersion {
 }
 
 /**
+ * A page of data.
+ */
+export interface DataPage<T> {
+  pageNumber: number;
+  pageSize: number;
+  pageCount: number;
+  total: number;
+  items: T[];
+}
+
+/**
  * Item's properties, excluding its parts.
  */
 export interface Item extends HasVersion {
@@ -16,6 +27,35 @@ export interface Item extends HasVersion {
   facetId: string;
   sortKey: string;
   flags: number;
+}
+
+/**
+ * Filter for items.
+ */
+export interface ItemFilter {
+  pageNumber: number;
+  pageSize: number;
+  title?: string;
+  description?: string;
+  facetId?: string;
+  flags?: number;
+  minModified?: Date;
+  maxModified?: Date;
+  userId?: string;
+}
+
+/**
+ * Essential information about an item.
+ */
+export interface ItemInfo {
+  id: string;
+  title: string;
+  description: string;
+  facet: string;
+  sortKey: string;
+  flags: number;
+  timeModified: Date;
+  userId: string;
 }
 
 /**

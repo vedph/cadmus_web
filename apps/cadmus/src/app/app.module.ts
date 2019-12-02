@@ -12,6 +12,8 @@ import { AppComponent } from './app.component';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 // ngx markdown
 import { MarkdownModule } from 'ngx-markdown';
+// Akita
+import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 
 import { CoreModule } from '@cadmus/core';
 import { UiModule } from '@cadmus/ui';
@@ -56,7 +58,14 @@ import { FeatureOrthographyFragmentDemoComponent } from './demo/feature-orthogra
               module => module.FeatureLayerDemoModule
             )
         },
-        { path: '**', component: HomeComponent }
+        { path: '**', component: HomeComponent },
+        {
+          path: 'features-feature-item-list',
+          loadChildren: () =>
+            import('@cadmus/features/feature-item-list').then(
+              module => module.FeaturesFeatureItemListModule
+            )
+        }
       ],
       {
         initialNavigation: 'enabled',
@@ -67,6 +76,8 @@ import { FeatureOrthographyFragmentDemoComponent } from './demo/feature-orthogra
     MonacoEditorModule.forRoot(),
     // markdown
     MarkdownModule.forRoot(),
+    // Akita
+    AkitaNgDevtools.forRoot(),
     // Cadmus
     CoreModule,
     MaterialModule,

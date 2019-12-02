@@ -3,6 +3,8 @@ export * from './lib/datation';
 export * from './lib/historical-date';
 export * from './lib/models';
 export * from './lib/roman-number';
+export * from './lib/services/error.service';
+export * from './lib/services/json-schema.service';
 export * from './lib/text-layer.service';
 export * from './lib/text-range';
 export * from './lib/token-location';

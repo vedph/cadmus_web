@@ -27,6 +27,9 @@
       ],
       "@cadmus/parts/general/general-ui": [
         "libs/parts/general/general-ui/src/index.ts"
+      ],
+      "@cadmus/features/feature-item-list": [
+        "libs/features/feature-item-list/src/index.ts"
       ]
     }
   },

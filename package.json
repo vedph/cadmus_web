@@ -40,6 +40,8 @@
     "@angular/platform-browser": "^8.2.0",
     "@angular/platform-browser-dynamic": "^8.2.0",
     "@angular/router": "^8.2.0",
+    "@datorama/akita": "^4.16.0",
+    "@datorama/akita-ngdevtools": "^3.0.2",
     "@nrwl/angular": "8.8.0",
     "@types/diff-match-patch": "^1.0.32",
     "@types/rangy": "0.0.33",

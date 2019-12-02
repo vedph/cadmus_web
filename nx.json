@@ -31,6 +31,9 @@
     },
     "parts-general-general-ui": {
       "tags": []
+    },
+    "features-feature-item-list": {
+      "tags": []
     }
   }
 }

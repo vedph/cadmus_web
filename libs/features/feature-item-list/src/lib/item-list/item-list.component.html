@@ -1,0 +1,34 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Items
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p *ngIf="paginator.isLoading$ | async">Loading...</p>
+
+    <section *ngIf="pagination$ | async as pagination">
+      <table>
+        <thead>
+          <th>facet</th>
+          <th>title</th>
+          <th>description</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of pagination.data">
+            <td>{{ item.facet }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.description }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <mat-paginator
+        [length]="pagination.total"
+        [pageSize]="20"
+        [pageIndex]="pagination.currentPage - 1"
+        [hidePageSize]="true"
+        (page)="pageChanged($event)"
+      ></mat-paginator>
+    </section>
+  </mat-card-content>
+</mat-card>
