@@ -1,29 +1,19 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { ItemFilter } from '@cadmus/core';
+import { BehaviorSubject } from 'rxjs';
 
+/**
+ * Items filter.
+ */
 @Component({
   selector: 'cadmus-item-filter',
   templateUrl: './item-filter.component.html',
   styleUrls: ['./item-filter.component.css']
 })
 export class ItemFilterComponent implements OnInit {
-  private _filter: ItemFilter;
-
   @Input()
-  public get filter() {
-    return this._filter;
-  }
-  public set filter(value: ItemFilter) {
-    if (this._filter === value) {
-      return;
-    }
-    this._filter = value;
-    this.updateForm(value);
-  }
-
-  @Output()
-  public filterChange: EventEmitter<ItemFilter>;
+  public filter$: BehaviorSubject<ItemFilter>;
 
   public title: FormControl;
   public description: FormControl;
@@ -35,8 +25,6 @@ export class ItemFilterComponent implements OnInit {
   public form: FormGroup;
 
   constructor(formBuilder: FormBuilder) {
-    // events
-    this.filterChange = new EventEmitter<ItemFilter>();
     // form
     this.title = formBuilder.control(null);
     this.description = formBuilder.control(null);
@@ -57,7 +45,11 @@ export class ItemFilterComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.filter$.subscribe(f => {
+      this.updateForm(f);
+    })
+  }
 
   private updateForm(filter: ItemFilter) {
     this.title.setValue(filter.title);
@@ -85,13 +77,14 @@ export class ItemFilterComponent implements OnInit {
 
   public reset() {
     this.form.reset();
+    this.apply();
   }
 
   public apply() {
     if (this.form.invalid) {
       return;
     }
-    this._filter = this.getFilter();
-    this.filterChange.emit({...this._filter});
+    const filter = this.getFilter();
+    this.filter$.next(filter);
   }
 }

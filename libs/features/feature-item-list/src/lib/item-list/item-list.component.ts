@@ -1,14 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { PaginationResponse, PaginatorPlugin } from '@datorama/akita';
 import { ItemInfo, DataPage, ItemFilter } from '@cadmus/core';
 import { ITEMS_PAGINATOR } from '../services/items-paginator';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { ItemsState } from '../state/items.store';
 import { PageEvent } from '@angular/material';
 import { ItemService } from '@cadmus/api';
 import { DialogService } from '@cadmus/ui';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'cadmus-item-list',
@@ -16,9 +15,8 @@ import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./item-list.component.css']
 })
 export class ItemListComponent implements OnInit {
-  // filters
-
   public pagination$: Observable<PaginationResponse<ItemInfo>>;
+  public filter$: BehaviorSubject<ItemFilter>;
 
   constructor(
     @Inject(ITEMS_PAGINATOR) public paginator: PaginatorPlugin<ItemsState>,
@@ -26,32 +24,105 @@ export class ItemListComponent implements OnInit {
     private _dialogService: DialogService
   ) {}
 
+  private getRequest(
+    filter: ItemFilter
+  ): () => Observable<PaginationResponse<ItemInfo>> {
+    return () =>
+      this._itemsService.getItems('cadmus', filter).pipe(
+        // adapt server results to the paginator plugin
+        map((p: DataPage<ItemInfo>) => {
+          return {
+            currentPage: p.pageNumber,
+            perPage: p.pageSize,
+            lastPage: p.pageCount,
+            data: p.items,
+            total: p.total
+          };
+        })
+      );
+  }
+
   ngOnInit() {
-    // items pagination
-    this.pagination$ = this.paginator.pageChanges.pipe(
-      switchMap((page: number) => {
-        const request = () =>
-          this._itemsService
-            .getItems('cadmus', {
-              pageNumber: page,
-              pageSize: 20
-              // TODO: params
-            })
-            .pipe(
-              // adapt server results to the paginator plugin
-              map((p: DataPage<ItemInfo>) => {
-                return {
-                  currentPage: p.pageNumber,
-                  perPage: p.pageSize,
-                  lastPage: p.pageCount,
-                  data: p.items,
-                  total: p.total
-                };
-              })
-            );
+    // filter
+    this.filter$ = new BehaviorSubject<ItemFilter>(
+      this.paginator.metadata.get('filter') || {
+        pageNumber: 1,
+        pageSize: 20
+      }
+    );
+
+    // combine and get latest:
+    // -page number changes from paginator
+    // -filter changes from filter (in this case, clearing the cache)
+    this.pagination$ = combineLatest([
+      this.paginator.pageChanges,
+      this.filter$.pipe(
+        // clear the cache when filters changed
+        tap(_ => this.paginator.clearCache())
+      )
+    ]).pipe(
+      // for each emitted value, combine into a filter and use it
+      // to request the page from server
+      switchMap(([pageNumber, filter]) => {
+        filter.pageNumber = pageNumber;
+        filter.pageSize = 20;
+        const request = this.getRequest(filter);
+        // update saved filters
+        this.paginator.metadata.set('filter', filter);
         return this.paginator.getPage(request);
       })
     );
+
+    // this.paginator.pageChanges.pipe(
+    //   switchMap((page: number) => {
+    //     const request = () =>
+    //       this._itemsService
+    //         .getItems('cadmus', {
+    //           pageNumber: page,
+    //           pageSize: 20
+    //           // TODO: params
+    //         })
+    //         .pipe(
+    //           // adapt server results to the paginator plugin
+    //           map((p: DataPage<ItemInfo>) => {
+    //             return {
+    //               currentPage: p.pageNumber,
+    //               perPage: p.pageSize,
+    //               lastPage: p.pageCount,
+    //               data: p.items,
+    //               total: p.total
+    //             };
+    //           })
+    //         );
+    //     return this.paginator.getPage(request);
+    //   })
+    // );
+
+    // items pagination
+    // this.pagination$ = this.paginator.pageChanges.pipe(
+    //   switchMap((page: number) => {
+    //     const request = () =>
+    //       this._itemsService
+    //         .getItems('cadmus', {
+    //           pageNumber: page,
+    //           pageSize: 20
+    //           // TODO: params
+    //         })
+    //         .pipe(
+    //           // adapt server results to the paginator plugin
+    //           map((p: DataPage<ItemInfo>) => {
+    //             return {
+    //               currentPage: p.pageNumber,
+    //               perPage: p.pageSize,
+    //               lastPage: p.pageCount,
+    //               data: p.items,
+    //               total: p.total
+    //             };
+    //           })
+    //         );
+    //     return this.paginator.getPage(request);
+    //   })
+    // );
 
     // TODO: init lookup data from other stores (users, facets, flags)
   }
@@ -63,7 +134,7 @@ export class ItemListComponent implements OnInit {
   }
 
   public editItem(item: ItemInfo) {
-    // TODO: edit
+    // TODO: navigate to editor
   }
 
   public deleteItem(item: ItemInfo) {
@@ -75,9 +146,5 @@ export class ItemListComponent implements OnInit {
         }
         // TODO: delete
       });
-  }
-
-  public applyFilters() {
-    // TODO: apply
   }
 }
