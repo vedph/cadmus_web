@@ -30,7 +30,8 @@
       ],
       "@cadmus/features/feature-item-list": [
         "libs/features/feature-item-list/src/index.ts"
-      ]
+      ],
+      "@cadmus/api": ["libs/api/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

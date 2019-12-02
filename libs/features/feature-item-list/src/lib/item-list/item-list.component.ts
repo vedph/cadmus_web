@@ -3,10 +3,10 @@ import { Observable } from 'rxjs';
 import { PaginationResponse, PaginatorPlugin } from '@datorama/akita';
 import { ItemInfo, DataPage } from '@cadmus/core';
 import { ITEMS_PAGINATOR } from '../services/items-paginator';
-import { ItemsService } from '../services/items.service';
 import { map, switchMap } from 'rxjs/operators';
 import { ItemsState } from '../state/items.store';
 import { PageEvent } from '@angular/material';
+import { ItemService } from '@cadmus/api';
 
 @Component({
   selector: 'cadmus-item-list',
@@ -18,7 +18,7 @@ export class ItemListComponent implements OnInit {
 
   constructor(
     @Inject(ITEMS_PAGINATOR) public paginator: PaginatorPlugin<ItemsState>,
-    private _itemsService: ItemsService
+    private _itemsService: ItemService
   ) {}
 
   ngOnInit() {

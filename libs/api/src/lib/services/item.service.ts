@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
-export class ItemsService {
+export class ItemService {
   constructor(
     private _http: HttpClient,
     private _error: ErrorService,
@@ -14,6 +14,7 @@ export class ItemsService {
 
   /**
    * Get a page of items matching the specified filters.
+   *
    * @param databaseId The database ID.
    * @param filter The items filter.
    * @returns Observable with paged result.

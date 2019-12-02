@@ -58,12 +58,18 @@ import { FeatureOrthographyFragmentDemoComponent } from './demo/feature-orthogra
               module => module.FeatureLayerDemoModule
             )
         },
+        {
+          path: 'items',
+          loadChildren: () => import('@cadmus/features/feature-item-list').then(
+            module => module.FeatureItemListModule
+          )
+        },
         { path: '**', component: HomeComponent },
         {
           path: 'features-feature-item-list',
           loadChildren: () =>
             import('@cadmus/features/feature-item-list').then(
-              module => module.FeaturesFeatureItemListModule
+              module => module.FeatureItemListModule
             )
         }
       ],

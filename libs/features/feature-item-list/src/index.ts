@@ -1,1 +1,1 @@
-export * from './lib/features-feature-item-list.module';
+export * from './lib/feature-item-list.module';
