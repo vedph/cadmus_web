@@ -1,7 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { ItemFilter } from '@cadmus/core';
-import { BehaviorSubject } from 'rxjs';
+import { ItemFilter, FacetDefinition, FlagDefinition } from '@cadmus/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ItemsLookupService } from '../services/items-lookup.service';
+import { ItemsLookupQuery } from '../state/items-lookup.query';
+import { LookupUser, ItemsLookupState } from '../state/items-lookup.store';
 
 /**
  * Items filter.
@@ -24,8 +27,12 @@ export class ItemFilterComponent implements OnInit {
   public user: FormControl;
   public form: FormGroup;
 
-  constructor(formBuilder: FormBuilder) {
-    // form
+  public lookup$: Observable<ItemsLookupState>;
+
+  constructor(
+    private _itemsLookupService: ItemsLookupService,
+    private _itemsLookupQuery: ItemsLookupQuery,
+    formBuilder: FormBuilder) {
     this.title = formBuilder.control(null);
     this.description = formBuilder.control(null);
     this.facet = formBuilder.control(null);
@@ -38,7 +45,7 @@ export class ItemFilterComponent implements OnInit {
       title: this.title,
       description: this.description,
       facet: this.facet,
-      filterFlags: this.flags,
+      flags: this.flags,
       minModified: this.minModified,
       maxModified: this.maxModified,
       user: this.user
@@ -46,9 +53,16 @@ export class ItemFilterComponent implements OnInit {
   }
 
   ngOnInit() {
+    // subscribe to lookup data
+    this.lookup$ = this._itemsLookupQuery.select();
+
+    // update form when filter changes
     this.filter$.subscribe(f => {
       this.updateForm(f);
     })
+
+    // lookup
+    this._itemsLookupService.load();
   }
 
   private updateForm(filter: ItemFilter) {

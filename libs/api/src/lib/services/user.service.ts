@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { ErrorService, UserInfo } from '@cadmus/core';
+import { ErrorService, UserInfo, DataPage } from '@cadmus/core';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -12,9 +12,9 @@ export class UserService {
     @Inject('apiEndpoint') private _apiEndpoint: string
   ) {}
 
-  public getAllUsers(): Observable<UserInfo[]> {
+  public getAllUsers(): Observable<DataPage<UserInfo>> {
     return this._http
-      .get<UserInfo[]>(`${this._apiEndpoint}/users`, {
+      .get<DataPage<UserInfo>>(`${this._apiEndpoint}users`, {
         params: new HttpParams().set('pageNumber', '1')
       })
       .pipe(

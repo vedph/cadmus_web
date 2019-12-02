@@ -101,6 +101,10 @@ import { FeatureOrthographyFragmentDemoComponent } from './demo/feature-orthogra
     {
       provide: 'apiEndpoint',
       useValue: config.apiEndpoint
+    },
+    {
+      provide: 'databaseId',
+      useValue: config.databaseId
     }
   ],
   bootstrap: [AppComponent]

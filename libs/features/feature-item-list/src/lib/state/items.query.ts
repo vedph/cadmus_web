@@ -4,7 +4,7 @@ import { ItemsStore, ItemsState } from './items.store';
 
 @Injectable({ providedIn: 'root' })
 export class ItemsQuery extends QueryEntity<ItemsState> {
-  constructor(protected _store: ItemsStore) {
-    super(_store);
+  constructor(protected store: ItemsStore) {
+    super(store);
   }
 }

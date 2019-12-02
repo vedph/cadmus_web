@@ -24,43 +24,41 @@
   </div>
 
   <!-- facet -->
-  <!-- <div>
-    <mat-form-field>
-      <mat-select placeholder="facet" formControlName="facet">
-        <mat-option [value]="null">(any)</mat-option>
-        <mat-option *ngFor="let f of facets" [value]="f.id">
-          {{ f.label }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div> -->
+  <div *ngIf="lookup$ | async as lookup">
+    <div>
+      <mat-form-field>
+        <mat-select placeholder="facet" formControlName="facet">
+          <mat-option [value]="null">(any)</mat-option>
+          <mat-option *ngFor="let f of lookup.facets" [value]="f.id">
+            {{ f.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-  <!-- flags -->
-  <!-- <div *ngIf="flags && flags.length > 0">
-    <mat-form-field>
-      <mat-select
-        multiple="true"
-        placeholder="flags"
-        formControlName="filterFlags"
-      >
-        <mat-option *ngFor="let f of flags" [value]="f.id">
-          {{ f.label }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div> -->
+    <!-- flags -->
+    <div *ngIf="lookup.flags && lookup.flags.length > 0">
+      <mat-form-field>
+        <mat-select multiple="true" placeholder="flags" formControlName="flags">
+          <mat-option *ngFor="let f of lookup.flags" [value]="f.id">
+            {{ f.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-  <!-- user -->
-  <!-- <div>
-    <mat-form-field>
-      <mat-select placeholder="user" formControlName="user">
-        <mat-option [value]="null">(any)</mat-option>
-        <mat-option *ngFor="let u of users">
-          {{ u.userName }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div> -->
+    <!-- user -->
+    <div>
+      <mat-form-field>
+        <mat-select placeholder="user" formControlName="user">
+          <mat-option [value]="null">(any)</mat-option>
+          <mat-option *ngFor="let u of lookup.users">
+            {{ u.id }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
 
   <!-- min date -->
   <div>

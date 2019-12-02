@@ -24,6 +24,7 @@ export class ItemListComponent implements OnInit {
     @Inject(ITEMS_PAGINATOR) public paginator: PaginatorPlugin<ItemsState>,
     private _itemsService: ItemService,
     private _dialogService: DialogService,
+    @Inject('databaseId') private _databaseId: string,
     formBuilder: FormBuilder
   ) {
     this.pageSize = formBuilder.control(20);
@@ -33,7 +34,7 @@ export class ItemListComponent implements OnInit {
     filter: ItemFilter
   ): () => Observable<PaginationResponse<ItemInfo>> {
     return () =>
-      this._itemsService.getItems('cadmus', filter).pipe(
+      this._itemsService.getItems(this._databaseId, filter).pipe(
         // adapt server results to the paginator plugin
         map((p: DataPage<ItemInfo>) => {
           return {
@@ -142,8 +143,6 @@ export class ItemListComponent implements OnInit {
     //     return this.paginator.getPage(request);
     //   })
     // );
-
-    // TODO: init lookup data from other stores (users, facets, flags)
   }
 
   public pageChanged(event: PageEvent) {

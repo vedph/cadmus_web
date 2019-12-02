@@ -3,5 +3,6 @@ export const environment = {
 };
 
 export const config = {
-  apiEndpoint: "https://cadmusapi.azurewebsites.net/api/"
+  apiEndpoint: "https://cadmusapi.azurewebsites.net/api/",
+  databaseId: 'cadmus'
 }
