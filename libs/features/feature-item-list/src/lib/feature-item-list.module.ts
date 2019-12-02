@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 import { ItemListComponent } from './item-list/item-list.component';
 import { MaterialModule } from '@cadmus/material';
 import { ApiModule } from '@cadmus/api';
+import { UiModule } from '@cadmus/ui';
+import { ItemFilterComponent } from './item-filter/item-filter.component';
 
 @NgModule({
   imports: [
@@ -16,8 +18,15 @@ import { ApiModule } from '@cadmus/api';
     ]),
     // cadmus
     ApiModule,
-    MaterialModule
+    MaterialModule,
+    UiModule
   ],
-  declarations: [ItemListComponent]
+  declarations: [
+    ItemListComponent,
+    ItemFilterComponent
+  ],
+  exports: [
+    ItemListComponent
+  ]
 })
 export class FeatureItemListModule {}

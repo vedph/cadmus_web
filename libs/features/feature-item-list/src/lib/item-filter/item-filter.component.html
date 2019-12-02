@@ -1,0 +1,114 @@
+<form role="form" [formGroup]="form" (submit)="apply()">
+  <!-- title -->
+  <div>
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="title"
+        maxlength="500"
+        placeholder="title"
+      />
+    </mat-form-field>
+  </div>
+
+  <!-- description -->
+  <div>
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="description"
+        maxlength="500"
+        placeholder="description"
+      />
+    </mat-form-field>
+  </div>
+
+  <!-- facet -->
+  <!-- <div>
+    <mat-form-field>
+      <mat-select placeholder="facet" formControlName="facet">
+        <mat-option [value]="null">(any)</mat-option>
+        <mat-option *ngFor="let f of facets" [value]="f.id">
+          {{ f.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div> -->
+
+  <!-- flags -->
+  <!-- <div *ngIf="flags && flags.length > 0">
+    <mat-form-field>
+      <mat-select
+        multiple="true"
+        placeholder="flags"
+        formControlName="filterFlags"
+      >
+        <mat-option *ngFor="let f of flags" [value]="f.id">
+          {{ f.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div> -->
+
+  <!-- user -->
+  <!-- <div>
+    <mat-form-field>
+      <mat-select placeholder="user" formControlName="user">
+        <mat-option [value]="null">(any)</mat-option>
+        <mat-option *ngFor="let u of users">
+          {{ u.userName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div> -->
+
+  <!-- min date -->
+  <div>
+    <mat-form-field>
+      <input
+        matInput
+        [matDatepicker]="minPicker"
+        placeholder="choose min date"
+        formControlName="minModified"
+      />
+      <mat-datepicker-toggle mdSuffix [for]="minPicker"></mat-datepicker-toggle>
+    </mat-form-field>
+    <mat-datepicker #minPicker></mat-datepicker>
+  </div>
+
+  <!-- max date -->
+  <div>
+    <mat-form-field>
+      <input
+        matInput
+        [matDatepicker]="maxPicker"
+        placeholder="choose max date"
+        formControlName="maxModified"
+      />
+      <mat-datepicker-toggle mdSuffix [for]="maxPicker"></mat-datepicker-toggle>
+    </mat-form-field>
+    <mat-datepicker #maxPicker></mat-datepicker>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="4px">
+    <button
+      type="button"
+      mat-mini-fab
+      (click)="reset()"
+      color="warn"
+      matTooltip="Reset all the filters"
+      [disabled]="form.pristine"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button
+      type="submit"
+      mat-mini-fab
+      color="primary"
+      [disabled]="form.invalid"
+      matTooltip="Apply filters"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>
