@@ -57,9 +57,9 @@
           fxFlex="0 0 auto"
           fxFlexAlign="start"
           [length]="pagination.total"
-          [pageSize]="20"
+          [pageSize]="pageSize?.value"
+          [pageSizeOptions]="[20,50,75,100]"
           [pageIndex]="pagination.currentPage - 1"
-          [hidePageSize]="true"
           [showFirstLastButtons]="true"
           (page)="pageChanged($event)"
         ></mat-paginator>
