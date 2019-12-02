@@ -123,3 +123,59 @@ export interface Thesaurus {
   language: string;
   entries: ThesaurusEntry[];
 }
+
+/**
+ * Part definition in a facet.
+ */
+export interface PartDefinition {
+  typeId: string;
+  roleId: string;
+  name: string;
+  description: string;
+  isRequired: boolean;
+  colorKey: string;
+  groupKey: string;
+  sortKey: string;
+}
+
+/**
+ * Fragment definition in a facet.
+ */
+export interface FragmentDefinition {
+  typeId: string;
+  name: string;
+  description: string;
+  colorKey: string;
+  groupKey: string;
+  sortKey: string;
+}
+
+/**
+ * Facet definition.
+ */
+export interface FacetDefinition {
+  id: string;
+  label: string;
+  description: string;
+  partDefinitions: PartDefinition[];
+  fragmentDefinitions: FragmentDefinition[];
+}
+
+/**
+ * Flag definition.
+ */
+export interface FlagDefinition {
+  id: number;
+  label: string;
+  description: string;
+  colorKey: string;
+}
+
+/**
+ * Essential information about a user.
+ */
+export interface UserInfo {
+  userName: string;
+  firstName: string;
+  lastName: string;
+}
