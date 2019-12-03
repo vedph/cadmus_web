@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthStore } from '../state/auth.store';
 import { AuthService } from '@cadmus/api';
 import { Router } from '@angular/router';
-import { map, catchError } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

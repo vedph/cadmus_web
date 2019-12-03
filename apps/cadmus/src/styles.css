@@ -1,1 +1,15 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+/* Rules for sizing icons */
+.material-icons.mat-18 { font-size: 18px; }
+.material-icons.mat-24 { font-size: 24px; }
+.material-icons.mat-36 { font-size: 36px; }
+.material-icons.mat-48 { font-size: 48px; }
+
+/* Rules for using icons as black on a light background. */
+.material-icons.mat-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.mat-dark.mat-inactive { color: rgba(0, 0, 0, 0.26); }
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.mat-light { color: rgba(255, 255, 255, 1); }
+.material-icons.mat-light.mat-inactive { color: rgba(255, 255, 255, 0.3); }

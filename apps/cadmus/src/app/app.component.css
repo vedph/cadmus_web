@@ -11,4 +11,9 @@ footer {
 
 mat-icon.small-icon {
   font-size:85% !important;
+  margin-left: 8px;
+}
+
+.tb-fill-remaining-space {
+  flex: 1 1 auto;
 }

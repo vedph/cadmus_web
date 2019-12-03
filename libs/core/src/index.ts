@@ -9,6 +9,5 @@ export * from './lib/token-location';
 export * from './lib/token-point';
 export * from './lib/services/error.service';
 export * from './lib/services/gravatar.service';
-export * from './lib/services/hash.service';
 export * from './lib/services/json-schema.service';
 export * from './lib/services/local-storage.service';
