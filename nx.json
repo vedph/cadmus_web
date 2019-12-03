@@ -40,6 +40,9 @@
     },
     "features-feature-login": {
       "tags": []
+    },
+    "features-feature-item-editor": {
+      "tags": []
     }
   }
 }

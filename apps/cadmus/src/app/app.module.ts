@@ -45,6 +45,13 @@ import { AuthInterceptor } from '@cadmus/api';
         { path: '', redirectTo: 'home', pathMatch: 'full' },
         { path: 'home', component: HomeComponent },
         {
+          path: 'login',
+          loadChildren: () =>
+            import('@cadmus/features/feature-login').then(
+              module => module.FeatureLoginModule
+            )
+        },
+        {
           path: 'demo/note-part',
           component: FeatureNotePartDemoComponent,
           pathMatch: 'full'
@@ -69,10 +76,10 @@ import { AuthInterceptor } from '@cadmus/api';
             )
         },
         {
-          path: 'login',
+          path: 'items/:id',
           loadChildren: () =>
-            import('@cadmus/features/feature-login').then(
-              module => module.FeatureLoginModule
+            import('@cadmus/features/feature-item-editor').then(
+              module => module.FeatureItemEditorModule
             )
         },
         { path: '**', component: HomeComponent }
