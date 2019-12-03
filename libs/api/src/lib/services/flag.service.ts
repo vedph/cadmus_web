@@ -9,11 +9,12 @@ export class FlagService {
   constructor(
     private _http: HttpClient,
     private _error: ErrorService,
-    @Inject('apiEndpoint') private _apiEndpoint: string
+    @Inject('apiEndpoint') private _apiEndpoint: string,
+    @Inject('databaseId') private _databaseId: string
   ) {}
 
-  public getFlags(databaseId: string): Observable<FlagDefinition[]> {
-    const url = `${this._apiEndpoint}${databaseId}/flags`;
+  public getFlags(): Observable<FlagDefinition[]> {
+    const url = `${this._apiEndpoint}${this._databaseId}/flags`;
 
     return this._http.get<FlagDefinition[]>(url).pipe(
       retry(3),

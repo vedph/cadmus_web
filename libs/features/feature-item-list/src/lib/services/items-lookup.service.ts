@@ -14,7 +14,7 @@ export class ItemsLookupService {
   ) {}
 
   private loadFacets() {
-    this._facetService.getFacets(this._databaseId).subscribe(
+    this._facetService.getFacets().subscribe(
       facets => {
         this._store.update(state => {
           return {
@@ -30,7 +30,7 @@ export class ItemsLookupService {
   }
 
   private loadFlags() {
-    this._flagService.getFlags(this._databaseId).subscribe(
+    this._flagService.getFlags().subscribe(
       flags => {
         this._store.update(state => {
           return {

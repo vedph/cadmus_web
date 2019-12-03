@@ -9,15 +9,16 @@ export class FacetService {
   constructor(
     private _http: HttpClient,
     private _error: ErrorService,
-    @Inject('apiEndpoint') private _apiEndpoint: string
+    @Inject('apiEndpoint') private _apiEndpoint: string,
+    @Inject('databaseId') private _databaseId: string
   ) {}
 
   /**
    * Get a list of facets.
    * @returns Observable<IFacet[]> Observable with facets array.
    */
-  public getFacets(databaseId: string): Observable<FacetDefinition[]> {
-    const url = `${this._apiEndpoint}${databaseId}/facets`;
+  public getFacets(): Observable<FacetDefinition[]> {
+    const url = `${this._apiEndpoint}${this._databaseId}/facets`;
 
     return this._http.get<FacetDefinition[]>(url).pipe(
       retry(3),
@@ -34,10 +35,9 @@ export class FacetService {
    * @returns Observable<IFacet[]> Observable with facets array.
    */
   public getFacetParts(
-    databaseId: string,
     noRoles = false
   ): Observable<PartDefinition[]> {
-    let url = `${this._apiEndpoint}${databaseId}/facets/parts`;
+    let url = `${this._apiEndpoint}${this._databaseId}/facets/parts`;
     if (noRoles) {
       url += '?noRoles=true';
     }
