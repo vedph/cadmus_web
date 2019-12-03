@@ -67,21 +67,14 @@ import { FeatureOrthographyFragmentDemoComponent } from './demo/feature-orthogra
               module => module.FeatureItemListModule
             )
         },
-        { path: '**', component: HomeComponent },
         {
-          path: 'features-feature-item-list',
-          loadChildren: () =>
-            import('@cadmus/features/feature-item-list').then(
-              module => module.FeatureItemListModule
-            )
-        },
-        {
-          path: 'features-feature-login',
+          path: 'login',
           loadChildren: () =>
             import('@cadmus/features/feature-login').then(
               module => module.FeatureLoginModule
             )
-        }
+        },
+        { path: '**', component: HomeComponent }
       ],
       {
         initialNavigation: 'enabled',

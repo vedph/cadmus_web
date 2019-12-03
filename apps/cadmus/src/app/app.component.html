@@ -14,9 +14,39 @@
     <mat-menu #demoMenu>
       <a mat-menu-item routerLink="/demo/layers">Layers</a>
       <a mat-menu-item routerLink="/demo/note-part">Note part</a>
-      <a mat-menu-item routerLink="/demo/orthography-fragment">Orthography fragment</a>
+      <a mat-menu-item routerLink="/demo/orthography-fragment"
+        >Orthography fragment</a
+      >
     </mat-menu>
 
+    <div *ngIf="logged">
+      <img [src]="getGravatarUrl(user.userName, 32)" alt="user.userName" />
+      <mat-icon
+        class="small-icon"
+        *ngIf="user && user.roles.includes('admin')"
+        title="admin"
+        >build</mat-icon
+      >
+      <mat-icon
+        class="small-icon"
+        *ngIf="user && !user.isVerified"
+        title="You must verify your email address! Please check your mailbox {{
+          user.email
+        }}"
+        >feedback</mat-icon
+      >
+      <button mat-icon-button [mat-menu-trigger-for]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu x-position="before" #menu="matMenu">
+        <a mat-menu-item *ngIf="user && user.roles.includes('admin')">Admin</a>
+        <a mat-menu-item (click)="logout()">Logout</a>
+      </mat-menu>
+    </div>
+
+    <div *ngIf="!logged">
+      <a mat-button routerLink="/login" routerLinkActive="active">Login</a>
+    </div>
   </mat-toolbar>
 </header>
 

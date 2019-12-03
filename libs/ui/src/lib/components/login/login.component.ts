@@ -18,7 +18,7 @@ export interface Credentials {
 })
 export class LoginComponent implements OnInit {
   @Input()
-  public set disabled(value: boolean) {
+  public set validating(value: boolean) {
     if (value) {
       this.form.disable();
     } else {
@@ -42,6 +42,10 @@ export class LoginComponent implements OnInit {
     // form
     this.name = formBuilder.control(null, Validators.required);
     this.password = formBuilder.control(null, Validators.required);
+    this.form = formBuilder.group({
+      name: this.name,
+      password: this.password
+    });
   }
 
   ngOnInit() {}

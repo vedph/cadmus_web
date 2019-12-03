@@ -35,12 +35,18 @@
         {{ errorMessage }}
       </div>
 
-      <p class="loginButtons">
-        <button type="submit" mat-button>
+      <div>
+        <mat-progress-bar
+          mode="indeterminate"
+          *ngIf="validating"
+        ></mat-progress-bar>
+      </div>
+      <div class="loginButtons">
+        <button type="submit" mat-button color="primary" [disabled]="form.invalid">
           <mat-icon>check_circle</mat-icon>
           Login
         </button>
-      </p>
+      </div>
     </form>
   </mat-card-content>
 </mat-card>

@@ -4,11 +4,15 @@ import { User } from '@cadmus/core';
 import { STORAGE_AUTH_USER_KEY } from '@cadmus/api';
 
 export interface AuthState {
-  user: User | null;
+  user?: User;
+  validating?: boolean;
+  error?: string;
 }
 
 export const initialState: AuthState = {
-  user: JSON.parse(localStorage.getItem(STORAGE_AUTH_USER_KEY)) || null
+  user: JSON.parse(localStorage.getItem(STORAGE_AUTH_USER_KEY)) || null,
+  validating: false,
+  error: null
 };
 
 @Injectable({ providedIn: 'root' })
@@ -19,7 +23,19 @@ export class AuthStore extends Store<AuthState> {
   }
 
   public login(user: User) {
-    this.update({ user });
+    this.update({
+      user: user,
+      validating: false,
+      error: null
+    });
+  }
+
+  public error(error: string) {
+    this.update({
+      user: null,
+      validating: false,
+      error: error
+    });
   }
 
   public logout() {

@@ -21,3 +21,10 @@ mat-card-content {
   color: white;
   background-color: red;
 }
+
+.loginButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
