@@ -27,6 +27,7 @@ export interface Item extends HasVersion {
   facetId: string;
   sortKey: string;
   flags: number;
+  parts?: Part[];
 }
 
 /**

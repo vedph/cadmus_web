@@ -20,21 +20,27 @@ export class ItemEditorService {
       facetParts: this._facetService.getFacetParts(),
       facets: this._facetService.getFacets(),
       flags: this._flagService.getFlags()
-    })
-    .subscribe(result => {
-      this._itemStore.setLoading(false);
-      this._itemStore.setError(null);
+    }).subscribe(
+      result => {
+        this._itemStore.setLoading(false);
+        this._itemStore.setError(null);
 
-      this._itemStore.update({
-        item: result.item,
-        facets: result.facets,
-        flags: result.flags
-      });
-      // TODO: partGroups from result.facetParts
-    }, error => {
-      this._itemStore.setLoading(false);
-      this._itemStore.setError('Error loading item ' + itemId);
-      console.error(error);
-    });
+        this._itemStore.update({
+          item: result.item,
+          partGroups: this._itemService.groupParts(
+            result.item.parts,
+            result.facetParts
+          ),
+          facetParts: result.facetParts,
+          facets: result.facets,
+          flags: result.flags
+        });
+      },
+      error => {
+        this._itemStore.setLoading(false);
+        this._itemStore.setError('Error loading item ' + itemId);
+        console.error(error);
+      }
+    );
   }
 }
