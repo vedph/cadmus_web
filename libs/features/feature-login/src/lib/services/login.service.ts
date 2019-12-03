@@ -16,17 +16,19 @@ export class LoginService {
   public login(name: string, password: string) {
     this._authStore.update({ validating: true });
 
-    this._authService.login(name, password).pipe(
-      map(user => {
+    this._authService
+      .login(name, password)
+      .pipe(
+        catchError(error => {
+          console.error(error);
+          this._authStore.error('Invalid login');
+          return of(error);
+        })
+      )
+      .subscribe(user => {
         this._authStore.login(user);
         this._router.navigate(['/']);
-      }),
-      catchError(error => {
-        console.error(error);
-        this._authStore.error('Invalid login');
-        return of(error);
-      })
-    );
+      });
   }
 
   public logout() {

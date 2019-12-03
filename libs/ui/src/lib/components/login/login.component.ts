@@ -51,11 +51,12 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
 
   submit() {
-    if (this.form.valid) {
-      this.submitted.emit({
-        name: this.name.value,
-        password: this.password.value
-      });
+    if (this.form.invalid) {
+      return;
     }
+    this.submitted.emit({
+      name: this.name.value,
+      password: this.password.value
+    });
   }
 }

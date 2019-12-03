@@ -44,10 +44,12 @@ ui <|-- "general-ui"
 ui <|-- "philology-ui"
 ui <|-- "feature-layer-demo"
 ui <|-- "feature-item-list"
+ui <|-- "feature-login"
 "general-ui" <|-- cadmus
 "philology-ui" <|-- cadmus
 "feature-layer-demo" <|-- cadmus
 "feature-item-list" <|-- cadmus
+"feature-login" <|-- cadmus
 cadmus <|-- "cadmus-e2e"
 @enduml
 ```

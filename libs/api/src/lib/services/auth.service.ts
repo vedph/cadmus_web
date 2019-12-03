@@ -40,7 +40,6 @@ export class AuthService {
 
   constructor(
     private _http: HttpClient,
-    private _error: ErrorService,
     private _localStorage: LocalStorageService,
     @Inject('apiEndpoint') private _apiEndpoint: string
   ) {
@@ -58,7 +57,7 @@ export class AuthService {
   public login(name: string, password: string): Observable<User> {
     return this._http
       .post<any>(
-        this._apiEndpoint + `authentication/login`,
+        this._apiEndpoint + `auth/login`,
         {
           Username: name,
           Password: password
@@ -116,7 +115,7 @@ export class AuthService {
         'Content-Type': 'application/json'
       })
     };
-    return this._http.get(this._apiEndpoint + 'logout', options);
+    return this._http.get(this._apiEndpoint + 'auth/logout', options);
   }
 
   /**
