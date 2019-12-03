@@ -172,6 +172,16 @@ export interface FlagDefinition {
 }
 
 /**
+ * A group of parts. Usually the item's parts are grouped according
+ * to their metadata, and presented in this way.
+ */
+export interface PartGroup {
+  key: string;
+  label: string;
+  parts: Part[];
+}
+
+/**
  * Essential information about a user.
  */
 export interface UserInfo {

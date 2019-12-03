@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { config } from '../environments/environment';
 import { AppComponent } from './app.component';
@@ -25,6 +25,7 @@ import { HomeComponent } from './home/home.component';
 import { MaterialModule } from '@cadmus/material';
 import { FeatureNotePartDemoComponent } from './demo/feature-note-part-demo/feature-note-part-demo.component';
 import { FeatureOrthographyFragmentDemoComponent } from './demo/feature-orthography-fragment-demo/feature-orthography-fragment-demo.component';
+import { AuthInterceptor } from '@cadmus/api';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,13 @@ import { FeatureOrthographyFragmentDemoComponent } from './demo/feature-orthogra
     {
       provide: 'databaseId',
       useValue: config.databaseId
+    },
+    // HTTP interceptor
+    // https://medium.com/@ryanchenkie_40935/angular-authentication-using-the-http-client-and-http-interceptors-2f9d1540eb8
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
     }
   ],
   bootstrap: [AppComponent]
