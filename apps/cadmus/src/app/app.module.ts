@@ -62,9 +62,10 @@ import { FeatureOrthographyFragmentDemoComponent } from './demo/feature-orthogra
         },
         {
           path: 'items',
-          loadChildren: () => import('@cadmus/features/feature-item-list').then(
-            module => module.FeatureItemListModule
-          )
+          loadChildren: () =>
+            import('@cadmus/features/feature-item-list').then(
+              module => module.FeatureItemListModule
+            )
         },
         { path: '**', component: HomeComponent },
         {
@@ -72,6 +73,13 @@ import { FeatureOrthographyFragmentDemoComponent } from './demo/feature-orthogra
           loadChildren: () =>
             import('@cadmus/features/feature-item-list').then(
               module => module.FeatureItemListModule
+            )
+        },
+        {
+          path: 'features-feature-login',
+          loadChildren: () =>
+            import('@cadmus/features/feature-login').then(
+              module => module.FeatureLoginModule
             )
         }
       ],

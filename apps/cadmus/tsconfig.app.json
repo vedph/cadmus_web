@@ -8,7 +8,9 @@
   "include": [
     "**/*.ts",
     "../../libs/features/feature-layer-demo/src/index.ts",
-    "../../libs/features/feature-item-list/src/index.ts"
+    "../../libs/features/feature-item-list/src/index.ts",
+
+    "../../libs/features/feature-login/src/index.ts"
   ],
   "exclude": ["src/test-setup.ts", "**/*.spec.ts"]
 }

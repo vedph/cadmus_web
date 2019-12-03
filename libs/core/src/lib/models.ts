@@ -179,3 +179,77 @@ export interface UserInfo {
   firstName: string;
   lastName: string;
 }
+
+/**
+ * Login credentials.
+ */
+export interface LoginCredentials {
+  name: string;
+  password: string;
+}
+
+/**
+ * Login result.
+ */
+export interface LoginResult {
+  token: string;
+  expiration: Date;
+}
+
+export interface ExistResult {
+  entry: string;
+  isExisting: boolean;
+}
+
+export interface RegistrationModel {
+  email: string;
+  name: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+}
+
+/**
+ * Authenticated user data.
+ */
+export interface User {
+  userName: string;
+  email: string;
+  roles: string[];
+  isVerified?: boolean;
+  firstName: string;
+  lastName: string;
+}
+
+/**
+ * An editable user.
+ */
+export interface EditableUser {
+  userName: string;
+  email: string;
+  emailConfirmed: boolean;
+  lockoutEnabled: boolean;
+  lockoutEnd?: Date;
+  firstName: string;
+  lastName: string;
+  roles: string[];
+}
+
+/**
+ * User filter parameters.
+ */
+export interface UserFilter {
+  pageNumber: number;
+  pageSize: number;
+  name?: string;
+}
+
+/**
+ * Password change data.
+ */
+export interface PasswordChange {
+  email: string;
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
