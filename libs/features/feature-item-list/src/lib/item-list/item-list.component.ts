@@ -34,7 +34,7 @@ export class ItemListComponent implements OnInit {
     filter: ItemFilter
   ): () => Observable<PaginationResponse<ItemInfo>> {
     return () =>
-      this._itemsService.getItems(this._databaseId, filter).pipe(
+      this._itemsService.getItems(filter).pipe(
         // adapt server results to the paginator plugin
         map((p: DataPage<ItemInfo>) => {
           return {
