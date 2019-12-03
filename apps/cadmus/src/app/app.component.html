@@ -5,7 +5,6 @@
     /></span>
     <a mat-button routerLink="/home">Cadmus</a>
 
-
     <a mat-button routerLink="/home" routerLinkActive="active">Home</a>
     <a mat-button routerLink="/items" routerLinkActive="active">Items</a>
 
@@ -20,8 +19,8 @@
 
     <span class="tb-fill-remaining-space"></span>
 
-    <div *ngIf="logged" fxLayout="row">
-      <img [src]="getGravatarUrl(user.email, 32)" alt="user.userName" />
+    <div *ngIf="logged" fxLayout="row" fxLayoutAlign="start center">
+      <img [src]="getGravatarUrl(user.email, 32)" [alt]="user.userName" />
       <mat-icon
         class="small-icon"
         *ngIf="user && user.roles.includes('admin')"
