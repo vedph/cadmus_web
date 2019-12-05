@@ -5,7 +5,11 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content fxLayout="row">
-    <div *ngIf="paginator.isLoading$ | async" fxFlex fxLayoutAlign="center center">
+    <div
+      *ngIf="paginator.isLoading$ | async"
+      fxFlex
+      fxLayoutAlign="center center"
+    >
       <mat-spinner [diameter]="48" [strokeWidth]="4"></mat-spinner>
     </div>
 
@@ -24,6 +28,8 @@
             <th>facet</th>
             <th>title</th>
             <th>description</th>
+            <th>user</th>
+            <th>last saved</th>
           </thead>
           <tbody>
             <tr *ngFor="let item of pagination.data">
@@ -52,6 +58,8 @@
               <td>{{ item.facet }}</td>
               <td>{{ item.title }}</td>
               <td>{{ item.description }}</td>
+              <td>{{ item.userId }}</td>
+              <td>{{ item.timeModified | amLocal | amTimeAgo }}</td>
             </tr>
           </tbody>
         </table>
@@ -60,7 +68,7 @@
           fxFlexAlign="start"
           [length]="pagination.total"
           [pageSize]="pageSize?.value"
-          [pageSizeOptions]="[20,50,75,100]"
+          [pageSizeOptions]="[20, 50, 75, 100]"
           [pageIndex]="pagination.currentPage - 1"
           [showFirstLastButtons]="true"
           (page)="pageChanged($event)"
@@ -68,4 +76,16 @@
       </div>
     </div>
   </mat-card-content>
+  <mat-card-actions>
+    <button
+      type="button"
+      color="primary"
+      mat-raised-button
+      matTooltip="Add a new item"
+      (click)="addItem()"
+    >
+      <mat-icon>add_circle</mat-icon>
+      add item
+    </button>
+  </mat-card-actions>
 </mat-card>

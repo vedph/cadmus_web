@@ -24,7 +24,11 @@ export class ItemEditorComponent implements OnInit {
     private _itemEditorService: ItemEditorService) { }
 
   ngOnInit() {
-    // TODO:
+    this.item$ = this._query.select(state => state.item);
+    this.partGroups$ = this._query.select(state => state.partGroups);
+    this.facetParts$ = this._query.select(state => state.facetParts);
+    this.facets$ = this._query.select(state => state.facets);
+    this.flags$ = this._query.select(state => state.flags);
     this.loading$ = this._query.selectLoading();
     this.error$ = this._query.selectError();
   }
