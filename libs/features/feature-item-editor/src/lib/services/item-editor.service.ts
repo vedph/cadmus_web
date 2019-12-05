@@ -12,6 +12,10 @@ export class ItemEditorService {
     private _flagService: FlagService
   ) {}
 
+  /**
+   * Load the item with the specified ID and all the required lookup data
+   * into the item store.
+   */
   public load(itemId: string) {
     this._itemStore.setLoading();
 

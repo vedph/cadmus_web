@@ -2,6 +2,14 @@ import { StoreConfig, Store } from '@datorama/akita';
 import { Item, PartDefinition, PartGroup, FacetDefinition, FlagDefinition } from '@cadmus/core';
 import { Injectable } from '@angular/core';
 
+/**
+ * Item editor state. This includes the item itself, plus its parts grouped
+ * according to their metadata (partGroups), and lookup data for available
+ * parts definitions, facets definitions, and flags definitions. The available
+ * parts definitions are derived from merging all the parts definitions from
+ * each facet. This should provide a list of all the parts types available
+ * for an item.
+ */
 export interface ItemState {
   item?: Item;
   partGroups?: PartGroup[];

@@ -202,8 +202,11 @@ export class ItemService {
   }
 
   /**
-   * Group the specified parts according to the specified part definitions. This is
-   * used to list an item's part when displaying them in editing.
+   * Group the specified item's parts according to the specified part
+   * definitions. This is used to list item's parts in editing it.
+   * Each part is grouped under a specific group according to its groupKey,
+   * and the parts of each group are sorted according to their sortyKey.
+   *
    * @param parts The parts to group.
    * @param partDefs The part definitions to use for grouping.
    * @return The groups.
@@ -213,7 +216,9 @@ export class ItemService {
     const groupedDefs = this.groupBy(
       partDefs.sort((a, b) => {
         return a.sortKey.localeCompare(b.sortKey);
-      }), 'groupKey');
+      }),
+      'groupKey'
+    );
 
     const groups: PartGroup[] = [];
 
@@ -233,12 +238,15 @@ export class ItemService {
       // for each PartDefinition in the group
       groupedDefs[key].forEach((def: PartDefinition) => {
         // get all the item's parts belonging to this parts group
-        const filteredParts: Part[] = parts.filter(p => {
-          return p.typeId === def.typeId
-            && (!p.roleId || p.roleId === def.roleId);
-        }).sort((a, b) => {
-          return (a.roleId || '').localeCompare(b.roleId || '');
-        });
+        const filteredParts: Part[] = parts
+          .filter(p => {
+            return (
+              p.typeId === def.typeId && (!p.roleId || p.roleId === def.roleId)
+            );
+          })
+          .sort((a, b) => {
+            return (a.roleId || '').localeCompare(b.roleId || '');
+          });
 
         // add each of these parts to the group's parts
         filteredParts.forEach((p: Part) => {
