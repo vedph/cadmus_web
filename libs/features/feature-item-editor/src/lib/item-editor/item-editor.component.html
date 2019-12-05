@@ -1,1 +1,242 @@
-<p>item-editor works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      {{ (item$ | async)?.title || 'Loading item...' }}
+    </mat-card-title>
+    <mat-card-subtitle>
+      {{ (item$ | async)?.description }}
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content *ngIf="item$ | async as item">
+    <p>
+      Last saved by {{ item.userId }} at
+      {{ item.timeModified | date: 'yyyy-MM-dd HH:mm:ss' }} ({{
+        item.timeModified | amLocal | amTimeAgo
+      }}).
+    </p>
+    <!-- item content -->
+    <mat-tab-group [selectedIndex]="1">
+      <!-- metadata -->
+      <mat-tab label="Metadata">
+        <form [formGroup]="metadata" (ngSubmit)="save()">
+          <!-- title -->
+          <div>
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                id="title"
+                placeholder="title"
+                formControlName="title"
+              />
+              <mat-error
+                *ngIf="
+                  title.hasError('required') && (title.touched || title.dirty)
+                "
+                >enter title</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  title.hasError('maxLength') && (title.touched || title.dirty)
+                "
+              >
+                title too long</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <!-- sortKey -->
+          <div>
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                id="sortKey"
+                placeholder="sort key"
+                formControlName="sortKey"
+              />
+              <mat-error
+                *ngIf="
+                  sortKey.hasError('required') &&
+                  (sortKey.touched || sortKey.dirty)
+                "
+                >enter sort key</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  sortKey.hasError('maxLength') &&
+                  (sortKey.touched || sortKey.dirty)
+                "
+                >sort key too long</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <!-- description -->
+          <div>
+            <mat-form-field>
+              <input
+                matInput
+                id="description"
+                placeholder="description"
+                formControlName="description"
+              />
+              <mat-error
+                *ngIf="
+                  description.hasError('required') &&
+                  (description.touched || description.dirty)
+                "
+                >enter description</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  description.hasError('maxLength') &&
+                  (description.touched || description.dirty)
+                "
+                >description too long</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <!-- facet -->
+          <div>
+            <mat-form-field style="width:400px">
+              <mat-select
+                placeholder="facet"
+                formControlName="facet"
+                required="true"
+              >
+                <mat-option [value]="null">(any)</mat-option>
+                <mat-option *ngFor="let f of facets$ | async" [value]="f.id">
+                  {{ f.label }}
+                </mat-option>
+              </mat-select>
+              <mat-error>please select a facet</mat-error>
+            </mat-form-field>
+          </div>
+          <!-- flags -->
+          <div *ngIf="flags$ | async as flags">
+            <mat-form-field style="width:400px">
+              <mat-select
+                multiple="true"
+                placeholder="flags"
+                formControlName="flags"
+              >
+                <mat-option *ngFor="let f of flags" [value]="f.id">
+                  {{ f.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <br />
+          <div>
+            <button
+              type="submit"
+              mat-raised-button
+              color="primary"
+              [disabled]="loading$ | async"
+              matTooltip="Save metadata"
+            >
+              <mat-icon>save</mat-icon> save
+            </button>
+          </div>
+        </form>
+      </mat-tab>
+
+      <!-- parts -->
+      <mat-tab label="Parts" *ngIf="id">
+        <div style="margin-left: 32px">
+          <form [formGroup]="newPart">
+            <mat-form-field style="width:120px">
+              <mat-select
+                placeholder="part"
+                formControlName="partType"
+                required
+              >
+                <mat-option
+                  *ngFor="let p of facetParts$ | async"
+                  [value]="p.typeId"
+                >
+                  {{ p.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error>part type required</mat-error>
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field style="width: 120px">
+              <input
+                matInput
+                type="text"
+                spellcheck="false"
+                formControlName="partRole"
+                placeholder="role"
+              />
+              <mat-error>part role too long</mat-error>
+            </mat-form-field>
+            <button
+              mat-icon-button
+              color="primary"
+              type="button"
+              [disabled]="(loading$ | async) || !newPart.valid"
+              (click)="addPart()"
+              matTooltip="Add a new part of the selected type"
+            >
+              <mat-icon>add_circle</mat-icon>
+            </button>
+          </form>
+        </div>
+
+        <mat-expansion-panel
+          *ngFor="let group of partGroups$ | async"
+          [expanded]="true"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{ group.label }}</mat-panel-title>
+            <mat-panel-description>{{
+              group.parts.length
+            }}</mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <table>
+            <thead>
+              <tr>
+                <th style="width:85px"></th>
+                <th>type</th>
+                <th>role</th>
+                <th>modified</th>
+                <th>user</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let part of group.parts">
+                <!-- edit -->
+                <td>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    matTooltip="Edit this part"
+                    [disabled]="loading$ | async"
+                    (click)="editPart(part)"
+                  >
+                    <mat-icon>create</mat-icon>
+                  </button>
+                  <!-- delete -->
+                  <button
+                    mat-icon-button
+                    type="button"
+                    matTooltip="Delete this part"
+                    [disabled]="loading$ | async"
+                    (click)="deletePart(part)"
+                  >
+                    <mat-icon color="warn">clear</mat-icon>
+                  </button>
+                </td>
+                <td>{{ part.typeId }}</td>
+                <td>{{ part.roleId }}</td>
+                <td>{{ part.timeModified | amLocal | amTimeAgo }}</td>
+                <td>{{ part.userId }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-expansion-panel>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>
