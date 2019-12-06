@@ -1,12 +1,5 @@
 import { StoreConfig, Store } from '@datorama/akita';
-import {
-  Item,
-  PartDefinition,
-  PartGroup,
-  FacetDefinition,
-  FlagDefinition,
-  ThesauriSet
-} from '@cadmus/core';
+import { ThesauriSet } from '@cadmus/core';
 import { Injectable } from '@angular/core';
 import { NotePart } from '@cadmus/parts/general/general-ui';
 

@@ -29,6 +29,7 @@ To include the part UI in your app, add a corresponding library for its page und
 @startuml
 core <|-- api
 core <|-- "general-ui"
+core <|-- "general-feature"
 core <|-- "philology-ui"
 core <|-- "feature-layer-demo"
 core <|-- "feature-item-list"
@@ -41,11 +42,14 @@ material <|-- "feature-layer-demo"
 material <|-- "feature-item-list"
 material <|-- cadmus
 ui <|-- "general-ui"
+ui <|-- "general-feature"
 ui <|-- "philology-ui"
 ui <|-- "feature-layer-demo"
 ui <|-- "feature-item-list"
 ui <|-- "feature-login"
 "general-ui" <|-- cadmus
+"general-ui" <|-- "general-feature"
+"general-feature" <|-- cadmus
 "philology-ui" <|-- cadmus
 "feature-layer-demo" <|-- cadmus
 "feature-item-list" <|-- cadmus
