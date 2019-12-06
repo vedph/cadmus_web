@@ -49,10 +49,17 @@ ui <|-- "feature-login"
 "philology-ui" <|-- cadmus
 "feature-layer-demo" <|-- cadmus
 "feature-item-list" <|-- cadmus
+"feature-item-editor" <|-- cadmus
 "feature-login" <|-- cadmus
 cadmus <|-- "cadmus-e2e"
 @enduml
 ```
+
+### Routes
+
+- `/items`: list of items.
+- `/items/<id>`: single item editor. This allows editing the item's metadata, and shows a list of its parts, where you can add or remove parts. Item's `id` is equal to `new` for a new item.
+- `/items/<id>/<part-typeid>/<part-id>?roleId=<role-id>`: single part editor. Role ID is optional, and can be `default` for a null role.
 
 ### Adding Parts
 
@@ -62,7 +69,7 @@ To **add a new parts library**:
 
 To **add a new part**:
 
-1. add the part model (derived from `Part`), its type ID constant, and its JSON schema constant to `models.ts`. For instance:
+1. add the part *model* (derived from `Part`), its type ID constant, and its JSON schema constant to `models.ts`. For instance:
 
 ```ts
 import { Part } from '@cadmus/core';
@@ -96,9 +103,9 @@ export const NOTE_PART_SCHEMA = {
 };
 ```
 
-2. add a part editor _dumb_ component named after the part (e.g. `NotePartComponent` after `NotePart`), and extending `PartEditorBaseComponent<T>` where `T` is the part's type.
+2. add a *part editor dumb component* named after the part (e.g. `NotePartComponent` after `NotePart`), and extending `PartEditorBaseComponent<T>` where `T` is the part's type.
 
-3. add a part editor demo _dumb_ component named after the part (e.g. `NotePartComponentDemo` after `NotePart`). This will essentially be a wrapper of two distinct controls: the part's editor component, and a `JsonEditorResourcesComponent`. These components are mutually connected, so that you can edit the JSON code for the part (and eventually for its thesauri sets) and set the visual editor to it, or vice-versa.
+3. add a *part editor demo dumb component* named after the part (e.g. `NotePartComponentDemo` after `NotePart`). This will essentially be a wrapper of two distinct controls: the part's editor component, and a `JsonEditorResourcesComponent`. These components are mutually connected, so that you can edit the JSON code for the part (and eventually for its thesauri sets) and set the visual editor to it, or vice-versa.
 
 ### Part Editors
 

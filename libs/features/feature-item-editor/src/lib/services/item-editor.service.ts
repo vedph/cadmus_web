@@ -53,17 +53,24 @@ export class ItemEditorService {
   }
 
   public save(item: Item) {
+    this._itemStore.setLoading();
     this._itemService
       .addItem(item)
       .pipe(catchError(this._errorService.handleError))
-      .subscribe(_ => {
-        this._itemStore.update(state => {
-          return {
-            ...state,
-            item: item
-          };
-        });
-      });
+      .subscribe(
+        _ => {
+          this._itemStore.setLoading(false);
+          this._itemStore.update(state => {
+            return {
+              ...state,
+              item: item
+            };
+          });
+        },
+        error => {
+          this._itemStore.setLoading(false);
+        }
+      );
   }
 
   public deletePart(id: string) {
@@ -72,23 +79,26 @@ export class ItemEditorService {
     this._itemService
       .deletePart(id)
       .pipe(catchError(this._errorService.handleError))
-      .subscribe(_ => {
-        // once deleted, update the store by removing the deleted part
-        this._itemStore.update(state => {
-          for (let i = 0; i < state.partGroups.length; i++) {
-            for (let j = 0; j < state.partGroups[i].parts.length; j++) {
-              if (state.partGroups[i].parts[j].id === id) {
-                state.partGroups[i].parts.splice(j, 1);
-                i = state.partGroups.length;
-                break;
+      .subscribe(
+        _ => {
+          // once deleted, update the store by removing the deleted part
+          this._itemStore.update(state => {
+            for (let i = 0; i < state.partGroups.length; i++) {
+              for (let j = 0; j < state.partGroups[i].parts.length; j++) {
+                if (state.partGroups[i].parts[j].id === id) {
+                  state.partGroups[i].parts.splice(j, 1);
+                  i = state.partGroups.length;
+                  break;
+                }
               }
+              this._itemStore.setLoading(false);
+              return { ...state };
             }
-            this._itemStore.setLoading(false);
-            return { ...state };
-          }
-        });
-      }, error => {
-        this._itemStore.setLoading(false);
-      });
+          });
+        },
+        error => {
+          this._itemStore.setLoading(false);
+        }
+      );
   }
 }

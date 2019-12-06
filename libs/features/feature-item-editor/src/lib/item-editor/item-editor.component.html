@@ -9,10 +9,9 @@
   </mat-card-header>
   <mat-card-content *ngIf="item$ | async as item">
     <p>
-      Last saved by {{ item.userId }} at
-      {{ item.timeModified | date: 'yyyy-MM-dd HH:mm:ss' }} ({{
-        item.timeModified | amLocal | amTimeAgo
-      }}).
+      Last saved {{ item.timeModified | amLocal | amTimeAgo }} by
+      {{ item.userId }} at
+      {{ item.timeModified | date: 'yyyy-MM-dd HH:mm:ss' }}.
     </p>
     <!-- item content -->
     <mat-tab-group [selectedIndex]="1">

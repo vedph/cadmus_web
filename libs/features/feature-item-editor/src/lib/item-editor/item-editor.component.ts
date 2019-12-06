@@ -153,27 +153,7 @@ export class ItemEditorComponent implements OnInit {
       });
     }
     item.flags = flags;
-
-    // TODO save item
-
-    // this._itemService.addItem(this.item).subscribe(
-    //   item => {
-    //     this.metadata.markAsPristine();
-    //     this.item = item;
-    //     this.id = item.id;
-    //     this.updateForm();
-    //     this._snackbar.open('Item metadata saved successfully', 'OK', {
-    //       duration: 2000
-    //     });
-    //   },
-    //   error => {
-    //     console.error(error);
-    //     this._snackbar.open('Error saving item metadata', 'OK');
-    //   },
-    //   () => {
-    //     this.busy = false;
-    //   }
-    // );
+    this._itemEditorService.save(item);
   }
 
   public addPart() {
@@ -202,13 +182,13 @@ export class ItemEditorComponent implements OnInit {
     let route: string;
     const extras: any = {};
     if (isLayer) {
-      route = `/item/${part.itemId}/text-layer/${part.id}/`;
+      route = `/items/${part.itemId}/text-layer/${part.id}/`;
       const frTypeRole = this._itemService.getFragmentTypeAndRole(part.roleId);
       route += frTypeRole[1] ? frTypeRole[1] : 'default';
       extras.queryParams = {};
       extras.queryParams.frType = frTypeRole[0];
     } else {
-      route = `/item/${part.itemId}/${part.typeId}/${part.id}/`;
+      route = `/items/${part.itemId}/${part.typeId}/${part.id}/`;
       route += part.roleId ? part.roleId : 'default';
     }
 
