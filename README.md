@@ -59,13 +59,20 @@ cadmus <|-- "cadmus-e2e"
 
 - `/items`: list of items.
 - `/items/<id>`: single item editor. This allows editing the item's metadata, and shows a list of its parts, where you can add or remove parts. Item's `id` is equal to `new` for a new item.
-- `/items/<id>/<part-typeid>/<part-id>?roleId=<role-id>`: single part editor. Role ID is optional, and can be `default` for a null role.
+- `/items/<id>/<part-group>/<part-typeid>/<part-id>?rid=<role-id>`: single part editor. Role ID is optional.
+- `/items/<id>/<part-group>/text-layer/<part-id>/<fr-typeid>?rid=<role-id>`: single part's text layer editor. Role ID is optional.
+- `/items/<id>/<part-group>/text-layer/<part-id>/<fr-typeid>/<loc>?rid=<role-id>`: single part's fragment editor. Role ID is optional.
+
+Note that the part-editing routes always have a part-group key. This comes from the `groupKey` property of each part's definition; if such a property is not defined (but in practice this should never happen), it defaults to `default`.
+
+Grouping parts is thus required, as far as we want to be able to lazily load our part-related modules. For instance, all our generic parts will be under the same `generic` group key, and their code will be found in the corresponding, lazy-loaded module. When editing an item's part, the frontend looks at the part definitions searching for the first one matching the part's type ID; then, it uses the corresponding part's group key to build the edit URL.
 
 ### Adding Parts
 
 To **add a new parts library**:
 
-- create a new Nrwl Angular library named `<partgroup>-ui` under `parts/<partgroup>` (use simple module name in generator). For instance, for general purpose parts I created `parts/general/general-ui`.
+- create a new Nrwl Angular library named `<partgroup>-ui` under `parts/<partgroup>` (use simple module name in generator). For instance, for general purpose parts I created `parts/general/general-ui`. This will host dumb components for editing and their demo counterparts.
+- create a new Nrwl Angular library named `<partgroup>-feature` under `parts/<partgroup>` (use simple module name in generator). For instance, for general purpose parts I created `parts/general/general-feature`. This will host the pages (features) for each part. Every page wraps the dumb UI component into a component which has a corresponding Akita's state, and gets its data pushed via observables. Also, each page has a route (see above).
 
 To **add a new part**:
 

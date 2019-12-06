@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { distinctUntilChanged, map } from 'rxjs/operators';
-import { Part, Thesaurus } from '@cadmus/core';
+import { Part, Thesaurus, ThesauriSet } from '@cadmus/core';
 import { FormGroup } from '@angular/forms';
 
 // Angular abstract components:
@@ -58,10 +58,10 @@ export class PartEditorBaseComponent<T = Part> implements OnInit {
    * The optional thesauri to be used within this editor.
    */
   @Input()
-  public get thesauri(): { [key: string]: Thesaurus } | null {
+  public get thesauri(): ThesauriSet | null {
     return this._thesauri;
   }
-  public set thesauri(value: { [key: string]: Thesaurus } | null) {
+  public set thesauri(value: ThesauriSet | null) {
     this._thesauri = value;
     this.onThesauriSet();
   }

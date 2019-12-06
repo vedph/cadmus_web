@@ -126,6 +126,16 @@ export interface Thesaurus {
 }
 
 /**
+ * A set of thesauri which get passed to an editor component.
+ * In the set, each thesaurus is identified by an arbitrarily
+ * defined key, which is unique only within the context of the editor
+ * consuming the set, and refers to frontend only.
+ */
+export interface ThesauriSet {
+  [key: string]: Thesaurus;
+}
+
+/**
  * Part definition in a facet.
  */
 export interface PartDefinition {

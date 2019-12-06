@@ -111,7 +111,7 @@
             </mat-form-field>
           </div>
           <!-- flags -->
-          <div *ngIf="flags$ | async as flags">
+          <div *ngIf="flagBits$ | async as flags">
             <mat-form-field style="width:400px">
               <mat-select
                 multiple="true"

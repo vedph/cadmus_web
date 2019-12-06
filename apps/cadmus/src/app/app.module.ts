@@ -82,7 +82,14 @@ import { AuthInterceptor } from '@cadmus/api';
               module => module.FeatureItemEditorModule
             )
         },
-        { path: '**', component: HomeComponent }
+        {
+          path: 'items/:iid/general',
+          loadChildren: () =>
+            import('@cadmus/parts/general/general-feature').then(
+              module => module.GeneralFeatureModule
+            )
+        },
+        { path: '**', component: HomeComponent },
       ],
       {
         initialNavigation: 'enabled',

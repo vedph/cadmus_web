@@ -84,7 +84,7 @@ export class ItemEditorComponent implements OnInit {
       Validators.maxLength(1000)
     ]);
     this.facet = formBuilder.control(null, Validators.required);
-    this.flags = formBuilder.control(null);
+    this.flags = formBuilder.control([]);
 
     this.metadata = formBuilder.group({
       title: this.title,
@@ -115,6 +115,30 @@ export class ItemEditorComponent implements OnInit {
     }
   }
 
+  private getFlags(value: number): FlagDefinition[] {
+    const flags = this._query.getValue().flags;
+    if (!flags) {
+      return [];
+    }
+
+    const results: FlagDefinition[] = [];
+
+    for (let i = 0; i < 32; i++) {
+      // tslint:disable-next-line:no-bitwise
+      const n = 1 << i;
+      // tslint:disable-next-line:no-bitwise
+      if ((n & value) === n) {
+        const flag = flags.find(f => {
+          return f.id === n;
+        });
+        if (flag) {
+          results.push(flag);
+        }
+      }
+    }
+    return results;
+  }
+
   private updateMetadataForm(item: Item) {
     if (!item) {
       this.metadata.reset();
@@ -123,7 +147,7 @@ export class ItemEditorComponent implements OnInit {
       this.sortKey.setValue(item.sortKey);
       this.description.setValue(item.description);
       this.facet.setValue(item.facetId);
-      this.flags.setValue(item.flags);
+      this.flags.setValue(this.getFlags(item.flags));
       this.metadata.markAsPristine();
     }
   }
@@ -171,6 +195,17 @@ export class ItemEditorComponent implements OnInit {
     this._router.navigate([route]);
   }
 
+  private getGroupKeyFromPartTypeId(typeId: string): string {
+    const defs = this._query.getValue().facetParts;
+    if (!defs) {
+      return 'default';
+    }
+    const def = defs.find(d => {
+      return d.typeId === typeId;
+    });
+    return def ? def.groupKey : 'default';
+  }
+
   public editPart(part: Part) {
     // determine if the selected part is a text layer part
     const def = this._query
@@ -180,20 +215,39 @@ export class ItemEditorComponent implements OnInit {
 
     // build the target route to the appropriate part editor
     let route: string;
-    const extras: any = {};
+    let rid: string = null;
+    const groupKey = this.getGroupKeyFromPartTypeId(part.typeId);
+    // /items/<id>/<part-group>/ + ...
+    const baseRoute = `/items/${part.itemId}/${groupKey}`;
+
     if (isLayer) {
-      route = `/items/${part.itemId}/text-layer/${part.id}/`;
+      // /items/<id>/<part-group>/ +
+      // text-layer/<part-id>/<fr-typeid>?rid=<role-id>
       const frTypeRole = this._itemService.getFragmentTypeAndRole(part.roleId);
-      route += frTypeRole[1] ? frTypeRole[1] : 'default';
-      extras.queryParams = {};
-      extras.queryParams.frType = frTypeRole[0];
+      route = baseRoute + `/text-layer/${part.id}/${frTypeRole[0]}`;
+      if (frTypeRole[1]) {
+        rid = frTypeRole[1];
+      }
     } else {
-      route = `/items/${part.itemId}/${part.typeId}/${part.id}/`;
-      route += part.roleId ? part.roleId : 'default';
+      // /items/<id>/<part-group>/ +
+      // <part-typeid>/<part-id>?rid=<role-id>
+      route = `/items/${part.itemId}/${groupKey}/${part.typeId}/${part.id}`;
+      if (part.roleId) {
+        rid = part.roleId;
+      }
     }
 
     // navigate to the editor
-    this._router.navigate([route], extras);
+    this._router.navigate(
+      [route],
+      rid
+        ? {
+            queryParams: {
+              rid: part.roleId
+            }
+          }
+        : {}
+    );
   }
 
   public deletePart(part: Part) {

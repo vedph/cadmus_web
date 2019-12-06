@@ -37,6 +37,9 @@
       ],
       "@cadmus/features/feature-item-editor": [
         "libs/features/feature-item-editor/src/index.ts"
+      ],
+      "@cadmus/parts/general/general-feature": [
+        "libs/parts/general/general-feature/src/index.ts"
       ]
     }
   },
