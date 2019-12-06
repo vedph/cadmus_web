@@ -15,7 +15,7 @@ export class EditPartService {
   ) {}
 
   public load(partId: string, thesauriIds: string[] | null = null) {
-    this._editPartStore.setLoading();
+    this._editPartStore.setLoading(true);
 
     if (thesauriIds) {
       forkJoin({

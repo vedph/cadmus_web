@@ -20,7 +20,7 @@ export class EditItemService {
    * into the item store.
    */
   public load(itemId: string) {
-    this._editItemStore.setLoading();
+    this._editItemStore.setLoading(true);
 
     // load item, part definitions, facets definitions, and flags definitions
     forkJoin({
