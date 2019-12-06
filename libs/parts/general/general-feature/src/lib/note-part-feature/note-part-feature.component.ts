@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ThesauriSet } from '@cadmus/core';
-import { NotePartQuery } from './note-part.query';
 import { Router, ActivatedRoute } from '@angular/router';
+import { EditNotePartQuery } from './edit-note-part.query';
+import { EditPartService } from '@cadmus/features/edit-state';
 
 @Component({
   selector: 'cadmus-note-part-feature',
@@ -21,7 +21,8 @@ export class NotePartFeatureComponent implements OnInit {
   constructor(
     private _router: Router,
     route: ActivatedRoute,
-    private _notePartQuery: NotePartQuery
+    private _partQuery: EditNotePartQuery,
+    private _editPartService: EditPartService
   ) {
     this.itemId = route.snapshot.params['iid'];
     this.partId = route.snapshot.params['pid'];
@@ -32,24 +33,28 @@ export class NotePartFeatureComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.json$ = this._notePartQuery
-      .select(state => state.part)
-      .pipe(
-        map(p => {
-          // add route-derived data
-          if (p) {
-            p.itemId = this.itemId;
-            p.id = this.partId;
-            p.roleId = this.roleId;
-          }
-          return JSON.stringify(p || {});
-        })
-      );
-    this.thesauri$ = this._notePartQuery.select(state => state.thesauri);
+    //@@
+    this._partQuery.select().subscribe(s => {
+      console.log(s);
+    })
+
+    this.json$ = this._partQuery.selectJson(
+      this.itemId,
+      this.partId,
+      this.roleId
+    );
+    this.thesauri$ = this._partQuery.select(state => state.thesauri);
+    // load
+    if (this.partId) {
+      this._editPartService.load(this.partId);
+    }
+  }
+
+  public onDirtyChanged(value: boolean) {
+    this._editPartService.setDirty(value);
   }
 
   public close() {
-    // TODO: dirty check
     this._router.navigate(['items', this.itemId]);
   }
 }

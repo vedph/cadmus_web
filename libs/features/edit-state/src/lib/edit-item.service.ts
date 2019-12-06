@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ItemStore } from '../state/item.store';
 import { ItemService, FlagService, FacetService } from '@cadmus/api';
 import { forkJoin } from 'rxjs';
 import { Item, ErrorService } from '@cadmus/core';
 import { catchError } from 'rxjs/operators';
+import { EditItemStore } from './edit-item.store';
 
 @Injectable({ providedIn: 'root' })
-export class ItemEditorService {
+export class EditItemService {
   constructor(
-    private _itemStore: ItemStore,
+    private _editItemStore: EditItemStore,
     private _itemService: ItemService,
     private _facetService: FacetService,
     private _flagService: FlagService,
@@ -20,8 +20,9 @@ export class ItemEditorService {
    * into the item store.
    */
   public load(itemId: string) {
-    this._itemStore.setLoading();
+    this._editItemStore.setLoading();
 
+    // load item, part definitions, facets definitions, and flags definitions
     forkJoin({
       item: this._itemService.getItem(itemId, true),
       facetParts: this._facetService.getFacetParts(),
@@ -31,10 +32,10 @@ export class ItemEditorService {
       .pipe(catchError(this._errorService.handleError))
       .subscribe(
         result => {
-          this._itemStore.setLoading(false);
-          this._itemStore.setError(null);
+          this._editItemStore.setLoading(false);
+          this._editItemStore.setError(null);
 
-          this._itemStore.update({
+          this._editItemStore.update({
             item: result.item,
             partGroups: this._itemService.groupParts(
               result.item.parts,
@@ -46,35 +47,43 @@ export class ItemEditorService {
           });
         },
         error => {
-          this._itemStore.setLoading(false);
-          this._itemStore.setError('Error loading item ' + itemId);
+          console.error(error);
+          this._editItemStore.setLoading(false);
+          this._editItemStore.setError('Error loading item ' + itemId);
         }
       );
   }
 
+  /**
+   * Save the item and update the store.
+   * @param item The item to be saved.
+   */
   public save(item: Item) {
-    this._itemStore.setLoading();
+    this._editItemStore.setSaving();
     this._itemService
       .addItem(item)
       .pipe(catchError(this._errorService.handleError))
       .subscribe(
         _ => {
-          this._itemStore.setLoading(false);
-          this._itemStore.update(state => {
-            return {
-              ...state,
-              item: item
-            };
+          this._editItemStore.setSaving(false);
+          this._editItemStore.update({
+            item: item
           });
         },
         error => {
-          this._itemStore.setLoading(false);
+          console.error(error);
+          this._editItemStore.setSaving(false);
+          this._editItemStore.setError('Error saving item');
         }
       );
   }
 
+  /**
+   * Delete the part with the specified ID from the edited item.
+   * @param id The ID of the part to be deleted.
+   */
   public deletePart(id: string) {
-    this._itemStore.setLoading();
+    this._editItemStore.setDeletingPart();
     // delete from server
     this._itemService
       .deletePart(id)
@@ -82,22 +91,24 @@ export class ItemEditorService {
       .subscribe(
         _ => {
           // once deleted, update the store by removing the deleted part
-          this._itemStore.update(state => {
-            for (let i = 0; i < state.partGroups.length; i++) {
-              for (let j = 0; j < state.partGroups[i].parts.length; j++) {
-                if (state.partGroups[i].parts[j].id === id) {
-                  state.partGroups[i].parts.splice(j, 1);
-                  i = state.partGroups.length;
-                  break;
-                }
+          const groups = this._editItemStore.getValue().partGroups;
+          for (let i = 0; i < groups.length; i++) {
+            for (let j = 0; j < groups[i].parts.length; j++) {
+              if (groups[i].parts[j].id === id) {
+                groups[i].parts.splice(j, 1);
+                i = groups.length;
+                break;
               }
-              this._itemStore.setLoading(false);
-              return { ...state };
             }
+          }
+          this._editItemStore.update({
+            partGroups: groups
           });
         },
         error => {
-          this._itemStore.setLoading(false);
+          console.log(error);
+          this._editItemStore.setDeletingPart(false);
+          this._editItemStore.setError('Error deleting part ' + id);
         }
       );
   }

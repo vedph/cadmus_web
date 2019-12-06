@@ -7,6 +7,7 @@ import { CoreModule } from '@cadmus/core';
 import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
 import { GeneralUiModule } from '@cadmus/parts/general/general-ui';
+import { EditStateModule } from '@cadmus/features/edit-state';
 
 import { NotePartFeatureComponent } from './note-part-feature/note-part-feature.component';
 
@@ -26,13 +27,10 @@ import { NotePartFeatureComponent } from './note-part-feature/note-part-feature.
     CoreModule,
     MaterialModule,
     UiModule,
-    GeneralUiModule
+    GeneralUiModule,
+    EditStateModule
   ],
-  declarations: [
-    NotePartFeatureComponent
-  ],
-  exports: [
-    NotePartFeatureComponent
-  ]
+  declarations: [NotePartFeatureComponent],
+  exports: [NotePartFeatureComponent]
 })
 export class GeneralFeatureModule {}

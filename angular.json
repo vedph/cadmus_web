@@ -439,6 +439,33 @@
         }
       },
       "schematics": {}
+    },
+    "features-edit-state": {
+      "projectType": "library",
+      "root": "libs/features/edit-state",
+      "sourceRoot": "libs/features/edit-state/src",
+      "prefix": "cadmus",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/features/edit-state/tsconfig.lib.json",
+              "libs/features/edit-state/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/features/edit-state/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/features/edit-state/jest.config.js",
+            "tsConfig": "libs/features/edit-state/tsconfig.spec.json",
+            "setupFile": "libs/features/edit-state/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {}
     }
   },
   "cli": {

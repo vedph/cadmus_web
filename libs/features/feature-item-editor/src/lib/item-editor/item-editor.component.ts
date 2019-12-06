@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ItemEditorService } from '../services/item-editor.service';
-import { ItemQuery } from '../state/item.query';
 import { Observable } from 'rxjs';
 import {
   Item,
@@ -20,6 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { ItemService } from '@cadmus/api';
 import { DialogService } from '@cadmus/ui';
+import { EditItemQuery, EditItemService } from '@cadmus/features/edit-state';
 
 @Component({
   selector: 'cadmus-item-editor',
@@ -35,6 +34,8 @@ export class ItemEditorComponent implements OnInit {
   public facets$: Observable<FacetDefinition[]>;
   public flags$: Observable<FlagDefinition[]>;
   public loading$: Observable<boolean>;
+  public saving$: Observable<boolean>;
+  public deletingPart$: Observable<boolean>;
   public error$: Observable<string>;
 
   // new part form
@@ -53,9 +54,9 @@ export class ItemEditorComponent implements OnInit {
     private _router: Router,
     private _route: ActivatedRoute,
     private _snackbar: MatSnackBar,
-    private _query: ItemQuery,
+    private _query: EditItemQuery,
     private _itemService: ItemService,
-    private _itemEditorService: ItemEditorService,
+    private _editItemService: EditItemService,
     private _dialogService: DialogService,
     formBuilder: FormBuilder
   ) {
@@ -102,6 +103,8 @@ export class ItemEditorComponent implements OnInit {
     this.facets$ = this._query.select(state => state.facets);
     this.flags$ = this._query.select(state => state.flags);
     this.loading$ = this._query.selectLoading();
+    this.saving$ = this._query.selectSaving();
+    this.deletingPart$ = this._query.selectDeletingPart();
     this.error$ = this._query.selectError();
 
     // update the metadata form when item changes
@@ -111,7 +114,7 @@ export class ItemEditorComponent implements OnInit {
 
     // load the item if not a new one
     if (this.id) {
-      this._itemEditorService.load(this.id);
+      this._editItemService.load(this.id);
     }
   }
 
@@ -177,7 +180,7 @@ export class ItemEditorComponent implements OnInit {
       });
     }
     item.flags = flags;
-    this._itemEditorService.save(item);
+    this._editItemService.save(item);
   }
 
   public addPart() {
@@ -257,7 +260,7 @@ export class ItemEditorComponent implements OnInit {
         if (!result) {
           return;
         }
-        this._itemEditorService.deletePart(part.id);
+        this._editItemService.deletePart(part.id);
       });
   }
 }

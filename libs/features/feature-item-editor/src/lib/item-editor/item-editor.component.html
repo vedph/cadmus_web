@@ -1,7 +1,7 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title>
-      {{ (item$ | async)?.title || 'Loading item...' }}
+      {{ (item$ | async)?.title || 'Item' }}
     </mat-card-title>
     <mat-card-subtitle>
       {{ (item$ | async)?.description }}
@@ -12,6 +12,11 @@
       Last saved {{ item.timeModified | amLocal | amTimeAgo }} by
       {{ item.userId }} at
       {{ item.timeModified | date: 'yyyy-MM-dd HH:mm:ss' }}.
+    </p>
+    <p *ngIf="error$ | async as error">
+      <mat-error>
+        {{ error }}
+      </mat-error>
     </p>
     <!-- item content -->
     <mat-tab-group [selectedIndex]="1">
@@ -111,7 +116,7 @@
             </mat-form-field>
           </div>
           <!-- flags -->
-          <div *ngIf="flagBits$ | async as flags">
+          <div *ngIf="flags$ | async as flags">
             <mat-form-field style="width:400px">
               <mat-select
                 multiple="true"
@@ -130,7 +135,7 @@
               type="submit"
               mat-raised-button
               color="primary"
-              [disabled]="loading$ | async"
+              [disabled]="(saving$ | async) || (loading$ | async)"
               matTooltip="Save metadata"
             >
               <mat-icon>save</mat-icon> save
@@ -211,7 +216,7 @@
                     mat-icon-button
                     type="button"
                     matTooltip="Edit this part"
-                    [disabled]="loading$ | async"
+                    [disabled]="(loading$ | async) || (deletingPart$ | async)"
                     (click)="editPart(part)"
                   >
                     <mat-icon>create</mat-icon>
@@ -221,7 +226,7 @@
                     mat-icon-button
                     type="button"
                     matTooltip="Delete this part"
-                    [disabled]="loading$ | async"
+                    [disabled]="(loading$ | async) || (deletingPart$ | async)"
                     (click)="deletePart(part)"
                   >
                     <mat-icon color="warn">clear</mat-icon>

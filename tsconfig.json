@@ -40,7 +40,8 @@
       ],
       "@cadmus/parts/general/general-feature": [
         "libs/parts/general/general-feature/src/index.ts"
-      ]
+      ],
+      "@cadmus/features/edit-state": ["libs/features/edit-state/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

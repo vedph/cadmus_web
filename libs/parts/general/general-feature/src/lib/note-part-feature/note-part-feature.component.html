@@ -1,5 +1,6 @@
 <cadmus-note-part
   [json]="json$ | async"
   [thesauri]="thesauri$ | async"
-  (editorClosed)="close()"
+  (editorDirty)="onDirtyChanged($event)"
+  (editorClose)="close()"
 ></cadmus-note-part>

@@ -46,6 +46,9 @@
     },
     "parts-general-general-feature": {
       "tags": []
+    },
+    "features-edit-state": {
+      "tags": []
     }
   }
 }
