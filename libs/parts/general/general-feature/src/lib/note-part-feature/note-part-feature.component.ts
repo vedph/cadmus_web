@@ -43,7 +43,7 @@ export class NotePartFeatureComponent implements OnInit {
       this.partId,
       this.roleId
     );
-    this.thesauri$ = this._partQuery.select(state => state.thesauri);
+    this.thesauri$ = this._partQuery.selectThesauri();
     // load
     if (this.partId) {
       this._editPartService.load(this.partId);

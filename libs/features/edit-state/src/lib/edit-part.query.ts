@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { EditPartState } from '..';
 import { EditPartStore } from './edit-part.store';
 import { map } from 'rxjs/operators';
+import { ThesauriSet } from '@cadmus/core';
 
 @Injectable({ providedIn: 'root' })
 export class EditPartQuery<T> extends Query<EditPartState<T>> {
@@ -21,15 +22,19 @@ export class EditPartQuery<T> extends Query<EditPartState<T>> {
     roleId: string | null
   ): Observable<string> {
     return this.select(state => state.part).pipe(
-      map((p: T) => {
+      map((part: T) => {
         // supply IDs
-        if (p) {
-          p['itemId'] = itemId;
-          p['id'] = partId;
-          p['roleId'] = roleId;
+        if (part) {
+          part['itemId'] = itemId;
+          part['id'] = partId;
+          part['roleId'] = roleId;
         }
-        return JSON.stringify(p || {});
+        return JSON.stringify(part || {});
       })
     );
+  }
+
+  public selectThesauri(): Observable<ThesauriSet> {
+    return this.select(state => state.thesauri);
   }
 }
