@@ -76,13 +76,13 @@
           </div>
           <!-- description -->
           <div>
-            <mat-form-field>
-              <input
+            <mat-form-field class="full-width">
+              <textarea rows="2"
                 matInput
                 id="description"
                 placeholder="description"
                 formControlName="description"
-              />
+              ></textarea>
               <mat-error
                 *ngIf="
                   description.hasError('required') &&
