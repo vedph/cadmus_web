@@ -65,4 +65,30 @@ export class ItemEditorService {
         });
       });
   }
+
+  public deletePart(id: string) {
+    this._itemStore.setLoading();
+    // delete from server
+    this._itemService
+      .deletePart(id)
+      .pipe(catchError(this._errorService.handleError))
+      .subscribe(_ => {
+        // once deleted, update the store by removing the deleted part
+        this._itemStore.update(state => {
+          for (let i = 0; i < state.partGroups.length; i++) {
+            for (let j = 0; j < state.partGroups[i].parts.length; j++) {
+              if (state.partGroups[i].parts[j].id === id) {
+                state.partGroups[i].parts.splice(j, 1);
+                i = state.partGroups.length;
+                break;
+              }
+            }
+            this._itemStore.setLoading(false);
+            return { ...state };
+          }
+        });
+      }, error => {
+        this._itemStore.setLoading(false);
+      });
+  }
 }

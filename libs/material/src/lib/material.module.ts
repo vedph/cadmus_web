@@ -19,6 +19,7 @@ import {
   MatRadioModule,
   MatSelectModule,
   MatSidenavModule,
+  MatSnackBarModule,
   MatTabsModule,
   MatTableModule,
   MatToolbarModule,
@@ -48,6 +49,7 @@ import {
     MatRadioModule,
     MatSelectModule,
     MatSidenavModule,
+    MatSnackBarModule,
     MatTableModule,
     MatTabsModule,
     MatToolbarModule
@@ -72,6 +74,7 @@ import {
     MatRadioModule,
     MatSelectModule,
     MatSidenavModule,
+    MatSnackBarModule,
     MatTableModule,
     MatTabsModule,
     MatTooltipModule,

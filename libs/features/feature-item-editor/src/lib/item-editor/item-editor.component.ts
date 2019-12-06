@@ -46,7 +46,7 @@ export class ItemEditorComponent implements OnInit {
   public sortKey: FormControl;
   public description: FormControl;
   public facet: FormControl;
-  public itemFlags: FormControl;
+  public flags: FormControl;
   public metadata: FormGroup;
 
   constructor(
@@ -55,8 +55,8 @@ export class ItemEditorComponent implements OnInit {
     private _snackbar: MatSnackBar,
     private _query: ItemQuery,
     private _itemService: ItemService,
-    private _dialogService: DialogService,
     private _itemEditorService: ItemEditorService,
+    private _dialogService: DialogService,
     formBuilder: FormBuilder
   ) {
     this.id = this._route.snapshot.params['id'];
@@ -84,14 +84,14 @@ export class ItemEditorComponent implements OnInit {
       Validators.maxLength(1000)
     ]);
     this.facet = formBuilder.control(null, Validators.required);
-    this.itemFlags = formBuilder.control(null);
+    this.flags = formBuilder.control(null);
 
     this.metadata = formBuilder.group({
       title: this.title,
       sortKey: this.sortKey,
       description: this.description,
       facet: this.facet,
-      flags: this.itemFlags
+      flags: this.flags
     });
   }
 
@@ -103,6 +103,29 @@ export class ItemEditorComponent implements OnInit {
     this.flags$ = this._query.select(state => state.flags);
     this.loading$ = this._query.selectLoading();
     this.error$ = this._query.selectError();
+
+    // update the metadata form when item changes
+    this.item$.subscribe(item => {
+      this.updateMetadataForm(item);
+    });
+
+    // load the item if not a new one
+    if (this.id) {
+      this._itemEditorService.load(this.id);
+    }
+  }
+
+  private updateMetadataForm(item: Item) {
+    if (!item) {
+      this.metadata.reset();
+    } else {
+      this.title.setValue(item.title);
+      this.sortKey.setValue(item.sortKey);
+      this.description.setValue(item.description);
+      this.facet.setValue(item.facetId);
+      this.flags.setValue(item.flags);
+      this.metadata.markAsPristine();
+    }
   }
 
   private tryTrim(value: string): string {
@@ -121,7 +144,7 @@ export class ItemEditorComponent implements OnInit {
     item.facetId = this.tryTrim(this.facet.value);
 
     // flags
-    const set: FlagDefinition[] = this.itemFlags.value;
+    const set: FlagDefinition[] = this.flags.value;
     let flags = 0;
     if (set) {
       set.forEach(d => {
@@ -200,21 +223,7 @@ export class ItemEditorComponent implements OnInit {
         if (!result) {
           return;
         }
-        // TODO: delete part part.id
-        // this.busy = true;
-        // this._itemService.deletePart(part.id).subscribe(
-        //   () => {
-        //     this.loadItem();
-        //   },
-        //   error => {
-        //     console.error(error);
-        //     this.busy = false;
-        //     this._snackbar.open(error, 'OK', { duration: 3000 });
-        //   },
-        //   () => {
-        //     this.busy = false;
-        //   }
-        // );
+        this._itemEditorService.deletePart(part.id);
       });
   }
 }

@@ -107,11 +107,11 @@ export class ItemListComponent implements OnInit {
   }
 
   public addItem() {
-    this._router.navigate(['/item', 'new']);
+    this._router.navigate(['/items', 'new']);
   }
 
   public editItem(item: ItemInfo) {
-    this._router.navigate(['/item', item.id]);
+    this._router.navigate(['/items', item.id]);
   }
 
   public deleteItem(item: ItemInfo) {
