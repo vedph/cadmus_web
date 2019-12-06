@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ThesauriSet } from '@cadmus/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { EditNotePartQuery } from './edit-note-part.query';
-import { EditPartService } from '@cadmus/features/edit-state';
+import { EditPartQuery } from '@cadmus/features/edit-state';
+import { EditNotePartService } from './edit-note-part.service';
 
 @Component({
   selector: 'cadmus-note-part-feature',
@@ -21,8 +21,8 @@ export class NotePartFeatureComponent implements OnInit {
   constructor(
     private _router: Router,
     route: ActivatedRoute,
-    private _partQuery: EditNotePartQuery,
-    private _editPartService: EditPartService
+    private _editPartQuery: EditPartQuery,
+    private _editPartService: EditNotePartService
   ) {
     this.itemId = route.snapshot.params['iid'];
     this.partId = route.snapshot.params['pid'];
@@ -34,16 +34,19 @@ export class NotePartFeatureComponent implements OnInit {
 
   ngOnInit() {
     //@@
-    this._partQuery.select().subscribe(s => {
+    this._editPartQuery.select().subscribe(s => {
       console.log(s);
-    })
+    });
+    this._editPartQuery.select(state => state.part).subscribe(p => {
+      console.log(p);
+    });
 
-    this.json$ = this._partQuery.selectJson(
+    this.json$ = this._editPartQuery.selectJson(
       this.itemId,
       this.partId,
       this.roleId
     );
-    this.thesauri$ = this._partQuery.selectThesauri();
+    this.thesauri$ = this._editPartQuery.selectThesauri();
     // load
     if (this.partId) {
       this._editPartService.load(this.partId);

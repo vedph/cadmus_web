@@ -1,13 +1,23 @@
-import { StoreConfig } from '@datorama/akita';
+import { StoreConfig, Store } from '@datorama/akita';
 import { Injectable } from '@angular/core';
-import { NotePart } from '@cadmus/parts/general/general-ui';
 import {
   EditPartState,
-  EditPartStore
+  EditPartStoreApi,
+  editPartInitialState
 } from '@cadmus/features/edit-state';
-
-export interface EditNotePartState extends EditPartState<NotePart> {}
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'net.fusisoft.note' })
-export class EditNotePartStore extends EditPartStore<NotePart> {}
+export class EditNotePartStore extends Store<EditPartState>
+  implements EditPartStoreApi {
+  constructor() {
+    super(editPartInitialState);
+  }
+
+  setDirty(value: boolean): void {
+    this.update({ dirty: value });
+  }
+  setSaving(value: boolean): void {
+    this.update({ saving: value });
+  }
+}

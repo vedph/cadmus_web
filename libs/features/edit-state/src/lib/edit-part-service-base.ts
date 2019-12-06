@@ -1,21 +1,27 @@
-import { Injectable } from '@angular/core';
 import { ItemService, ThesaurusService } from '@cadmus/api';
-import { EditPartStore } from './edit-part.store';
 import { ErrorService } from '@cadmus/core';
 import { catchError } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
-export class EditPartService {
+export interface EditPartStoreApi {
+  update(value: any): void;
+  setLoading(value: boolean): void;
+  setDirty(value: boolean): void;
+  setSaving(value: boolean): void;
+  setError(value: string): void;
+}
+
+export abstract class EditPartServiceBase {
+  protected store: EditPartStoreApi;
+
   constructor(
-    private _editPartStore: EditPartStore<any>,
     private _itemService: ItemService,
     private _thesaurusService: ThesaurusService,
     private _errorService: ErrorService
   ) {}
 
   public load(partId: string, thesauriIds: string[] | null = null) {
-    this._editPartStore.setLoading(true);
+    this.store.setLoading(true);
 
     if (thesauriIds) {
       forkJoin({
@@ -24,8 +30,8 @@ export class EditPartService {
       })
         .pipe(catchError(this._errorService.handleError))
         .subscribe(result => {
-          this._editPartStore.setLoading(false);
-          this._editPartStore.update({
+          this.store.setLoading(false);
+          this.store.update({
             part: result.part,
             thesauri: result.thesauri
           });
@@ -36,23 +42,21 @@ export class EditPartService {
         .pipe(catchError(this._errorService.handleError))
         .subscribe(
           part => {
-            this._editPartStore.setLoading(false);
-            this._editPartStore.update({
+            this.store.setLoading(false);
+            this.store.update({
               part: part
             });
           },
           error => {
             console.error(error);
-            this._editPartStore.setLoading(false);
-            this._editPartStore.setError('Error loading part ' + partId);
+            this.store.setLoading(false);
+            this.store.setError('Error loading part ' + partId);
           }
         );
     }
   }
 
   public setDirty(value = true) {
-    this._editPartStore.update({
-      dirty: value
-    });
+    this.store.setDirty(value);
   }
 }

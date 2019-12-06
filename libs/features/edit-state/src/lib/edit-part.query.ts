@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Query } from '@datorama/akita';
 import { Observable } from 'rxjs';
-import { EditPartState } from '..';
-import { EditPartStore } from './edit-part.store';
 import { map } from 'rxjs/operators';
-import { ThesauriSet } from '@cadmus/core';
+import { ThesauriSet, Part } from '@cadmus/core';
+import { EditPartState, EditPartStore } from './edit-part.store';
 
 @Injectable({ providedIn: 'root' })
-export class EditPartQuery<T> extends Query<EditPartState<T>> {
-  constructor(protected store: EditPartStore<T>) {
+export class EditPartQuery extends Query<EditPartState> {
+  constructor(protected store: EditPartStore) {
     super(store);
+  }
+
+  public selectDirty(): Observable<boolean> {
+    return this.select(state => state.dirty);
   }
 
   public selectSaving(): Observable<boolean> {
@@ -22,7 +25,7 @@ export class EditPartQuery<T> extends Query<EditPartState<T>> {
     roleId: string | null
   ): Observable<string> {
     return this.select(state => state.part).pipe(
-      map((part: T) => {
+      map((part: Part) => {
         // supply IDs
         if (part) {
           part['itemId'] = itemId;
