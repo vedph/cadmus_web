@@ -1,165 +1,163 @@
 <form [formGroup]="form" (submit)="save()">
-  <fieldset [disabled]="disabled">
-    <mat-card>
-      <mat-card-header>
-        <div mat-card-avatar>
-          <mat-icon>textsms</mat-icon>
-        </div>
-        <mat-card-title
-          >Orthography Fragment {{ fragment?.location }}</mat-card-title
-        >
-        <mat-card-subtitle>
-          {{ fragment?.baseText }}
-        </mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <div>
-          <mat-form-field>
-            <input
-              type="text"
-              matInput
-              formControlName="standard"
-              placeholder="standard"
-              autofocus
-            />
-            <mat-error
-              *ngIf="
-                standard.hasError('required') &&
-                (standard.touched || standard.dirty)
-              "
-              >please enter the standard orthography</mat-error
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>textsms</mat-icon>
+      </div>
+      <mat-card-title
+        >Orthography Fragment {{ fragment?.location }}</mat-card-title
+      >
+      <mat-card-subtitle>
+        {{ fragment?.baseText }}
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <mat-form-field>
+          <input
+            type="text"
+            matInput
+            formControlName="standard"
+            placeholder="standard"
+            autofocus
+          />
+          <mat-error
+            *ngIf="
+              standard.hasError('required') &&
+              (standard.touched || standard.dirty)
+            "
+            >please enter the standard orthography</mat-error
+          >
+          <mat-error
+            *ngIf="
+              standard.hasError('maxLength') &&
+              (standard.touched || standard.dirty)
+            "
+            >too long</mat-error
+          >
+        </mat-form-field>
+        <span *ngIf="fragment?.baseText" class="base-text">{{
+          fragment.baseText
+        }}</span>
+        <div formArrayName="operations">
+          <div>
+            <button
+              type="button"
+              color="primary"
+              mat-icon-button
+              matTooltip="Add a new operation"
+              (click)="addOperation()"
             >
-            <mat-error
-              *ngIf="
-                standard.hasError('maxLength') &&
-                (standard.touched || standard.dirty)
-              "
-              >too long</mat-error
+              <mat-icon>add_circle</mat-icon>
+            </button>
+            <button
+              type="button"
+              mat-icon-button
+              matTooltip="Automatically set operations from differences"
+              [disabled]="!standard.value || !fragment?.baseText"
+              (click)="autoAddOperations()"
             >
-          </mat-form-field>
-          <span *ngIf="fragment?.baseText" class="base-text">{{
-            fragment.baseText
-          }}</span>
-          <div formArrayName="operations">
-            <div>
-              <button
-                type="button"
-                color="primary"
-                mat-icon-button
-                matTooltip="Add a new operation"
-                (click)="addOperation()"
-              >
-                <mat-icon>add_circle</mat-icon>
-              </button>
-              <button
-                type="button"
-                mat-icon-button
-                matTooltip="Automatically set operations from differences"
-                [disabled]="!standard.value || !fragment?.baseText"
-                (click)="autoAddOperations()"
-              >
-                <mat-icon>post_add</mat-icon>
-              </button>
-              <button
-                type="button"
-                color="warn"
-                mat-icon-button
-                matTooltip="Delete all the operations"
-                [disabled]="operations?.length === 0"
-                (click)="clearOperations()"
-              >
-                <mat-icon>delete_sweep</mat-icon>
-              </button>
-            </div>
-            <ol
-              *ngFor="
-                let item of operations.controls;
-                let i = index;
-                let first = first;
-                let last = last
-              "
+              <mat-icon>post_add</mat-icon>
+            </button>
+            <button
+              type="button"
+              color="warn"
+              mat-icon-button
+              matTooltip="Delete all the operations"
+              [disabled]="operations?.length === 0"
+              (click)="clearOperations()"
             >
-              <!-- child form -->
-              <li [formGroupName]="i">
-                <!-- child controls -->
-                <mat-form-field>
-                  <input
-                    matInput
-                    formControlName="text"
-                    placeholder="operation"
-                    autofocus
-                  />
-                </mat-form-field>
-                <!-- child actions -->
-                <button
-                  mat-icon-button
-                  type="button"
-                  matTooltip="Edit this operation"
-                  color="primary"
-                  (click)="editOperation(i)"
-                >
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button
-                  mat-icon-button
-                  type="button"
-                  matTooltip="Delete this operation"
-                  color="warn"
-                  (click)="deleteOperation(i)"
-                >
-                  <mat-icon>remove_circle</mat-icon>
-                </button>
-                <button
-                  [disabled]="first"
-                  mat-icon-button
-                  type="button"
-                  matTooltip="Move this operation up"
-                  (click)="moveOperationUp(i)"
-                >
-                  <mat-icon>arrow_upward</mat-icon>
-                </button>
-                <button
-                  [disabled]="last"
-                  mat-icon-button
-                  type="button"
-                  matTooltip="Move this operation down"
-                  (click)="moveOperationDown(i)"
-                >
-                  <mat-icon>arrow_downward</mat-icon>
-                </button>
-              </li>
-            </ol>
+              <mat-icon>delete_sweep</mat-icon>
+            </button>
           </div>
+          <ol
+            *ngFor="
+              let item of operations.controls;
+              let i = index;
+              let first = first;
+              let last = last
+            "
+          >
+            <!-- child form -->
+            <li [formGroupName]="i">
+              <!-- child controls -->
+              <mat-form-field>
+                <input
+                  matInput
+                  formControlName="text"
+                  placeholder="operation"
+                  autofocus
+                />
+              </mat-form-field>
+              <!-- child actions -->
+              <button
+                mat-icon-button
+                type="button"
+                matTooltip="Edit this operation"
+                color="primary"
+                (click)="editOperation(i)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                type="button"
+                matTooltip="Delete this operation"
+                color="warn"
+                (click)="deleteOperation(i)"
+              >
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+              <button
+                [disabled]="first"
+                mat-icon-button
+                type="button"
+                matTooltip="Move this operation up"
+                (click)="moveOperationUp(i)"
+              >
+                <mat-icon>arrow_upward</mat-icon>
+              </button>
+              <button
+                [disabled]="last"
+                mat-icon-button
+                type="button"
+                matTooltip="Move this operation down"
+                (click)="moveOperationDown(i)"
+              >
+                <mat-icon>arrow_downward</mat-icon>
+              </button>
+            </li>
+          </ol>
         </div>
-        <div *ngIf="currentOperation" [@slideInOut]>
-          <cadmus-msp-operation
-            [operation]="currentOperation"
-            (operationChange)="currentOperationSaved($event)"
-            (operationClose)="currentOperationClosed()"
-          ></cadmus-msp-operation>
-        </div>
-      </mat-card-content>
-      <mat-card-actions>
-        <button
-          mat-raised-button
-          type="button"
-          matTooltip="Close this fragment"
-          (click)="close()"
-        >
-          <mat-icon>cancel</mat-icon>
-          close
-        </button>
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="form.invalid || form.pristine"
-          matTooltip="Save this fragment"
-        >
-          <mat-icon>check_circle</mat-icon>
-          save
-        </button>
-      </mat-card-actions>
-    </mat-card>
-  </fieldset>
+      </div>
+      <div *ngIf="currentOperation" [@slideInOut]>
+        <cadmus-msp-operation
+          [operation]="currentOperation"
+          (operationChange)="currentOperationSaved($event)"
+          (operationClose)="currentOperationClosed()"
+        ></cadmus-msp-operation>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        type="button"
+        matTooltip="Close this fragment"
+        (click)="close()"
+      >
+        <mat-icon>cancel</mat-icon>
+        close
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="form.invalid || form.pristine"
+        matTooltip="Save this fragment"
+      >
+        <mat-icon>check_circle</mat-icon>
+        save
+      </button>
+    </mat-card-actions>
+  </mat-card>
 </form>

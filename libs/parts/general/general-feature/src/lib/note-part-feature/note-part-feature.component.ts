@@ -45,10 +45,6 @@ export class NotePartFeatureComponent implements OnInit {
     }
   }
 
-  public onDirtyChanged(value: boolean) {
-    this._editPartService.setDirty(value);
-  }
-
   public save(json: string) {
     this._editPartService.save(json);
   }

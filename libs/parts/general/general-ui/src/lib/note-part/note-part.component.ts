@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { DialogService, PartEditorBaseComponent } from '@cadmus/ui';
 import { NotePart, NOTE_PART_TYPEID } from '../..';
 import {
@@ -22,6 +22,15 @@ import { take } from 'rxjs/operators';
 })
 export class NotePartComponent extends PartEditorBaseComponent<NotePart>
   implements OnInit {
+  @Input()
+  set disabled(value: boolean) {
+    if (value) {
+      this.form.disable();
+    } else {
+      this.form.enable();
+    }
+  }
+
   public form: FormGroup;
   public tag: FormControl;
   public tags: FormControl;
@@ -50,9 +59,7 @@ export class NotePartComponent extends PartEditorBaseComponent<NotePart>
     });
   }
 
-  ngOnInit() {
-    this.subscribeToFormStatus(this.form);
-  }
+  ngOnInit() {}
 
   private updateForm(part: NotePart) {
     if (!part) {
@@ -86,7 +93,7 @@ export class NotePartComponent extends PartEditorBaseComponent<NotePart>
         id: null,
         typeId: NOTE_PART_TYPEID,
         roleId: null,
-        tag: this.tagEntries? this.tags.value : this.tag.value,
+        tag: this.tagEntries ? this.tags.value : this.tag.value,
         text: this.text.value,
         timeModified: new Date(),
         userId: null

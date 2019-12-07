@@ -1,7 +1,13 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { distinctUntilChanged, map } from 'rxjs/operators';
-import { Part, Thesaurus, ThesauriSet } from '@cadmus/core';
+import { distinctUntilChanged, map, filter } from 'rxjs/operators';
+import {
+  Part,
+  Thesaurus,
+  ThesauriSet,
+  ComponentCanDeactivate
+} from '@cadmus/core';
 import { FormGroup } from '@angular/forms';
+import { Observable, isObservable, zip } from 'rxjs';
 
 // Angular abstract components:
 // https://medium.com/@ozak/stop-repeating-yourself-in-angular-how-to-create-abstract-components-9726d43c99ab
@@ -22,18 +28,20 @@ import { FormGroup } from '@angular/forms';
   template: '',
   styles: []
 })
-export class PartEditorBaseComponent<T = Part> implements OnInit {
+export class PartEditorBaseComponent<T = Part>
+  implements OnInit, ComponentCanDeactivate {
   private _json: string;
   private _ignoreJsonChange: boolean;
 
   // thesaurus
-  private _thesauri: { [key: string]: Thesaurus } | null;
+  private _thesauri: ThesauriSet | null;
 
   /**
-   * True if the control is disabled.
+   * True if the edited part is dirty, i.e. its data were edited
+   * locally, but not saved to the server.
    */
   @Input()
-  public disabled: boolean;
+  public dirty$: Observable<boolean>;
 
   /**
    * The JSON code representing the part being edited.
@@ -66,39 +74,35 @@ export class PartEditorBaseComponent<T = Part> implements OnInit {
     this.onThesauriSet();
   }
 
-  /**
-   * Event emitted whenever the dirty state of the editor changes.
-   */
-  @Output()
-  public editorDirty: EventEmitter<boolean>;
-
   @Output()
   public editorClose: EventEmitter<any>;
 
+  /**
+   * The root form of the editor.
+   */
+  protected form: FormGroup;
+
   constructor() {
     this.jsonChange = new EventEmitter<string>();
-    this.editorDirty = new EventEmitter<boolean>();
     this.editorClose = new EventEmitter<any>();
   }
 
   ngOnInit() {}
 
   /**
-   * Subscribe to the status change of the specified form,
-   * so that whenever its dirty status changes, a corresponding
-   * editorDirty event is fired.
-   *
-   * @param form The form group to subscribe to.
+   * Implementation of ComponentCanDeactivate, which relies on the dirty$
+   * input property.
    */
-  protected subscribeToFormStatus(form: FormGroup) {
-    form.statusChanges
-      .pipe(
-        map(_ => form.dirty),
-        distinctUntilChanged()
-      )
-      .subscribe(dirty => {
-        this.editorDirty.emit(dirty);
-      });
+  public canDeactivate(): Observable<boolean> {
+    if (!this.form) {
+      return this.dirty$.pipe(
+        map(d => {
+          return !d;
+        })
+      );
+    } else {
+      // TODO
+    }
   }
 
   /**

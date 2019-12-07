@@ -43,10 +43,21 @@ import { DifferResultToMspAdapter } from '../differ-result-to-msp-adapter';
     ])
   ]
 })
-export class OrthographyFragmentComponent extends FragmentEditorBaseComponent<OrthographyFragment> implements OnInit {
+export class OrthographyFragmentComponent
+  extends FragmentEditorBaseComponent<OrthographyFragment>
+  implements OnInit {
   private _currentOperationIndex: number;
   private _differ: diff_match_patch;
   private _adapter: DifferResultToMspAdapter;
+
+  @Input()
+  set disabled(value: boolean) {
+    if (value) {
+      this.form.disable();
+    } else {
+      this.form.enable();
+    }
+  }
 
   public fragment: OrthographyFragment;
   public form: FormGroup;
@@ -62,7 +73,7 @@ export class OrthographyFragmentComponent extends FragmentEditorBaseComponent<Or
   constructor(
     private _formBuilder: FormBuilder,
     private _dialog: DialogService
-    ) {
+  ) {
     super();
     // events
     this.fragmentChange = new EventEmitter<OrthographyFragment>();

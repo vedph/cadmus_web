@@ -3,6 +3,5 @@
   [json]="json$ | async"
   (jsonChange)="save($event)"
   [thesauri]="thesauri$ | async"
-  (editorDirty)="onDirtyChanged($event)"
   (editorClose)="close()"
 ></cadmus-note-part>

@@ -50,11 +50,13 @@ export abstract class EditPartServiceBase {
 
   public save(json: string) {
     this.store.setSaving(true);
+    this.store.setDirty(true);
 
     this._itemService.addPartJson(json)
       .subscribe(_ => {
         this.store.setSaving(false);
         this.store.setDirty(false);
+        this.store.setError(null);
       },
       error => {
         console.error(error);

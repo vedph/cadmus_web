@@ -118,6 +118,23 @@ export const NOTE_PART_SCHEMA = {
 
 3. add a *part editor demo dumb component* named after the part (e.g. `NotePartComponentDemo` after `NotePart`). This will essentially be a wrapper of two distinct controls: the part's editor component, and a `JsonEditorResourcesComponent`. These components are mutually connected, so that you can edit the JSON code for the part (and eventually for its thesauri sets) and set the visual editor to it, or vice-versa.
 
+### Editing Parts
+
+The general architecture of part editing, from bottom to top, is as follows:
+
+1. `<X>PartComponent` (in part editor dumb component): at the bottom level, we have a dumb UI component for part X. The component just gets as input properties the part's JSON code (`json`) and a set of optional thesauri (`thesauri`), and emits as output the part's JSON code (`jsonChange`). Also, it has a `dirty$` input property, used to tell the control if the locally edited part state is not saved to the server. This is used to implement the guard which prompts the user when he wants to exit the editor, but the locally edited part state is not saved.
+
+2. `<X>PartFeatureComponent` (in part editor feature component): the dumb UI component for part X is wrapped into a feature UI component, which depends on two Akita components: an X-part query and an X-part service. The query is used to read from the store, and the service to load its state initially, and write to it (in Akita, components should never interact with stores directly; such services act as facades, and couple the store with an API service). Usually, the service extends `EditPartServiceBase`, which provides load/save methods and a dirty state setter. The component binds a number of observable properties to the query, and its template is fed from these observables. When the store gets updated (via the service), the observables change, and this is reflected in the reactive UI.
+
+When the user saves in an editor dumb component, the `jsonChange` event is emitted, and the form is set to pristine state.
+
+In turn, the editor feature component handles the `jsonChange` event by invoking its service's `save` method with the JSON code representing the part to be saved.
+
+The `save` method (implemented in `EditPartServiceBase`) sets the "saving" and "dirty" states to true, and invokes the API save method:
+
+- if the API succeeds, the "saving" and "dirty" states are set to "false".
+- if the API fails, the "saving" state is set to false (while "dirty" remains true).
+
 ### Part Editors
 
 Part editors are dumb UI components extending `PartEditorBaseComponent<T>`, where `T` is the part's type.
@@ -126,19 +143,16 @@ The base component is not an abstract class (this is best for Angular), and prov
 
 **Input**:
 
-- `disabled` (type `boolean`): true to disable the control as a whole.
 - `json` (type `string`): the JSON code representing the part being edited. The corresponding output is implemented via the `jsonChange` event.
 - `thesauri` (type `{ [key: string]: Thesaurus } | null`): optional thesauri sets to be consumed by the editor. Each thesaurus is keyed under an ID which is meaningful and unique only within the context of the editor.
 
 **Output**:
 
 - `jsonChange` (type `string`): fired when the user saves the form with valid data.
-- `editorDirty` (type `boolean`): fired whenever the dirty status of the form changes. This is used to let this status bubble up to the container component page, which should eventually warn before navigating away from it.
-- `editorClose` (no argument): fired when the editor is closed without saving, by user request.
+- `editorClose` (no argument): fired when the user requests the editor to close.
 
 **Helpers**:
 
-- `subscribeToFormStatus`: used to subscribe to the status change of the specified form (usually the root form of the editor), so that whenever its dirty status changes, an `editorDirty` event is fired.
 - `getPartFromJson(json: string = null): T`: get the part from the specified JSON code, or from the current json property if no JSON code is specified. This is just a helper method for parsing JSON (when truthy) and casting it to the template argument type.
 - `updateJson(json: string)`: update the `json` property from the specified code, without triggering a call to `onPartSet`.
 - `onPartSet`: invoked whenever the json property is set, unless setting it via `updateJson`. The default implementation does nothing. Override to add custom behavior, e.g. update the form to reflect the new part value.
@@ -147,12 +161,23 @@ The base component is not an abstract class (this is best for Angular), and prov
 A typical editor extending this base can follow these guidelines:
 
 - add form controls and eventually thesaurus entries properties (`ThesaurusEntry[]`) to be consumed by the template. If thesaurus entries are required, set these properties in `onThesauriSet`.
-- when initializing, call `subscribeToFormStatus` passing it the root form, so that the control can automatically bubble its dirty status.
 - add an `updateForm(part)` method to update the form controls from the part's model, calling it from `onPartSet`.
 - add a `getPartFromForm` method to get a part object from the form controls. Among the common part's properties, only `typeId` gets set at this level; the other properties will be set by the page wrapping the editor.
 - add a `close` method for closing without saving (prompting when dirty).
 - add a `save` method which if the form is valid uses `getPartFromForm` to get the part, and `updateJson` to update the JSON code stringified from that part.
-- template: `form` including a `fieldset` (to use the `disabled` attribute), including a `mat-card`. Header and footer in the card should be standardized, while the content is free.
+- template: `form`, including a `mat-card`. Header and footer in the card should be standardized, while the content is free.
+- typically, add a `disabled` input property, implementing it like this (assuming that `form` is the name of the "root" form):
+
+```ts
+@Input()
+set disabled(value: boolean) {
+  if (value) {
+    this.form.disable();
+  } else {
+    this.form.enable();
+  }
+}
+```
 
 ### Part Editors Demos
 
