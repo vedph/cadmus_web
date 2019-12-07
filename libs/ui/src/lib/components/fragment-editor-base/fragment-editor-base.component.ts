@@ -1,7 +1,12 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { distinctUntilChanged, map } from 'rxjs/operators';
-import { Thesaurus, Fragment } from '@cadmus/core';
+import { distinctUntilChanged, map, startWith, debounceTime } from 'rxjs/operators';
+import {
+  Fragment,
+  ComponentCanDeactivate,
+  ThesauriSet
+} from '@cadmus/core';
 import { FormGroup } from '@angular/forms';
+import { Observable, combineLatest } from 'rxjs';
 
 // Angular abstract components:
 // https://medium.com/@ozak/stop-repeating-yourself-in-angular-how-to-create-abstract-components-9726d43c99ab
@@ -22,18 +27,20 @@ import { FormGroup } from '@angular/forms';
   template: '',
   styles: []
 })
-export class FragmentEditorBaseComponent<T = Fragment> implements OnInit {
+export class FragmentEditorBaseComponent<T = Fragment>
+  implements OnInit, ComponentCanDeactivate {
   private _json: string;
   private _ignoreJsonChange: boolean;
 
   // thesaurus
-  private _thesauri: { [key: string]: Thesaurus } | null;
+  private _thesauri: ThesauriSet | null;
 
   /**
-   * True if the control is disabled.
+   * True if the edited part is dirty, i.e. its data were edited
+   * locally, but not saved to the server.
    */
   @Input()
-  public disabled: boolean;
+  public dirty$: Observable<boolean>;
 
   /**
    * The JSON code representing the fragment being edited.
@@ -58,47 +65,71 @@ export class FragmentEditorBaseComponent<T = Fragment> implements OnInit {
    * The optional thesauri to be used within this editor.
    */
   @Input()
-  public get thesauri(): { [key: string]: Thesaurus } | null {
+  public get thesauri(): ThesauriSet | null {
     return this._thesauri;
   }
-  public set thesauri(value: { [key: string]: Thesaurus } | null) {
+  public set thesauri(value: ThesauriSet | null) {
     this._thesauri = value;
     this.onThesauriSet();
   }
 
-  /**
-   * Event emitted whenever the dirty state of the editor changes.
-   */
-  @Output()
-  public editorDirty: EventEmitter<boolean>;
+  @Input()
+  set disabled(value: boolean) {
+    if (value) {
+      this.form.disable();
+    } else {
+      this.form.enable();
+    }
+  }
 
   @Output()
   public editorClose: EventEmitter<any>;
 
+  /**
+   * The root form of the editor.
+   * You MUST instantiate this form in the ctor.
+   */
+  public form: FormGroup;
+
   constructor() {
     this.jsonChange = new EventEmitter<string>();
-    this.editorDirty = new EventEmitter<boolean>();
     this.editorClose = new EventEmitter<any>();
   }
 
   ngOnInit() {}
 
-  /**
-   * Subscribe to the status change of the specified form,
-   * so that whenever its dirty status changes, a corresponding
-   * editorDirty event is fired.
-   *
-   * @param form The form group to subscribe to.
+    /**
+   * Implementation of ComponentCanDeactivate, which relies on the dirty$
+   * input property and on the root form's dirty state, when available.
    */
-  protected subscribeToFormStatus(form: FormGroup) {
-    form.statusChanges
-      .pipe(
-        map(_ => form.dirty),
-        distinctUntilChanged()
-      )
-      .subscribe(dirty => {
-        this.editorDirty.emit(dirty);
-      });
+  public canDeactivate(): Observable<boolean> {
+    // can-deactivate from dirty
+    const canFromDirty$ = this.dirty$.pipe(
+      startWith(true),
+      map(d => {
+        return !d;
+      })
+    );
+
+    // if form not available, just rely on the dirty property
+    if (!this.form) {
+      return canFromDirty$;
+    } else {
+      // else combine dirty AND form.dirty
+      const canFromForm$ = this.form.statusChanges.pipe(
+        startWith(true),
+        debounceTime(300),
+        distinctUntilChanged(),
+        map(s => {
+          return !this.form.dirty;
+        })
+      );
+      return combineLatest([canFromDirty$, canFromForm$]).pipe(
+        map(([fd, ff]) => {
+          return fd && ff;
+        })
+      );
+    }
   }
 
   /**

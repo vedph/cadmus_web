@@ -90,7 +90,7 @@ export class PartEditorBaseComponent<T = Part>
    * The root form of the editor.
    * You MUST instantiate this form in the ctor.
    */
-  protected form: FormGroup;
+  public form: FormGroup;
 
   constructor() {
     this.jsonChange = new EventEmitter<string>();

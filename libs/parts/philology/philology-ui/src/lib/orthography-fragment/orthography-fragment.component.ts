@@ -82,9 +82,7 @@ export class OrthographyFragmentComponent
     });
   }
 
-  ngOnInit() {
-    this.subscribeToFormStatus(this.form);
-  }
+  ngOnInit() {}
 
   private updateForm(fragment: OrthographyFragment) {
     this.standard.setValue(fragment.standard);
@@ -94,6 +92,10 @@ export class OrthographyFragmentComponent
       }
     }
     this.form.markAsPristine();
+  }
+
+  protected onFragmentSet(fragment: OrthographyFragment) {
+    this.updateForm(fragment);
   }
 
   public addOperation(operation: string = null) {
