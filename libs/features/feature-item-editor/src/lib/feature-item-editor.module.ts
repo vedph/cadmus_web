@@ -11,6 +11,7 @@ import { ApiModule } from '@cadmus/api';
 import { UiModule } from '@cadmus/ui';
 import { EditStateModule } from '@cadmus/features/edit-state';
 import { ItemEditorComponent } from './item-editor/item-editor.component';
+import { CurrentItemBarComponent } from './current-item-bar/current-item-bar.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,13 @@ import { ItemEditorComponent } from './item-editor/item-editor.component';
     UiModule,
     EditStateModule
   ],
-  declarations: [ItemEditorComponent],
-  exports: [ItemEditorComponent]
+  declarations: [
+    ItemEditorComponent,
+    CurrentItemBarComponent
+  ],
+  exports: [
+    ItemEditorComponent,
+    CurrentItemBarComponent
+  ]
 })
 export class FeatureItemEditorModule {}

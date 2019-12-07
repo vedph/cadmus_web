@@ -1,0 +1,19 @@
+div.item-bar {
+  border: 2px solid #f0f0f0;
+  border-radius: 4px;
+  padding: 4px;
+  background-color: #f0f0f0;
+  margin: 12px;
+}
+div.item-bar h2 {
+  margin: 0 0 8px;
+}
+div.item-bar p {
+  margin: 0 0 6px;
+}
+div.item-bar p.dsc {
+  font-style: italic;
+}
+div.item-bar p.ver {
+  color: #606060;
+}

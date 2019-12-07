@@ -1,0 +1,9 @@
+<div class="item-bar" *ngIf="(item$ | async) as item">
+  <h2>{{item.title}}</h2>
+  <p class="dsc">{{item.description}}</p>
+  <p class="ver">
+    Last saved {{ item.timeModified | amLocal | amTimeAgo }} by
+    {{ item.userId }} at
+    {{ item.timeModified | date: 'yyyy-MM-dd HH:mm:ss' }}.
+  </p>
+</div>
