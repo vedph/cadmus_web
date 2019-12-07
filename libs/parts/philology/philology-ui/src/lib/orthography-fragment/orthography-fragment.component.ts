@@ -50,17 +50,7 @@ export class OrthographyFragmentComponent
   private _differ: diff_match_patch;
   private _adapter: DifferResultToMspAdapter;
 
-  @Input()
-  set disabled(value: boolean) {
-    if (value) {
-      this.form.disable();
-    } else {
-      this.form.enable();
-    }
-  }
-
   public fragment: OrthographyFragment;
-  public form: FormGroup;
   public standard: FormControl;
   public operations: FormArray;
   public currentOperation: MspOperation;

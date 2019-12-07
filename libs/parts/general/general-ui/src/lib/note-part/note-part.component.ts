@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { DialogService, PartEditorBaseComponent } from '@cadmus/ui';
 import { NotePart, NOTE_PART_TYPEID } from '../..';
 import {
-  FormGroup,
   FormControl,
   FormBuilder,
   Validators
@@ -22,16 +21,6 @@ import { take } from 'rxjs/operators';
 })
 export class NotePartComponent extends PartEditorBaseComponent<NotePart>
   implements OnInit {
-  @Input()
-  set disabled(value: boolean) {
-    if (value) {
-      this.form.disable();
-    } else {
-      this.form.enable();
-    }
-  }
-
-  public form: FormGroup;
   public tag: FormControl;
   public tags: FormControl;
   public text: FormControl;

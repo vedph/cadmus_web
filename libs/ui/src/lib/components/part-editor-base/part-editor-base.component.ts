@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { distinctUntilChanged, map, filter } from 'rxjs/operators';
 import {
-  Part,
-  Thesaurus,
-  ThesauriSet,
-  ComponentCanDeactivate
-} from '@cadmus/core';
+  distinctUntilChanged,
+  map,
+  debounceTime,
+  startWith
+} from 'rxjs/operators';
+import { Part, ThesauriSet, ComponentCanDeactivate } from '@cadmus/core';
 import { FormGroup } from '@angular/forms';
-import { Observable, isObservable, zip } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 
 // Angular abstract components:
 // https://medium.com/@ozak/stop-repeating-yourself-in-angular-how-to-create-abstract-components-9726d43c99ab
@@ -74,11 +74,21 @@ export class PartEditorBaseComponent<T = Part>
     this.onThesauriSet();
   }
 
+  @Input()
+  set disabled(value: boolean) {
+    if (value) {
+      this.form.disable();
+    } else {
+      this.form.enable();
+    }
+  }
+
   @Output()
   public editorClose: EventEmitter<any>;
 
   /**
    * The root form of the editor.
+   * You MUST instantiate this form in the ctor.
    */
   protected form: FormGroup;
 
@@ -91,17 +101,35 @@ export class PartEditorBaseComponent<T = Part>
 
   /**
    * Implementation of ComponentCanDeactivate, which relies on the dirty$
-   * input property.
+   * input property and on the root form's dirty state, when available.
    */
   public canDeactivate(): Observable<boolean> {
+    // can-deactivate from dirty
+    const canFromDirty$ = this.dirty$.pipe(
+      startWith(true),
+      map(d => {
+        return !d;
+      })
+    );
+
+    // if form not available, just rely on the dirty property
     if (!this.form) {
-      return this.dirty$.pipe(
-        map(d => {
-          return !d;
+      return canFromDirty$;
+    } else {
+      // else combine dirty AND form.dirty
+      const canFromForm$ = this.form.statusChanges.pipe(
+        startWith(true),
+        debounceTime(300),
+        distinctUntilChanged(),
+        map(s => {
+          return !this.form.dirty;
         })
       );
-    } else {
-      // TODO
+      return combineLatest([canFromDirty$, canFromForm$]).pipe(
+        map(([fd, ff]) => {
+          return fd && ff;
+        })
+      );
     }
   }
 
