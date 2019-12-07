@@ -5,9 +5,10 @@ import {
   EditPartStoreApi,
   editPartInitialState
 } from '@cadmus/features/edit-state';
+import { NOTE_PART_TYPEID } from '@cadmus/parts/general/general-ui';
 
 @Injectable({ providedIn: 'root' })
-@StoreConfig({ name: 'net.fusisoft.note' })
+@StoreConfig({ name: NOTE_PART_TYPEID })
 export class EditNotePartStore extends Store<EditPartState>
   implements EditPartStoreApi {
   constructor() {
