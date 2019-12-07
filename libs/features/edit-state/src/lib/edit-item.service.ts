@@ -29,7 +29,6 @@ export class EditItemService {
       facets: this._facetService.getFacets(),
       flags: this._flagService.getFlags()
     })
-      .pipe(catchError(this._errorService.handleError))
       .subscribe(
         result => {
           this._editItemStore.setLoading(false);
@@ -62,7 +61,6 @@ export class EditItemService {
     this._editItemStore.setSaving();
     this._itemService
       .addItem(item)
-      .pipe(catchError(this._errorService.handleError))
       .subscribe(
         _ => {
           this._editItemStore.setSaving(false);
@@ -87,7 +85,6 @@ export class EditItemService {
     // delete from server
     this._itemService
       .deletePart(id)
-      .pipe(catchError(this._errorService.handleError))
       .subscribe(
         _ => {
           // once deleted, update the store by removing the deleted part
