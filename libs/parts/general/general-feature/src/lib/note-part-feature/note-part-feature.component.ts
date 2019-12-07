@@ -33,14 +33,6 @@ export class NotePartFeatureComponent implements OnInit {
   }
 
   ngOnInit() {
-    //@@
-    this._editPartQuery.select().subscribe(s => {
-      console.log(s);
-    });
-    this._editPartQuery.select(state => state.part).subscribe(p => {
-      console.log(p);
-    });
-
     this.json$ = this._editPartQuery.selectJson(
       this.itemId,
       this.partId,
