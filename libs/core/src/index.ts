@@ -7,6 +7,9 @@ export * from './lib/text-layer.service';
 export * from './lib/text-range';
 export * from './lib/token-location';
 export * from './lib/token-point';
+
+export * from './lib/guards/pending-changes.guard';
+
 export * from './lib/services/error.service';
 export * from './lib/services/gravatar.service';
 export * from './lib/services/json-schema.service';
