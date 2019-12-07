@@ -49,6 +49,10 @@ export class NotePartFeatureComponent implements OnInit {
     this._editPartService.setDirty(value);
   }
 
+  public save(json: string) {
+    this._editPartService.save(json);
+  }
+
   public close() {
     this._router.navigate(['items', this.itemId]);
   }

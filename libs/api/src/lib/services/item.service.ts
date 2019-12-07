@@ -202,6 +202,18 @@ export class ItemService {
   }
 
   /**
+   * Add or update the specified part.
+   * @param item IPart The part.
+   * @returns Observable<Object> Observable with result.
+   */
+  public addPartJson(json: string): Observable<Object> {
+    const url = `${this._apiEndpoint}${this._databaseId}/parts`;
+    return this._http
+      .post(url, { raw: json })
+      .pipe(catchError(this._error.handleError));
+  }
+
+  /**
    * Group the specified item's parts according to the specified part
    * definitions. This is used to list item's parts in editing it.
    * Each part is grouped under a specific group according to its groupKey,

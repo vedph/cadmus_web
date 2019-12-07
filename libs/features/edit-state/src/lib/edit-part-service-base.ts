@@ -48,6 +48,21 @@ export abstract class EditPartServiceBase {
     }
   }
 
+  public save(json: string) {
+    this.store.setSaving(true);
+
+    this._itemService.addPartJson(json)
+      .subscribe(_ => {
+        this.store.setSaving(false);
+        this.store.setDirty(false);
+      },
+      error => {
+        console.error(error);
+        this.store.setSaving(true);
+        this.store.setError('Error saving part');
+    });
+  }
+
   public setDirty(value = true) {
     this.store.setDirty(value);
   }
