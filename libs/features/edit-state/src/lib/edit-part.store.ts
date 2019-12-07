@@ -22,6 +22,11 @@ export const editPartInitialState: EditPartState = {
   error: null
 };
 
+/**
+ * General-purpose edit-part store. This can be used with any part, so that
+ * you should only provide your part store, query, and service (usually
+ * extending EditPartServiceBase).
+ */
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'edit-item' })
 export class EditPartStore extends Store<EditPartState> {

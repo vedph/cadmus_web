@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ItemService, FlagService, FacetService } from '@cadmus/api';
 import { forkJoin } from 'rxjs';
-import { Item, ErrorService } from '@cadmus/core';
-import { catchError } from 'rxjs/operators';
+import { Item } from '@cadmus/core';
 import { EditItemStore } from './edit-item.store';
 
 @Injectable({ providedIn: 'root' })
@@ -11,8 +10,7 @@ export class EditItemService {
     private _editItemStore: EditItemStore,
     private _itemService: ItemService,
     private _facetService: FacetService,
-    private _flagService: FlagService,
-    private _errorService: ErrorService
+    private _flagService: FlagService
   ) {}
 
   /**

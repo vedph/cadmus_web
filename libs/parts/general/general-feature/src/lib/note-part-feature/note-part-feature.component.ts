@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ThesauriSet } from '@cadmus/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { EditPartQuery } from '@cadmus/features/edit-state';
 import { EditNotePartService } from './edit-note-part.service';
+import { EditNotePartQuery } from './edit-note-part.query';
 
 @Component({
   selector: 'cadmus-note-part-feature',
@@ -21,7 +21,7 @@ export class NotePartFeatureComponent implements OnInit {
   constructor(
     private _router: Router,
     route: ActivatedRoute,
-    private _editPartQuery: EditPartQuery,
+    private _editPartQuery: EditNotePartQuery,
     private _editPartService: EditNotePartService
   ) {
     this.itemId = route.snapshot.params['iid'];

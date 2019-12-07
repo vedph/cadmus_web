@@ -1,6 +1,4 @@
 import { ItemService, ThesaurusService } from '@cadmus/api';
-import { ErrorService } from '@cadmus/core';
-import { catchError } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
 
 export interface EditPartStoreApi {
@@ -16,8 +14,7 @@ export abstract class EditPartServiceBase {
 
   constructor(
     private _itemService: ItemService,
-    private _thesaurusService: ThesaurusService,
-    private _errorService: ErrorService
+    private _thesaurusService: ThesaurusService
   ) {}
 
   public load(partId: string, thesauriIds: string[] | null = null) {
@@ -27,32 +24,27 @@ export abstract class EditPartServiceBase {
       forkJoin({
         part: this._itemService.getPart(partId),
         thesauri: this._thesaurusService.getThesauri(thesauriIds)
-      })
-        .pipe(catchError(this._errorService.handleError))
-        .subscribe(result => {
+      }).subscribe(result => {
+        this.store.setLoading(false);
+        this.store.update({
+          part: result.part,
+          thesauri: result.thesauri
+        });
+      });
+    } else {
+      this._itemService.getPart(partId).subscribe(
+        part => {
           this.store.setLoading(false);
           this.store.update({
-            part: result.part,
-            thesauri: result.thesauri
+            part: part
           });
-        });
-    } else {
-      this._itemService
-        .getPart(partId)
-        .pipe(catchError(this._errorService.handleError))
-        .subscribe(
-          part => {
-            this.store.setLoading(false);
-            this.store.update({
-              part: part
-            });
-          },
-          error => {
-            console.error(error);
-            this.store.setLoading(false);
-            this.store.setError('Error loading part ' + partId);
-          }
-        );
+        },
+        error => {
+          console.error(error);
+          this.store.setLoading(false);
+          this.store.setError('Error loading part ' + partId);
+        }
+      );
     }
   }
 
