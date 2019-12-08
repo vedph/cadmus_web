@@ -57,7 +57,8 @@ export class TextLayerService {
         y: y + 1,
         tokens: []
       };
-      let x = 0, xBeg = 0;
+      let x = 0,
+        xBeg = 0;
 
       while (x < line.length) {
         if (this.isWhitespace(line.charAt(x))) {
@@ -420,10 +421,10 @@ export class TextLayerService {
     if (line.charAt(selStart) === ' ') {
       selStart++;
     }
-    // corner case: if on space, move to left
-    // if (line.charAt(selEnd) === ' ') {
-    //   selEnd--;
-    // }
+    // corner case: if included trailing space, move to left
+    if (selEnd > 0 && line.charAt(selEnd - 1) === ' ') {
+      selEnd--;
+    }
     return [selStart, selEnd];
   }
 
@@ -496,8 +497,7 @@ export class TextLayerService {
 
     // calculate at,run only when selection ends before the 1st char of the token
     // (al]pha); run is calculated only if at is calculated.
-    let at = 0,
-      run = 0;
+    let at = 0, run = 0;
     if (selBounds[1] < tokBounds[1]) {
       at = selBounds[0] > tokBounds[0] ? 1 + selBounds[0] - tokBounds[0] : 1;
       run = selBounds[1] - tokBounds[0];
