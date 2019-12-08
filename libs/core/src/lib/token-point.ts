@@ -27,6 +27,8 @@ export class TokenPoint {
     if (m[3]) {
       if (m[4]) {
         pt.run = m[4] ? parseInt(m[4], 10) : 1;
+      } else {
+        pt.run = 1;
       }
     }
     return pt;
