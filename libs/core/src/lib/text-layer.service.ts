@@ -42,7 +42,7 @@ export class TextLayerService {
   /**
    * Extract the lines with their tokens from the specified text.
    * @param text the source text.
-   * @returns TextLine[] lines.
+   * @returns lines.
    */
   public getLines(text: string): TextLine[] {
     const results: TextLine[] = [];
@@ -96,10 +96,11 @@ export class TextLayerService {
 
   /**
    * Render the opening span for a layer fragment.
-   * @param TokenLocation loc location.
-   * @param number locPortion the index of the token's portion (0-N). This is used
+   * @param loc location.
+   * @param locPortion the index of the token's portion (0-N). This is used
    * to build a unique ID for each HTML span rendering a layer fragment.
-   * @param string[] the target strings array.
+   * @param sb the target strings array.
+   * @param isSelected true if selected.
    */
   private renderOpeningSpan(
     loc: TokenLocation,
@@ -139,10 +140,10 @@ export class TextLayerService {
   /**
    * Render the specified token intersecting the specified single-point location.
    * The received token starts and ends a single-token range.
-   * @param TokenLocation loc location.
-   * @param string token token.
-   * @param string[] target strings array.
-   * @param boolean isSelected True if the token is selected.
+   * @param loc location.
+   * @param token token.
+   * @param sb target strings array.
+   * @param isSelected True if the token is selected.
    */
   private renderTokenAtPointStart(
     loc: TokenLocation,
@@ -166,12 +167,12 @@ export class TextLayerService {
   /**
    * Render the specified token intersecting the specified range start location.
    * The received token starts a multi-tokens range.
-   * @param TokeLocation loc location.
-   * @param string locPortion the index of the token's portion (0-N). This is used
+   * @param loc location.
+   * @param locPortion the index of the token's portion (0-N). This is used
    * to build a unique ID for each HTML span rendering a layer fragment.
-   * @param string token token.
-   * @param string[] target strings array.
-   * @param boolean isSelected True if the token is selected.
+   * @param token token.
+   * @param sb target strings array.
+   * @param isSelected True if the token is selected.
    */
   private renderTokenAtRangeStart(
     loc: TokenLocation,
@@ -217,10 +218,10 @@ export class TextLayerService {
 
   /**
    * Render to HTML the base text decorated with its layer fragments.
-   * @param string text The base text.
-   * @param TokenLocation[] locations The locations of all the fragments
+   * @param text The base text.
+   * @param locations The locations of all the fragments
    * of the same type to be rendered on top of the base text.
-   * @param selectedLoc TokenLocation The optional location of the selected
+   * @param selectedLoc The optional location of the selected
    * fragment if any. The selected fragment gets decorated with an additional
    * class value.
    */
@@ -562,9 +563,9 @@ export class TextLayerService {
   /**
    * Get the location corresponding to the user selection,
    * for editing the first fragment included in it.
-   * @param ISelectedRange range The selected range. You can get it from the
+   * @param range The selected range. You can get it from the
    * current selection using getSelectedRange().
-   * @returns TokenLocation The token location or null.
+   * @returns The token location or null.
    */
   public getSelectedLocationForEdit(range: SelectedRange): TokenLocation {
     if (!range) {
@@ -603,9 +604,9 @@ export class TextLayerService {
   /**
    * Get the location corresponding to the user selection,
    * for adding a new fragment with the same extension.
-   * @param ISelectedRange range The selected range. You can get it from the
+   * @param range The selected range. You can get it from the
    * current selection using getSelectedRange().
-   * @param string text The full base text.
+   * @param text The full base text.
    * @returns TokenLocation The token location or null.
    */
   public getSelectedLocationForNew(
