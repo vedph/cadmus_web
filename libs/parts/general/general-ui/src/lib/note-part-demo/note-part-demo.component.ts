@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { JsonSchemaService, Thesaurus } from '@cadmus/core';
+import { JsonSchemaService, ThesauriSet } from '@cadmus/core';
 import { NOTE_PART_TYPEID, NOTE_PART_SCHEMA } from '../models';
 
 @Component({
@@ -12,8 +12,8 @@ export class NotePartDemoComponent implements OnInit {
 
   public currentTabIndex: number;
   public schemaName = NOTE_PART_TYPEID;
-  public partJson: string;
-  public thesauri: { [key: string]: Thesaurus } | null;
+  public modelJson: string;
+  public thesauri: ThesauriSet | null;
 
   @Input()
   public get thesauriJson(): string {

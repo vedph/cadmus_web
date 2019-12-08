@@ -15,9 +15,9 @@
         <cadmus-json-editor-resources
           title="Note"
           [schemaName]="schemaName"
-          [(partJson)]="partJson"
+          [(modelJson)]="modelJson"
           [(thesauriJson)]="thesauriJson"
-          (partJsonChange)="onCodeSaved()"
+          (modelJsonChange)="onCodeSaved()"
           (thesauriJsonChange)="onCodeSaved()"
         ></cadmus-json-editor-resources>
       </mat-tab>
@@ -27,7 +27,7 @@
           Editor
         </ng-template>
         <cadmus-note-part
-          [(json)]="partJson"
+          [(json)]="modelJson"
           [thesauri]="thesauri"
           (jsonChange)="onEditorSaved()"
           (editorClose)="onEditorSaved()"

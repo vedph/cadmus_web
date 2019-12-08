@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { DialogService, PartEditorBaseComponent } from '@cadmus/ui';
+import { Component, OnInit } from '@angular/core';
+import { DialogService, ModelEditorComponentBase } from '@cadmus/ui';
 import { NotePart, NOTE_PART_TYPEID } from '../..';
 import {
   FormControl,
@@ -11,7 +11,7 @@ import { take } from 'rxjs/operators';
 
 /**
  * Note part editor component.
- * Thesauri: optionally provide entries under a "tags" thesaurus
+ * Thesauri: optionally provide entries under a "note-tags" thesaurus
  * when you want to use a closed set of tags.
  */
 @Component({
@@ -19,7 +19,7 @@ import { take } from 'rxjs/operators';
   templateUrl: './note-part.component.html',
   styleUrls: ['./note-part.component.css']
 })
-export class NotePartComponent extends PartEditorBaseComponent<NotePart>
+export class NotePartComponent extends ModelEditorComponentBase<NotePart>
   implements OnInit {
   public tag: FormControl;
   public tags: FormControl;
@@ -50,23 +50,23 @@ export class NotePartComponent extends PartEditorBaseComponent<NotePart>
 
   ngOnInit() {}
 
-  private updateForm(part: NotePart) {
-    if (!part) {
+  private updateForm(model: NotePart) {
+    if (!model) {
       this.form.reset();
       return;
     }
-    this.tag.setValue(part.tag);
-    this.tags.setValue(part.tag);
-    this.text.setValue(part.text);
+    this.tag.setValue(model.tag);
+    this.tags.setValue(model.tag);
+    this.text.setValue(model.text);
     this.form.markAsPristine();
   }
 
-  protected onPartSet(part: NotePart) {
-    this.updateForm(part);
+  protected onModelSet(model: NotePart) {
+    this.updateForm(model);
   }
 
   protected onThesauriSet() {
-    const key = 'tags';
+    const key = 'note-tags';
     if (this.thesauri && this.thesauri[key]) {
       this.tagEntries = this.thesauri[key].entries;
     } else {
@@ -74,8 +74,8 @@ export class NotePartComponent extends PartEditorBaseComponent<NotePart>
     }
   }
 
-  private getPartFromForm(): NotePart {
-    let part = this.getPartFromJson();
+  private getModelFromForm(): NotePart {
+    let part = this.getModelFromJson();
     if (!part) {
       part = {
         itemId: null,
@@ -110,7 +110,7 @@ export class NotePartComponent extends PartEditorBaseComponent<NotePart>
     if (this.form.invalid) {
       return;
     }
-    const part = this.getPartFromForm();
+    const part = this.getModelFromForm();
     this.updateJson(JSON.stringify(part));
     this.form.markAsPristine();
   }

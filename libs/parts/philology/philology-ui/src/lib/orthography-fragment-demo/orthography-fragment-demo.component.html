@@ -15,9 +15,9 @@
         <cadmus-json-editor-resources
           title="Orthography fragment"
           [schemaName]="schemaName"
-          [(partJson)]="partJson"
+          [(modelJson)]="modelJson"
           [(thesauriJson)]="thesauriJson"
-          (partJsonChange)="onCodeSaved()"
+          (jsonChange)="onCodeSaved()"
           (thesauriJsonChange)="onCodeSaved()"
         ></cadmus-json-editor-resources>
       </mat-tab>
@@ -27,7 +27,7 @@
           Editor
         </ng-template>
         <cadmus-orthography-fragment
-          [(json)]="partJson"
+          [(json)]="modelJson"
           [thesauri]="thesauri"
           (jsonChange)="onEditorSaved()"
           (editorClose)="onEditorSaved()"

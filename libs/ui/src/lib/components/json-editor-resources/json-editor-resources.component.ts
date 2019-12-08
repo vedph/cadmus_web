@@ -21,22 +21,22 @@ import { JsonSchemaValidators } from '../../validators/json-schema-validators';
   styleUrls: ['./json-editor-resources.component.css']
 })
 export class JsonEditorResourcesComponent implements OnInit {
-  private _partJson: string;
+  private _modelJson: string;
   private _thesauriJson: string;
   // validation
   private _schemaName: string;
 
   @Input()
-  public get partJson(): string {
-    return this._partJson;
+  public get modelJson(): string {
+    return this._modelJson;
   }
-  public set partJson(value: string) {
-    if (this._partJson === value) {
+  public set modelJson(value: string) {
+    if (this._modelJson === value) {
       return;
     }
-    this._partJson = value;
-    this.part.setValue(value);
-    this.part.markAsPristine();
+    this._modelJson = value;
+    this.model.setValue(value);
+    this.model.markAsPristine();
   }
 
   @Input()
@@ -81,7 +81,7 @@ export class JsonEditorResourcesComponent implements OnInit {
   };
 
   public form: FormGroup;
-  public part: FormControl;
+  public model: FormControl;
   public thesauri: FormControl;
 
   constructor(
@@ -100,11 +100,11 @@ export class JsonEditorResourcesComponent implements OnInit {
     // thesauri schema
     _schemaService.addSchema(THESAURI_SCHEMA_NAME, THESAURI_SCHEMA);
     // form
-    this.part = formBuilder.control(null, JsonValidators.json);
+    this.model = formBuilder.control(null, JsonValidators.json);
     this.thesauri = formBuilder.control(null,
       JsonSchemaValidators.create(this._schemaService, '@thesauri'));
     this.form = formBuilder.group({
-      part: this.part,
+      part: this.model,
       thesauri: this.thesauri
     });
   }
@@ -112,14 +112,14 @@ export class JsonEditorResourcesComponent implements OnInit {
   ngOnInit() {}
 
   private updatePartValidators() {
-    this.part.clearValidators();
+    this.model.clearValidators();
 
     if (this._schemaName) {
-      this.part.setValidators(
+      this.model.setValidators(
         JsonSchemaValidators.create(this._schemaService, this._schemaName)
       );
     } else {
-      this.part.setValidators(JsonValidators.json);
+      this.model.setValidators(JsonValidators.json);
     }
   }
 
@@ -133,11 +133,11 @@ export class JsonEditorResourcesComponent implements OnInit {
     }
   }
 
-  public prettifyPartJson() {
-    if (this.part.hasError('json')) {
+  public prettifyModelJson() {
+    if (this.model.hasError('json')) {
       return;
     }
-    this.part.setValue(this.prettifyJson(this.part.value));
+    this.model.setValue(this.prettifyJson(this.model.value));
   }
 
   public prettifyThesauriJson() {
@@ -162,7 +162,7 @@ export class JsonEditorResourcesComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.partJsonChange.emit(this.part.value);
+    this.partJsonChange.emit(this.model.value);
     this.thesauriJsonChange.emit(this.thesauri.value);
   }
 }

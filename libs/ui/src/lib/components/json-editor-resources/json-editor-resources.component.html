@@ -11,34 +11,34 @@
         <mat-tab>
           <ng-template mat-tab-label>
             <span
-              [class.error-label]="part.invalid && (part.dirty || part.touched)"
+              [class.error-label]="model.invalid && (model.dirty || model.touched)"
               >Part</span
             >
           </ng-template>
           <ngx-monaco-editor
             id="partEditor"
             [options]="editorOptions"
-            formControlName="part"
+            formControlName="model"
           ></ngx-monaco-editor>
           <mat-error
-            *ngIf="part.hasError('json') && (part.dirty || part.touched)"
+            *ngIf="model.hasError('json') && (model.dirty || model.touched)"
           >
             malformed part JSON code
           </mat-error>
           <mat-error
-            *ngIf="part.hasError('jsonSchema') && (part.dirty || part.touched)"
+            *ngIf="model.hasError('jsonSchema') && (model.dirty || model.touched)"
           >
             invalid part JSON code:
             <cadmus-error-list
-              [errors]="part.errors['jsonSchema'].errors.split(', ')"
+              [errors]="model.errors['jsonSchema'].errors.split(', ')"
             ></cadmus-error-list>
           </mat-error>
           <button
             type="button"
-            [disabled]="!part.value || part.hasError('json')"
+            [disabled]="!model.value || model.hasError('json')"
             mat-button
             matTooltip="Prettify code"
-            (click)="prettifyPartJson()"
+            (click)="prettifyModelJson()"
           >
             <mat-icon>format_align_right</mat-icon>
             prettify

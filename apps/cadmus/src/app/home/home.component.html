@@ -7,15 +7,15 @@
   <mat-tab label="Code">
     <cadmus-json-editor-resources
       title="Note"
-      [(partJson)]="partJson"
+      [(modelJson)]="modelJson"
       [(thesauriJson)]="thesauriJson"
-      (partJsonChange)="onCodeSaved()"
+      (modelJsonChange)="onCodeSaved()"
       (thesauriJsonChange)="onCodeSaved()"
     ></cadmus-json-editor-resources>
   </mat-tab>
   <mat-tab label="Editor">
     <cadmus-note-part
-      [(json)]="partJson"
+      [(json)]="modelJson"
       [thesauri]="thesauriJson"
       (jsonChange)="onEditorSaved()"
       (editorClose)="onEditorSaved()"

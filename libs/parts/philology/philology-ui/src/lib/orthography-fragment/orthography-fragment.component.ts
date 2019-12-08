@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { OrthographyFragment } from '../models';
 import {
   FormControl,
@@ -8,7 +8,7 @@ import {
   Validators
 } from '@angular/forms';
 import { MspValidators } from '../msp-validators';
-import { DialogService, FragmentEditorBaseComponent } from '@cadmus/ui';
+import { DialogService, ModelEditorComponentBase } from '@cadmus/ui';
 import { take } from 'rxjs/operators';
 import { diff_match_patch } from 'diff-match-patch';
 import {
@@ -44,7 +44,7 @@ import { DifferResultToMspAdapter } from '../differ-result-to-msp-adapter';
   ]
 })
 export class OrthographyFragmentComponent
-  extends FragmentEditorBaseComponent<OrthographyFragment>
+  extends ModelEditorComponentBase<OrthographyFragment>
   implements OnInit {
   private _currentOperationIndex: number;
   private _differ: diff_match_patch;
@@ -55,20 +55,11 @@ export class OrthographyFragmentComponent
   public operations: FormArray;
   public currentOperation: MspOperation;
 
-  @Output()
-  public fragmentChange: EventEmitter<OrthographyFragment>;
-  @Output()
-  public fragmentClose: EventEmitter<any>;
-
   constructor(
     private _formBuilder: FormBuilder,
     private _dialog: DialogService
   ) {
     super();
-    // events
-    this.fragmentChange = new EventEmitter<OrthographyFragment>();
-    this.fragmentClose = new EventEmitter<any>();
-    this.jsonChange = new EventEmitter<string>();
 
     // form
     this.standard = _formBuilder.control(null, [
@@ -94,7 +85,7 @@ export class OrthographyFragmentComponent
     this.form.markAsPristine();
   }
 
-  protected onFragmentSet(fragment: OrthographyFragment) {
+  protected onModelSet(fragment: OrthographyFragment) {
     this.updateForm(fragment);
   }
 
@@ -219,14 +210,14 @@ export class OrthographyFragmentComponent
   public close() {
     // if not dirty just close, else prompt
     if (!this.form.dirty) {
-      this.fragmentClose.emit();
+      this.editorClose.emit();
     } else {
       this._dialog
         .confirm('Warning', 'Discard changes?')
         .pipe(take(1))
         .subscribe((ok: boolean) => {
           if (ok) {
-            this.fragmentClose.emit();
+            this.editorClose.emit();
           }
         });
     }

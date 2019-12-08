@@ -80,6 +80,8 @@ To **add a new parts library**:
 
 To **add a new part**:
 
+a) in a `<PartGroup>-ui` module:
+
 1. add the part *model* (derived from `Part`), its type ID constant, and its JSON schema constant to `models.ts`. For instance:
 
 ```ts
@@ -114,37 +116,36 @@ export const NOTE_PART_SCHEMA = {
 };
 ```
 
-2. add a *part editor dumb component* named after the part (e.g. `NotePartComponent` after `NotePart`), and extending `PartEditorBaseComponent<T>` where `T` is the part's type.
+2. add a *part editor dumb component* named after the part (e.g. `NotePartComponent` after `NotePart`), and extending `ModelEditorComponentBase<T>` where `T` is the part's type.
 
 3. add a *part editor demo dumb component* named after the part (e.g. `NotePartComponentDemo` after `NotePart`). This will essentially be a wrapper of two distinct controls: the part's editor component, and a `JsonEditorResourcesComponent`. These components are mutually connected, so that you can edit the JSON code for the part (and eventually for its thesauri sets) and set the visual editor to it, or vice-versa.
 
-### Editing Parts
+b) in a `<PartGroup>-feature` module:
 
-The general architecture of part editing, from bottom to top, is as follows:
+4. add a *part editor feature component* named after the part (e.g. `NotePartFeatureComponent` after `NotePart`).
 
-1. `<X>PartComponent` (in part editor dumb component): at the bottom level, we have a dumb UI component for part X. The component just gets as input properties the part's JSON code (`json`) and a set of optional thesauri (`thesauri`), and emits as output the part's JSON code (`jsonChange`). Also, it has a `dirty$` input property, used to tell the control if the locally edited part state is not saved to the server. This is used to implement the guard which prompts the user when he wants to exit the editor, but the locally edited part state is not saved.
+### Editor Components
 
-2. `<X>PartFeatureComponent` (in part editor feature component): the dumb UI component for part X is wrapped into a feature UI component, which depends on two Akita components: an X-part query and an X-part service. The query is used to read from the store, and the service to load its state initially, and write to it (in Akita, components should never interact with stores directly; such services act as facades, and couple the store with an API service). Usually, the service extends `EditPartServiceBase`, which provides load/save methods and a dirty state setter. The component binds a number of observable properties to the query, and its template is fed from these observables. When the store gets updated (via the service), the observables change, and this is reflected in the reactive UI.
+The general architecture of part/fragments editing, from bottom to top, is as follows:
 
-When the user saves in an editor dumb component, the `jsonChange` event is emitted, and the form is set to pristine state.
+1. `<X>PartComponent` or `<X>FragmentComponent` (in a `<PartGroup>-ui` module): at the bottom level, we have a dumb UI component for part/fragment X, extending `ModelEditorComponentBase<T>`.
 
-In turn, the editor feature component handles the `jsonChange` event by invoking its service's `save` method with the JSON code representing the part to be saved.
+2. `<X>PartDemoComponent` or `<X>FragmentDemoComponent` (in the same `<PartGroup>-ui` module): a container for a JSON code editor and the editor dumb component at (1), used for demo purposes.
 
-The `save` method (implemented in `EditPartServiceBase`) sets the "saving" and "dirty" states to true, and invokes the API save method:
+3. `<X>PartFeatureComponent` (in a `<PartGroup>-feature` module): the dumb UI component for part X is wrapped into a feature UI component.
 
-- if the API succeeds, the "saving" and "dirty" states are set to "false".
-- if the API fails, the "saving" state is set to false (while "dirty" remains true).
+#### Editor Components - 1. Dumb Editor
 
-### Part Editors
+The open-ended portion of the UI is represented by part and fragment editors. At the bottom level, both are dumb UI components extending `ModelEditorComponentBase<T>`, where `T` is the model's type (=the type of the part or fragment).
 
-Part editors are dumb UI components extending `PartEditorBaseComponent<T>`, where `T` is the part's type.
-
-The base component is not an abstract class (this is best for Angular), and provides this API:
+The base class provides this API:
 
 **Input**:
 
-- `json` (type `string`): the JSON code representing the part being edited. The corresponding output is implemented via the `jsonChange` event.
-- `thesauri` (type `{ [key: string]: Thesaurus } | null`): optional thesauri sets to be consumed by the editor. Each thesaurus is keyed under an ID which is meaningful and unique only within the context of the editor.
+- `disabled` (type `boolean`): whether the editor is disabled. When changed, the "root" form of the editor is disabled or enabled accordingly.
+- `json` (type `string`): the JSON code representing the model being edited. The corresponding output is implemented via the `jsonChange` event.
+- `thesauri` (type `ThesauriSet | null`): optional thesauri sets to be consumed by the editor. Each thesaurus is keyed under its own ID.
+- `dirty$` (type `Observable<boolean>`): bound to an observable which tells whether the edited model is dirty, i.e. its data were edited locally, but not saved to the server.
 
 **Output**:
 
@@ -153,44 +154,35 @@ The base component is not an abstract class (this is best for Angular), and prov
 
 **Helpers**:
 
-- `getPartFromJson(json: string = null): T`: get the part from the specified JSON code, or from the current json property if no JSON code is specified. This is just a helper method for parsing JSON (when truthy) and casting it to the template argument type.
-- `updateJson(json: string)`: update the `json` property from the specified code, without triggering a call to `onPartSet`.
-- `onPartSet`: invoked whenever the json property is set, unless setting it via `updateJson`. The default implementation does nothing. Override to add custom behavior, e.g. update the form to reflect the new part value.
+- `form: FormGroup`: the "root" form of the editor. You must instantiate this in your derived editor constructor.
+- `getModelFromJson(json: string = null): T`: get the model from the specified JSON code, or from the current json property if no JSON code is specified. This is just a helper method for parsing JSON (when truthy) and casting it to the template argument type.
+- `updateJson(json: string)`: update the `json` property from the specified code, without triggering a call to `onModelSet`.
+- `onModelSet`: invoked whenever the json property is set, unless setting it via `updateJson`. The default implementation does nothing. Override to add custom behavior, e.g. update the form to reflect the new part value.
 - `onThesauriSet`: invoked whenever the thesauri property is set.
+
+Also, the base class implements `ComponentCanDeactivate`, which is used by pending changes guards to decide if the user should be prompted when leaving the editor. This relies on the `dirty$` input property, and on the root form's dirty state: both must be false for the guard to allow exiting the editor without prompting.
 
 A typical editor extending this base can follow these guidelines:
 
-- add form controls and eventually thesaurus entries properties (`ThesaurusEntry[]`) to be consumed by the template. If thesaurus entries are required, set these properties in `onThesauriSet`.
-- add an `updateForm(part)` method to update the form controls from the part's model, calling it from `onPartSet`.
-- add a `getPartFromForm` method to get a part object from the form controls. Among the common part's properties, only `typeId` gets set at this level; the other properties will be set by the page wrapping the editor.
-- add a `close` method for closing without saving (prompting when dirty).
-- add a `save` method which if the form is valid uses `getPartFromForm` to get the part, and `updateJson` to update the JSON code stringified from that part.
-- template: `form`, including a `mat-card`. Header and footer in the card should be standardized, while the content is free.
-- typically, add a `disabled` input property, implementing it like this (assuming that `form` is the name of the "root" form):
+- add your form controls, and eventually thesaurus properties to be consumed by the template. When thesaurus properties are required, set them in `onThesauriSet`.
+- add an `updateForm(model)` method to update the form controls from the part's model, calling it from `onModelSet`.
+- add a `getModelFromForm` method to get a model object from the form controls. Among the common part's properties, only `typeId` gets set at this level; the other properties will be set by the page wrapping the editor.
+- add a `close` method for emitting the `editorClose` event.
+- add a `save` method which if the form is valid uses `getModelFromForm` to get the model, and `updateJson` to update the JSON code stringified from that model.
+- *template*: `form`, including a `mat-card`. Header and footer in the card should be standardized, while the content is free.
 
-```ts
-@Input()
-set disabled(value: boolean) {
-  if (value) {
-    this.form.disable();
-  } else {
-    this.form.enable();
-  }
-}
-```
-
-### Part Editors Demos
+#### Editor Components - 2. Editor Demo
 
 Each part editor usually is provided with a corresponding demo component, which allows users to play with the editor by passing JSON data to it, or getting JSON data from it.
 
 The demo component is built of two distinct controls:
 
-- a general purpose `JsonEditorResourcesComponent`: JSON editors for part and eventually thesauri sets. This represents the _code_ editor.
-- a specific part editor component. This represents the _visual_ editor.
+- a general purpose `JsonEditorResourcesComponent`: JSON editors for model and eventually thesauri sets. This represents the *code* editor.
+- a specific part editor component. This represents the *visual* editor.
 
-In the code editor, you should enter the part's JSON code, and eventually one or more thesauri.
+In the code editor, you should enter the model's JSON code, and eventually one or more thesauri.
 
-The part's code must be valid according to its schema (the JSON schema specified in the models). For instance, a `NotePart` might appear as:
+The model's code must be valid according to its schema (the JSON schema specified in the models). For instance, a `NotePart` might appear as:
 
 ```json
 {
@@ -209,7 +201,7 @@ The thesauri code is like in this sample (for the `NotePart` tags):
 
 ```json
 {
-  "tags": {
+  "note-tags": {
     "id": "colors",
     "language": "ita",
     "entries": [
@@ -221,7 +213,25 @@ The thesauri code is like in this sample (for the `NotePart` tags):
 }
 ```
 
-As you can see, each thesaurus is keyed under a unique property name, like `tags` here. In the case of `NotePart`, if a thesaurus is found under the `tags` key, its entries are used to feed a closed list of tags. If no such thesaurus is found, then the tag is just an open value.
+If no thesaurus with the specified is found, then the tag is just an open value.
+
+#### Editor Components - 3. Feature Editor
+
+The feature editor is a wrapper around the dumb editor. It has an Angular route, and depends on two *Akita* components:
+
+- an X-part/fragment *query*, used to read data from the store;
+- an X-part/fragment *service*, used to write data to the store, and to load its state when the component is initialized. In Akita, components should never interact with stores directly; such services act as facades, and couple the store with an API service).
+
+Usually, the service extends `EditPartServiceBase`, which provides load/save methods and a dirty state setter. The component binds a number of observable properties to the query, and its template is fed from these observables. When the store gets updated (via the service), the observables change, and this is reflected in the reactive UI.
+
+When the user saves in an editor dumb component, the `jsonChange` event is emitted, and the form is set to pristine state.
+
+In turn, the editor feature component handles the `jsonChange` event by invoking its service's `save` method with the JSON code representing the part to be saved.
+
+The `save` method (implemented in `EditPartServiceBase`) sets the "saving" and "dirty" states to true, and invokes the API save method:
+
+- if the API succeeds, the "saving" and "dirty" states are set to "false".
+- if the API fails, the "saving" state is set to false (while "dirty" remains true).
 
 ## Quick Start & Documentation
 

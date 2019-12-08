@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Thesaurus, JsonSchemaService } from '@cadmus/core';
+import { Thesaurus, JsonSchemaService, ThesauriSet } from '@cadmus/core';
 import { ORTHOGRAPHY_FRAGMENT_TYPEID, ORTHOGRAPHY_FRAGMENT_SCHEMA } from '../..';
 
 @Component({
@@ -12,8 +12,8 @@ export class OrthographyFragmentDemoComponent implements OnInit {
 
   public currentTabIndex: number;
   public schemaName = ORTHOGRAPHY_FRAGMENT_TYPEID;
-  public partJson: string;
-  public thesauri: { [key: string]: Thesaurus } | null;
+  public modelJson: string;
+  public thesauri: ThesauriSet | null;
 
   @Input()
   public get thesauriJson(): string {
