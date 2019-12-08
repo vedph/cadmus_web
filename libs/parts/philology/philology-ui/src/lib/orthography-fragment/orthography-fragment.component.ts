@@ -90,6 +90,7 @@ export class OrthographyFragmentComponent
   }
 
   protected onModelSet(model: OrthographyFragment) {
+    this.fragment = model;
     this.updateForm(model);
   }
 

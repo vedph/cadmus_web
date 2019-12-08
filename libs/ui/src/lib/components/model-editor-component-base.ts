@@ -131,7 +131,7 @@ export abstract class ModelEditorComponentBase<T>
 
     /**
      * Update the json property from the specified code, without triggering
-     * a call to onPartSet.
+     * a call to onModelSet.
      *
      * @param json The JSON core representing the part.
      */
