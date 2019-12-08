@@ -12,7 +12,7 @@
           <ng-template mat-tab-label>
             <span
               [class.error-label]="model.invalid && (model.dirty || model.touched)"
-              >Part</span
+              >Model</span
             >
           </ng-template>
           <ngx-monaco-editor
@@ -23,12 +23,12 @@
           <mat-error
             *ngIf="model.hasError('json') && (model.dirty || model.touched)"
           >
-            malformed part JSON code
+            malformed model JSON code
           </mat-error>
           <mat-error
             *ngIf="model.hasError('jsonSchema') && (model.dirty || model.touched)"
           >
-            invalid part JSON code:
+            invalid model JSON code:
             <cadmus-error-list
               [errors]="model.errors['jsonSchema'].errors.split(', ')"
             ></cadmus-error-list>

@@ -75,18 +75,22 @@ export class OrthographyFragmentComponent
 
   ngOnInit() {}
 
-  private updateForm(fragment: OrthographyFragment) {
-    this.standard.setValue(fragment.standard);
-    if (fragment.operations) {
-      for (let i = 0; i < fragment.operations.length; i++) {
-        this.addOperation(fragment.operations[i]);
+  private updateForm(model: OrthographyFragment) {
+    if (!model) {
+      this.form.reset();
+    } else {
+      this.standard.setValue(model.standard);
+      if (model.operations) {
+        for (let i = 0; i < model.operations.length; i++) {
+          this.addOperation(model.operations[i]);
+        }
       }
+      this.form.markAsPristine();
     }
-    this.form.markAsPristine();
   }
 
-  protected onModelSet(fragment: OrthographyFragment) {
-    this.updateForm(fragment);
+  protected onModelSet(model: OrthographyFragment) {
+    this.updateForm(model);
   }
 
   public addOperation(operation: string = null) {
@@ -173,9 +177,9 @@ export class OrthographyFragmentComponent
     return ops;
   }
 
-  private getFragmentFromForm(): OrthographyFragment {
+  private getModelFromForm(): OrthographyFragment {
     const fr: OrthographyFragment = {
-      location: this.fragment.location,
+      location: this.fragment? this.fragment.location : null,
       standard: this.standard.value,
       operations: this.getOperations()
     };
@@ -224,7 +228,7 @@ export class OrthographyFragmentComponent
   }
 
   public save() {
-    this.fragment = this.getFragmentFromForm();
+    this.fragment = this.getModelFromForm();
     this.updateJson(JSON.stringify(this.fragment));
     this.form.markAsPristine();
   }

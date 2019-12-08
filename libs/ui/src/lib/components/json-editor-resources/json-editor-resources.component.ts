@@ -67,7 +67,7 @@ export class JsonEditorResourcesComponent implements OnInit {
   }
 
   @Output()
-  public partJsonChange: EventEmitter<string>;
+  public modelJsonChange: EventEmitter<string>;
   @Output()
   public thesauriJsonChange: EventEmitter<string>;
 
@@ -95,7 +95,7 @@ export class JsonEditorResourcesComponent implements OnInit {
     const THESAURI_SCHEMA = {};
 
     // events
-    this.partJsonChange = new EventEmitter<string>();
+    this.modelJsonChange = new EventEmitter<string>();
     this.thesauriJsonChange = new EventEmitter<string>();
     // thesauri schema
     _schemaService.addSchema(THESAURI_SCHEMA_NAME, THESAURI_SCHEMA);
@@ -104,7 +104,7 @@ export class JsonEditorResourcesComponent implements OnInit {
     this.thesauri = formBuilder.control(null,
       JsonSchemaValidators.create(this._schemaService, '@thesauri'));
     this.form = formBuilder.group({
-      part: this.model,
+      model: this.model,
       thesauri: this.thesauri
     });
   }
@@ -162,7 +162,7 @@ export class JsonEditorResourcesComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.partJsonChange.emit(this.model.value);
+    this.modelJsonChange.emit(this.model.value);
     this.thesauriJsonChange.emit(this.thesauri.value);
   }
 }
