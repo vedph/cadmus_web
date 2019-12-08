@@ -16,4 +16,12 @@ export class EditItemQuery extends Query<EditItemState> {
   public selectDeletingPart(): Observable<boolean> {
     return this.select(state => state.deletingPart);
   }
+
+  public hasItem(id: string = null): boolean {
+    const item = this.getValue().item;
+    if (!item || (id && id !== item.id)) {
+      return false;
+    }
+    return true;
+  }
 }
