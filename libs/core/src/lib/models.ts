@@ -99,13 +99,6 @@ export interface TokenTextLine {
 }
 
 /**
- * A base text part built of lines.
- */
-export interface TokenTextPart extends Part {
-  lines: TokenTextLine[];
-}
-
-/**
  * Token-based text coordinates.
  */
 export interface TextCoords {

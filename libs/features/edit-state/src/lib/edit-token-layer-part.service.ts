@@ -5,7 +5,11 @@ import {
   TOKEN_TEXT_PART_TYPEID
 } from './edit-token-layer-part.store';
 import { forkJoin } from 'rxjs';
-import { TokenTextPart, TokenTextLayerPart } from '@cadmus/core';
+import { TokenTextLayerPart, Part } from '@cadmus/core';
+
+interface TokenTextPart extends Part {
+  lines: { y: number; text: string }[];
+}
 
 @Injectable({ providedIn: 'root' })
 export class EditTokenLayerPartService {
@@ -14,14 +18,6 @@ export class EditTokenLayerPartService {
     private _itemService: ItemService,
     private _facetService: FacetService
   ) {}
-
-  private getBaseText(part: TokenTextPart): string {
-    return part.lines
-      .map(l => {
-        return l.tokens.join(' ');
-      })
-      .join('\n');
-  }
 
   public load(itemId: string, partId: string) {
     this._store.setLoading(true);
@@ -39,8 +35,10 @@ export class EditTokenLayerPartService {
       result => {
         this._store.update({
           part: result.layerPart as TokenTextLayerPart,
-          baseText: this.getBaseText(result.basePart as TokenTextPart),
-          layers: result.layers,
+          baseText: (result.basePart as TokenTextPart).lines.join('\n'),
+          layers: result.layers.filter(l => {
+            return l.roleId && l.roleId.startsWith('fr.');
+          }),
           selectedLayer: null,
           rolePartIds: result.rolePartIds,
           loading: false,
