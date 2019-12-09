@@ -5,7 +5,7 @@ import {
   TOKEN_TEXT_PART_TYPEID
 } from './edit-token-layer-part.store';
 import { forkJoin } from 'rxjs';
-import { TokenTextLayerPart, Part } from '@cadmus/core';
+import { TokenTextLayerPart, Part, PartDefinition } from '@cadmus/core';
 
 interface TokenTextPart extends Part {
   lines: { y: number; text: string }[];
@@ -35,7 +35,9 @@ export class EditTokenLayerPartService {
       result => {
         this._store.update({
           part: result.layerPart as TokenTextLayerPart,
-          baseText: (result.basePart as TokenTextPart).lines.join('\n'),
+          baseText: (result.basePart as TokenTextPart).lines
+            .map(l => l.text)
+            .join('\n'),
           layers: result.layers.filter(l => {
             return l.roleId && l.roleId.startsWith('fr.');
           }),
@@ -51,5 +53,11 @@ export class EditTokenLayerPartService {
         this._store.setError('Error loading text layer part ' + partId);
       }
     );
+  }
+
+  public selectLayer(layer: PartDefinition) {
+    this._store.update({
+      selectedLayer: layer
+    });
   }
 }

@@ -59,6 +59,7 @@
     </div>
     <div *ngIf="(error$ | async) as error" class="error-message">{{error}}</div>
 
+    <!-- <cadmus-current-item-bar></cadmus-current-item-bar> -->
     <cadmus-decorated-token-text
       *ngIf="(baseText$ | async) as baseText"
       [baseText]="baseText"

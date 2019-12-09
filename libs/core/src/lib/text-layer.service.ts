@@ -240,6 +240,10 @@ export class TextLayerService {
     let loc: TokenLocation = null;
     let tokenSelected = false;
 
+    if (!locations) {
+      locations = [];
+    }
+
     // for each line in text
     sb.push('<div>');
     for (let y = 0; y < lines.length; y++) {

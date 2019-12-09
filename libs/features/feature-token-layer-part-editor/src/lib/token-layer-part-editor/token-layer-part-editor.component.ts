@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   EditTokenLayerPartQuery,
-  EditTokenLayerPartService
+  EditTokenLayerPartService,
+  EditItemQuery,
+  EditItemService
 } from '@cadmus/features/edit-state';
 import { Observable } from 'rxjs';
 import { PartDefinition, TokenLocation, TextLayerService } from '@cadmus/core';
 import { RolePartId } from '@cadmus/api';
 import { FormControl, FormBuilder } from '@angular/forms';
+import { take, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'cadmus-token-layer-part-editor',
@@ -35,7 +38,9 @@ export class TokenLayerPartEditorComponent implements OnInit {
     formBuilder: FormBuilder,
     private _query: EditTokenLayerPartQuery,
     private _editService: EditTokenLayerPartService,
-    private _textLayerService: TextLayerService
+    private _textLayerService: TextLayerService,
+    private _editItemQuery: EditItemQuery,
+    private _editItemService: EditItemService
   ) {
     this.itemId = route.snapshot.params['iid'];
     this.partId = route.snapshot.params['pid'];
@@ -43,6 +48,12 @@ export class TokenLayerPartEditorComponent implements OnInit {
 
     // form
     this.selectedLayer = formBuilder.control(null);
+  }
+
+  private ensureItemLoaded(id: string) {
+    if (!this._editItemQuery.hasItem(id)) {
+      this._editItemService.load(id);
+    }
   }
 
   ngOnInit() {
@@ -53,14 +64,37 @@ export class TokenLayerPartEditorComponent implements OnInit {
     this.selectedLayer$ = this._query.select(state => state.selectedLayer);
     this.rolePartIds$ = this._query.select(state => state.rolePartIds);
 
+    // load all the fragments locations when the base text changes,
+    // so that it can be decorated
     this.baseText$.subscribe(_ => {
-      this.decorateBaseText();
+      this.loadAllFragmentLocations();
     });
 
+    // when the layers are loaded, set the initial layer selection if any
+    this.layers$.subscribe(l => {
+      if (this.roleId) {
+        const layers = this._query.getValue().layers;
+        if (layers) {
+          this.selectedLayer.setValue(layers.find(d => d.roleId === this.roleId));
+        }
+      }
+    })
+
+    // when the selected layer changes, update the store
+    this.selectedLayer.valueChanges.pipe(
+      debounceTime(200),
+      distinctUntilChanged()
+    ).subscribe(layer => {
+      this._editService.selectLayer(layer);
+    });
+
+    this.ensureItemLoaded(this.itemId);
+
+    // load the store for the requested item's part
     this._editService.load(this.itemId, this.partId);
   }
 
-  private decorateBaseText() {
+  private loadAllFragmentLocations() {
     const locations: TokenLocation[] = [];
     const part = this._query.getValue().part;
 
