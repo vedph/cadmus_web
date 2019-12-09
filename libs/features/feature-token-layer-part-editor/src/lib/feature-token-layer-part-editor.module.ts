@@ -8,6 +8,7 @@ import { CoreModule } from '@cadmus/core';
 import { ApiModule } from '@cadmus/api';
 import { UiModule } from '@cadmus/ui';
 import { EditStateModule } from '@cadmus/features/edit-state';
+import { FeaturesUiModule } from '@cadmus/features/features-ui';
 import { TokenLayerPartEditorComponent } from './token-layer-part-editor/token-layer-part-editor.component';
 
 @NgModule({
@@ -23,7 +24,8 @@ import { TokenLayerPartEditorComponent } from './token-layer-part-editor/token-l
     MaterialModule,
     ApiModule,
     UiModule,
-    EditStateModule
+    EditStateModule,
+    FeaturesUiModule
   ],
   declarations: [TokenLayerPartEditorComponent],
   exports: [TokenLayerPartEditorComponent]

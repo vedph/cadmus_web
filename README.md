@@ -31,6 +31,7 @@ core <|-- api
 core <|-- "general-ui"
 core <|-- "general-feature"
 core <|-- "philology-ui"
+core <|-- "features-ui"
 core <|-- "feature-layer-demo"
 core <|-- "feature-item-list"
 core <|-- "feature-token-layer-part-editor"
@@ -39,10 +40,13 @@ core <|-- api
 core <|-- cadmus
 material <|-- "general-ui"
 material <|-- "philology-ui"
+material <|-- "features-ui"
 material <|-- "feature-layer-demo"
 material <|-- "feature-item-list"
 material <|-- "feature-token-layer-part-editor"
 material <|-- cadmus
+core <|-- "edit-state"
+"edit-state" <|-- "features-ui"
 ui <|-- "general-ui"
 ui <|-- "general-feature"
 ui <|-- "philology-ui"

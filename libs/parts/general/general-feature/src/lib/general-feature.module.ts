@@ -10,7 +10,7 @@ import { GeneralUiModule } from '@cadmus/parts/general/general-ui';
 import { EditStateModule } from '@cadmus/features/edit-state';
 
 import { NotePartFeatureComponent } from './note-part-feature/note-part-feature.component';
-import { FeatureItemEditorModule } from '@cadmus/features/feature-item-editor';
+import { FeaturesUiModule } from '@cadmus/features/features-ui';
 
 @NgModule({
   imports: [
@@ -30,7 +30,7 @@ import { FeatureItemEditorModule } from '@cadmus/features/feature-item-editor';
     UiModule,
     GeneralUiModule,
     EditStateModule,
-    FeatureItemEditorModule
+    FeaturesUiModule
   ],
   declarations: [NotePartFeatureComponent],
   exports: [NotePartFeatureComponent]
