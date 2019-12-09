@@ -89,7 +89,14 @@ import { AuthInterceptor } from '@cadmus/api';
               module => module.GeneralFeatureModule
             )
         },
-        { path: '**', component: HomeComponent },
+        {
+          path: 'items/:iid/layer/token',
+          loadChildren: () =>
+            import('@cadmus/features/feature-token-layer-part-editor').then(
+              module => module.FeatureTokenLayerPartEditorModule
+            )
+        },
+        { path: '**', component: HomeComponent }
       ],
       {
         initialNavigation: 'enabled',

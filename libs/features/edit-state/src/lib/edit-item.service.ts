@@ -7,7 +7,7 @@ import { EditItemStore } from './edit-item.store';
 @Injectable({ providedIn: 'root' })
 export class EditItemService {
   constructor(
-    private _editItemStore: EditItemStore,
+    private _store: EditItemStore,
     private _itemService: ItemService,
     private _facetService: FacetService,
     private _flagService: FlagService
@@ -18,7 +18,7 @@ export class EditItemService {
    * into the item store.
    */
   public load(itemId: string) {
-    this._editItemStore.setLoading(true);
+    this._store.setLoading(true);
 
     // load item, part definitions, facets definitions, and flags definitions
     forkJoin({
@@ -29,10 +29,10 @@ export class EditItemService {
     })
       .subscribe(
         result => {
-          this._editItemStore.setLoading(false);
-          this._editItemStore.setError(null);
+          this._store.setLoading(false);
+          this._store.setError(null);
 
-          this._editItemStore.update({
+          this._store.update({
             item: result.item,
             partGroups: this._itemService.groupParts(
               result.item.parts,
@@ -45,8 +45,8 @@ export class EditItemService {
         },
         error => {
           console.error(error);
-          this._editItemStore.setLoading(false);
-          this._editItemStore.setError('Error loading item ' + itemId);
+          this._store.setLoading(false);
+          this._store.setError('Error loading item ' + itemId);
         }
       );
   }
@@ -56,20 +56,20 @@ export class EditItemService {
    * @param item The item to be saved.
    */
   public save(item: Item) {
-    this._editItemStore.setSaving();
+    this._store.setSaving();
     this._itemService
       .addItem(item)
       .subscribe(
         _ => {
-          this._editItemStore.setSaving(false);
-          this._editItemStore.update({
+          this._store.setSaving(false);
+          this._store.update({
             item: item
           });
         },
         error => {
           console.error(error);
-          this._editItemStore.setSaving(false);
-          this._editItemStore.setError('Error saving item');
+          this._store.setSaving(false);
+          this._store.setError('Error saving item');
         }
       );
   }
@@ -79,14 +79,14 @@ export class EditItemService {
    * @param id The ID of the part to be deleted.
    */
   public deletePart(id: string) {
-    this._editItemStore.setDeletingPart();
+    this._store.setDeletingPart();
     // delete from server
     this._itemService
       .deletePart(id)
       .subscribe(
         _ => {
           // once deleted, update the store by removing the deleted part
-          const groups = this._editItemStore.getValue().partGroups;
+          const groups = this._store.getValue().partGroups;
           for (let i = 0; i < groups.length; i++) {
             for (let j = 0; j < groups[i].parts.length; j++) {
               if (groups[i].parts[j].id === id) {
@@ -96,14 +96,14 @@ export class EditItemService {
               }
             }
           }
-          this._editItemStore.update({
+          this._store.update({
             partGroups: groups
           });
         },
         error => {
           console.log(error);
-          this._editItemStore.setDeletingPart(false);
-          this._editItemStore.setError('Error deleting part ' + id);
+          this._store.setDeletingPart(false);
+          this._store.setError('Error deleting part ' + id);
         }
       );
   }

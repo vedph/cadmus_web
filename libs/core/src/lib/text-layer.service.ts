@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TokenPoint } from './token-point';
 import { TokenLocation } from './token-location';
-import { TextLine, TextCoords } from './models';
+import { TokenTextLine, TextCoords } from './models';
 import * as rangy from 'rangy';
 
 // requires rangy:
@@ -44,8 +44,8 @@ export class TextLayerService {
    * @param text the source text.
    * @returns lines.
    */
-  public getLines(text: string): TextLine[] {
-    const results: TextLine[] = [];
+  public getLines(text: string): TokenTextLine[] {
+    const results: TokenTextLine[] = [];
     if (!text) {
       return results;
     }
@@ -53,7 +53,7 @@ export class TextLayerService {
 
     for (let y = 0; y < lines.length; y++) {
       const line = lines[y].trim();
-      const l: TextLine = {
+      const l: TokenTextLine = {
         y: y + 1,
         tokens: []
       };
@@ -594,7 +594,7 @@ export class TextLayerService {
     return span ? this.getSpanLocFromId(span.getAttribute('id')) : null;
   }
 
-  private textLineToString(line: TextLine) {
+  private textLineToString(line: TokenTextLine) {
     if (!line || !line.tokens) {
       return '';
     }

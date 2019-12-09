@@ -41,7 +41,10 @@
       "@cadmus/parts/general/general-feature": [
         "libs/parts/general/general-feature/src/index.ts"
       ],
-      "@cadmus/features/edit-state": ["libs/features/edit-state/src/index.ts"]
+      "@cadmus/features/edit-state": ["libs/features/edit-state/src/index.ts"],
+      "@cadmus/features/feature-token-layer-part-editor": [
+        "libs/features/feature-token-layer-part-editor/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

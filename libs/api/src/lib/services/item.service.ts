@@ -151,9 +151,20 @@ export class ItemService {
 
   /**
    * Gets a list of layer parts IDs and role IDs for the specified item.
-   * Note that the role IDs for layer parts may just be equal to the fragment
-   * type ID (e.g. "fr.net.fusisoft.comment"), or include this + dot + role ID
-   * proper (e.g."fr.net.fusisoft.comment:scholarly").
+   * This is useful to get a list of all the item's layer part IDs.
+   * Remember that you can have multiple parts of the same type in an item,
+   * provided that you specify different roles for them.
+   * This happens for the layer part: it is a unique type, but it differs
+   * according to its role. Thus, the role here identifies the layer, and
+   * in fact it is equal to the layer fragment type ID.
+   * Should you need to have several layers of the same type (e.g. 2 comment
+   * layers), you can add a layer-specific role to the fragment type ID,
+   * by appending it preceded by a colon. For instance, the fragment type ID
+   * "fr.net.fusisoft.comment:scholarly" has the ID proper followed by ":"
+   * and its role ("scholarly").
+   * Thus, the role IDs (=layer type) for layer parts may just be equal
+   * to the fragment type ID (e.g. "fr.net.fusisoft.comment"), or include
+   * this + dot + role ID proper (e.g."fr.net.fusisoft.comment:scholarly").
    * @param itemId string The item's ID.
    * @returns Observable<IRolePartId[]> Observable with array of IRolePartId's.
    */

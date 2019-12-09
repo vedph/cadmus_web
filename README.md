@@ -33,6 +33,7 @@ core <|-- "general-feature"
 core <|-- "philology-ui"
 core <|-- "feature-layer-demo"
 core <|-- "feature-item-list"
+core <|-- "feature-token-layer-part-editor"
 api <|-- "feature-item-list"
 core <|-- api
 core <|-- cadmus
@@ -40,6 +41,7 @@ material <|-- "general-ui"
 material <|-- "philology-ui"
 material <|-- "feature-layer-demo"
 material <|-- "feature-item-list"
+material <|-- "feature-token-layer-part-editor"
 material <|-- cadmus
 ui <|-- "general-ui"
 ui <|-- "general-feature"
@@ -47,6 +49,7 @@ ui <|-- "philology-ui"
 ui <|-- "feature-layer-demo"
 ui <|-- "feature-item-list"
 ui <|-- "feature-login"
+ui <|-- "feature-token-layer-part-editor"
 "general-ui" <|-- cadmus
 "general-ui" <|-- "general-feature"
 "general-feature" <|-- cadmus
@@ -54,6 +57,7 @@ ui <|-- "feature-login"
 "feature-layer-demo" <|-- cadmus
 "feature-item-list" <|-- cadmus
 "feature-item-editor" <|-- cadmus
+"feature-token-layer-part-editor" <|-- cadmus
 "feature-login" <|-- cadmus
 cadmus <|-- "cadmus-e2e"
 @enduml
@@ -64,7 +68,7 @@ cadmus <|-- "cadmus-e2e"
 - `/items`: list of items.
 - `/items/<id>`: single item editor. This allows editing the item's metadata, and shows a list of its parts, where you can add or remove parts. Item's `id` is equal to `new` for a new item.
 - `/items/<id>/<part-group>/<part-typeid>/<part-id>?rid=<role-id>`: single part editor. Role ID is optional.
-- `/items/<id>/<part-group>/layer/token/<part-id>/<fr-typeid>?rid=<role-id>`: single part's token-based text layer editor. Role ID is optional.
+- `/items/<id>/layer/token/<part-id>/<fr-typeid>?rid=<role-id>`: single part's token-based text layer editor. Role ID is optional.
 - `/items/<id>/<part-group>/fragment/<part-id>/<fr-typeid>/<loc>?rid=<role-id>`: single part's fragment editor. Role ID is optional.
 
 Note that the part-editing routes always have a part-group key. This comes from the `groupKey` property of each part's definition; if such a property is not defined (but in practice this should never happen), it defaults to `default`.
