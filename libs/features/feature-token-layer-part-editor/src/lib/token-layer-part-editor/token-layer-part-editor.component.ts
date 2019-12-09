@@ -11,6 +11,7 @@ import { PartDefinition, TokenLocation, TextLayerService } from '@cadmus/core';
 import { RolePartId } from '@cadmus/api';
 import { FormControl, FormBuilder } from '@angular/forms';
 import { take, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { DialogService } from '@cadmus/ui';
 
 @Component({
   selector: 'cadmus-token-layer-part-editor',
@@ -40,7 +41,8 @@ export class TokenLayerPartEditorComponent implements OnInit {
     private _editService: EditTokenLayerPartService,
     private _textLayerService: TextLayerService,
     private _editItemQuery: EditItemQuery,
-    private _editItemService: EditItemService
+    private _editItemService: EditItemService,
+    private _dialogService: DialogService
   ) {
     this.itemId = route.snapshot.params['iid'];
     this.partId = route.snapshot.params['pid'];
@@ -75,18 +77,22 @@ export class TokenLayerPartEditorComponent implements OnInit {
       if (this.roleId) {
         const layers = this._query.getValue().layers;
         if (layers) {
-          this.selectedLayer.setValue(layers.find(d => d.roleId === this.roleId));
+          this.selectedLayer.setValue(
+            layers.find(d => d.roleId === this.roleId)
+          );
         }
       }
-    })
+    });
 
     // when the selected layer changes, update the store
-    this.selectedLayer.valueChanges.pipe(
-      debounceTime(200),
-      distinctUntilChanged()
-    ).subscribe(layer => {
-      this._editService.selectLayer(layer);
-    });
+    this.selectedLayer.valueChanges
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged()
+      )
+      .subscribe(layer => {
+        this._editService.selectLayer(layer);
+      });
 
     this.ensureItemLoaded(this.itemId);
 
@@ -111,7 +117,30 @@ export class TokenLayerPartEditorComponent implements OnInit {
   }
 
   public deleteFragment() {
-    // TODO:
+    const loc = this._textLayerService.getSelectedLocationForEdit(
+      this._textLayerService.getSelectedRange()
+    );
+    if (!loc) {
+      return;
+    }
+
+    if (
+      this._dialogService
+        .confirm('Delete Fragment', `Delete the fragment at ${loc}?`)
+        .subscribe((ok: boolean) => {
+          if (ok) {
+            // find the fragment and remove it from the part
+            const i = this._query.getValue().part.fragments.findIndex(p => {
+              return TokenLocation.parse(p.location).overlaps(loc);
+            });
+            if (i === -1) {
+              return;
+            }
+
+            // TODO:
+          }
+        })
+    );
   }
 
   public addFragment() {
