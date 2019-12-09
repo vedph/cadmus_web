@@ -220,24 +220,18 @@ export class ItemEditorComponent implements OnInit {
     let route: string;
     let rid: string = null;
     const groupKey = this.getGroupKeyFromPartTypeId(part.typeId);
-    // /items/<id>/<part-group>/ + ...
-    const baseRoute = `/items/${part.itemId}/${groupKey}`;
 
     if (isLayer) {
-      // /items/<id>/<part-group>/ +
-      // text-layer/<part-id>/<fr-typeid>?rid=<role-id>
-      const frTypeRole = this._itemService.getFragmentTypeAndRole(part.roleId);
-      route = baseRoute + `/text-layer/${part.id}/${frTypeRole[0]}`;
-      if (frTypeRole[1]) {
-        rid = frTypeRole[1];
-      }
+      // /items/<id>/layer/token/<pid>?rid=X
+      // const frTypeRole = this._itemService.getFragmentTypeAndRole(part.roleId);
+      route = `/items/${part.itemId}/layer/token/${part.id}`;
     } else {
       // /items/<id>/<part-group>/ +
       // <part-typeid>/<part-id>?rid=<role-id>
       route = `/items/${part.itemId}/${groupKey}/${part.typeId}/${part.id}`;
-      if (part.roleId) {
-        rid = part.roleId;
-      }
+    }
+    if (part.roleId) {
+      rid = part.roleId;
     }
 
     // navigate to the editor

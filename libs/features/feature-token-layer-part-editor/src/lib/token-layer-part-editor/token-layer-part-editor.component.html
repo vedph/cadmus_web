@@ -1,0 +1,68 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Token-Based Text Layers</mat-card-title>
+  </mat-card-header>
+  <mat-card-actions *ngIf="!(loading$ | async)">
+    <mat-toolbar>
+      <!-- layer selector -->
+      <mat-select
+        *ngIf="layers$ | async as layers"
+        placeholder="layer"
+        [formControl]="selectedLayer"
+      >
+        <mat-option *ngFor="let l of layers" [value]="l">{{
+          l.name
+        }}</mat-option>
+      </mat-select>
+
+      <!-- buttons -->
+      <button
+        mat-icon-button
+        type="button"
+        (click)="editFragment()"
+        matTooltip="Edit the selected fragment"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        type="button"
+        color="warn"
+        (click)="deleteFragment()"
+        matTooltip="Delete the selected fragment"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        type="button"
+        (click)="getCoordsInfo()"
+        matTooltip="Get the text coordinates of the selection"
+      >
+        <mat-icon>info</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        type="button"
+        color="primary"
+        (click)="addFragment()"
+        matTooltip="Add a new fragment at selection"
+      >
+        <mat-icon>add_circle</mat-icon>
+      </button>
+      <span>{{ coordsInfo }}</span>
+    </mat-toolbar>
+  </mat-card-actions>
+  <mat-card-content fxLayout="row">
+    <div *ngIf="loading$ | async" fxFlex fxLayoutAlign="center center">
+      <mat-spinner [diameter]="48" [strokeWidth]="4"></mat-spinner>
+    </div>
+    <div *ngIf="(error$ | async) as error" class="error-message">{{error}}</div>
+
+    <cadmus-decorated-token-text
+      *ngIf="baseText$ | async as baseText"
+      [baseText]="baseText"
+      [locations]="locations"
+    ></cadmus-decorated-token-text>
+  </mat-card-content>
+</mat-card>

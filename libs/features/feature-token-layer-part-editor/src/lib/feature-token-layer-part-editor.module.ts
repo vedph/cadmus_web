@@ -8,6 +8,7 @@ import { CoreModule } from '@cadmus/core';
 import { ApiModule } from '@cadmus/api';
 import { UiModule } from '@cadmus/ui';
 import { EditStateModule } from '@cadmus/features/edit-state';
+import { TokenLayerPartEditorComponent } from './token-layer-part-editor/token-layer-part-editor.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,7 @@ import { EditStateModule } from '@cadmus/features/edit-state';
     ReactiveFormsModule,
     FormsModule,
     RouterModule.forChild([
-      /* {path: '', pathMatch: 'full', component: InsertYourComponentHere} */
+      { path: '', pathMatch: 'full', component: TokenLayerPartEditorComponent }
     ]),
     // cadmus
     CoreModule,
@@ -23,6 +24,8 @@ import { EditStateModule } from '@cadmus/features/edit-state';
     ApiModule,
     UiModule,
     EditStateModule
-  ]
+  ],
+  declarations: [TokenLayerPartEditorComponent],
+  exports: [TokenLayerPartEditorComponent]
 })
 export class FeatureTokenLayerPartEditorModule {}

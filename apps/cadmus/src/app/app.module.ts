@@ -90,7 +90,7 @@ import { AuthInterceptor } from '@cadmus/api';
             )
         },
         {
-          path: 'items/:iid/layer/token',
+          path: 'items/:iid/layer/token/:pid',
           loadChildren: () =>
             import('@cadmus/features/feature-token-layer-part-editor').then(
               module => module.FeatureTokenLayerPartEditorModule
