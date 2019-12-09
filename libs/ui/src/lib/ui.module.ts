@@ -11,8 +11,8 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { CoreModule } from '@cadmus/core';
 import { JsonEditorResourcesComponent } from './components/json-editor-resources/json-editor-resources.component';
 import { ErrorListComponent } from './components/error-list/error-list.component';
-import { FragmentEditorBaseComponent } from './components/fragment-editor-base/fragment-editor-base.component';
 import { LoginComponent } from './components/login/login.component';
+import { DecoratedTokenTextComponent } from './components/decorated-token-text/decorated-token-text.component';
 
 @NgModule({
   imports: [
@@ -25,16 +25,16 @@ import { LoginComponent } from './components/login/login.component';
   ],
   declarations: [
     ConfirmDialogComponent,
+    DecoratedTokenTextComponent,
     ErrorListComponent,
-    FragmentEditorBaseComponent,
     JsonEditorResourcesComponent,
     LoginComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
   ],
   exports: [
     ConfirmDialogComponent,
+    DecoratedTokenTextComponent,
     ErrorListComponent,
-    FragmentEditorBaseComponent,
     JsonEditorResourcesComponent,
     LoginComponent,
     SafeHtmlPipe
