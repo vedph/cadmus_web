@@ -124,23 +124,21 @@ export class TokenLayerPartEditorComponent implements OnInit {
       return;
     }
 
-    if (
-      this._dialogService
-        .confirm('Delete Fragment', `Delete the fragment at ${loc}?`)
-        .subscribe((ok: boolean) => {
-          if (ok) {
-            // find the fragment and remove it from the part
-            const i = this._query.getValue().part.fragments.findIndex(p => {
-              return TokenLocation.parse(p.location).overlaps(loc);
-            });
-            if (i === -1) {
-              return;
-            }
-
-            // TODO:
+    this._dialogService
+      .confirm('Delete Fragment', `Delete the fragment at ${loc}?`)
+      .subscribe((ok: boolean) => {
+        if (ok) {
+          // find the fragment and remove it from the part
+          const i = this._query.getValue().part.fragments.findIndex(p => {
+            return TokenLocation.parse(p.location).overlaps(loc);
+          });
+          if (i === -1) {
+            return;
           }
-        })
-    );
+
+          // TODO:
+        }
+      });
   }
 
   public addFragment() {
