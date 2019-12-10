@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { JsonSchemaService, ThesauriSet } from '@cadmus/core';
-import { NOTE_PART_TYPEID, NOTE_PART_SCHEMA } from '../models';
+import { NOTE_PART_TYPEID, NOTE_PART_SCHEMA } from '../note-part';
 
 @Component({
   selector: 'cadmus-note-part-demo',

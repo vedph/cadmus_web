@@ -93,7 +93,7 @@ export interface TokenTextLayerPart extends Part {
 /**
  * A text line in a base text part.
  */
-export interface TokenTextLine {
+export interface TokenTextLayerLine {
   y: number;
   tokens: string[];
 }

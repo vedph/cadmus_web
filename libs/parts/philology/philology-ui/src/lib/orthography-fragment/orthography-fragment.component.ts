@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { OrthographyFragment } from '../models';
 import {
   FormControl,
@@ -55,11 +55,8 @@ export class OrthographyFragmentComponent
   public operations: FormArray;
   public currentOperation: MspOperation;
 
-  constructor(
-    private _formBuilder: FormBuilder,
-    private _dialog: DialogService
-  ) {
-    super();
+  constructor(private _formBuilder: FormBuilder, dialogService: DialogService) {
+    super(dialogService);
 
     // form
     this.standard = _formBuilder.control(null, [
@@ -106,7 +103,7 @@ export class OrthographyFragmentComponent
   }
 
   public deleteOperation(index: number) {
-    this._dialog
+    this.dialogService
       .confirm('Warning', `Delete operation #${index + 1}?`)
       .pipe(take(1))
       .subscribe((ok: boolean) => {
@@ -117,7 +114,7 @@ export class OrthographyFragmentComponent
   }
 
   public clearOperations() {
-    this._dialog
+    this.dialogService
       .confirm('Warning', 'Delete all the operations?')
       .pipe(take(1))
       .subscribe((ok: boolean) => {
@@ -178,9 +175,9 @@ export class OrthographyFragmentComponent
     return ops;
   }
 
-  private getModelFromForm(): OrthographyFragment {
+  protected getModelFromForm(): OrthographyFragment {
     const fr: OrthographyFragment = {
-      location: this.fragment? this.fragment.location : null,
+      location: this.fragment ? this.fragment.location : null,
       standard: this.standard.value,
       operations: this.getOperations()
     };
@@ -210,27 +207,5 @@ export class OrthographyFragmentComponent
     for (let i = 0; i < ops.length; i++) {
       this.addOperation(ops[i].toString());
     }
-  }
-
-  public close() {
-    // if not dirty just close, else prompt
-    if (!this.form.dirty) {
-      this.editorClose.emit();
-    } else {
-      this._dialog
-        .confirm('Warning', 'Discard changes?')
-        .pipe(take(1))
-        .subscribe((ok: boolean) => {
-          if (ok) {
-            this.editorClose.emit();
-          }
-        });
-    }
-  }
-
-  public save() {
-    this.fragment = this.getModelFromForm();
-    this.updateJson(JSON.stringify(this.fragment));
-    this.form.markAsPristine();
   }
 }

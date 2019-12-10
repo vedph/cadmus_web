@@ -10,6 +10,7 @@ import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
 import { NotePartComponent } from './note-part/note-part.component';
 import { NotePartDemoComponent } from './note-part-demo/note-part-demo.component';
+import { TokenTextPartComponent } from './token-text-part/token-text-part.component';
 
 @NgModule({
   imports: [
@@ -25,11 +26,13 @@ import { NotePartDemoComponent } from './note-part-demo/note-part-demo.component
   ],
   declarations: [
     NotePartComponent,
-    NotePartDemoComponent
+    NotePartDemoComponent,
+    TokenTextPartComponent
   ],
   exports: [
     NotePartComponent,
-    NotePartDemoComponent
+    NotePartDemoComponent,
+    TokenTextPartComponent
   ]
 })
 export class GeneralUiModule {}

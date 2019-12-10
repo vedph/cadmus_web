@@ -2,7 +2,8 @@ import { ComponentCanDeactivate, ThesauriSet } from '@cadmus/core';
 import { Input, Output, EventEmitter } from '@angular/core';
 import { Observable, combineLatest } from 'rxjs';
 import { FormGroup } from '@angular/forms';
-import { startWith, map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { startWith, map, debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
+import { DialogService } from '../services/dialog.service';
 
 /**
  * Base class for part/fragment editors dumb components.
@@ -75,7 +76,7 @@ export abstract class ModelEditorComponentBase<T>
      */
     public form: FormGroup;
 
-    constructor() {
+    constructor(protected dialogService: DialogService) {
       this.jsonChange = new EventEmitter<string>();
       this.editorClose = new EventEmitter<any>();
     }
@@ -156,4 +157,32 @@ export abstract class ModelEditorComponentBase<T>
      * Invoked whenever the thesauri property is set.
      */
     protected onThesauriSet() {}
+
+    protected getModelFromForm(): T {
+      return null;
+    }
+
+    public close() {
+      if (!this.form.dirty) {
+        this.editorClose.emit();
+        return;
+      }
+      this.dialogService
+        .confirm('Warning', 'Discard changes?')
+        .pipe(take(1))
+        .subscribe((ok: boolean) => {
+          if (ok) {
+            this.editorClose.emit();
+          }
+        });
+    }
+
+    public save() {
+      if (this.form.invalid) {
+        return;
+      }
+      const part = this.getModelFromForm();
+      this.updateJson(JSON.stringify(part));
+      this.form.markAsPristine();
+    }
   }

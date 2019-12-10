@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService, ModelEditorComponentBase } from '@cadmus/ui';
 import { NotePart, NOTE_PART_TYPEID } from '../..';
-import {
-  FormControl,
-  FormBuilder,
-  Validators
-} from '@angular/forms';
+import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ThesaurusEntry } from '@cadmus/core';
-import { take } from 'rxjs/operators';
 
 /**
  * Note part editor component.
@@ -35,8 +30,8 @@ export class NotePartComponent extends ModelEditorComponentBase<NotePart>
     automaticLayout: true
   };
 
-  constructor(formBuilder: FormBuilder, private _dialog: DialogService) {
-    super();
+  constructor(formBuilder: FormBuilder, dialogService: DialogService) {
+    super(dialogService);
     // form
     this.tag = formBuilder.control(null, Validators.maxLength(100));
     this.tags = formBuilder.control([]);
@@ -74,7 +69,7 @@ export class NotePartComponent extends ModelEditorComponentBase<NotePart>
     }
   }
 
-  private getModelFromForm(): NotePart {
+  protected getModelFromForm(): NotePart {
     let part = this.getModelFromJson();
     if (!part) {
       part = {
@@ -89,29 +84,5 @@ export class NotePartComponent extends ModelEditorComponentBase<NotePart>
       };
     }
     return part;
-  }
-
-  public close() {
-    if (!this.form.dirty) {
-      this.editorClose.emit();
-      return;
-    }
-    this._dialog
-      .confirm('Warning', 'Discard changes?')
-      .pipe(take(1))
-      .subscribe((ok: boolean) => {
-        if (ok) {
-          this.editorClose.emit();
-        }
-      });
-  }
-
-  public save() {
-    if (this.form.invalid) {
-      return;
-    }
-    const part = this.getModelFromForm();
-    this.updateJson(JSON.stringify(part));
-    this.form.markAsPristine();
   }
 }
