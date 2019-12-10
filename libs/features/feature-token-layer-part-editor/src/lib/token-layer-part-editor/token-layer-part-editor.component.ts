@@ -43,7 +43,7 @@ export class TokenLayerPartEditorComponent implements OnInit {
     formBuilder: FormBuilder,
     route: ActivatedRoute,
     private _router: Router,
-    private _query: EditTokenLayerPartQuery,
+    private _editQuery: EditTokenLayerPartQuery,
     private _editService: EditTokenLayerPartService,
     private _textLayerService: TextLayerService,
     private _editItemQuery: EditItemQuery,
@@ -72,12 +72,12 @@ export class TokenLayerPartEditorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loading$ = this._query.selectLoading();
-    this.error$ = this._query.selectError();
-    this.baseText$ = this._query.select(state => state.baseText);
-    this.layers$ = this._query.select(state => state.layers);
-    this.selectedLayer$ = this._query.select(state => state.selectedLayer);
-    this.rolePartIds$ = this._query.select(state => state.rolePartIds);
+    this.loading$ = this._editQuery.selectLoading();
+    this.error$ = this._editQuery.selectError();
+    this.baseText$ = this._editQuery.select(state => state.baseText);
+    this.layers$ = this._editQuery.select(state => state.layers);
+    this.selectedLayer$ = this._editQuery.select(state => state.selectedLayer);
+    this.rolePartIds$ = this._editQuery.select(state => state.rolePartIds);
 
     // load all the fragments locations when the base text changes,
     // so that it can be decorated
@@ -88,7 +88,7 @@ export class TokenLayerPartEditorComponent implements OnInit {
     // when the layers are loaded, set the initial layer selection if any
     this.layers$.subscribe(l => {
       if (this.roleId) {
-        const layers = this._query.getValue().layers;
+        const layers = this._editQuery.getValue().layers;
         if (layers) {
           this.selectedLayer.setValue(
             layers.find(d => d.roleId === this.roleId)
@@ -122,7 +122,7 @@ export class TokenLayerPartEditorComponent implements OnInit {
 
   private loadAllFragmentLocations() {
     const locations: TokenLocation[] = [];
-    const part = this._query.getValue().part;
+    const part = this._editQuery.getValue().part;
 
     if (part && part.fragments) {
       part.fragments.forEach(p => {
@@ -145,7 +145,7 @@ export class TokenLayerPartEditorComponent implements OnInit {
       .subscribe((ok: boolean) => {
         if (ok) {
           // find the fragment and remove it from the part
-          const i = this._query.getValue().part.fragments.findIndex(p => {
+          const i = this._editQuery.getValue().part.fragments.findIndex(p => {
             return TokenLocation.parse(p.location).overlaps(loc);
           });
           if (i === -1) {
@@ -157,7 +157,7 @@ export class TokenLayerPartEditorComponent implements OnInit {
   }
 
   private navigateToFragmentEditor(loc: string) {
-    const part = this._query.getValue().part;
+    const part = this._editQuery.getValue().part;
 
     const { route, rid } = this._libraryRouteService.buildFragmentEditorRoute(
       this._editItemQuery.getValue().facetParts,
@@ -194,7 +194,7 @@ export class TokenLayerPartEditorComponent implements OnInit {
   public addFragment() {
     const loc = this._textLayerService.getSelectedLocationForNew(
       this._textLayerService.getSelectedRange(),
-      this._query.getValue().baseText
+      this._editQuery.getValue().baseText
     );
     if (this.selectedLayer.invalid || !loc) {
       return;
@@ -206,7 +206,7 @@ export class TokenLayerPartEditorComponent implements OnInit {
     this.coordsInfo = this._textLayerService
       .getSelectedLocationForNew(
         this._textLayerService.getSelectedRange(),
-        this._query.getValue().baseText
+        this._editQuery.getValue().baseText
       )
       .toString();
   }

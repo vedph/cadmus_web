@@ -157,7 +157,7 @@ To **add a new parts library**:
 
 To **add a new part**:
 
-a) in a `<PartGroup>-ui` module:
+a) in a `<partgroup>-ui` module:
 
 1. add the part *model* (derived from `Part`), its type ID constant, and its JSON schema constant to `<part>.ts` (e.g. `note-part.ts`). For instance:
 
@@ -197,19 +197,19 @@ export const NOTE_PART_SCHEMA = {
 
 3. add a *part editor demo dumb component* named after the part (e.g. `NotePartComponentDemo` after `NotePart`). This will essentially be a wrapper of two distinct controls: the part's editor component, and a `JsonEditorResourcesComponent`. These components are mutually connected, so that you can edit the JSON code for the part (and eventually for its thesauri sets) and set the visual editor to it, or vice-versa.
 
-b) in a `<PartGroup>-feature` module:
+b) in a `<partgroup>-feature` module:
 
-4. add a *part editor feature component* named after the part (e.g. `NotePartFeatureComponent` after `NotePart`).
+4. add a *part editor feature component* named after the part (e.g. `NotePartFeatureComponent` after `NotePart`), with routing. Each editor has its component, and its state management artifacts under the same folder (store, query, and service).
 
 ### Editor Components
 
 The general architecture of part/fragments editing, from bottom to top, is as follows:
 
-1. `<X>PartComponent` or `<X>FragmentComponent` (in a `<PartGroup>-ui` module): at the bottom level, we have a dumb UI component for part/fragment X, extending `ModelEditorComponentBase<T>`.
+1. `<X>PartComponent` or `<X>FragmentComponent` (in a `<partgroup>-ui` module): at the bottom level, we have a dumb UI component for part/fragment X, extending `ModelEditorComponentBase<T>`.
 
-2. `<X>PartDemoComponent` or `<X>FragmentDemoComponent` (in the same `<PartGroup>-ui` module): a container for a JSON code editor and the editor dumb component at (1), used for demo purposes.
+2. `<X>PartDemoComponent` or `<X>FragmentDemoComponent` (in the same `<partgroup>-ui` module): a container for a JSON code editor and the editor dumb component at (1), used for demo purposes.
 
-3. `<X>PartFeatureComponent` (in a `<PartGroup>-feature` module): the dumb UI component for part X is wrapped into a feature UI component.
+3. `<X>PartFeatureComponent` (in a `<partgroup>-feature` module): the dumb UI component for part X is wrapped into a feature UI component.
 
 #### Editor Components - 1. Dumb Editor
 
@@ -236,6 +236,8 @@ The base class provides this API:
 - `updateJson(json: string)`: update the `json` property from the specified code, without triggering a call to `onModelSet`.
 - `onModelSet`: invoked whenever the json property is set, unless setting it via `updateJson`. The default implementation does nothing. Override to add custom behavior, e.g. update the form to reflect the new part value.
 - `onThesauriSet`: invoked whenever the thesauri property is set.
+- `close()`: emit the close editor event.
+- `save()`: if the root form is valid, get the model from its controls, serialize it into JSON and emit the JSON change event, marking the root form as pristine.
 
 Also, the base class implements `ComponentCanDeactivate`, which is used by pending changes guards to decide if the user should be prompted when leaving the editor. This relies on the `dirty$` input property, and on the root form's dirty state: both must be false for the guard to allow exiting the editor without prompting.
 
@@ -244,8 +246,6 @@ A typical editor extending this base can follow these guidelines:
 - add your form controls, and eventually thesaurus properties to be consumed by the template. When thesaurus properties are required, set them in `onThesauriSet`.
 - add an `updateForm(model)` method to update the form controls from the part's model, calling it from `onModelSet`.
 - add a `getModelFromForm` method to get a model object from the form controls. Among the common part's properties, only `typeId` gets set at this level; the other properties will be set by the page wrapping the editor.
-- add a `close` method for emitting the `editorClose` event.
-- add a `save` method which if the form is valid uses `getModelFromForm` to get the model, and `updateJson` to update the JSON code stringified from that model.
 - *template*: `form`, including a `mat-card`. Header and footer in the card should be standardized, while the content is free.
 
 #### Editor Components - 2. Editor Demo
@@ -299,13 +299,13 @@ The feature editor is a wrapper around the dumb editor. It has an Angular route,
 - an X-part/fragment *query*, used to read data from the store;
 - an X-part/fragment *service*, used to write data to the store, and to load its state when the component is initialized. In Akita, components should never interact with stores directly; such services act as facades, and couple the store with an API service).
 
-Usually, the service extends `EditPartServiceBase`, which provides load/save methods and a dirty state setter. The component binds a number of observable properties to the query, and its template is fed from these observables. When the store gets updated (via the service), the observables change, and this is reflected in the reactive UI.
+Usually, the service extends `EditPartServiceBase` (for parts) or `EditFragmentServiceBase`, which provide load/save methods and a dirty state setter. The component binds a number of observable properties to the query, and its template is fed from these observables. When the store gets updated (via the service), the observables change, and this is reflected in the reactive UI.
 
 When the user saves in an editor dumb component, the `jsonChange` event is emitted, and the form is set to pristine state.
 
 In turn, the editor feature component handles the `jsonChange` event by invoking its service's `save` method with the JSON code representing the part to be saved.
 
-The `save` method (implemented in `EditPartServiceBase`) sets the "saving" and "dirty" states to true, and invokes the API save method:
+The `save` method (implemented in the base service) sets the "saving" and "dirty" states to true, and invokes the API save method:
 
 - if the API succeeds, the "saving" and "dirty" states are set to "false".
 - if the API fails, the "saving" state is set to false (while "dirty" remains true).
@@ -365,7 +365,7 @@ Libraries are sharable across libraries and applications. They can be imported f
 
 ## Development server
 
-Run `ng serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+Run `ng serve my-app` for a dev server. Navigate to <http://localhost:4200/>. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
