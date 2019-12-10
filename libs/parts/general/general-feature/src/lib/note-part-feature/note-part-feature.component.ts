@@ -32,7 +32,7 @@ export class NotePartFeatureComponent implements OnInit {
     if (this.partId === 'new') {
       this.partId = null;
     }
-    this.roleId = route.snapshot.params['rid'];
+    this.roleId = route.snapshot.queryParams['rid'];
   }
 
   private ensureItemLoaded(id: string) {

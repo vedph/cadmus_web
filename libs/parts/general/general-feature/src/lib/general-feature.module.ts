@@ -6,11 +6,12 @@ import { RouterModule } from '@angular/router';
 import { CoreModule } from '@cadmus/core';
 import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
-import { GeneralUiModule } from '@cadmus/parts/general/general-ui';
+import { GeneralUiModule, NOTE_PART_TYPEID, COMMENT_FRAGMENT_TYPEID } from '@cadmus/parts/general/general-ui';
 import { EditStateModule } from '@cadmus/features/edit-state';
 
 import { NotePartFeatureComponent } from './note-part-feature/note-part-feature.component';
 import { FeaturesUiModule } from '@cadmus/features/features-ui';
+import { CommentFragmentFeatureComponent } from './comment-fragment-feature/comment-fragment-feature.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,12 @@ import { FeaturesUiModule } from '@cadmus/features/features-ui';
     ReactiveFormsModule,
     RouterModule.forChild([
       {
-        path: 'net.fusisoft.note/:pid',
+        path: `${NOTE_PART_TYPEID}/:pid`,
+        pathMatch: 'full',
+        component: NotePartFeatureComponent
+      },
+      {
+        path: `fragment/:pid/${COMMENT_FRAGMENT_TYPEID}/:loc`,
         pathMatch: 'full',
         component: NotePartFeatureComponent
       }
@@ -32,7 +38,13 @@ import { FeaturesUiModule } from '@cadmus/features/features-ui';
     EditStateModule,
     FeaturesUiModule
   ],
-  declarations: [NotePartFeatureComponent],
-  exports: [NotePartFeatureComponent]
+  declarations: [
+    NotePartFeatureComponent,
+    CommentFragmentFeatureComponent
+  ],
+  exports: [
+    NotePartFeatureComponent,
+    CommentFragmentFeatureComponent
+  ]
 })
 export class GeneralFeatureModule {}

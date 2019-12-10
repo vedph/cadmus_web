@@ -15,10 +15,10 @@ export class EditNotePartStore extends Store<EditPartState>
     super(editPartInitialState);
   }
 
-  setDirty(value: boolean): void {
+  public setDirty(value: boolean): void {
     this.update({ dirty: value });
   }
-  setSaving(value: boolean): void {
+  public setSaving(value: boolean): void {
     this.update({ saving: value });
   }
 }

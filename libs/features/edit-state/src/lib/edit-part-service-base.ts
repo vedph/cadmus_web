@@ -34,9 +34,10 @@ export abstract class EditPartServiceBase {
     } else {
       this._itemService.getPart(partId).subscribe(
         part => {
-          this.store.setLoading(false);
           this.store.update({
-            part: part
+            part: part,
+            loading: false,
+            error: null
           });
         },
         error => {

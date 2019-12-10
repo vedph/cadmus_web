@@ -27,7 +27,11 @@ export class EditTokenLayerPartService {
     private _utilService: UtilService
   ) {}
 
-  public load(itemId: string, partId: string) {
+  public load(
+    itemId: string,
+    partId: string,
+    selectedLayerRoleId: string = null
+  ) {
     this._store.setLoading(true);
 
     forkJoin({
@@ -49,7 +53,9 @@ export class EditTokenLayerPartService {
           layers: result.layers.filter(l => {
             return l.roleId && l.roleId.startsWith('fr.');
           }),
-          selectedLayer: null,
+          selectedLayer: selectedLayerRoleId
+            ? result.layers.find(l => l.roleId === selectedLayerRoleId)
+            : null,
           rolePartIds: result.rolePartIds,
           loading: false,
           error: null
@@ -67,7 +73,7 @@ export class EditTokenLayerPartService {
     this._store.setLoading(true);
 
     const part: TokenTextLayerPart = {
-      id: null,     // this will be filled by server
+      id: null, // this will be filled by server
       itemId: itemId,
       typeId: TOKEN_TEXT_PART_TYPEID,
       roleId: null,
@@ -75,14 +81,17 @@ export class EditTokenLayerPartService {
       userId: null, // this will be filled by server
       timeModified: new Date()
     };
-    this._itemService.addPart(part).subscribe(result => {
-      this._store.setLoading(false);
-      this.load(itemId, result.id);
-    }, error => {
-      console.error(error);
-      this._store.setLoading(false);
-      this._store.setError('Error adding text layer part for item ' + itemId);
-  });
+    this._itemService.addPart(part).subscribe(
+      result => {
+        this._store.setLoading(false);
+        this.load(itemId, result.id);
+      },
+      error => {
+        console.error(error);
+        this._store.setLoading(false);
+        this._store.setError('Error adding text layer part for item ' + itemId);
+      }
+    );
   }
 
   public selectLayer(layer: PartDefinition) {
