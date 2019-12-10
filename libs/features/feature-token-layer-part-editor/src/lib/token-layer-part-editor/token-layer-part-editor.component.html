@@ -1,7 +1,7 @@
 <cadmus-current-item-bar></cadmus-current-item-bar>
 <mat-card>
   <mat-card-header>
-    <div>
+    <div mat-card-avatar>
       <mat-icon>view_headline</mat-icon>
     </div>
     <mat-card-title>Token-Based Text Layers</mat-card-title>
@@ -9,15 +9,17 @@
   <mat-card-actions *ngIf="!(loading$ | async)">
     <mat-toolbar>
       <!-- layer selector -->
-      <mat-select
-        *ngIf="layers$ | async as layers"
-        placeholder="layer"
-        [formControl]="selectedLayer"
-      >
-        <mat-option *ngFor="let l of layers" [value]="l">{{
-          l.name
-        }}</mat-option>
-      </mat-select>
+      <mat-form-field floatLabel="never" style="font-size: 1rem;">
+        <mat-select
+          *ngIf="layers$ | async as layers"
+          placeholder="layer"
+          [formControl]="selectedLayer"
+        >
+          <mat-option *ngFor="let l of layers" [value]="l">{{
+            l.name
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
       <!-- buttons -->
       <button
@@ -43,7 +45,7 @@
         mat-icon-button
         type="button"
         (click)="getCoordsInfo()"
-        matTooltip="Get the text coordinates of the selection"
+        matTooltip="Get the text coordinates of the selection for a new fragment"
       >
         <mat-icon>info</mat-icon>
       </button>

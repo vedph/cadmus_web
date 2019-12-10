@@ -203,11 +203,12 @@ export class TokenLayerPartEditorComponent implements OnInit {
   }
 
   public getCoordsInfo() {
-    this.coordsInfo = this._textLayerService
-      .getSelectedLocationForNew(
-        this._textLayerService.getSelectedRange(),
-        this._editQuery.getValue().baseText
-      )
-      .toString();
+    const coords = this._textLayerService.getSelectedLocationForNew(
+      this._textLayerService.getSelectedRange(),
+      this._editQuery.getValue().baseText
+    );
+    if (coords) {
+      this.coordsInfo = coords.toString();
+    }
   }
 }
