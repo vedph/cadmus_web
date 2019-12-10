@@ -1,26 +1,29 @@
-<h2>Home</h2>
-<p>Cadmus playground.</p>
-<!-- <p><button type="button" (click)="validateJson()">JSON validation</button></p> -->
-
-<!-- note 2-way databinding for selectedIndex: it's a bug in Angular, need it -->
-<!-- <mat-tab-group [(selectedIndex)]="currentTabIndex">
-  <mat-tab label="Code">
-    <cadmus-json-editor-resources
-      title="Note"
-      [(modelJson)]="modelJson"
-      [(thesauriJson)]="thesauriJson"
-      (modelJsonChange)="onCodeSaved()"
-      (thesauriJsonChange)="onCodeSaved()"
-    ></cadmus-json-editor-resources>
-  </mat-tab>
-  <mat-tab label="Editor">
-    <cadmus-note-part
-      [(json)]="modelJson"
-      [thesauri]="thesauriJson"
-      (jsonChange)="onEditorSaved()"
-      (editorClose)="onEditorSaved()"
-    ></cadmus-note-part>
-  </mat-tab>
-</mat-tab-group> -->
-<!-- <cadmus-part-editor-demo></cadmus-part-editor-demo> -->
-<!-- <cadmus-orthography-fragment [fragment]="orthographyFragment"></cadmus-orthography-fragment> -->
+<h2>Cadmus Playground Home</h2>
+<article>
+  <p><img src="./assets/img/cadmus-300.png" alt="Cadmus" /></p>
+  <p>
+    Welcome to the Cadmus playground. This web UI supports the development of
+    the Cadmus editing system. It will grow together with the system itself, and
+    serve as a prototype for testing.
+  </p>
+  <p>The general edit model has these layers:</p>
+  <ol>
+    <li>items: the list of the records.</li>
+    <li>
+      item: edit the metadata of a single item, view its parts, delete a part
+      from it, or add a part to it.
+    </li>
+    <li>part: edit a new or existing part in an item.</li>
+    <li>
+      fragment: for text layers, edit a new or existing fragment in a part.
+    </li>
+  </ol>
+  <p>
+    From the <kbd>demo</kbd> menu, you can access every single data model
+    editor, whether it refers to a part or a fragment, in a general-purpose
+    testbed UI. This provides two views of the model: one is its raw JSON
+    representation, while the other is its graphical editing UI. You can freely
+    edit the model using the graphical UI and get the corresponding JSON; or
+    viceversa.
+  </p>
+</article>
