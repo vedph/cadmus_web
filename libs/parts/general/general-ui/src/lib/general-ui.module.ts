@@ -11,6 +11,7 @@ import { UiModule } from '@cadmus/ui';
 import { NotePartComponent } from './note-part/note-part.component';
 import { NotePartDemoComponent } from './note-part-demo/note-part-demo.component';
 import { TokenTextPartComponent } from './token-text-part/token-text-part.component';
+import { TokenTextPartDemoComponent } from './token-text-part-demo/token-text-part-demo.component';
 
 @NgModule({
   imports: [
@@ -27,12 +28,14 @@ import { TokenTextPartComponent } from './token-text-part/token-text-part.compon
   declarations: [
     NotePartComponent,
     NotePartDemoComponent,
-    TokenTextPartComponent
+    TokenTextPartComponent,
+    TokenTextPartDemoComponent
   ],
   exports: [
     NotePartComponent,
     NotePartDemoComponent,
-    TokenTextPartComponent
+    TokenTextPartComponent,
+    TokenTextPartDemoComponent
   ]
 })
 export class GeneralUiModule {}

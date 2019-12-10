@@ -1,0 +1,38 @@
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Token Text Part Editor Demo</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <!-- note 2-way databinding for selectedIndex: it's a bug in Angular, need it -->
+      <mat-tab-group [(selectedIndex)]="currentTabIndex">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="tab-icon">code</mat-icon>
+            Code
+          </ng-template>
+          <cadmus-json-editor-resources
+            title="Text"
+            [schemaName]="schemaName"
+            [(modelJson)]="modelJson"
+            [(thesauriJson)]="thesauriJson"
+            (modelJsonChange)="onCodeSaved()"
+            (thesauriJsonChange)="onCodeSaved()"
+          ></cadmus-json-editor-resources>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="tab-icon">dashboard</mat-icon>
+            Editor
+          </ng-template>
+          <cadmus-token-text-part
+            [(json)]="modelJson"
+            [thesauri]="thesauri"
+            (jsonChange)="onEditorSaved()"
+            (editorClose)="onEditorSaved()"
+          ></cadmus-token-text-part>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>

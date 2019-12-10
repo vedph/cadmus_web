@@ -26,13 +26,16 @@ import { MaterialModule } from '@cadmus/material';
 import { FeatureNotePartDemoComponent } from './demo/feature-note-part-demo/feature-note-part-demo.component';
 import { FeatureOrthographyFragmentDemoComponent } from './demo/feature-orthography-fragment-demo/feature-orthography-fragment-demo.component';
 import { AuthInterceptor } from '@cadmus/api';
+import { FeatureTokenTextPartDemoComponent } from './demo/feature-token-text-part-demo/feature-token-text-part-demo.component';
+import { TokenTextPartDemoComponent } from 'libs/parts/general/general-ui/src/lib/token-text-part-demo/token-text-part-demo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     FeatureNotePartDemoComponent,
-    FeatureOrthographyFragmentDemoComponent
+    FeatureOrthographyFragmentDemoComponent,
+    FeatureTokenTextPartDemoComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +57,11 @@ import { AuthInterceptor } from '@cadmus/api';
         {
           path: 'demo/note-part',
           component: FeatureNotePartDemoComponent,
+          pathMatch: 'full'
+        },
+        {
+          path: 'demo/token-text-part',
+          component: TokenTextPartDemoComponent,
           pathMatch: 'full'
         },
         {

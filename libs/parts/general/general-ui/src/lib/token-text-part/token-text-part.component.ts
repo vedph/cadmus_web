@@ -47,6 +47,9 @@ export class TokenTextPartComponent
   }
 
   private getLinesFromText(text: string): TokenTextLine[] {
+    // ensure that we just have LF rather than CRLF
+    text = text.replace('\r\n', '\n');
+
     const lines: TokenTextLine[] = [];
     const textLines = text.split('\n');
     let y = 1;
