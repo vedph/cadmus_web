@@ -42,6 +42,38 @@ export class LibraryRouteService {
   }
 
   /**
+   * Get the fragment type and role from the part's role ID. This starts
+   * with "fr.", and might be followed by the role proper, introduced
+   * by the first dot if any. For instance, "fr.net.fusisoft.comment" would just
+   * return "fr.net.fusisoft.comment", while "fr.net.fusisoft.comment:scholarly"
+   * would return "fr.net.fusisoft.comment". This is required to navigate to
+   * the correct fragment editor, which is the same for each fragment type,
+   * independently from its role.
+   * @param role The part role ID.
+   * @returns An object where frTypeId=fragment type ID and frRoleId=fragment role
+   * ID, or null.
+   */
+  public getFragmentTypeAndRole(
+    roleId: string
+  ): { frTypeId: string; frRoleId: string | null } {
+    if (!roleId || !roleId.startsWith('fr.')) {
+      return null;
+    }
+    const i = roleId.indexOf(':');
+    if (i > -1) {
+      return {
+        frTypeId: roleId.substring(0, i),
+        frRoleId: roleId.substring(i + 1)
+      };
+    } else {
+      return {
+        frTypeId: roleId,
+        frRoleId: null
+      };
+    }
+  }
+
+  /**
    * Get the library group key from the specified part type.
    *
    * @param partDefs The parts definitions.
@@ -106,9 +138,10 @@ export class LibraryRouteService {
   ): { route: string; rid: string | null } {
     const def = partDefs.find(p => p.typeId === typeId);
 
+    // layer parts always have a role ID equal to the fragment's type ID,
+    // which always starts with "fr.".
     const isLayer = def && roleId && roleId.startsWith('fr.');
 
-    // build the target route to the appropriate part editor
     let route: string;
     let rid: string = null;
     const groupKey = this.getGroupKeyFromPartType(partDefs, typeId);
@@ -116,6 +149,7 @@ export class LibraryRouteService {
     if (isLayer) {
       // /items/<id>/layer/token/<pid>?rid=X
       route = `/items/${itemId}/layer/token/${partId}`;
+      // (currently rid has no meaning for a layers part)
     } else {
       // /items/<id>/<part-group>/ +
       // <part-typeid>/<part-id>?rid=<role-id>
@@ -127,6 +161,38 @@ export class LibraryRouteService {
     return {
       route: route,
       rid: rid
+    };
+  }
+
+  /**
+   * Build the route to the fragment editor corresponding to the specified
+   * layers part and location.
+   *
+   * @param partDefs The parts definitions.
+   * @param itemId The ID of the item the parts belongs to.
+   * @param partId The part's ID.
+   * @param typeId The part's type ID.
+   * @param roleId The part's role ID.
+   * @param loc The fragment's location.
+   * @returns Object with a route property and an optional rid property
+   * representing the role ID, which will be rendered as a query parameter.
+   */
+  public buildFragmentEditorRoute(
+    partDefs: PartDefinition[],
+    itemId: string,
+    partId: string,
+    typeId: string,
+    roleId: string,
+    loc: string
+  ): { route: string; rid: string | null } {
+    let route: string;
+    const groupKey = this.getGroupKeyFromPartType(partDefs, typeId, roleId);
+    const { frTypeId, frRoleId } = this.getFragmentTypeAndRole(roleId);
+
+    route = `/items/${itemId}/${groupKey}/fragment/${partId}/${frTypeId}/${loc}`;
+    return {
+      route: route,
+      rid: frRoleId
     };
   }
 }

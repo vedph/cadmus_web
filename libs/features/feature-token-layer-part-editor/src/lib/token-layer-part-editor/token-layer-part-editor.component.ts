@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   EditTokenLayerPartQuery,
   EditTokenLayerPartService,
@@ -7,7 +7,12 @@ import {
   EditItemService
 } from '@cadmus/features/edit-state';
 import { Observable } from 'rxjs';
-import { PartDefinition, TokenLocation, TextLayerService } from '@cadmus/core';
+import {
+  PartDefinition,
+  TokenLocation,
+  TextLayerService,
+  LibraryRouteService
+} from '@cadmus/core';
 import { RolePartId } from '@cadmus/api';
 import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -35,13 +40,15 @@ export class TokenLayerPartEditorComponent implements OnInit {
   public locations: TokenLocation[];
 
   constructor(
-    route: ActivatedRoute,
     formBuilder: FormBuilder,
+    route: ActivatedRoute,
+    private _router: Router,
     private _query: EditTokenLayerPartQuery,
     private _editService: EditTokenLayerPartService,
     private _textLayerService: TextLayerService,
     private _editItemQuery: EditItemQuery,
     private _editItemService: EditItemService,
+    private _libraryRouteService: LibraryRouteService,
     private _dialogService: DialogService
   ) {
     this.itemId = route.snapshot.params['iid'];
@@ -145,29 +152,50 @@ export class TokenLayerPartEditorComponent implements OnInit {
     return `items/${this.itemId}/${groupKey}/fragment/${this.partId}/TY/${loc}`;
   }
 
+  private navigateToFragmentEditor(loc: string) {
+    const part = this._query.getValue().part;
+
+    const { route, rid } = this._libraryRouteService.buildFragmentEditorRoute(
+      this._editItemQuery.getValue().facetParts,
+      part.itemId,
+      part.id,
+      part.typeId,
+      part.roleId,
+      loc
+    );
+
+    // navigate to the editor
+    this._router.navigate(
+      [route],
+      rid
+        ? {
+            queryParams: {
+              rid: part.roleId
+            }
+          }
+        : {}
+    );
+  }
+
   public editFragment() {
-    if (
-      this.selectedLayer.invalid ||
-      !this._textLayerService.getSelectedLocationForEdit(
-        this._textLayerService.getSelectedRange()
-      )
-    ) {
+    const loc = this._textLayerService.getSelectedLocationForEdit(
+      this._textLayerService.getSelectedRange()
+    );
+    if (this.selectedLayer.invalid || !loc) {
       return;
     }
-    // TODO:
+    this.navigateToFragmentEditor(loc.toString());
   }
 
   public addFragment() {
-    if (
-      this.selectedLayer.invalid ||
-      !this._textLayerService.getSelectedLocationForNew(
-        this._textLayerService.getSelectedRange(),
-        this._query.getValue().baseText
-      )
-    ) {
+    const loc = this._textLayerService.getSelectedLocationForNew(
+      this._textLayerService.getSelectedRange(),
+      this._query.getValue().baseText
+    );
+    if (this.selectedLayer.invalid || !loc) {
       return;
     }
-    // TODO:
+    this.navigateToFragmentEditor(loc.toString());
   }
 
   public getCoordsInfo() {

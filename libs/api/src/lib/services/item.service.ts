@@ -285,29 +285,6 @@ export class ItemService {
   }
 
   /**
-   * Get the fragment type and role from the part's role ID. This starts
-   * with "fr.", and might be followed by the role proper, introduced
-   * by the first dot if any. For instance, "fr.net.fusisoft.comment" would just
-   * return "fr.net.fusisoft.comment", while "fr.net.fusisoft.comment:scholarly"
-   * would return "fr.net.fusisoft.comment". This is required to navigate to
-   * the correct fragment editor, which is the same for each fragment type,
-   * independently from its role.
-   * @param role The part role ID.
-   * @returns An array where [0]=fragment type and [1]=role, or null.
-   */
-  public getFragmentTypeAndRole(roleId: string): string[] {
-    if (!roleId || !roleId.startsWith('fr.')) {
-      return null;
-    }
-    const i = roleId.indexOf(':');
-    if (i > -1) {
-      return [roleId.substr(0, i), roleId.substr(i + 1)];
-    } else {
-      return [roleId, null];
-    }
-  }
-
-  /**
    * Vanilla groupBy function.
    * See https://gomakethings.com/a-vanilla-js-equivalent-of-lodashs-groupby-method.
    *
