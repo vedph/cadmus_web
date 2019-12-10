@@ -1,2 +1,2 @@
 export * from './lib/philology-ui.module';
-export * from './lib/models';
+export * from './lib/orthography-fragment';

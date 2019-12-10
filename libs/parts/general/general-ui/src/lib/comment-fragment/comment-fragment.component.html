@@ -1,0 +1,78 @@
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>textsms</mat-icon>
+      </div>
+      <mat-card-title
+        >Orthography Fragment {{ fragment?.location }}</mat-card-title
+      >
+      <mat-card-subtitle>
+        {{ fragment?.baseText }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- free tag -->
+      <div *ngIf="!tagEntries">
+          <mat-form-field>
+            <input type="text" matInput formControlName="tag" placeholder="tag" />
+            <mat-error
+              *ngIf="tag.hasError('maxLength') && (tag.dirty || tag.touched)"
+              >too long</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <!-- bound tag -->
+        <div *ngIf="tagEntries">
+          <mat-form-field>
+            <mat-label>tag</mat-label>
+            <mat-select formControlName="tags" placeholder="tag">
+              <mat-option *ngFor="let e of tagEntries" [value]="e.id">{{
+                e.value
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+
+      <!-- text -->
+      <div>
+        <ngx-monaco-editor
+          [options]="editorOptions"
+          formControlName="text"
+        ></ngx-monaco-editor>
+        <mat-error
+          *ngIf="text.hasError('required') && (text.touched || text.dirty)"
+          >please enter some text</mat-error
+        >
+      </div>
+
+      <hr />
+      <markdown [data]="text?.value"></markdown>
+
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        type="button"
+        matTooltip="Close this fragment"
+        (click)="close()"
+      >
+        <mat-icon>cancel</mat-icon>
+        close
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="form.invalid || form.pristine"
+        matTooltip="Save this fragment"
+      >
+        <mat-icon>check_circle</mat-icon>
+        save
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>

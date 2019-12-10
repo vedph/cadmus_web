@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { OrthographyFragment } from '../models';
+import { OrthographyFragment } from '../orthography-fragment';
 import {
   FormControl,
   FormGroup,
