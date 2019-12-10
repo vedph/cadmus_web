@@ -17,7 +17,6 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
-import { ItemService } from '@cadmus/api';
 import { DialogService } from '@cadmus/ui';
 import { EditItemQuery, EditItemService } from '@cadmus/features/edit-state';
 

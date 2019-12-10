@@ -63,6 +63,28 @@ export class EditTokenLayerPartService {
     );
   }
 
+  public addAndLoad(itemId: string) {
+    this._store.setLoading(true);
+
+    const part: TokenTextLayerPart = {
+      id: null,     // this will be filled by server
+      itemId: itemId,
+      typeId: TOKEN_TEXT_PART_TYPEID,
+      roleId: null,
+      fragments: [],
+      userId: null, // this will be filled by server
+      timeModified: new Date()
+    };
+    this._itemService.addPart(part).subscribe(result => {
+      this._store.setLoading(false);
+      this.load(itemId, result.id);
+    }, error => {
+      console.error(error);
+      this._store.setLoading(false);
+      this._store.setError('Error adding text layer part for item ' + itemId);
+  });
+  }
+
   public selectLayer(layer: PartDefinition) {
     this._store.update({
       selectedLayer: layer

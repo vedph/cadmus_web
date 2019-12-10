@@ -117,7 +117,7 @@ export class ItemService {
   /**
    * Get the item's part with the specified ID.
    * @param id string The part ID.
-   * @returns Observable<IPart> Observable with result.
+   * @returns Observable<Part> Observable with result.
    */
   public getPart(id: string): Observable<Part> {
     const url = `${this._apiEndpoint}${this._databaseId}/part/${id}`;
@@ -133,7 +133,7 @@ export class ItemService {
    * @param itemId string The item ID.
    * @param type string The part type.
    * @param role string The part role.
-   * @returns Observable<IPart> Observable with result.
+   * @returns Observable<Part> Observable with result.
    */
   public getPartFromTypeAndRole(
     itemId: string,
@@ -193,7 +193,7 @@ export class ItemService {
   /**
    * Delete the part with the specified ID.
    * @param string id The part's ID.
-   * @returns Observable<Object> Observable with result.
+   * @returns Observable with result.
    */
   public deletePart(id: string): Observable<Object> {
     const url = `${this._apiEndpoint}${this._databaseId}/part/${id}`;
@@ -202,19 +202,19 @@ export class ItemService {
 
   /**
    * Add or update the specified part.
-   * @param item IPart The part.
-   * @returns Observable<Object> Observable with result.
+   * @param item Part The part.
+   * @returns The part observable.
    */
-  public addPart(part: Part): Observable<Object> {
+  public addPart(part: Part): Observable<Part> {
     const url = `${this._apiEndpoint}${this._databaseId}/parts`;
     return this._http
-      .post(url, { raw: JSON.stringify(part) })
+      .post<Part>(url, { raw: JSON.stringify(part) })
       .pipe(catchError(this._error.handleError));
   }
 
   /**
    * Add or update the specified part.
-   * @param item IPart The part.
+   * @param item Part The part.
    * @returns Observable<Object> Observable with result.
    */
   public addPartJson(json: string): Observable<Object> {

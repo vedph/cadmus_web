@@ -53,7 +53,13 @@ export class TokenLayerPartEditorComponent implements OnInit {
   ) {
     this.itemId = route.snapshot.params['iid'];
     this.partId = route.snapshot.params['pid'];
+    if (this.partId === 'new') {
+      this.partId = null;
+    }
     this.roleId = route.snapshot.queryParams['rid'];
+    if (this.roleId === 'default') {
+      this.roleId = null;
+    }
 
     // form
     this.selectedLayer = formBuilder.control(null, Validators.required);
@@ -103,8 +109,15 @@ export class TokenLayerPartEditorComponent implements OnInit {
 
     this.ensureItemLoaded(this.itemId);
 
-    // load the store for the requested item's part
-    this._editService.load(this.itemId, this.partId);
+    // load the store for the requested item's part,
+    // or create a new part and load it if adding a new one.
+    // Eager creation here is a requirement, because we are
+    // providing a fragments editor, which requires their container part.
+    if (this.partId) {
+      this._editService.load(this.itemId, this.partId);
+    } else {
+      this._editService.addAndLoad(this.itemId);
+    }
   }
 
   private loadAllFragmentLocations() {
@@ -141,15 +154,6 @@ export class TokenLayerPartEditorComponent implements OnInit {
           this._editService.deleteFragment(loc);
         }
       });
-  }
-
-  private buildEditRoute(loc: string): string {
-    const part = this._query.getValue().part;
-    const groupKey = this._editItemQuery.getGroupKeyFromPartTypeId(
-      part.typeId,
-      part.roleId
-    );
-    return `items/${this.itemId}/${groupKey}/fragment/${this.partId}/TY/${loc}`;
   }
 
   private navigateToFragmentEditor(loc: string) {
