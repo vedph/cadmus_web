@@ -12,15 +12,17 @@ View dependencies: `nx dep-graph`.
 
 ### Organization
 
-The planned architecture is:
+The general multirepo architecture is structured into these sections:
 
 - `apps/cadmus`: the frontend app.
 - `libs/core`: core services and models.
-- `libs/features`: app's features libraries, one for each page.
-  - `<partgroup-feature>`: the pages for all the parts belonging to the specified group to be included in the app.
+- `libs/features`: app's features libraries:
+  - `libs/feature-...`: a feature library for each page.
+  - `libs/features-ui`: components shared among features.
 - `libs/material`: Angular material.
-- `libs/parts`: Cadmus parts libraries, one for each group of parts.
-  - `<partgroup>-ui`: core services and models plus dumb UI components for the part. E.g. `libs/parts/general-ui`.
+- `libs/parts`: Cadmus parts libraries:
+  - `<partgroup>/<partgroup>-ui`: core services and models plus dumb UI components for parts and fragments in a specific group. E.g. `libs/parts/general/general-ui`.
+  - `<partgroup>/<partgroup>-feature`: feature pages for parts and fragments in a specific group. E.g. `libs/parts/general/general-feature`.
 - `libs/ui`: shared dumb UI components.
 
 ```plantuml
@@ -68,14 +70,20 @@ cadmus <|-- "cadmus-e2e"
 ### Routes
 
 - `/items`: list of items.
+
 - `/items/<id>`: single item editor. This allows editing the item's metadata, and shows a list of its parts, where you can add or remove parts. Item's `id` is equal to `new` for a new item.
+
 - `/items/<id>/<part-group>/<part-typeid>/<part-id>?rid=<role-id>`: single part editor. Role ID is optional.
+
 - `/items/<id>/layer/token/<part-id>?rid=<role-id>`: single part's token-based text layer editor. Role ID is optional and can be used to pre-select a layer.
+
 - `/items/<id>/<part-group>/fragment/<part-id>/<fr-typeid>/<loc>?rid=<role-id>`: single part's fragment editor. Role ID is optional.
 
 Note that the part-editing routes always have a part-group key. This comes from the `groupKey` property of each part's definition; if such a property is not defined (but in practice this should never happen), it defaults to `default`.
 
-Grouping parts is thus required, as far as we want to be able to lazily load our part-related modules. For instance, all our generic parts will be under the same `generic` group key, and their code will be found in the corresponding, lazy-loaded module. When editing an item's part, the frontend looks at the part definitions searching for the first one matching the part's type ID; then, it uses the corresponding part's group key to build the edit URL.
+Grouping parts is required as far as we want to be able to lazily load our part-related modules. For instance, all our generic parts will be under the same `generic` group key, and their code will be found in the corresponding, lazy-loaded module. When editing an item's part, the frontend looks at the part definitions, searching for the first one matching the part's type ID; then, it uses the corresponding part's group key to build the edit URL.
+
+Routes to part/fragment editors are built by a specialized service, `LibraryRouteService`. The routes to feature editors are defined in the respective lazily-loaded modules.
 
 Routes **examples**:
 
@@ -151,7 +159,7 @@ To **add a new part**:
 
 a) in a `<PartGroup>-ui` module:
 
-1. add the part *model* (derived from `Part`), its type ID constant, and its JSON schema constant to `models.ts`. For instance:
+1. add the part *model* (derived from `Part`), its type ID constant, and its JSON schema constant to `<part>.ts` (e.g. `note-part.ts`). For instance:
 
 ```ts
 import { Part } from '@cadmus/core';
