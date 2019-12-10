@@ -29,7 +29,7 @@ export class EditItemQuery extends Query<EditItemState> {
     return true;
   }
 
-  public getGroupKeyFromPartTypeId(
+  public getEditorKeyFromPartTypeId(
     typeId: string,
     roleId: string = null
   ): string {
@@ -37,7 +37,7 @@ export class EditItemQuery extends Query<EditItemState> {
     if (!defs) {
       return 'default';
     }
-    return this._libraryRouteService.getGroupKeyFromPartType(
+    return this._libraryRouteService.getEditorKeyFromPartType(
       defs,
       typeId,
       roleId

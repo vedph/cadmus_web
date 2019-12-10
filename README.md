@@ -79,7 +79,7 @@ cadmus <|-- "cadmus-e2e"
 
 - `/items/<id>/<part-group>/fragment/<part-id>/<fr-typeid>/<loc>?rid=<role-id>`: single part's fragment editor. Role ID is optional.
 
-Note that the part-editing routes always have a part-group key. This comes from the `groupKey` property of each part's definition; if such a property is not defined (but in practice this should never happen), it defaults to `default`.
+Note that the part-editing routes always have a part-group key. This comes from the `editorKey` property of each part's definition; if such a property is not defined (but in practice this should never happen), it defaults to `default`.
 
 Grouping parts is required as far as we want to be able to lazily load our part-related modules. For instance, all our generic parts will be under the same `generic` group key, and their code will be found in the corresponding, lazy-loaded module. When editing an item's part, the frontend looks at the part definitions, searching for the first one matching the part's type ID; then, it uses the corresponding part's group key to build the edit URL.
 

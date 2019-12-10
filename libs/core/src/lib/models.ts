@@ -147,20 +147,12 @@ export interface PartDefinition {
   colorKey: string;
   groupKey: string;
   sortKey: string;
+  editorKey: string;
 }
 
 /**
  * Fragment definition in a facet.
  */
-export interface FragmentDefinition {
-  typeId: string;
-  name: string;
-  description: string;
-  colorKey: string;
-  groupKey: string;
-  sortKey: string;
-}
-
 /**
  * Facet definition.
  */
@@ -169,7 +161,6 @@ export interface FacetDefinition {
   label: string;
   description: string;
   partDefinitions: PartDefinition[];
-  fragmentDefinitions: FragmentDefinition[];
 }
 
 /**

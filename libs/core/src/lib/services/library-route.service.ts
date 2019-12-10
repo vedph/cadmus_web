@@ -74,13 +74,14 @@ export class LibraryRouteService {
   }
 
   /**
-   * Get the library group key from the specified part type.
+   * Get the library editor key from the specified part type, looking up
+   * the specified parts definitions.
    *
    * @param partDefs The parts definitions.
    * @param typeId The part's type ID.
    * @param roleId The part's role ID.
    */
-  public getGroupKeyFromPartType(
+  public getEditorKeyFromPartType(
     partDefs: PartDefinition[],
     typeId: string,
     roleId: string = null
@@ -104,7 +105,7 @@ export class LibraryRouteService {
         return d.typeId === typeId;
       });
     }
-    return def ? def.groupKey : 'default';
+    return def && def.editorKey ? def.editorKey : 'default';
   }
 
   /**
@@ -144,7 +145,7 @@ export class LibraryRouteService {
 
     let route: string;
     let rid: string = null;
-    const groupKey = this.getGroupKeyFromPartType(partDefs, typeId);
+    const editorKey = this.getEditorKeyFromPartType(partDefs, typeId);
 
     if (isLayer) {
       // /items/<id>/layer/token/<pid>?rid=X
@@ -153,7 +154,7 @@ export class LibraryRouteService {
     } else {
       // /items/<id>/<part-group>/ +
       // <part-typeid>/<part-id>?rid=<role-id>
-      route = `/items/${itemId}/${groupKey}/${typeId}/${partId}`;
+      route = `/items/${itemId}/${editorKey}/${typeId}/${partId}`;
     }
     if (roleId) {
       rid = roleId;
@@ -186,10 +187,10 @@ export class LibraryRouteService {
     loc: string
   ): { route: string; rid: string | null } {
     let route: string;
-    const groupKey = this.getGroupKeyFromPartType(partDefs, typeId, roleId);
+    const editorKey = this.getEditorKeyFromPartType(partDefs, typeId, roleId);
     const { frTypeId, frRoleId } = this.getFragmentTypeAndRole(roleId);
 
-    route = `/items/${itemId}/${groupKey}/fragment/${partId}/${frTypeId}/${loc}`;
+    route = `/items/${itemId}/${editorKey}/fragment/${partId}/${frTypeId}/${loc}`;
     return {
       route: route,
       rid: frRoleId
