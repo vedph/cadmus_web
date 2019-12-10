@@ -39,6 +39,8 @@ export interface EditTokenLayerPartState {
   // https://github.com/datorama/akita/issues/61
   loading?: boolean;
   error?: string;
+  deletingFragment?: boolean;
+  savingFragment?: boolean;
 }
 
 const initialState: EditTokenLayerPartState = {
@@ -48,7 +50,9 @@ const initialState: EditTokenLayerPartState = {
   selectedLayer: null,
   rolePartIds: null,
   loading: false,
-  error: null
+  error: null,
+  deletingFragment: false,
+  savingFragment: false
 };
 
 @Injectable({ providedIn: 'root' })
@@ -56,5 +60,13 @@ const initialState: EditTokenLayerPartState = {
 export class EditTokenLayerPartStore extends Store<EditTokenLayerPartState> {
   constructor() {
     super(initialState);
+  }
+
+  public setDeletingFragment(value = true) {
+    this.update({ deletingFragment: value });
+  }
+
+  public setSavingFragment(value = true) {
+    this.update({ savingFragment: value });
   }
 }

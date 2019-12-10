@@ -9,8 +9,8 @@ import {
 import { Observable } from 'rxjs';
 import { PartDefinition, TokenLocation, TextLayerService } from '@cadmus/core';
 import { RolePartId } from '@cadmus/api';
-import { FormControl, FormBuilder } from '@angular/forms';
-import { take, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { FormControl, FormBuilder, Validators } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DialogService } from '@cadmus/ui';
 
 @Component({
@@ -49,7 +49,7 @@ export class TokenLayerPartEditorComponent implements OnInit {
     this.roleId = route.snapshot.queryParams['rid'];
 
     // form
-    this.selectedLayer = formBuilder.control(null);
+    this.selectedLayer = formBuilder.control(null, Validators.required);
   }
 
   private ensureItemLoaded(id: string) {
@@ -112,10 +112,6 @@ export class TokenLayerPartEditorComponent implements OnInit {
     this.locations = locations;
   }
 
-  public editFragment() {
-    // TODO:
-  }
-
   public deleteFragment() {
     const loc = this._textLayerService.getSelectedLocationForEdit(
       this._textLayerService.getSelectedRange()
@@ -135,13 +131,42 @@ export class TokenLayerPartEditorComponent implements OnInit {
           if (i === -1) {
             return;
           }
-
-          // TODO:
+          this._editService.deleteFragment(loc);
         }
       });
   }
 
+  private buildEditRoute(loc: string): string {
+    const part = this._query.getValue().part;
+    const groupKey = this._editItemQuery.getGroupKeyFromPartTypeId(
+      part.typeId,
+      part.roleId
+    );
+    return `items/${this.itemId}/${groupKey}/fragment/${this.partId}/TY/${loc}`;
+  }
+
+  public editFragment() {
+    if (
+      this.selectedLayer.invalid ||
+      !this._textLayerService.getSelectedLocationForEdit(
+        this._textLayerService.getSelectedRange()
+      )
+    ) {
+      return;
+    }
+    // TODO:
+  }
+
   public addFragment() {
+    if (
+      this.selectedLayer.invalid ||
+      !this._textLayerService.getSelectedLocationForNew(
+        this._textLayerService.getSelectedRange(),
+        this._query.getValue().baseText
+      )
+    ) {
+      return;
+    }
     // TODO:
   }
 

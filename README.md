@@ -19,11 +19,9 @@ The planned architecture is:
 - `libs/features`: app's features libraries, one for each page.
   - `<partgroup-feature>`: the pages for all the parts belonging to the specified group to be included in the app.
 - `libs/material`: Angular material.
-- `libs/parts`: Cadmus parts libraries, one for each group of parts. These only include models and dumb components.
+- `libs/parts`: Cadmus parts libraries, one for each group of parts.
   - `<partgroup>-ui`: core services and models plus dumb UI components for the part. E.g. `libs/parts/general-ui`.
 - `libs/ui`: shared dumb UI components.
-
-To include the part UI in your app, add a corresponding library for its page under `features`, where you will include the part's state and wrap its dumb editor component into the page.
 
 ```plantuml
 @startuml

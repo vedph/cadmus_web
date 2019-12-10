@@ -6,7 +6,8 @@ import {
   PartDefinition,
   FacetDefinition,
   FlagDefinition,
-  Part
+  Part,
+  LibraryRouteService
 } from '@cadmus/core';
 import {
   FormControl,
@@ -55,8 +56,8 @@ export class ItemEditorComponent implements OnInit {
     private _route: ActivatedRoute,
     private _snackbar: MatSnackBar,
     private _query: EditItemQuery,
-    private _itemService: ItemService,
     private _editItemService: EditItemService,
+    private _libraryRouteService: LibraryRouteService,
     private _dialogService: DialogService,
     formBuilder: FormBuilder
   ) {
@@ -198,41 +199,15 @@ export class ItemEditorComponent implements OnInit {
     this._router.navigate([route]);
   }
 
-  private getGroupKeyFromPartTypeId(typeId: string): string {
-    const defs = this._query.getValue().facetParts;
-    if (!defs) {
-      return 'default';
-    }
-    const def = defs.find(d => {
-      return d.typeId === typeId;
-    });
-    return def ? def.groupKey : 'default';
-  }
-
   public editPart(part: Part) {
-    // determine if the selected part is a text layer part
-    const def = this._query
-      .getValue()
-      .facetParts.find(p => p.typeId === part.typeId);
-    const isLayer = def && part.roleId && part.roleId.startsWith('fr.');
-
     // build the target route to the appropriate part editor
-    let route: string;
-    let rid: string = null;
-    const groupKey = this.getGroupKeyFromPartTypeId(part.typeId);
-
-    if (isLayer) {
-      // /items/<id>/layer/token/<pid>?rid=X
-      // const frTypeRole = this._itemService.getFragmentTypeAndRole(part.roleId);
-      route = `/items/${part.itemId}/layer/token/${part.id}`;
-    } else {
-      // /items/<id>/<part-group>/ +
-      // <part-typeid>/<part-id>?rid=<role-id>
-      route = `/items/${part.itemId}/${groupKey}/${part.typeId}/${part.id}`;
-    }
-    if (part.roleId) {
-      rid = part.roleId;
-    }
+    const { route, rid } = this._libraryRouteService.buildPartEditorRoute(
+      this._query.getValue().facetParts,
+      part.itemId,
+      part.id,
+      part.typeId,
+      part.roleId
+    );
 
     // navigate to the editor
     this._router.navigate(
