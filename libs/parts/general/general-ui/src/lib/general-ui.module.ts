@@ -13,6 +13,7 @@ import { NotePartDemoComponent } from './note-part-demo/note-part-demo.component
 import { TokenTextPartComponent } from './token-text-part/token-text-part.component';
 import { TokenTextPartDemoComponent } from './token-text-part-demo/token-text-part-demo.component';
 import { CommentFragmentComponent } from './comment-fragment/comment-fragment.component';
+import { CommentFragmentDemoComponent } from './comment-fragment-demo/comment-fragment-demo.component';
 
 @NgModule({
   imports: [
@@ -31,14 +32,16 @@ import { CommentFragmentComponent } from './comment-fragment/comment-fragment.co
     NotePartDemoComponent,
     TokenTextPartComponent,
     TokenTextPartDemoComponent,
-    CommentFragmentComponent
+    CommentFragmentComponent,
+    CommentFragmentDemoComponent
   ],
   exports: [
     NotePartComponent,
     NotePartDemoComponent,
     TokenTextPartComponent,
     TokenTextPartDemoComponent,
-    CommentFragmentComponent
+    CommentFragmentComponent,
+    CommentFragmentDemoComponent
   ]
 })
 export class GeneralUiModule {}

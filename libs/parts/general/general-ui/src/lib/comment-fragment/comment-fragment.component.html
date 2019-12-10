@@ -15,26 +15,25 @@
     <mat-card-content>
       <!-- free tag -->
       <div *ngIf="!tagEntries">
-          <mat-form-field>
-            <input type="text" matInput formControlName="tag" placeholder="tag" />
-            <mat-error
-              *ngIf="tag.hasError('maxLength') && (tag.dirty || tag.touched)"
-              >too long</mat-error
-            >
-          </mat-form-field>
-        </div>
-        <!-- bound tag -->
-        <div *ngIf="tagEntries">
-          <mat-form-field>
-            <mat-label>tag</mat-label>
-            <mat-select formControlName="tags" placeholder="tag">
-              <mat-option *ngFor="let e of tagEntries" [value]="e.id">{{
-                e.value
-              }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </mat-card-content>
+        <mat-form-field>
+          <input type="text" matInput formControlName="tag" placeholder="tag" />
+          <mat-error
+            *ngIf="tag.hasError('maxLength') && (tag.dirty || tag.touched)"
+            >too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <!-- bound tag -->
+      <div *ngIf="tagEntries">
+        <mat-form-field>
+          <mat-label>tag</mat-label>
+          <mat-select formControlName="tags" placeholder="tag">
+            <mat-option *ngFor="let e of tagEntries" [value]="e.id">{{
+              e.value
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
       <!-- text -->
       <div>
@@ -50,7 +49,6 @@
 
       <hr />
       <markdown [data]="text?.value"></markdown>
-
     </mat-card-content>
 
     <mat-card-actions>

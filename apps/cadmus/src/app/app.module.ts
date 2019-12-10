@@ -27,6 +27,7 @@ import { FeatureNotePartDemoComponent } from './demo/feature-note-part-demo/feat
 import { FeatureOrthographyFragmentDemoComponent } from './demo/feature-orthography-fragment-demo/feature-orthography-fragment-demo.component';
 import { AuthInterceptor } from '@cadmus/api';
 import { FeatureTokenTextPartDemoComponent } from './demo/feature-token-text-part-demo/feature-token-text-part-demo.component';
+import { FeatureCommentFragmentDemoComponent } from './demo/feature-comment-fragment-demo/feature-comment-fragment-demo.component';
 import { TokenTextPartDemoComponent } from 'libs/parts/general/general-ui/src/lib/token-text-part-demo/token-text-part-demo.component';
 
 @NgModule({
@@ -35,7 +36,8 @@ import { TokenTextPartDemoComponent } from 'libs/parts/general/general-ui/src/li
     HomeComponent,
     FeatureNotePartDemoComponent,
     FeatureOrthographyFragmentDemoComponent,
-    FeatureTokenTextPartDemoComponent
+    FeatureTokenTextPartDemoComponent,
+    FeatureCommentFragmentDemoComponent
   ],
   imports: [
     BrowserModule,
@@ -62,6 +64,11 @@ import { TokenTextPartDemoComponent } from 'libs/parts/general/general-ui/src/li
         {
           path: 'demo/token-text-part',
           component: TokenTextPartDemoComponent,
+          pathMatch: 'full'
+        },
+        {
+          path: 'demo/comment-fragment',
+          component: FeatureCommentFragmentDemoComponent,
           pathMatch: 'full'
         },
         {
