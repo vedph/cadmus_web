@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Architecture",
+    "file": "architecture.md"
+  },
+  {
+    "title": "Routes",
+    "file": "routes.md"
+  },
+  {
+    "title": "Editor Components",
+    "file": "editor-components.md"
+  },
+  {
+    "title": "Adding Parts",
+    "file": "adding-parts.md"
+  }
+]
