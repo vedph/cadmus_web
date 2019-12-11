@@ -18,6 +18,7 @@ export class CommentFragmentFeatureComponent implements OnInit {
   public itemId: string;
   public partId: string;
   public frTypeId: string;
+  public loc: string;
   public frRoleId: string;
 
   constructor(
@@ -33,6 +34,7 @@ export class CommentFragmentFeatureComponent implements OnInit {
     this.itemId = route.snapshot.params['iid'];
     this.partId = route.snapshot.params['pid'];
     this.frTypeId = route.snapshot.params['frtid'];
+    this.loc = route.snapshot.params['loc'];
     this.frRoleId = route.snapshot.queryParams['frrid'];
   }
 
@@ -56,6 +58,8 @@ export class CommentFragmentFeatureComponent implements OnInit {
     this.ensureItemLoaded(this.itemId);
     // load layers if required
     this.ensureLayersLoaded();
+    // load fragment
+    this._editFrService.load(this.partId, this.loc, ['comment-tags']);
   }
 
   public save(json: string) {
