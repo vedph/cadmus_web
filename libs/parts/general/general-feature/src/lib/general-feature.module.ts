@@ -27,7 +27,7 @@ import { CommentFragmentFeatureComponent } from './comment-fragment-feature/comm
       {
         path: `fragment/:pid/${COMMENT_FRAGMENT_TYPEID}/:loc`,
         pathMatch: 'full',
-        component: NotePartFeatureComponent
+        component: CommentFragmentFeatureComponent
       }
     ]),
     // cadmus

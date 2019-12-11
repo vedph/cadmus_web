@@ -28,7 +28,7 @@ export const editPartInitialState: EditPartState = {
  * extending EditPartServiceBase).
  */
 @Injectable({ providedIn: 'root' })
-@StoreConfig({ name: 'edit-item' })
+@StoreConfig({ name: 'edit-part' })
 export class EditPartStore extends Store<EditPartState> {
   constructor() {
     super(editPartInitialState);

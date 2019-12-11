@@ -56,7 +56,7 @@ const initialState: EditTokenLayerPartState = {
 };
 
 @Injectable({ providedIn: 'root' })
-@StoreConfig({ name: 'edit-item' })
+@StoreConfig({ name: 'edit-token-layer-part' })
 export class EditTokenLayerPartStore extends Store<EditTokenLayerPartState> {
   constructor() {
     super(initialState);

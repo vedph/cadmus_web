@@ -1,1 +1,7 @@
-<p>comment-fragment-feature works!</p>
+<cadmus-current-item-bar></cadmus-current-item-bar>
+<cadmus-comment-fragment
+  [json]="json$ | async"
+  (jsonChange)="save($event)"
+  [thesauri]="thesauri$ | async"
+  (editorClose)="close()"
+></cadmus-comment-fragment>
