@@ -12,6 +12,7 @@ import { EditStateModule } from '@cadmus/features/edit-state';
 import { NotePartFeatureComponent } from './note-part-feature/note-part-feature.component';
 import { FeaturesUiModule } from '@cadmus/features/features-ui';
 import { CommentFragmentFeatureComponent } from './comment-fragment-feature/comment-fragment-feature.component';
+import { TokenTextPartFeatureComponent } from './token-text-part-feature/token-text-part-feature.component';
 
 @NgModule({
   imports: [
@@ -40,11 +41,13 @@ import { CommentFragmentFeatureComponent } from './comment-fragment-feature/comm
   ],
   declarations: [
     NotePartFeatureComponent,
-    CommentFragmentFeatureComponent
+    CommentFragmentFeatureComponent,
+    TokenTextPartFeatureComponent
   ],
   exports: [
     NotePartFeatureComponent,
-    CommentFragmentFeatureComponent
+    CommentFragmentFeatureComponent,
+    TokenTextPartFeatureComponent
   ]
 })
 export class GeneralFeatureModule {}

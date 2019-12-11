@@ -2,14 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'cadmus-feature-token-text-part-demo',
-  templateUrl: './feature-token-text-part-demo.component.html',
-  styleUrls: ['./feature-token-text-part-demo.component.css']
+  template: `
+    <cadmus-token-text-part-demo></cadmus-token-text-part-demo>
+  `,
+  styles: []
 })
-export class FeatureTokenTextPartDemoComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-}
+export class FeatureTokenTextPartDemoComponent { }

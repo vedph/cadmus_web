@@ -1,0 +1,7 @@
+<cadmus-current-item-bar></cadmus-current-item-bar>
+<cadmus-note-part
+  [json]="json$ | async"
+  (jsonChange)="save($event)"
+  [thesauri]="thesauri$ | async"
+  (editorClose)="close()"
+></cadmus-note-part>
