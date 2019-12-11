@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ThesauriSet } from '@cadmus/core';
+import { ThesauriSet, TokenLocation } from '@cadmus/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EditCommentFragmentQuery } from './edit-comment-fragment.query';
 import { EditCommentFragmentService } from './edit-comment-fragment.service';
@@ -14,6 +14,9 @@ import { EditItemQuery, EditItemService, EditTokenLayerPartQuery, EditTokenLayer
 export class CommentFragmentFeatureComponent implements OnInit {
   public json$: Observable<string>;
   public thesauri$: Observable<ThesauriSet>;
+
+  public baseText$: Observable<string>;
+  public frLoc: TokenLocation;
 
   public itemId: string;
   public partId: string;
@@ -54,6 +57,9 @@ export class CommentFragmentFeatureComponent implements OnInit {
   ngOnInit() {
     this.json$ = this._editFrQuery.selectJson();
     this.thesauri$ = this._editFrQuery.selectThesauri();
+    this.baseText$ = this._editLayersQuery.select(state => state.baseText);
+    this.frLoc = TokenLocation.parse(this.loc);
+
     // load item if required
     this.ensureItemLoaded(this.itemId);
     // load layers if required

@@ -1,4 +1,5 @@
 <cadmus-current-item-bar></cadmus-current-item-bar>
+<cadmus-decorated-token-text class="base-text" [baseText]="baseText$ | async" [locations]="[frLoc]"></cadmus-decorated-token-text>
 <cadmus-comment-fragment
   [json]="json$ | async"
   (jsonChange)="save($event)"
