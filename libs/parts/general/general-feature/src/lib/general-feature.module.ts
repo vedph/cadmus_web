@@ -13,6 +13,8 @@ import { NotePartFeatureComponent } from './note-part-feature/note-part-feature.
 import { FeaturesUiModule } from '@cadmus/features/features-ui';
 import { CommentFragmentFeatureComponent } from './comment-fragment-feature/comment-fragment-feature.component';
 import { TokenTextPartFeatureComponent } from './token-text-part-feature/token-text-part-feature.component';
+import { CategoriesPartFeatureComponent } from './categories-part-feature/categories-part-feature.component';
+import { CATEGORIES_PART_TYPEID } from '@cadmus/parts/general/general-ui';
 
 @NgModule({
   imports: [
@@ -20,6 +22,11 @@ import { TokenTextPartFeatureComponent } from './token-text-part-feature/token-t
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild([
+      {
+        path: `${CATEGORIES_PART_TYPEID}/:pid`,
+        pathMatch: 'full',
+        component: CategoriesPartFeatureComponent
+      },
       {
         path: `${NOTE_PART_TYPEID}/:pid`,
         pathMatch: 'full',
@@ -40,13 +47,15 @@ import { TokenTextPartFeatureComponent } from './token-text-part-feature/token-t
     FeaturesUiModule
   ],
   declarations: [
-    NotePartFeatureComponent,
+    CategoriesPartFeatureComponent,
     CommentFragmentFeatureComponent,
+    NotePartFeatureComponent,
     TokenTextPartFeatureComponent
   ],
   exports: [
-    NotePartFeatureComponent,
+    CategoriesPartFeatureComponent,
     CommentFragmentFeatureComponent,
+    NotePartFeatureComponent,
     TokenTextPartFeatureComponent
   ]
 })

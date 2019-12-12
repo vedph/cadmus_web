@@ -5,6 +5,7 @@ export * from './lib/edit-item.store';
 export * from './lib/edit-fragment-query-base';
 export * from './lib/edit-fragment.store';
 export * from './lib/edit-fragment-service-base';
+export * from './lib/edit-part-feature-base';
 export * from './lib/edit-part-query-base';
 export * from './lib/edit-part-service-base';
 export * from './lib/edit-part.store';

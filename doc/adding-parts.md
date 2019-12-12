@@ -1,15 +1,18 @@
 # Adding Parts
 
-To **add a new parts library**:
+## Adding a Parts/Fragments Libraries
+
+To add new parts/fragments libraries:
 
 - create a new Nrwl Angular library named `<partgroup>-ui` under `parts/<partgroup>` (use simple module name in generator). For instance, for general purpose parts I created `parts/general/general-ui`. This will host dumb components for editing and their demo counterparts.
+
 - create a new Nrwl Angular library named `<partgroup>-feature` under `parts/<partgroup>` (use simple module name in generator). For instance, for general purpose parts I created `parts/general/general-feature`. This will host the pages (features) for each part. Every page wraps the dumb UI component into a component which has a corresponding Akita's state, and gets its data pushed via observables. Also, each page has a route (see above).
 
-To **add a new part**:
+## Adding Part/Fragment to the UI Library
 
-a) in a `<partgroup>-ui` module:
+In the `<partgroup>-ui` module:
 
-1. add the part _model_ (derived from `Part`), its type ID constant, and its JSON schema constant to `<part>.ts` (e.g. `note-part.ts`). You can use a template like this (replace `__NAME__` with your part's name, e.g. `Note`, adjusting case where required):
+1. add the part _model_ (derived from `Part`), its type ID constant, and its JSON schema constant to `<part>.ts` (e.g. `note-part.ts`). Remember to add the new file to the "barrel" `index.ts` in the module. You can use a template like this (replace `__NAME__` with your part's name, e.g. `Note`, adjusting case where required):
 
 ```ts
 import { Part } from '@cadmus/core';
@@ -242,6 +245,140 @@ export class Feature__NAME__PartDemoComponent { }
 <a mat-menu-item routerLink="/demo/__NAME__-part">__NAME__ part</a>
 ```
 
-b) in a `<partgroup>-feature` module:
+## Adding Part/Fragment to the Feature Library
 
-7. add a _part editor feature component_ named after the part (e.g. `NotePartFeatureComponent` after `NotePart`), with routing. Each editor has its component, and its state management artifacts under the same folder (store, query, and service).
+In a `<partgroup>-feature` module:
+
+1. add a _part editor feature component_ named after the part (e.g. `NotePartFeatureComponent` after `NotePart`), with routing. Each editor has its component, and its state management artifacts under the same folder (store, query, and service).
+
+2. inside this new component's folder, add a new *store* for your model, named `edit-<partname>-part.store.ts`. Template:
+
+```ts
+import { StoreConfig, Store } from '@datorama/akita';
+import { Injectable } from '@angular/core';
+import {
+  EditPartState,
+  EditPartStoreApi,
+  editPartInitialState
+} from '@cadmus/features/edit-state';
+// TODO: add import from your UI library
+// import { __NAME___PART_TYPEID } from '@cadmus/parts/general/general-ui';
+
+@Injectable({ providedIn: 'root' })
+@StoreConfig({ name: __NAME___PART_TYPEID })
+export class Edit__NAME__PartStore extends Store<EditPartState>
+  implements EditPartStoreApi {
+  constructor() {
+    super(editPartInitialState);
+  }
+
+  public setDirty(value: boolean): void {
+    this.update({ dirty: value });
+  }
+  public setSaving(value: boolean): void {
+    this.update({ saving: value });
+  }
+}
+```
+
+3. in the same folder, add a new *query* for your model, named `edit-<partname>-part.query.ts`. Template:
+
+```ts
+import { Injectable } from '@angular/core';
+import { UtilService } from '@cadmus/core';
+import { EditPartQueryBase } from '@cadmus/features/edit-state';
+import { Edit__NAME__PartStore } from './edit-__NAME__-part.store';
+
+@Injectable({ providedIn: 'root' })
+export class Edit__NAME__PartQuery extends EditPartQueryBase {
+  constructor(store: Edit__NAME__PartStore, utilService: UtilService) {
+    super(store, utilService);
+  }
+}
+```
+
+4. in the same folder, add a new *service* for your model, named `edit-<partname>-part.service.ts`. Template:
+
+```ts
+import { Injectable } from '@angular/core';
+import { ItemService, ThesaurusService } from '@cadmus/api';
+import { Edit__NAME__PartStore } from './edit-__NAME__-part.store';
+import { EditPartServiceBase } from '@cadmus/features/edit-state';
+
+@Injectable({ providedIn: 'root' })
+export class Edit__NAME__PartService extends EditPartServiceBase {
+  constructor(
+    editPartStore: Edit__NAME__PartStore,
+    itemService: ItemService,
+    thesaurusService: ThesaurusService
+  ) {
+    super(itemService, thesaurusService);
+    this.store = editPartStore;
+  }
+}
+```
+
+5. implement the feature editor component by making it extend `EditPartFeatureBase`, like in this code template:
+
+```ts
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ThesauriSet } from '@cadmus/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Edit__NAME__PartService } from './edit-__NAME__-part.service';
+import { Edit__NAME__PartQuery } from './edit-__NAME__-part.query';
+import {
+  EditItemQuery,
+  EditItemService,
+  EditPartFeatureBase
+} from '@cadmus/features/edit-state';
+
+@Component({
+  selector: 'cadmus-__NAME__-part-feature',
+  templateUrl: './__NAME__-part-feature.component.html',
+  styleUrls: ['./__NAME__-part-feature.component.css']
+})
+export class __NAME__PartFeatureComponent extends EditPartFeatureBase
+  implements OnInit {
+  constructor(
+    router: Router,
+    route: ActivatedRoute,
+    editPartQuery: Edit__NAME__PartQuery,
+    editPartService: Edit__NAME__PartService,
+    editItemQuery: EditItemQuery,
+    editItemService: EditItemService
+  ) {
+    super(
+      router,
+      route,
+      editPartQuery,
+      editPartService,
+      editItemQuery,
+      editItemService
+    );
+    this.itemId = route.snapshot.params['iid'];
+    this.partId = route.snapshot.params['pid'];
+    if (this.partId === 'new') {
+      this.partId = null;
+    }
+    this.roleId = route.snapshot.queryParams['rid'];
+  }
+
+  ngOnInit() {
+    // TODO: select your thesauri if required
+    this.initEditor(['your-thesauri-ids-here']);
+  }
+}
+```
+
+Define the corresponding HTML template like:
+
+```html
+<cadmus-current-item-bar></cadmus-current-item-bar>
+<cadmus-__NAME__-part
+  [json]="json$ | async"
+  (jsonChange)="save($event)"
+  [thesauri]="thesauri$ | async"
+  (editorClose)="close()"
+></cadmus-__NAME__-part>
+```

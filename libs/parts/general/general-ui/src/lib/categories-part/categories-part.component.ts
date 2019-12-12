@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoriesPart } from '../categories-part';
+import { CategoriesPart, CATEGORIES_PART_TYPEID } from '../categories-part';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { DialogService, ModelEditorComponentBase } from '@cadmus/ui';
 import { NestedTreeControl } from '@angular/cdk/tree';
@@ -18,6 +18,10 @@ interface Pair<T> {
   id: string;
 }
 
+/**
+ * Categories component editor.
+ * Thesaurus: "categories".
+ */
 @Component({
   selector: 'cadmus-categories-part',
   templateUrl: './categories-part.component.html',
@@ -47,7 +51,29 @@ export class CategoriesPartComponent
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
+
+  protected onModelSet(model: CategoriesPart) {
+    const cc = Object.assign([], model.categories);
+    cc.sort();
+    this.categories.setValue(cc);
+  }
+
+  protected getModelFromForm(): CategoriesPart {
+    let part = this.getModelFromJson();
+    if (!part) {
+      part = {
+        itemId: null,
+        id: null,
+        typeId: CATEGORIES_PART_TYPEID,
+        roleId: null,
+        timeModified: new Date(),
+        userId: null,
+        categories: []
+      };
+    }
+    return part;
+  }
 
   public hasChildren = (index: number, node: TreeNode) => {
     return node && node.children && node.children.length > 0;
