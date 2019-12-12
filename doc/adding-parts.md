@@ -83,12 +83,105 @@ If you want to infer a schema in the [JSON schema tool](https://jsonschema.net/)
 }
 ```
 
-2. add a _part editor dumb component_ named after the part (e.g. `NotePartComponent` after `NotePart`), and extending `ModelEditorComponentBase<T>` where `T` is the part's type:
-   1. in the *constructor* (injecting a `FormBuilder` and a `DialogService`; the latter to be passed to the `super` constructor), instantiate its "root" form group (named `form`), filling it with the required controls.
-   2. eventually add *thesaurus* entries properties for binding, populating them by overriding `onThesauriSet`.
-   3. (from *model to form*): override `onModelSet` by calling an `updateForm(model: YourPartModel)` which either resets the form if the model is falsy, or sets the various form's controls values according to the received model, finally marking the form as pristine.
-   4. (from *form to model*): override `getModelFromForm(): YourPartModel` to get the model from form controls by calling the base class `getModelFromJson`. If this returns null, return a new part object with default values.
-   5. build your component's *template*. A template skeleton is like:
+2. add a _part editor dumb component_ named after the part (e.g. `ng g component note-part` for `NotePartComponent` after `NotePart`), and extending `ModelEditorComponentBase<T>` where `T` is the part's type:
+   1. in the _constructor_ (injecting a `FormBuilder` and a `DialogService`; the latter to be passed to the `super` constructor), instantiate its "root" form group (named `form`), filling it with the required controls.
+   2. eventually add _thesaurus_ entries properties for binding, populating them by overriding `onThesauriSet` (`protected onThesauriSet() {}`).
+   3. (from _model to form_): override `onModelSet` by calling an `updateForm(model: YourPartModel)` which either resets the form if the model is falsy, or sets the various form's controls values according to the received model, finally marking the form as pristine.
+   4. (from _form to model_): override `getModelFromForm(): YourPartModel` to get the model from form controls by calling the base class `getModelFromJson`. If this returns null, return a new part object with default values.
+   5. build your component's _template_. A template skeleton is like:
+
+Sample code:
+
+```ts
+import { Component, OnInit } from '@angular/core';
+import { DialogService, ModelEditorComponentBase } from '@cadmus/ui';
+import { NotePart, NOTE_PART_TYPEID } from '../..';
+import { FormControl, FormBuilder, Validators } from '@angular/forms';
+import { ThesaurusEntry } from '@cadmus/core';
+
+/**
+ * Note part editor component.
+ * Thesauri: optionally provide entries under a "note-tags" thesaurus
+ * when you want to use a closed set of tags.
+ */
+@Component({
+  selector: 'cadmus-note-part',
+  templateUrl: './note-part.component.html',
+  styleUrls: ['./note-part.component.css']
+})
+export class NotePartComponent extends ModelEditorComponentBase<NotePart>
+  implements OnInit {
+  public tag: FormControl;
+  public tags: FormControl;
+  public text: FormControl;
+
+  public tagEntries: ThesaurusEntry[];
+
+  public editorOptions = {
+    theme: 'vs-light',
+    language: 'markdown',
+    wordWrap: 'on',
+    // https://github.com/atularen/ngx-monaco-editor/issues/19
+    automaticLayout: true
+  };
+
+  constructor(formBuilder: FormBuilder, dialogService: DialogService) {
+    super(dialogService);
+    // form
+    this.tag = formBuilder.control(null, Validators.maxLength(100));
+    this.tags = formBuilder.control([]);
+    this.text = formBuilder.control(null, Validators.required);
+    this.form = formBuilder.group({
+      tag: this.tag,
+      tags: this.tags,
+      text: this.text
+    });
+  }
+
+  ngOnInit() {}
+
+  private updateForm(model: NotePart) {
+    if (!model) {
+      this.form.reset();
+      return;
+    }
+    this.tag.setValue(model.tag);
+    this.tags.setValue(model.tag);
+    this.text.setValue(model.text);
+    this.form.markAsPristine();
+  }
+
+  protected onModelSet(model: NotePart) {
+    this.updateForm(model);
+  }
+
+  protected onThesauriSet() {
+    const key = 'note-tags';
+    if (this.thesauri && this.thesauri[key]) {
+      this.tagEntries = this.thesauri[key].entries;
+    } else {
+      this.tagEntries = null;
+    }
+  }
+
+  protected getModelFromForm(): NotePart {
+    let part = this.getModelFromJson();
+    if (!part) {
+      part = {
+        itemId: null,
+        id: null,
+        typeId: NOTE_PART_TYPEID,
+        roleId: null,
+        tag: this.tagEntries ? this.tags.value : this.tag.value,
+        text: this.text.value,
+        timeModified: new Date(),
+        userId: null
+      };
+    }
+    return part;
+  }
+}
+```
 
 ```html
 <form [formGroup]="form" (submit)="save()">
@@ -99,16 +192,15 @@ If you want to infer a schema in the [JSON schema tool](https://jsonschema.net/)
       </div>
       <mat-card-title>__NAME__ Part</mat-card-title>
     </mat-card-header>
-  </mat-card>
-  <mat-card-content>
-    TODO: your template here...
-  </mat-card-content>
-  <mat-card-actions>
-    <cadmus-close-save-buttons
-      [form]="form"
-      (closeRequest)="close()"
-    ></cadmus-close-save-buttons>
-  </mat-card-actions>
+    <mat-card-content>
+      TODO: your template here...
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
   </mat-card>
 </form>
 ```
@@ -158,8 +250,7 @@ export class __NAME__PartDemoComponent implements OnInit {
     schemaService.addSchema(__NAME___PART_TYPEID, __NAME___PART_SCHEMA);
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public onCodeSaved() {
     this.currentTabIndex = 1;
@@ -223,10 +314,12 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'cadmus-feature-__NAME__-part-demo',
-  template: `<cadmus-__NAME__-part-demo></cadmus-__NAME__-part-demo>`,
+  template: `
+    <cadmus-__NAME__-part-demo></cadmus-__NAME__-part-demo>
+  `,
   styles: []
 })
-export class Feature__NAME__PartDemoComponent { }
+export class Feature__NAME__PartDemoComponent {}
 ```
 
 5. in its module (`app.module.ts`), add the corresponding route:
@@ -251,7 +344,7 @@ In a `<partgroup>-feature` module:
 
 1. add a _part editor feature component_ named after the part (e.g. `NotePartFeatureComponent` after `NotePart`), with routing. Each editor has its component, and its state management artifacts under the same folder (store, query, and service).
 
-2. inside this new component's folder, add a new *store* for your model, named `edit-<partname>-part.store.ts`. Template:
+2. inside this new component's folder, add a new _store_ for your model, named `edit-<partname>-part.store.ts`. Template:
 
 ```ts
 import { StoreConfig, Store } from '@datorama/akita';
@@ -281,7 +374,7 @@ export class Edit__NAME__PartStore extends Store<EditPartState>
 }
 ```
 
-3. in the same folder, add a new *query* for your model, named `edit-<partname>-part.query.ts`. Template:
+3. in the same folder, add a new _query_ for your model, named `edit-<partname>-part.query.ts`. Template:
 
 ```ts
 import { Injectable } from '@angular/core';
@@ -297,7 +390,7 @@ export class Edit__NAME__PartQuery extends EditPartQueryBase {
 }
 ```
 
-4. in the same folder, add a new *service* for your model, named `edit-<partname>-part.service.ts`. Template:
+4. in the same folder, add a new _service_ for your model, named `edit-<partname>-part.service.ts`. Template:
 
 ```ts
 import { Injectable } from '@angular/core';

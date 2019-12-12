@@ -1,0 +1,94 @@
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>Keywords Part</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <!-- language -->
+      <form [formGroup]="newForm" (ngSubmit)="addKeyword()">
+        <div>
+          <mat-form-field>
+            <mat-select placeholder="language" formControlName="newLanguage">
+              <mat-option *ngFor="let t of langEntries" [value]="t.id">
+                {{ t.value }}
+              </mat-option>
+            </mat-select>
+            <mat-error>select a language</mat-error>
+          </mat-form-field>
+        </div>
+        <!-- value -->
+        <div>
+          <mat-form-field>
+            <input
+              matInput
+              type="text"
+              id="value"
+              placeholder="value"
+              formControlName="newValue"
+            />
+            <mat-error
+              *ngIf="
+                newValue.hasError('required') &&
+                (newValue.touched || newValue.dirty)
+              "
+              >enter a value</mat-error
+            >
+            <mat-error
+              *ngIf="
+                newValue.hasError('maxLength') &&
+                (newValue.touched || newValue.dirty)
+              "
+              >value too long</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <div>
+          <button
+            mat-raised-button
+            type="submit"
+            color="primary"
+            [disabled]="newForm.valid"
+            matTooltip="Add this keyword"
+          >
+            <mat-icon>add_circle</mat-icon>
+          </button>
+        </div>
+      </form>
+      <hr />
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>lang.</th>
+            <th>keyword</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="keywords.valid">
+          <tr *ngFor="let k of keywords.value">
+            <td>
+              <button
+                mat-icon-button
+                type="button"
+                matTooltip="Delete this keyword"
+                (click)="deleteKeyword(k)"
+              >
+                <mat-icon color="warn">remove_circle</mat-icon>
+              </button>
+            </td>
+            <td>{{ k.language }}</td>
+            <td>{{ k.value }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>

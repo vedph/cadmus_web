@@ -16,6 +16,7 @@ import { CommentFragmentComponent } from './comment-fragment/comment-fragment.co
 import { CommentFragmentDemoComponent } from './comment-fragment-demo/comment-fragment-demo.component';
 import { CategoriesPartComponent } from './categories-part/categories-part.component';
 import { CategoriesPartDemoComponent } from './categories-part-demo/categories-part-demo.component';
+import { KeywordsPartComponent } from './keywords-part/keywords-part.component';
 
 @NgModule({
   imports: [
@@ -34,16 +35,18 @@ import { CategoriesPartDemoComponent } from './categories-part-demo/categories-p
     CategoriesPartDemoComponent,
     CommentFragmentComponent,
     CommentFragmentDemoComponent,
+    KeywordsPartComponent,
     NotePartComponent,
     NotePartDemoComponent,
     TokenTextPartComponent,
-    TokenTextPartDemoComponent
+    TokenTextPartDemoComponent,
   ],
   exports: [
     CategoriesPartComponent,
     CategoriesPartDemoComponent,
     CommentFragmentComponent,
     CommentFragmentDemoComponent,
+    KeywordsPartComponent,
     NotePartComponent,
     NotePartDemoComponent,
     TokenTextPartComponent,
