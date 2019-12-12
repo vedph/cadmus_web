@@ -15,6 +15,8 @@ import { CommentFragmentFeatureComponent } from './comment-fragment-feature/comm
 import { TokenTextPartFeatureComponent } from './token-text-part-feature/token-text-part-feature.component';
 import { CategoriesPartFeatureComponent } from './categories-part-feature/categories-part-feature.component';
 import { CATEGORIES_PART_TYPEID } from '@cadmus/parts/general/general-ui';
+import { KeywordsPartFeatureComponent } from './keywords-part-feature/keywords-part-feature.component';
+import { KEYWORDS_PART_TYPEID } from 'libs/parts/general/general-ui/src/lib/keywords-part';
 
 @NgModule({
   imports: [
@@ -26,6 +28,11 @@ import { CATEGORIES_PART_TYPEID } from '@cadmus/parts/general/general-ui';
         path: `${CATEGORIES_PART_TYPEID}/:pid`,
         pathMatch: 'full',
         component: CategoriesPartFeatureComponent
+      },
+      {
+        path: `${KEYWORDS_PART_TYPEID}/:pid`,
+        pathMatch: 'full',
+        component: KeywordsPartFeatureComponent
       },
       {
         path: `${NOTE_PART_TYPEID}/:pid`,
@@ -50,7 +57,8 @@ import { CATEGORIES_PART_TYPEID } from '@cadmus/parts/general/general-ui';
     CategoriesPartFeatureComponent,
     CommentFragmentFeatureComponent,
     NotePartFeatureComponent,
-    TokenTextPartFeatureComponent
+    TokenTextPartFeatureComponent,
+    KeywordsPartFeatureComponent
   ],
   exports: [
     CategoriesPartFeatureComponent,

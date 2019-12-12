@@ -342,7 +342,15 @@ export class Feature__NAME__PartDemoComponent {}
 
 In a `<partgroup>-feature` module:
 
-1. add a _part editor feature component_ named after the part (e.g. `NotePartFeatureComponent` after `NotePart`), with routing. Each editor has its component, and its state management artifacts under the same folder (store, query, and service).
+1. add a _part editor feature component_ named after the part (e.g. `ng g component note-part-feature` for `NotePartFeatureComponent` after `NotePart`), with routing. Each editor has its component, and its state management artifacts under the same folder (store, query, and service). Add the corresponding route in the module, e.g.:
+
+```json
+{
+  path: `${__NAME___PART_TYPEID}/:pid`,
+  pathMatch: 'full',
+  component: __NAME__PartFeatureComponent
+},
+```
 
 2. inside this new component's folder, add a new _store_ for your model, named `edit-<partname>-part.store.ts`. Template:
 
