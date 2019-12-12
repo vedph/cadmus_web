@@ -60,6 +60,16 @@ export class KeywordsPartComponent
   }
 
   private compareKeywords(a: Keyword, b: Keyword): number {
+    if (!a) {
+      if (!b) {
+        return 0;
+      } else {
+        return -1;
+      }
+    }
+    if (!b) {
+      return 1;
+    }
     const n = a.language.localeCompare(b.language);
     if (n !== 0) {
       return n;

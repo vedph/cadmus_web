@@ -24,6 +24,7 @@
           <mat-form-field>
             <input
               matInput
+              autofocus
               type="text"
               id="value"
               placeholder="value"
@@ -50,10 +51,11 @@
             mat-raised-button
             type="submit"
             color="primary"
-            [disabled]="newForm.valid"
+            [disabled]="newForm.invalid"
             matTooltip="Add this keyword"
           >
             <mat-icon>add_circle</mat-icon>
+            add
           </button>
         </div>
       </form>
