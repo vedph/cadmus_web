@@ -14,6 +14,8 @@ import { TokenTextPartComponent } from './token-text-part/token-text-part.compon
 import { TokenTextPartDemoComponent } from './token-text-part-demo/token-text-part-demo.component';
 import { CommentFragmentComponent } from './comment-fragment/comment-fragment.component';
 import { CommentFragmentDemoComponent } from './comment-fragment-demo/comment-fragment-demo.component';
+import { CategoriesPartComponent } from './categories-part/categories-part.component';
+import { CategoriesPartDemoComponent } from './categories-part-demo/categories-part-demo.component';
 
 @NgModule({
   imports: [
@@ -28,20 +30,24 @@ import { CommentFragmentDemoComponent } from './comment-fragment-demo/comment-fr
     UiModule
   ],
   declarations: [
+    CategoriesPartComponent,
+    CategoriesPartDemoComponent,
+    CommentFragmentComponent,
+    CommentFragmentDemoComponent,
     NotePartComponent,
     NotePartDemoComponent,
     TokenTextPartComponent,
-    TokenTextPartDemoComponent,
-    CommentFragmentComponent,
-    CommentFragmentDemoComponent
+    TokenTextPartDemoComponent
   ],
   exports: [
+    CategoriesPartComponent,
+    CategoriesPartDemoComponent,
+    CommentFragmentComponent,
+    CommentFragmentDemoComponent,
     NotePartComponent,
     NotePartDemoComponent,
     TokenTextPartComponent,
-    TokenTextPartDemoComponent,
-    CommentFragmentComponent,
-    CommentFragmentDemoComponent
+    TokenTextPartDemoComponent
   ]
 })
 export class GeneralUiModule {}

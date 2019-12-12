@@ -1,0 +1,87 @@
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>Categories Part</mat-card-title>
+    </mat-card-header>
+  </mat-card>
+  <mat-card-content>
+    <!-- available categories (from thesaurus) -->
+    <div>
+      <h3>Available Categories</h3>
+      <mat-tree
+        [dataSource]="treeDataSource"
+        [treeControl]="treeControl"
+        class="tree"
+      >
+        <!-- node without children (default) -->
+        <mat-tree-node *matTreeNodeDef="let node">
+          <li class="mat-tree-node">
+            <button mat-icon-button disabled></button>
+            <a mat-button (click)="onTreeNodeClick(node)">
+              {{ node.label }}
+            </a>
+          </li>
+        </mat-tree-node>
+
+        <!-- node with children -->
+        <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChildren">
+          <li>
+            <div class="mat-tree-node">
+              <button
+                mat-icon-button
+                matTreeNodeToggle
+                [attr.aria-label]="'toggle ' + node.label"
+              >
+                <mat-icon class="mat-icon-rtl-mirror">
+                  {{
+                    treeControl.isExpanded(node)
+                      ? 'expand_more'
+                      : 'chevron_right'
+                  }}
+                </mat-icon>
+              </button>
+              <a mat-button (click)="onTreeNodeClick(node)">
+                {{ node.label }}
+              </a>
+            </div>
+            <ul [class.tree-invisible]="!treeControl.isExpanded(node)">
+              <ng-container matTreeNodeOutlet></ng-container>
+            </ul>
+          </li>
+        </mat-nested-tree-node>
+      </mat-tree>
+    </div>
+
+    <!-- categories -->
+    <div *ngIf="categories.valid">
+      <h3>Assigned Categories</h3>
+      <table>
+        <tbody>
+          <tr *ngFor="let c of categories.value">
+            <td>
+              <button
+                mat-icon-button
+                color="warn"
+                type="button"
+                matTooltip="Remove this category"
+                (click)="removeCategory(c)"
+              >
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+            </td>
+            <td>{{ c }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <cadmus-close-save-buttons
+      [form]="form"
+      (closeRequest)="close()"
+    ></cadmus-close-save-buttons>
+  </mat-card-actions>
+</form>

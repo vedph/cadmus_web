@@ -1,0 +1,20 @@
+<button
+  type="button"
+  mat-raised-button
+  color="warn"
+  matTooltip="Close this editor"
+  (click)="close()"
+>
+  <mat-icon>cancel</mat-icon>
+  close
+</button>
+<button
+  type="submit"
+  [disabled]="form.invalid || form.pristine"
+  mat-raised-button
+  color="primary"
+  matTooltip="Save data"
+>
+  <mat-icon>check_circle</mat-icon>
+  save
+</button>

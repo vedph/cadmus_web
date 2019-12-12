@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {
+  MatBadgeModule,
   MatButtonModule,
   MatCardModule,
   MatCheckboxModule,
@@ -24,7 +25,7 @@ import {
   MatTableModule,
   MatToolbarModule,
   MatTooltipModule,
-  MatBadgeModule
+  MatTreeModule
 } from '@angular/material';
 
 @NgModule({
@@ -52,7 +53,8 @@ import {
     MatSnackBarModule,
     MatTableModule,
     MatTabsModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTreeModule
   ],
   exports: [
     FlexLayoutModule,
@@ -78,7 +80,8 @@ import {
     MatTableModule,
     MatTabsModule,
     MatTooltipModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTreeModule
   ],
   providers: [
     MatDatepickerModule

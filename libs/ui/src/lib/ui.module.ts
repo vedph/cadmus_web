@@ -13,6 +13,7 @@ import { JsonEditorResourcesComponent } from './components/json-editor-resources
 import { ErrorListComponent } from './components/error-list/error-list.component';
 import { LoginComponent } from './components/login/login.component';
 import { DecoratedTokenTextComponent } from './components/decorated-token-text/decorated-token-text.component';
+import { CloseSaveButtonsComponent } from './components/close-save-buttons/close-save-buttons.component';
 
 @NgModule({
   imports: [
@@ -25,14 +26,16 @@ import { DecoratedTokenTextComponent } from './components/decorated-token-text/d
   ],
   declarations: [
     ConfirmDialogComponent,
+    CloseSaveButtonsComponent,
     DecoratedTokenTextComponent,
     ErrorListComponent,
     JsonEditorResourcesComponent,
     LoginComponent,
-    SafeHtmlPipe,
+    SafeHtmlPipe
   ],
   exports: [
     ConfirmDialogComponent,
+    CloseSaveButtonsComponent,
     DecoratedTokenTextComponent,
     ErrorListComponent,
     JsonEditorResourcesComponent,

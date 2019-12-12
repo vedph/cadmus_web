@@ -5,12 +5,12 @@
     /></span>
     <a mat-button routerLink="/home">Cadmus</a>
 
-    <a mat-button routerLink="/home" routerLinkActive="active">Home</a>
-    <a mat-button routerLink="/items" routerLinkActive="active">Items</a>
+    <a mat-button routerLink="/items">Items</a>
 
     <button mat-button [matMenuTriggerFor]="demoMenu">Demo</button>
     <mat-menu #demoMenu>
       <a mat-menu-item routerLink="/demo/layers">Layers</a>
+      <a mat-menu-item routerLink="/demo/categories-part">Categories part</a>
       <a mat-menu-item routerLink="/demo/note-part">Note part</a>
       <a mat-menu-item routerLink="/demo/token-text-part">Token text part</a>
       <mat-divider></mat-divider>
