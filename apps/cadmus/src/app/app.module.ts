@@ -30,6 +30,7 @@ import { FeatureTokenTextPartDemoComponent } from './demo/feature-token-text-par
 import { FeatureCommentFragmentDemoComponent } from './demo/feature-comment-fragment-demo/feature-comment-fragment-demo.component';
 import { TokenTextPartDemoComponent } from 'libs/parts/general/general-ui/src/lib/token-text-part-demo/token-text-part-demo.component';
 import { FeatureCategoriesPartDemoComponent } from './demo/feature-categories-part-demo/feature-categories-part-demo.component';
+import { FeatureKeywordsPartDemoComponent } from './demo/feature-keywords-part-demo/feature-keywords-part-demo.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { FeatureCategoriesPartDemoComponent } from './demo/feature-categories-pa
     FeatureOrthographyFragmentDemoComponent,
     FeatureTokenTextPartDemoComponent,
     FeatureCommentFragmentDemoComponent,
-    FeatureCategoriesPartDemoComponent
+    FeatureCategoriesPartDemoComponent,
+    FeatureKeywordsPartDemoComponent
   ],
   imports: [
     BrowserModule,
@@ -61,6 +63,11 @@ import { FeatureCategoriesPartDemoComponent } from './demo/feature-categories-pa
         {
           path: 'demo/categories-part',
           component: FeatureCategoriesPartDemoComponent,
+          pathMatch: 'full'
+        },
+        {
+          path: 'demo/keywords-part',
+          component: FeatureKeywordsPartDemoComponent,
           pathMatch: 'full'
         },
         {

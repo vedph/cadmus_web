@@ -207,7 +207,7 @@ export class NotePartComponent extends ModelEditorComponentBase<NotePart>
 
 Remember to add the component to its module's `declarations` and `exports`.
 
-3. add a _part editor demo dumb component_ named after the part (e.g. `NotePartComponentDemo` after `NotePart`). This will essentially be a wrapper of two distinct controls: the part's editor component, and a `JsonEditorResourcesComponent`. These components are mutually connected, so that you can edit the JSON code for the part (and eventually for its thesauri sets) and set the visual editor to it, or vice-versa.
+3. add a _part editor demo dumb component_ named after the part (e.g. `ng g component note-part-demo` for `NotePartDemoComponent` after `NotePart`). This will essentially be a wrapper of two distinct controls: the part's editor component, and a `JsonEditorResourcesComponent`. These components are mutually connected, so that you can edit the JSON code for the part (and eventually for its thesauri sets) and set the visual editor to it, or vice-versa.
 
 Code template (replace `__NAME__` with your model name, adjusting case as required):
 
@@ -305,7 +305,7 @@ HTML template:
 </mat-card>
 ```
 
-4. add a demo page feature in the cadmus app, under its `demo` folder, creating a `feature-<partname>-part-demo` (or `...-fragment-demo`) component.
+4. add a demo page feature in the cadmus app, under its `demo` folder, creating a `feature-<partname>-part-demo` (or `...-fragment-demo`) component (e.g. `ng g component feature-note-part-demo -s -t`).
 
 The code template is minimal (including also the HTML template and no CSS; replace `__NAME__` with your model name; you can use `ng g component ... -s -t` to inline the styles and HTML template, [more here](https://github.com/angular/angular-cli/wiki/generate-component)):
 
