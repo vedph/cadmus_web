@@ -232,7 +232,7 @@
                     <mat-icon color="warn">clear</mat-icon>
                   </button>
                 </td>
-                <td>{{ part.typeId }}</td>
+                <td [style.background-color]="getPartColor(part.typeId)">{{ part.typeId }}</td>
                 <td>{{ part.roleId }}</td>
                 <td>{{ part.timeModified | amLocal | amTimeAgo }}</td>
                 <td>{{ part.userId }}</td>

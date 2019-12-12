@@ -155,6 +155,17 @@ export class ItemEditorComponent implements OnInit {
     }
   }
 
+  public getPartColor(typeId: string): string {
+    const state = this._query.getValue();
+    let def: PartDefinition = null;
+    if (state) {
+      def = state.facetParts.find(d => {
+        return d.typeId === typeId;
+      });
+    }
+    return def ? '#' + def.colorKey : '#f0f0f0';
+  }
+
   private tryTrim(value: string): string {
     return value ? value.trim() : value;
   }
