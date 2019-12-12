@@ -42,6 +42,6 @@ export class NotePartFeatureComponent extends EditPartFeatureBase
   }
 
   ngOnInit() {
-    this.initEditor();
+    this.initEditor(['note-tags']);
   }
 }
