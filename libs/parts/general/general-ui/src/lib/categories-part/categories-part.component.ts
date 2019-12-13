@@ -72,6 +72,7 @@ export class CategoriesPartComponent
         categories: []
       };
     }
+    part.categories = [...this.categories.value];
     return part;
   }
 

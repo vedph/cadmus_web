@@ -55,6 +55,9 @@ export abstract class ModelEditorComponentBase<T>
       this.onThesauriSet();
     }
 
+    /**
+     * True to disable the editor.
+     */
     @Input()
     set disabled(value: boolean) {
       if (!this.form) {
@@ -67,6 +70,9 @@ export abstract class ModelEditorComponentBase<T>
       }
     }
 
+    /**
+     * Emitted when the user requests to close the editor.
+     */
     @Output()
     public editorClose: EventEmitter<any>;
 
@@ -131,8 +137,9 @@ export abstract class ModelEditorComponentBase<T>
     }
 
     /**
-     * Update the json property from the specified code, without triggering
-     * a call to onModelSet.
+     * Update the json property from the specified code and emit the
+     * corresponding jsonChange event, without triggering a call to
+     * onModelSet.
      *
      * @param json The JSON core representing the part.
      */
@@ -147,21 +154,30 @@ export abstract class ModelEditorComponentBase<T>
     }
 
     /**
-     * Invoked whenever the json property is set, unless setting it via
-     * updateJson. The default implementation does nothing. Override
-     * to add custom behavior, e.g. update the form to reflect the new part value.
+     * Invoked whenever the json property is set (=data comes from input json
+     * property), unless setting it via updateJson. The default implementation
+     * does nothing. Override to add custom behavior, e.g. update the form to
+     * reflect the new part value.
      */
     protected onModelSet(model: T) {}
 
     /**
-     * Invoked whenever the thesauri property is set.
+     * Invoked whenever the thesauri property is set. Override to take
+     * custom actions, typically to set some bound properties.
      */
     protected onThesauriSet() {}
 
+    /**
+     * Implement in derived classes to get the mode from form's controls.
+     * This is used when saving (=data goes to the output jsonChange event).
+     */
     protected getModelFromForm(): T {
       return null;
     }
 
+    /**
+     * Emit a request to close the editor.
+     */
     public close() {
       if (!this.form.dirty) {
         this.editorClose.emit();
@@ -177,6 +193,11 @@ export abstract class ModelEditorComponentBase<T>
         });
     }
 
+    /**
+     * Save the edited data if valid. This invokes getModelFromForm to get
+     * the model from the form's controls, serializes it into JSON,
+     * updates the json property, and marks the root form as pristine.
+     */
     public save() {
       if (this.form.invalid) {
         return;

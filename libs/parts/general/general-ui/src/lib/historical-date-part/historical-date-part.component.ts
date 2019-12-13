@@ -15,9 +15,11 @@ import { HistoricalDate, Datation, HistoricalDateType } from '@cadmus/core';
 export class HistoricalDatePartComponent
   extends ModelEditorComponentBase<HistoricalDatePart>
   implements OnInit {
-  public range: FormControl;
+  // the date being edited in its text form
   public txtDate: FormControl;
-
+  // true if editing a range (A and B)
+  public range: FormControl;
+  // the A and B datations being edited
   public a: Datation;
   public b: Datation;
 
@@ -27,19 +29,29 @@ export class HistoricalDatePartComponent
     this.b = new Datation();
     // form
     this.txtDate = formBuilder.control(null, Validators.required);
+    this.range = formBuilder.control(false);
     this.form = formBuilder.group({
+      range: this.range,
       txtDate: this.txtDate
     });
   }
 
   ngOnInit() {}
 
+  // invoked when A editor saves
   public updateA(d: Datation) {
     this.a = d;
+    const model = this.getModelFromForm();
+    this.txtDate.setValue(model.date.toString());
+    this.txtDate.markAsDirty();
   }
 
+  // invoked when B editor saves
   public updateB(d: Datation) {
     this.b = d;
+    const model = this.getModelFromForm();
+    this.txtDate.setValue(model.date.toString());
+    this.txtDate.markAsDirty();
   }
 
   protected onModelSet(model: HistoricalDatePart) {
@@ -66,9 +78,12 @@ export class HistoricalDatePartComponent
         roleId: null,
         timeModified: new Date(),
         userId: null,
-        date: new HistoricalDate()
+        date: null
       };
     }
+    part.date = new HistoricalDate();
+    part.date.a = this.a;
+    part.date.b = this.b;
     return part;
   }
 }

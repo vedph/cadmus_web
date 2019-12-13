@@ -82,6 +82,8 @@ export class CommentFragmentComponent
         text: this.text.value
       };
     }
+    fr.tag = this.tag.value? this.tag.value.trim() : null;
+    fr.text = this.text.value? this.text.value.trim() : null;
     return fr;
   }
 }

@@ -106,6 +106,7 @@ export class KeywordsPartComponent
         keywords: []
       };
     }
+    part.keywords = [...this.keywords.value];
     return part;
   }
 

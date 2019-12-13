@@ -84,11 +84,12 @@ export class TokenTextPartComponent
         id: null,
         typeId: TOKEN_TEXT_PART_TYPEID,
         roleId: null,
-        lines: this.getLinesFromText(this.text.value),
+        lines: null,
         timeModified: new Date(),
         userId: null
       };
     }
+    part.lines = this.getLinesFromText(this.text.value);
     return part;
   }
 }
