@@ -26,6 +26,8 @@
               formControlName="month"
               placeholder="month"
               type="number"
+              min="0"
+              max="12"
             />
             <mat-error
               *ngIf="month.hasError('min') && (month.touched || month.dirty)"
@@ -44,6 +46,8 @@
               formControlName="day"
               placeholder="day"
               type="number"
+              min="0"
+              max="31"
             />
             <mat-error *ngIf="day.hasError('min') && (day.touched || day.dirty)"
               >day value less than 0</mat-error

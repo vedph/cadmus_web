@@ -17,14 +17,14 @@
       <mat-tab label="A">
         <cadmus-datation-editor
           [datation]="a"
-          (changed)="updateA($event)"
+          (datationChange)="updateA($event)"
           [label]="'A'"
         ></cadmus-datation-editor>
       </mat-tab>
       <mat-tab label="B" *ngIf="range.value">
         <cadmus-datation-editor
           [datation]="b"
-          (changed)="updateB($event)"
+          (datationChange)="updateB($event)"
           [label]="'B'"
         ></cadmus-datation-editor>
       </mat-tab>
