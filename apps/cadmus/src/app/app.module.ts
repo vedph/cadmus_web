@@ -31,6 +31,7 @@ import { FeatureCommentFragmentDemoComponent } from './demo/feature-comment-frag
 import { TokenTextPartDemoComponent } from 'libs/parts/general/general-ui/src/lib/token-text-part-demo/token-text-part-demo.component';
 import { FeatureCategoriesPartDemoComponent } from './demo/feature-categories-part-demo/feature-categories-part-demo.component';
 import { FeatureKeywordsPartDemoComponent } from './demo/feature-keywords-part-demo/feature-keywords-part-demo.component';
+import { FeatureHistoricalDatePartDemoComponent } from './demo/feature-historical-date-part-demo/feature-historical-date-part-demo.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { FeatureKeywordsPartDemoComponent } from './demo/feature-keywords-part-d
     FeatureTokenTextPartDemoComponent,
     FeatureCommentFragmentDemoComponent,
     FeatureCategoriesPartDemoComponent,
-    FeatureKeywordsPartDemoComponent
+    FeatureKeywordsPartDemoComponent,
+    FeatureHistoricalDatePartDemoComponent
   ],
   imports: [
     BrowserModule,
@@ -73,6 +75,11 @@ import { FeatureKeywordsPartDemoComponent } from './demo/feature-keywords-part-d
         {
           path: 'demo/note-part',
           component: FeatureNotePartDemoComponent,
+          pathMatch: 'full'
+        },
+        {
+          path: 'demo/historical-date-part',
+          component: FeatureHistoricalDatePartDemoComponent,
           pathMatch: 'full'
         },
         {

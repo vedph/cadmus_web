@@ -1,0 +1,38 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Historical Date Part Editor Demo</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <!-- note 2-way databinding for selectedIndex: it's a bug in Angular, need it -->
+    <mat-tab-group [(selectedIndex)]="currentTabIndex">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">code</mat-icon>
+          Code
+        </ng-template>
+        <cadmus-json-editor-resources
+          title="Historical Date"
+          [schemaName]="schemaName"
+          [(modelJson)]="modelJson"
+          [(thesauriJson)]="thesauriJson"
+          (modelJsonChange)="onCodeSaved()"
+          (thesauriJsonChange)="onCodeSaved()"
+        ></cadmus-json-editor-resources>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">dashboard</mat-icon>
+          Editor
+        </ng-template>
+        <cadmus-historical-date-part
+          [(json)]="modelJson"
+          [thesauri]="thesauri"
+          (jsonChange)="onEditorSaved()"
+          (editorClose)="onEditorSaved()"
+        ></cadmus-historical-date-part>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>

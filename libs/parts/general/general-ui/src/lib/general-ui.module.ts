@@ -19,6 +19,7 @@ import { CategoriesPartDemoComponent } from './categories-part-demo/categories-p
 import { KeywordsPartComponent } from './keywords-part/keywords-part.component';
 import { KeywordsPartDemoComponent } from './keywords-part-demo/keywords-part-demo.component';
 import { HistoricalDatePartComponent } from './historical-date-part/historical-date-part.component';
+import { HistoricalDatePartDemoComponent } from './historical-date-part-demo/historical-date-part-demo.component';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { HistoricalDatePartComponent } from './historical-date-part/historical-d
     CommentFragmentComponent,
     CommentFragmentDemoComponent,
     HistoricalDatePartComponent,
+    HistoricalDatePartDemoComponent,
     KeywordsPartComponent,
     KeywordsPartDemoComponent,
     NotePartComponent,
@@ -51,6 +53,7 @@ import { HistoricalDatePartComponent } from './historical-date-part/historical-d
     CommentFragmentComponent,
     CommentFragmentDemoComponent,
     HistoricalDatePartComponent,
+    HistoricalDatePartDemoComponent,
     KeywordsPartComponent,
     KeywordsPartDemoComponent,
     NotePartComponent,

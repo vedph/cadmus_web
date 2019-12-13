@@ -207,7 +207,7 @@ export class NotePartComponent extends ModelEditorComponentBase<NotePart>
 
 Remember to add the component to its module's `declarations` and `exports`.
 
-3. add a _part editor demo dumb component_ named after the part (e.g. `ng g component note-part-demo` for `NotePartDemoComponent` after `NotePart`). This will essentially be a wrapper of two distinct controls: the part's editor component, and a `JsonEditorResourcesComponent`. These components are mutually connected, so that you can edit the JSON code for the part (and eventually for its thesauri sets) and set the visual editor to it, or vice-versa.
+3. add a _part editor demo dumb component_ named after the part (e.g. `ng g component note-part-demo` for `NotePartDemoComponent` after `NotePart`). This will essentially be a wrapper of two distinct controls: the part's editor component, and a `JsonEditorResourcesComponent`. These components are mutually connected, so that you can edit the JSON code for the part (and eventually for its thesauri sets) and set the visual editor to it, or vice-versa. Remember to include this component both in the `declarations` and `exports` of its module.
 
 Code template (replace `__NAME__` with your model name, adjusting case as required):
 
