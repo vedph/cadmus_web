@@ -1,0 +1,22 @@
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>Historical Date Part</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <cadmus-historical-date-editor
+        [date]="date"
+        (dateChange)="onDateChange($event)"
+      ></cadmus-historical-date-editor>
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>

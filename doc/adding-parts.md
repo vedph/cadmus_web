@@ -86,8 +86,8 @@ If you want to infer a schema in the [JSON schema tool](https://jsonschema.net/)
 2. add a _part editor dumb component_ named after the part (e.g. `ng g component note-part` for `NotePartComponent` after `NotePart`), and extending `ModelEditorComponentBase<T>` where `T` is the part's type:
    1. in the _constructor_ (injecting a `FormBuilder` and a `DialogService`; the latter to be passed to the `super` constructor), instantiate its "root" form group (named `form`), filling it with the required controls.
    2. eventually add _thesaurus_ entries properties for binding, populating them by overriding `onThesauriSet` (`protected onThesauriSet() {}`).
-   3. (from _model to form_): override `onModelSet` by calling an `updateForm(model: YourPartModel)` which either resets the form if the model is falsy, or sets the various form's controls values according to the received model, finally marking the form as pristine.
-   4. (from _form to model_): override `getModelFromForm(): YourPartModel` to get the model from form controls by calling the base class `getModelFromJson`. If this returns null, return a new part object with default values.
+   3. (from _model to form_): override `onModelSet` (`protected onModelSet(model: YourModel)`) by calling an `updateForm(model: YourModel)` which either resets the form if the model is falsy, or sets the various form's controls values according to the received model, finally marking the form as pristine.
+   4. (from _form to model_): override `getModelFromForm(): YourModel` to get the model from form controls by calling the base class `getModelFromJson`. If this returns null, return a new part object with default values.
    5. build your component's _template_. A template skeleton is like:
 
 Sample code:
@@ -172,10 +172,10 @@ export class NotePartComponent extends ModelEditorComponentBase<NotePart>
         id: null,
         typeId: NOTE_PART_TYPEID,
         roleId: null,
+        timeModified: new Date(),
+        userId: null,
         tag: this.tagEntries ? this.tags.value : this.tag.value,
         text: this.text.value,
-        timeModified: new Date(),
-        userId: null
       };
     }
     return part;
