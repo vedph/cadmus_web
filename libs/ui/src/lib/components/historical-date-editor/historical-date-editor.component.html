@@ -1,0 +1,33 @@
+<mat-card>
+  <mat-card-content>
+    <form role="form" [formGroup]="dateGroup" (submit)="save()">
+      <mat-slide-toggle formControlName="range">
+        A-B
+      </mat-slide-toggle>
+      &nbsp;
+      <button type="submit" mat-button color="primary" matTooltip="Save">
+        <mat-icon>save</mat-icon> save
+      </button>
+      <mat-error *ngIf="error">{{ error }}</mat-error>
+    </form>
+    <br />
+
+    <!-- datations -->
+    <mat-tab-group>
+      <mat-tab label="A">
+        <cadmus-datation-editor
+          [datation]="a"
+          (changed)="updateA($event)"
+          [label]="'A'"
+        ></cadmus-datation-editor>
+      </mat-tab>
+      <mat-tab label="B" *ngIf="range.value">
+        <cadmus-datation-editor
+          [datation]="b"
+          (changed)="updateB($event)"
+          [label]="'B'"
+        ></cadmus-datation-editor>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>

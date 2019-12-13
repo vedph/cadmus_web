@@ -15,6 +15,7 @@ import { LoginComponent } from './components/login/login.component';
 import { DecoratedTokenTextComponent } from './components/decorated-token-text/decorated-token-text.component';
 import { CloseSaveButtonsComponent } from './components/close-save-buttons/close-save-buttons.component';
 import { DatationEditorComponent } from './components/datation-editor/datation-editor.component';
+import { HistoricalDateEditorComponent } from './components/historical-date-editor/historical-date-editor.component';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { DatationEditorComponent } from './components/datation-editor/datation-e
     DatationEditorComponent,
     DecoratedTokenTextComponent,
     ErrorListComponent,
+    HistoricalDateEditorComponent,
     JsonEditorResourcesComponent,
     LoginComponent,
     SafeHtmlPipe
@@ -41,6 +43,7 @@ import { DatationEditorComponent } from './components/datation-editor/datation-e
     DatationEditorComponent,
     DecoratedTokenTextComponent,
     ErrorListComponent,
+    HistoricalDateEditorComponent,
     JsonEditorResourcesComponent,
     LoginComponent,
     SafeHtmlPipe
