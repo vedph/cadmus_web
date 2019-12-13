@@ -19,6 +19,7 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 export class TokenTextPartComponent
   extends ModelEditorComponentBase<TokenTextPart>
   implements OnInit {
+  public citation: FormControl;
   public text: FormControl;
 
   public editorOptions = {
@@ -31,8 +32,10 @@ export class TokenTextPartComponent
   constructor(formBuilder: FormBuilder, dialogService: DialogService) {
     super(dialogService);
     // form
+    this.citation = formBuilder.control(null);
     this.text = formBuilder.control(null, Validators.required);
     this.form = formBuilder.group({
+      citation: this.citation,
       text: this.text
     });
   }
@@ -68,6 +71,7 @@ export class TokenTextPartComponent
       this.form.reset();
       return;
     }
+    this.citation.setValue(model.citation);
     this.text.setValue(this.getTextFromModel(model));
     this.form.markAsPristine();
   }
@@ -89,6 +93,7 @@ export class TokenTextPartComponent
         userId: null
       };
     }
+    part.citation = this.citation.value ? this.citation.value.trim() : null;
     part.lines = this.getLinesFromText(this.text.value);
     return part;
   }

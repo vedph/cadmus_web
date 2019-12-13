@@ -12,6 +12,7 @@ export interface TokenTextLine {
  * Token-based text part.
  */
 export interface TokenTextPart extends Part {
+  citation?: string;
   lines: TokenTextLine[];
 }
 
@@ -54,6 +55,9 @@ export const TOKEN_TEXT_PART_SCHEMA = {
     roleId: {
       type: 'string'
       // pattern: '^([a-z][-0-9a-z._]*)?$'
+    },
+    citation: {
+      type: 'string'
     },
     lines: {
       $id: '#/properties/lines',
