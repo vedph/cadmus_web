@@ -1,0 +1,122 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h4>{{ label }}</h4>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form role="form" [formGroup]="editor" (submit)="save()">
+      <form [formGroup]="inner">
+        <!-- value -->
+        <div>
+          <mat-form-field style="width: 4em">
+            <input matInput formControlName="value" placeholder="value" />
+            <mat-error
+              *ngIf="
+                value.hasError('required') && (value.touched || value.dirty)
+              "
+              >year or century value required</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <!-- century, span -->
+        <div>
+          <mat-checkbox formControlName="century">century</mat-checkbox>
+          &nbsp;&nbsp;
+          <mat-checkbox formControlName="span">span</mat-checkbox>
+        </div>
+
+        <!-- month -->
+        <div>
+          <mat-form-field style="width:3em">
+            <input
+              matInput
+              formControlName="month"
+              placeholder="month"
+              type="number"
+            />
+            <mat-error
+              *ngIf="month.hasError('min') && (month.touched || month.dirty)"
+              >month value less than 0</mat-error
+            >
+            <mat-error
+              *ngIf="month.hasError('max') && (month.touched || month.dirty)"
+              >month value greater than 12</mat-error
+            >
+          </mat-form-field>
+          &nbsp;
+          <!-- day -->
+          <mat-form-field style="width:3em">
+            <input
+              matInput
+              formControlName="day"
+              placeholder="day"
+              type="number"
+            />
+            <mat-error *ngIf="day.hasError('min') && (day.touched || day.dirty)"
+              >day value less than 0</mat-error
+            >
+            <mat-error *ngIf="day.hasError('max') && (day.touched || day.dirty)"
+              >day value greater than 31</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <!-- about, dubious -->
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="8px">
+          <mat-checkbox formControlName="about">about</mat-checkbox>
+          <mat-checkbox formControlName="dubious">dubious</mat-checkbox>
+        </div>
+
+        <!-- hint -->
+        <div>
+          <mat-form-field>
+            <input matInput formControlName="hint" placeholder="hint" />
+            <mat-error
+              *ngIf="hint.hasError('maxLength') && (hint.touched || hint.dirty)"
+              >hint too long</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </form>
+
+      <!-- text -->
+      <div>
+        <mat-form-field style="width: 90%">
+          <input matInput formControlName="text" placeholder="text" />
+        </mat-form-field>
+      </div>
+
+      <div>
+        <button
+          mat-icon-button
+          type="button"
+          color="warn"
+          (click)="reset()"
+          matTooltip="Reset all the values"
+        >
+          <mat-icon>clear</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          type="button"
+          (click)="parse()"
+          [disabled]="!text.value"
+          matTooltip="Set values from text"
+        >
+          <mat-icon>input</mat-icon>
+        </button>
+        <button
+          type="submit"
+          mat-icon-button
+          color="primary"
+          [disabled]="!editor.valid"
+          matTooltip="Save"
+        >
+          <mat-icon>check_circle</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

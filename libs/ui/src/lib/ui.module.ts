@@ -14,6 +14,7 @@ import { ErrorListComponent } from './components/error-list/error-list.component
 import { LoginComponent } from './components/login/login.component';
 import { DecoratedTokenTextComponent } from './components/decorated-token-text/decorated-token-text.component';
 import { CloseSaveButtonsComponent } from './components/close-save-buttons/close-save-buttons.component';
+import { DatationEditorComponent } from './components/datation-editor/datation-editor.component';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { CloseSaveButtonsComponent } from './components/close-save-buttons/close
   declarations: [
     ConfirmDialogComponent,
     CloseSaveButtonsComponent,
+    DatationEditorComponent,
     DecoratedTokenTextComponent,
     ErrorListComponent,
     JsonEditorResourcesComponent,
@@ -36,6 +38,7 @@ import { CloseSaveButtonsComponent } from './components/close-save-buttons/close
   exports: [
     ConfirmDialogComponent,
     CloseSaveButtonsComponent,
+    DatationEditorComponent,
     DecoratedTokenTextComponent,
     ErrorListComponent,
     JsonEditorResourcesComponent,
