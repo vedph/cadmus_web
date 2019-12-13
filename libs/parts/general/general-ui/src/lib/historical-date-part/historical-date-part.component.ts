@@ -5,7 +5,7 @@ import {
 } from '../historical-date-part';
 import { ModelEditorComponentBase, DialogService } from '@cadmus/ui';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { HistoricalDate } from '@cadmus/core';
+import { HistoricalDate, Datation, HistoricalDateType } from '@cadmus/core';
 
 @Component({
   selector: 'cadmus-historical-date-part',
@@ -15,12 +15,16 @@ import { HistoricalDate } from '@cadmus/core';
 export class HistoricalDatePartComponent
   extends ModelEditorComponentBase<HistoricalDatePart>
   implements OnInit {
+  public range: FormControl;
   public txtDate: FormControl;
-  public date: HistoricalDate;
+
+  public a: Datation;
+  public b: Datation;
 
   constructor(formBuilder: FormBuilder, dialogService: DialogService) {
     super(dialogService);
-    this.date = new HistoricalDate();
+    this.a = new Datation();
+    this.b = new Datation();
     // form
     this.txtDate = formBuilder.control(null, Validators.required);
     this.form = formBuilder.group({
@@ -30,12 +34,24 @@ export class HistoricalDatePartComponent
 
   ngOnInit() {}
 
+  public updateA(d: Datation) {
+    this.a = d;
+  }
+
+  public updateB(d: Datation) {
+    this.b = d;
+  }
+
   protected onModelSet(model: HistoricalDatePart) {
-    if (!model) {
+    if (!model || !model.date) {
       this.form.reset();
     } else {
+      this.a = model.date.a;
+      this.b = model.date.b;
+      this.range.setValue(
+        model.date.getDateType() === HistoricalDateType.range
+      );
       this.txtDate.setValue(model.date.toString());
-      this.date = model.date;
       this.form.markAsPristine();
     }
   }
@@ -54,11 +70,5 @@ export class HistoricalDatePartComponent
       };
     }
     return part;
-  }
-
-  public onDateChange(date: HistoricalDate) {
-    this.date = date;
-    this.txtDate.setValue(date.toString());
-    this.txtDate.markAsDirty();
   }
 }
