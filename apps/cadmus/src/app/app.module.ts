@@ -32,6 +32,7 @@ import { TokenTextPartDemoComponent } from 'libs/parts/general/general-ui/src/li
 import { FeatureCategoriesPartDemoComponent } from './demo/feature-categories-part-demo/feature-categories-part-demo.component';
 import { FeatureKeywordsPartDemoComponent } from './demo/feature-keywords-part-demo/feature-keywords-part-demo.component';
 import { FeatureHistoricalDatePartDemoComponent } from './demo/feature-historical-date-part-demo/feature-historical-date-part-demo.component';
+import { FeatureChronologyFragmentDemoComponent } from './demo/feature-chronology-fragment-demo/feature-chronology-fragment-demo.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { FeatureHistoricalDatePartDemoComponent } from './demo/feature-historica
     FeatureCommentFragmentDemoComponent,
     FeatureCategoriesPartDemoComponent,
     FeatureKeywordsPartDemoComponent,
-    FeatureHistoricalDatePartDemoComponent
+    FeatureHistoricalDatePartDemoComponent,
+    FeatureChronologyFragmentDemoComponent
   ],
   imports: [
     BrowserModule,
@@ -90,6 +92,11 @@ import { FeatureHistoricalDatePartDemoComponent } from './demo/feature-historica
         {
           path: 'demo/comment-fragment',
           component: FeatureCommentFragmentDemoComponent,
+          pathMatch: 'full'
+        },
+        {
+          path: 'demo/chronology-fragment',
+          component: FeatureChronologyFragmentDemoComponent,
           pathMatch: 'full'
         },
         {

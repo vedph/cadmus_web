@@ -8,7 +8,7 @@ To add new parts/fragments libraries:
 
 - create a new Nrwl Angular library named `<partgroup>-feature` under `parts/<partgroup>` (use simple module name in generator). For instance, for general purpose parts I created `parts/general/general-feature`. This will host the pages (features) for each part. Every page wraps the dumb UI component into a component which has a corresponding Akita's state, and gets its data pushed via observables. Also, each page has a route (see above).
 
-## Adding Part to the UI Library
+## Adding Part to the PartGroup-UI Library
 
 In the `<partgroup>-ui` module:
 
@@ -307,7 +307,9 @@ HTML template:
 </mat-card>
 ```
 
-4. add a demo page feature in the cadmus app, under its `demo` folder, creating a `feature-<partname>-part-demo` (or `...-fragment-demo`) component (e.g. `ng g component feature-note-part-demo -s -t`).
+## Adding Part Demo Feature to the App
+
+1. add a demo page feature in the cadmus app, under its `demo` folder, creating a `feature-<partname>-part-demo` (or `...-fragment-demo`) component (e.g. `ng g component feature-note-part-demo -s -t`).
 
 The code template is minimal (including also the HTML template and no CSS; replace `__NAME__` with your model name; you can use `ng g component ... -s -t` to inline the styles and HTML template, [more here](https://github.com/angular/angular-cli/wiki/generate-component)):
 
@@ -324,7 +326,7 @@ import { Component } from '@angular/core';
 export class Feature__NAME__PartDemoComponent {}
 ```
 
-5. in its module (`app.module.ts`), add the corresponding route:
+2. in its module (`app.module.ts`), add the corresponding route:
 
 ```json
 {
@@ -334,13 +336,13 @@ export class Feature__NAME__PartDemoComponent {}
 },
 ```
 
-6. in its `app.component.html`, add a new entry to the demo menu:
+3. in its `app.component.html`, add a new entry to the demo menu:
 
 ```html
 <a mat-menu-item routerLink="/demo/__NAME__-part">__NAME__ part</a>
 ```
 
-## Adding Part/Fragment to the Feature Library
+## Adding Part Feature to the PartGroup-Feature Library
 
 In a `<partgroup>-feature` module:
 

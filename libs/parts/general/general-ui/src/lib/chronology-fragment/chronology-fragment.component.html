@@ -67,7 +67,12 @@
             ></cadmus-datation-editor>
           </mat-tab>
         </mat-tab-group>
-        <mat-error *ngIf="txtDate.invalid">date required</mat-error>
+        <mat-error
+          *ngIf="
+            txtDate.hasError('required') && (txtDate.dirty || txtDate.touched)
+          "
+          >date required</mat-error
+        >
       </div>
     </mat-card-content>
 

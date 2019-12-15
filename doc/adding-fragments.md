@@ -4,7 +4,7 @@
 
 Same as parts.
 
-## Adding Part to the UI Library
+## Adding Fragment to the PartGroup-UI Library
 
 In the `<partgroup>-ui` module:
 
@@ -283,7 +283,9 @@ HTML template:
 </mat-card>
 ```
 
-4. add a demo page feature in the cadmus app, under its `demo` folder, creating a `feature-<fragmentname>-fragment-demo` (or `...-fragment-demo`) component (e.g. `ng g component feature-comment-fragment-demo -s -t`).
+## Adding Fragment Demo Feature to the App
+
+1. add a demo page feature in the cadmus app, under its `demo` folder, creating a `feature-<fragmentname>-fragment-demo` (or `...-fragment-demo`) component (e.g. `ng g component feature-comment-fragment-demo -s -t`).
 
 The code template is minimal (including also the HTML template and no CSS; replace `__NAME__` with your model name; you can use `ng g component ... -s -t` to inline the styles and HTML template, [more here](https://github.com/angular/angular-cli/wiki/generate-component)):
 
@@ -299,3 +301,21 @@ import { Component } from '@angular/core';
 })
 export class Feature__NAME__FragmentDemoComponent {}
 ```
+
+2. in its module (`app.module.ts`), add the corresponding route:
+
+```json
+{
+  path: 'demo/__NAME__-fragment',
+  component: Feature__NAME__FragmentDemoComponent,
+  pathMatch: 'full'
+},
+```
+
+3. in its `app.component.html`, add a new entry to the demo menu:
+
+```html
+<a mat-menu-item routerLink="/demo/__NAME__-fragment">__NAME__ fragment</a>
+```
+
+TODO:
