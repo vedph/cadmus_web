@@ -3,7 +3,6 @@ import { ModelEditorComponentBase, DialogService } from '@cadmus/ui';
 import { ChronologyFragment } from '../chronology-fragment';
 import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Datation, HistoricalDate, HistoricalDateType, ThesaurusEntry } from '@cadmus/core';
-import { HistoricalDatePart } from '../historical-date-part';
 
 /**
  * Chronology fragment editor component.

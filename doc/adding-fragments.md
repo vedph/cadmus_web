@@ -182,3 +182,120 @@ Sample HTML template:
   </mat-card>
 </form>
 ```
+
+Remember to add the component to its module's `declarations` and `exports`.
+
+3. add a _fragment editor demo dumb component_ named after the part (e.g. `ng g component comment-fragment-demo` for `CommentFragmentDemoComponent` after `CommentFragment`). This will essentially be a wrapper of two distinct controls: the fragment's editor component, and a `JsonEditorResourcesComponent`. These components are mutually connected, so that you can edit the JSON code for the part (and eventually for its thesauri sets) and set the visual editor to it, or vice-versa. Remember to include this component both in the `declarations` and `exports` of its module.
+
+Code template (replace `__NAME__` with your model name, adjusting case as required):
+
+```ts
+import { Component, OnInit, Input } from '@angular/core';
+import { JsonSchemaService, ThesauriSet } from '@cadmus/core';
+import { __NAME___FRAGMENT_TYPEID, __NAME___FRAGMENT_SCHEMA } from '../__NAME__-fragment';
+
+@Component({
+  selector: 'cadmus-__NAME__-fragment-demo',
+  templateUrl: './__NAME__-fragment-demo.component.html',
+  styleUrls: ['./__NAME__-fragment-demo.component.css']
+})
+export class __NAME__FragmentDemoComponent implements OnInit {
+  private _thesauriJson: string;
+
+  public currentTabIndex: number;
+  public schemaName = __NAME___PART_TYPEID;
+  public modelJson: string;
+  public thesauri: ThesauriSet | null;
+
+  @Input()
+  public get thesauriJson(): string {
+    return this._thesauriJson;
+  }
+  public set thesauriJson(value: string) {
+    if (this._thesauriJson === value) {
+      return;
+    }
+    this._thesauriJson = value;
+    if (value) {
+      this.thesauri = JSON.parse(value);
+    } else {
+      this.thesauri = null;
+    }
+  }
+
+  constructor(schemaService: JsonSchemaService) {
+    this.currentTabIndex = 0;
+    schemaService.addSchema(__NAME___FRAGMENT_TYPEID, __NAME___FRAGMENT_SCHEMA);
+  }
+
+  ngOnInit() {}
+
+  public onCodeSaved() {
+    this.currentTabIndex = 1;
+  }
+
+  public onEditorSaved() {
+    this.currentTabIndex = 0;
+  }
+}
+```
+
+HTML template:
+
+```html
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>__NAME__ Fragment Editor Demo</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <!-- note 2-way databinding for selectedIndex: it's a bug in Angular, need it -->
+    <mat-tab-group [(selectedIndex)]="currentTabIndex">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">code</mat-icon>
+          Code
+        </ng-template>
+        <cadmus-json-editor-resources
+          title="__NAME__"
+          [schemaName]="schemaName"
+          [(modelJson)]="modelJson"
+          [(thesauriJson)]="thesauriJson"
+          (modelJsonChange)="onCodeSaved()"
+          (thesauriJsonChange)="onCodeSaved()"
+        ></cadmus-json-editor-resources>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">dashboard</mat-icon>
+          Editor
+        </ng-template>
+        <cadmus-__NAME__-fragment
+          [(json)]="modelJson"
+          [thesauri]="thesauri"
+          (jsonChange)="onEditorSaved()"
+          (editorClose)="onEditorSaved()"
+        ></cadmus-__NAME__-fragment>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>
+```
+
+4. add a demo page feature in the cadmus app, under its `demo` folder, creating a `feature-<fragmentname>-fragment-demo` (or `...-fragment-demo`) component (e.g. `ng g component feature-comment-fragment-demo -s -t`).
+
+The code template is minimal (including also the HTML template and no CSS; replace `__NAME__` with your model name; you can use `ng g component ... -s -t` to inline the styles and HTML template, [more here](https://github.com/angular/angular-cli/wiki/generate-component)):
+
+```ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'cadmus-feature-__NAME__-fragment-demo',
+  template: `
+    <cadmus-__NAME__-fragment-demo></cadmus-__NAME__-fragment-demo>
+  `,
+  styles: []
+})
+export class Feature__NAME__FragmentDemoComponent {}
+```

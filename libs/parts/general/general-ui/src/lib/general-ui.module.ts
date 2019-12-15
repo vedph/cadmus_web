@@ -21,6 +21,7 @@ import { KeywordsPartDemoComponent } from './keywords-part-demo/keywords-part-de
 import { HistoricalDatePartComponent } from './historical-date-part/historical-date-part.component';
 import { HistoricalDatePartDemoComponent } from './historical-date-part-demo/historical-date-part-demo.component';
 import { ChronologyFragmentComponent } from './chronology-fragment/chronology-fragment.component';
+import { ChronologyFragmentDemoComponent } from './chronology-fragment-demo/chronology-fragment-demo.component';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { ChronologyFragmentComponent } from './chronology-fragment/chronology-fr
     CategoriesPartComponent,
     CategoriesPartDemoComponent,
     ChronologyFragmentComponent,
+    ChronologyFragmentDemoComponent,
     CommentFragmentComponent,
     CommentFragmentDemoComponent,
     HistoricalDatePartComponent,
@@ -53,6 +55,7 @@ import { ChronologyFragmentComponent } from './chronology-fragment/chronology-fr
     CategoriesPartComponent,
     CategoriesPartDemoComponent,
     ChronologyFragmentComponent,
+    ChronologyFragmentDemoComponent,
     CommentFragmentComponent,
     CommentFragmentDemoComponent,
     HistoricalDatePartComponent,
