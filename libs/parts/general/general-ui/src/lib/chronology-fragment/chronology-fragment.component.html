@@ -1,0 +1,81 @@
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>Chronology Fragment</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- free tag -->
+      <div *ngIf="!tagEntries">
+        <mat-form-field>
+          <input type="text" matInput formControlName="tag" placeholder="tag" />
+          <mat-error
+            *ngIf="tag.hasError('maxLength') && (tag.dirty || tag.touched)"
+            >too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <!-- bound tag -->
+      <div *ngIf="tagEntries">
+        <mat-form-field>
+          <mat-label>tag</mat-label>
+          <mat-select formControlName="tags" placeholder="tag">
+            <mat-option *ngFor="let e of tagEntries" [value]="e.id">{{
+              e.value
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- label -->
+      <div>
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            formControlName="label"
+            placeholder="label"
+          />
+          <mat-error
+            *ngIf="
+              label.hasError('maxLength') && (label.dirty || label.touched)
+            "
+            >too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <!-- date -->
+      <div>
+        <mat-slide-toggle formControlName="range">
+          A-B <span>{{ range.value ? 'interval' : 'point' }}</span>
+        </mat-slide-toggle>
+        <mat-tab-group>
+          <mat-tab label="A-point">
+            <cadmus-datation-editor
+              [datation]="a"
+              (datationChange)="updateA($event)"
+            ></cadmus-datation-editor>
+          </mat-tab>
+          <mat-tab label="B-point" *ngIf="range.value">
+            <cadmus-datation-editor
+              [datation]="b"
+              (datationChange)="updateB($event)"
+            ></cadmus-datation-editor>
+          </mat-tab>
+        </mat-tab-group>
+        <mat-error *ngIf="txtDate.invalid">date required</mat-error>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>

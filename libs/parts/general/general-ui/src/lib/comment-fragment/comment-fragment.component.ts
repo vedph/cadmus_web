@@ -6,8 +6,7 @@ import { ThesaurusEntry } from '@cadmus/core';
 
 /**
  * Comment fragment editor component.
- * Thesauri: optionally provide entries under a "comment-tags" thesaurus
- * when you want to use a closed set of tags.
+ * Thesauri: "comment-tags" when you want to use a closed set of tags.
  */
 @Component({
   selector: 'cadmus-comment-fragment',
@@ -78,8 +77,8 @@ export class CommentFragmentComponent
     if (!fr) {
       fr = {
         location: this.fragment ? this.fragment.location : null,
-        tag: this.tagEntries ? this.tags.value : this.tag.value,
-        text: this.text.value
+        tag: null,
+        text: null
       };
     }
     fr.tag = this.tag.value? this.tag.value.trim() : null;

@@ -20,6 +20,7 @@ import {
 } from '@angular/animations';
 import { MspOperation } from '../msp-operation';
 import { DifferResultToMspAdapter } from '../differ-result-to-msp-adapter';
+import { MAT_TOOLTIP_DEFAULT_OPTIONS } from '@angular/material';
 
 @Component({
   selector: 'cadmus-orthography-fragment',
@@ -176,11 +177,17 @@ export class OrthographyFragmentComponent
   }
 
   protected getModelFromForm(): OrthographyFragment {
-    const fr: OrthographyFragment = {
-      location: this.fragment ? this.fragment.location : null,
-      standard: this.standard.value,
-      operations: this.getOperations()
-    };
+    let fr: OrthographyFragment = this.getModelFromJson();
+    if (!fr) {
+      fr = {
+        location: null,
+        standard: null
+      };
+    }
+    fr.location = this.fragment ? this.fragment.location : null;
+    fr.standard = this.standard.value;
+    fr.operations = this.getOperations()
+
     return fr;
   }
 

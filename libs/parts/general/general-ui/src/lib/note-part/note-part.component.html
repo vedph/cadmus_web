@@ -29,22 +29,22 @@
           </mat-select>
         </mat-form-field>
       </div>
+
+      <!-- text -->
+      <div>
+        <ngx-monaco-editor
+          [options]="editorOptions"
+          formControlName="text"
+        ></ngx-monaco-editor>
+        <mat-error
+          *ngIf="text.hasError('required') && (text.touched || text.dirty)"
+          >please enter some text</mat-error
+        >
+      </div>
+
+      <hr />
+      <markdown [data]="text?.value"></markdown>
     </mat-card-content>
-
-    <!-- text -->
-    <div>
-      <ngx-monaco-editor
-        [options]="editorOptions"
-        formControlName="text"
-      ></ngx-monaco-editor>
-      <mat-error
-        *ngIf="text.hasError('required') && (text.touched || text.dirty)"
-        >please enter some text</mat-error
-      >
-    </div>
-
-    <hr />
-    <markdown [data]="text?.value"></markdown>
 
     <mat-card-actions>
       <cadmus-close-save-buttons

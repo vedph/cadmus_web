@@ -5,7 +5,7 @@ import { Fragment } from '@cadmus/core';
  */
 export interface OrthographyFragment extends Fragment {
   standard: string;
-  operations: string[];
+  operations?: string[];
 }
 
 export const ORTHOGRAPHY_FRAGMENT_TYPEID = 'fr.net.fusisoft.orthography';
