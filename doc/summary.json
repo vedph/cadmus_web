@@ -14,5 +14,9 @@
   {
     "title": "Adding Parts",
     "file": "adding-parts.md"
+  },
+  {
+    "title": "Adding Fragments",
+    "file": "adding-fragments.md"
   }
 ]

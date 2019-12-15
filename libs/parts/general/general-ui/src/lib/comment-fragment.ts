@@ -16,7 +16,7 @@ export const COMMENT_FRAGMENT_SCHEMA = {
   $id: 'http://example.com/root.json',
   type: 'object',
   title: 'CommentFragment',
-  required: ['text'],
+  required: ['location', 'text'],
   properties: {
     location: {
       $id: '#/properties/location',

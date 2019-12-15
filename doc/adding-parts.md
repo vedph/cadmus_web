@@ -8,7 +8,7 @@ To add new parts/fragments libraries:
 
 - create a new Nrwl Angular library named `<partgroup>-feature` under `parts/<partgroup>` (use simple module name in generator). For instance, for general purpose parts I created `parts/general/general-feature`. This will host the pages (features) for each part. Every page wraps the dumb UI component into a component which has a corresponding Akita's state, and gets its data pushed via observables. Also, each page has a route (see above).
 
-## Adding Part/Fragment to the UI Library
+## Adding Part to the UI Library
 
 In the `<partgroup>-ui` module:
 
@@ -84,11 +84,11 @@ If you want to infer a schema in the [JSON schema tool](https://jsonschema.net/)
 ```
 
 2. add a _part editor dumb component_ named after the part (e.g. `ng g component note-part` for `NotePartComponent` after `NotePart`), and extending `ModelEditorComponentBase<T>` where `T` is the part's type:
-   1. in the _constructor_ (injecting a `FormBuilder` and a `DialogService`; the latter to be passed to the `super` constructor), instantiate its "root" form group (named `form`), filling it with the required controls.
+   1. in the _constructor_ (injecting a `FormBuilder` and a `DialogService`; the latter to be passed to the `super` constructor: `formBuilder: FormBuilder, dialogService: DialogService`), instantiate its "root" form group (named `form`), filling it with the required controls.
    2. eventually add _thesaurus_ entries properties for binding, populating them by overriding `onThesauriSet` (`protected onThesauriSet() {}`).
    3. (from _model to form_): override `onModelSet` (`protected onModelSet(model: YourModel)`) by calling an `updateForm(model: YourModel)` which either resets the form if the model is falsy, or sets the various form's controls values according to the received model, finally marking the form as pristine.
    4. (from _form to model_): override `getModelFromForm(): YourModel` to get the model from form controls by calling the base class `getModelFromJson`. If this returns null, return a new part object with default values; else, fill its properties from the form's controls. This merges the inherited properties with those edited.
-   5. build your component's _template_. A template skeleton is like:
+   5. build your component's _template_.
 
 Sample code:
 
