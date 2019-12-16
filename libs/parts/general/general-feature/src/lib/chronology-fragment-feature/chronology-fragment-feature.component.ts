@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { EditCommentFragmentQuery } from './edit-comment-fragment.query';
-import { EditCommentFragmentService } from './edit-comment-fragment.service';
 import {
   EditItemQuery,
   EditItemService,
@@ -9,19 +6,22 @@ import {
   EditTokenLayerPartService,
   EditFragmentFeatureBase
 } from '@cadmus/features/edit-state';
+import { Router, ActivatedRoute } from '@angular/router';
+import { EditChronologyFragmentQuery } from './edit-chronology-fragment.query';
+import { EditChronologyFragmentService } from './edit-chronology-fragment.service';
 
 @Component({
-  selector: 'cadmus-comment-fragment-feature',
-  templateUrl: './comment-fragment-feature.component.html',
-  styleUrls: ['./comment-fragment-feature.component.css']
+  selector: 'cadmus-chronology-fragment-feature',
+  templateUrl: './chronology-fragment-feature.component.html',
+  styleUrls: ['./chronology-fragment-feature.component.css']
 })
-export class CommentFragmentFeatureComponent extends EditFragmentFeatureBase
+export class ChronologyFragmentFeatureComponent extends EditFragmentFeatureBase
   implements OnInit {
   constructor(
     router: Router,
     route: ActivatedRoute,
-    editFrQuery: EditCommentFragmentQuery,
-    editFrService: EditCommentFragmentService,
+    editFrQuery: EditChronologyFragmentQuery,
+    editFrService: EditChronologyFragmentService,
     editItemQuery: EditItemQuery,
     editItemService: EditItemService,
     editLayersQuery: EditTokenLayerPartQuery,
@@ -40,6 +40,6 @@ export class CommentFragmentFeatureComponent extends EditFragmentFeatureBase
   }
 
   ngOnInit() {
-    this.initEditor(['comment-tags']);
+    this.initEditor(['chronology-tags']);
   }
 }

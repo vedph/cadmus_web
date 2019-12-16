@@ -2,6 +2,7 @@ export * from './lib/edit-state.module';
 export * from './lib/edit-item.query';
 export * from './lib/edit-item.service';
 export * from './lib/edit-item.store';
+export * from './lib/edit-fragment-feature-base';
 export * from './lib/edit-fragment-query-base';
 export * from './lib/edit-fragment.store';
 export * from './lib/edit-fragment-service-base';

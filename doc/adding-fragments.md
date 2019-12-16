@@ -318,4 +318,153 @@ export class Feature__NAME__FragmentDemoComponent {}
 <a mat-menu-item routerLink="/demo/__NAME__-fragment">__NAME__ fragment</a>
 ```
 
-TODO:
+## Adding Fragment Feature to the PartGroup-Feature Library
+
+In a `<partgroup>-feature` module:
+
+1. add a _fragment editor feature component_ named after the part (e.g. `ng g component comment-fragment-feature` for `CommentFragmentFeatureComponent` after `CommentFragment`), with routing. Each editor has its component, and its state management artifacts under the same folder (store, query, and service). Add the corresponding route in the module, e.g.:
+
+```json
+{
+  path: `fragment/:pid/${__NAME___FRAGMENT_TYPEID}/:loc`,
+  pathMatch: 'full',
+  component: __NAME__FragmentFeatureComponent
+}
+```
+
+2. inside this new component's folder, add a new _store_ for your model, named `edit-<fragmentname>-fragment.store.ts`. Template:
+
+```ts
+import { Injectable } from '@angular/core';
+import { StoreConfig, Store } from '@datorama/akita';
+import {
+  EditFragmentState,
+  EditFragmentStoreApi,
+  editFragmentInitialState
+} from '@cadmus/features/edit-state';
+import { __NAME___FRAGMENT_TYPEID } from '@cadmus/parts/__PARTGROUP__/__PARTGROUP__-ui';
+
+@Injectable({ providedIn: 'root' })
+@StoreConfig({ name: __NAME___FRAGMENT_TYPEID })
+export class Edit__NAME__FragmentStore extends Store<EditFragmentState>
+  implements EditFragmentStoreApi {
+  constructor() {
+    super(editFragmentInitialState);
+  }
+
+  public setDirty(value: boolean): void {
+    this.update({ dirty: value });
+  }
+  public setSaving(value: boolean): void {
+    this.update({ saving: value });
+  }
+}
+```
+
+3. in the same folder, add a new _query_ for your model, named `edit-<fragmentname>-fragment.query.ts`. Template:
+
+```ts
+import { Injectable } from '@angular/core';
+import { EditFragmentQueryBase } from '@cadmus/features/edit-state';
+import { Edit__NAME__FragmentStore } from './edit-__NAME__-fragment.store';
+
+@Injectable({ providedIn: 'root' })
+export class Edit__NAME__FragmentQuery extends EditFragmentQueryBase {
+  constructor(
+    protected store: Edit__NAME__FragmentStore
+  ) {
+    super(store);
+  }
+}
+```
+
+4. in the same folder, add a new _service_ for your model, named `edit-<fragmentname>-fragment.service.ts`. Template:
+
+```ts
+import { Injectable } from '@angular/core';
+import { ItemService, ThesaurusService } from '@cadmus/api';
+import { EditFragmentServiceBase } from '@cadmus/features/edit-state';
+import { Edit__NAME__FragmentStore } from './edit-__NAME__-fragment.store';
+
+@Injectable({ providedIn: 'root' })
+export class Edit__NAME__FragmentService extends EditFragmentServiceBase {
+  constructor(
+    editPartStore: Edit__NAME__FragmentStore,
+    itemService: ItemService,
+    thesaurusService: ThesaurusService
+  ) {
+    super(itemService, thesaurusService);
+    this.store = editPartStore;
+  }
+}
+```
+
+5. implement the feature editor component by making it extend `EditPartFeatureBase`, like in this code template:
+
+```ts
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Edit__NAME__FragmentQuery } from './edit-__NAME__-fragment.query';
+import { Edit__NAME__FragmentService } from './edit-__NAME__-fragment.service';
+import {
+  EditItemQuery,
+  EditItemService,
+  EditTokenLayerPartQuery,
+  EditTokenLayerPartService,
+  EditFragmentFeatureBase
+} from '@cadmus/features/edit-state';
+
+@Component({
+  selector: 'cadmus-__NAME__-fragment-feature',
+  templateUrl: './__NAME__-fragment-feature.component.html',
+  styleUrls: ['./__NAME__-fragment-feature.component.css']
+})
+export class __NAME__FragmentFeatureComponent extends EditFragmentFeatureBase
+  implements OnInit {
+  constructor(
+    router: Router,
+    route: ActivatedRoute,
+    editFrQuery: Edit__NAME__FragmentQuery,
+    editFrService: Edit__NAME__FragmentService,
+    editItemQuery: EditItemQuery,
+    editItemService: EditItemService,
+    editLayersQuery: EditTokenLayerPartQuery,
+    editLayersService: EditTokenLayerPartService
+  ) {
+    super(
+      router,
+      route,
+      editFrQuery,
+      editFrService,
+      editItemQuery,
+      editItemService,
+      editLayersQuery,
+      editLayersService
+    );
+  }
+
+  ngOnInit() {
+    // TODO: add the required thesauri IDs in the initEditor call,
+    // like 'comment-tags' in this sample
+    this.initEditor(['comment-tags']);
+  }
+}
+```
+
+Define the corresponding HTML template like:
+
+```html
+<cadmus-current-item-bar></cadmus-current-item-bar>
+<div class="base-text">
+  <cadmus-decorated-token-text
+    [baseText]="baseText$ | async"
+    [locations]="[frLoc]"
+  ></cadmus-decorated-token-text>
+</div>
+<cadmus-__NAME__-fragment
+  [json]="json$ | async"
+  (jsonChange)="save($event)"
+  [thesauri]="thesauri$ | async"
+  (editorClose)="close()"
+></cadmus-__NAME__-fragment>
+```
