@@ -1,15 +1,18 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { FlagService } from './flag.service';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 describe('FlagService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [FlagService]
+      imports: [HttpClientModule],
+      providers: [HttpClient]
     });
   });
 
-  it('should be created', inject([FlagService], (service: FlagService) => {
+  it('should be created', () => {
+    const service: FlagService = TestBed.get(FlagService);
     expect(service).toBeTruthy();
-  }));
+  });
 });
