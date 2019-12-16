@@ -6,7 +6,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import {
   User,
-  ErrorService,
   LocalStorageService,
   LoginResult,
   RegistrationModel

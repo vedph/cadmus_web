@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { TokenPoint } from './token-point';
-import { TokenLocation } from './token-location';
-import { TokenTextLayerLine, TextCoords } from './models';
+import { TokenPoint } from '../token-point';
+import { TokenLocation } from '../token-location';
+import { TokenTextLayerLine, TextCoords } from '../models';
 import * as rangy from 'rangy';
 
 // requires rangy:
