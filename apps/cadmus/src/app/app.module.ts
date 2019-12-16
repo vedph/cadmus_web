@@ -139,14 +139,14 @@ import { FeatureChronologyFragmentDemoComponent } from './demo/feature-chronolog
               module => module.FeatureTokenLayerPartEditorModule
             )
         },
-        { path: '**', component: HomeComponent },
         {
-          path: 'feature-admin',
+          path: 'admin',
           loadChildren: () =>
             import('@cadmus/features/feature-admin').then(
               module => module.FeatureAdminModule
             )
-        }
+        },
+        { path: '**', component: HomeComponent }
       ],
       {
         initialNavigation: 'enabled',

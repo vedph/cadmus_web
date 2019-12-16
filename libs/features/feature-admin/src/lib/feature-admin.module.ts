@@ -7,6 +7,7 @@ import { CoreModule } from '@cadmus/core';
 import { MaterialModule } from '@cadmus/material';
 import { ApiModule } from '@cadmus/api';
 import { UiModule } from '@cadmus/ui';
+import { AdminRegistrationComponent } from './admin-registration/admin-registration.component';
 
 @NgModule({
   imports: [
@@ -14,13 +15,19 @@ import { UiModule } from '@cadmus/ui';
     ReactiveFormsModule,
     FormsModule,
     RouterModule.forChild([
-      /* {path: '', pathMatch: 'full', component: InsertYourComponentHere} */
+      {
+        path: 'register',
+        pathMatch: 'full',
+        component: AdminRegistrationComponent
+      }
     ]),
     // cadmus
     CoreModule,
     MaterialModule,
     ApiModule,
     UiModule
-  ]
+  ],
+  declarations: [AdminRegistrationComponent],
+  exports: [AdminRegistrationComponent]
 })
 export class FeatureAdminModule {}
