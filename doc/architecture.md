@@ -5,6 +5,7 @@ The general multirepo architecture is structured into these sections:
 - `apps/cadmus`: the frontend app.
 - `libs/core`: core services and models.
 - `libs/features`: app's features libraries:
+  - `libs/feature-admin`: admin section pages.
   - `libs/feature-...`: a feature library for each page.
   - `libs/features-ui`: components shared among features.
 - `libs/material`: Angular material.
@@ -19,6 +20,7 @@ core <|-- api
 core <|-- "general-ui"
 core <|-- "general-feature"
 core <|-- "philology-ui"
+core <|-- "feature-admin"
 core <|-- "features-ui"
 core <|-- "feature-layer-demo"
 core <|-- "feature-item-list"
@@ -28,6 +30,7 @@ core <|-- api
 core <|-- cadmus
 material <|-- "general-ui"
 material <|-- "philology-ui"
+material <|-- "feature-admin"
 material <|-- "features-ui"
 material <|-- "feature-layer-demo"
 material <|-- "feature-item-list"
@@ -39,6 +42,7 @@ core <|-- "edit-state"
 ui <|-- "general-ui"
 ui <|-- "general-feature"
 ui <|-- "philology-ui"
+ui <|-- "feature-admin"
 ui <|-- "feature-layer-demo"
 ui <|-- "feature-item-list"
 ui <|-- "feature-login"
@@ -47,6 +51,7 @@ ui <|-- "feature-token-layer-part-editor"
 "general-ui" <|-- "general-feature"
 "general-feature" <|-- cadmus
 "philology-ui" <|-- cadmus
+"feature-admin" <|-- cadmus
 "feature-layer-demo" <|-- cadmus
 "feature-item-list" <|-- cadmus
 "feature-item-editor" <|-- cadmus
@@ -55,4 +60,3 @@ ui <|-- "feature-token-layer-part-editor"
 cadmus <|-- "cadmus-e2e"
 @enduml
 ```
-

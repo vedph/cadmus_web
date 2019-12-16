@@ -45,7 +45,12 @@
       "@cadmus/features/feature-token-layer-part-editor": [
         "libs/features/feature-token-layer-part-editor/src/index.ts"
       ],
-      "@cadmus/features/features-ui": ["libs/features/features-ui/src/index.ts"]
+      "@cadmus/features/features-ui": [
+        "libs/features/features-ui/src/index.ts"
+      ],
+      "@cadmus/features/feature-admin": [
+        "libs/features/feature-admin/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

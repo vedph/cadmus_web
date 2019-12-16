@@ -55,6 +55,9 @@
     },
     "features-features-ui": {
       "tags": []
+    },
+    "features-feature-admin": {
+      "tags": []
     }
   }
 }
