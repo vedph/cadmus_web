@@ -43,7 +43,7 @@
     "@auth0/angular-jwt": "^3.0.1",
     "@datorama/akita": "^4.16.0",
     "@datorama/akita-ngdevtools": "^3.0.2",
-    "@nrwl/angular": "8.8.0",
+    "@nrwl/angular": "8.9.0",
     "@types/diff-match-patch": "^1.0.32",
     "@types/gravatar": "^1.8.0",
     "@types/rangy": "0.0.33",
