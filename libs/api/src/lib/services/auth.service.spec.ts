@@ -8,7 +8,11 @@ describe('AuthService', () => {
     imports:[
       HttpClientModule
     ],
-    providers: [HttpClient]
+    providers: [
+      HttpClient,
+      { provide: 'apiEndpoint', useValue: 'none' },
+      { provide: 'databaseId', useValue: 'cadmus' }
+    ]
   }));
 
   it('should be created', () => {

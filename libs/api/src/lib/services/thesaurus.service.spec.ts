@@ -7,7 +7,11 @@ xdescribe('TagService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule],
-      providers: [HttpClient]
+      providers: [
+        HttpClient,
+        { provide: 'apiEndpoint', useValue: 'none' },
+        { provide: 'databaseId', useValue: 'cadmus' }
+      ]
     });
   });
 
