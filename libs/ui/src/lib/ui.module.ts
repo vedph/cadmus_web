@@ -16,6 +16,7 @@ import { DecoratedTokenTextComponent } from './components/decorated-token-text/d
 import { CloseSaveButtonsComponent } from './components/close-save-buttons/close-save-buttons.component';
 import { DatationEditorComponent } from './components/datation-editor/datation-editor.component';
 import { HistoricalDateEditorComponent } from './components/historical-date-editor/historical-date-editor.component';
+import { PasswordStrengthBarComponent } from './components/password-strength-bar/password-strength-bar.component';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { HistoricalDateEditorComponent } from './components/historical-date-edit
     HistoricalDateEditorComponent,
     JsonEditorResourcesComponent,
     LoginComponent,
+    PasswordStrengthBarComponent,
     SafeHtmlPipe
   ],
   exports: [
@@ -46,6 +48,7 @@ import { HistoricalDateEditorComponent } from './components/historical-date-edit
     HistoricalDateEditorComponent,
     JsonEditorResourcesComponent,
     LoginComponent,
+    PasswordStrengthBarComponent,
     SafeHtmlPipe
   ],
   entryComponents: [
