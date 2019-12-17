@@ -1,1 +1,174 @@
-<p>admin-registration works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-icon mat-card-avatar>account_circle</mat-icon>
+    <mat-card-title>
+      <strong>Register User</strong>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div>
+      <p>
+        To register a new user, you must provide his email address, choose a
+        password, and choose a username, which must be unique (you will be
+        notified if another user has already taken that name). THe username must
+        include only letters/digits, start with a letter, and be no shorter than
+        3 characters, nor longer than 50.
+      </p>
+      <p>
+        To promote a decent security level, the password must include at least 8
+        characters, uppercase and lowercase letters, digits, and punctuation
+        (like dashes, stops, parentheses, etc.).
+      </p>
+      <p>
+        Once registered, the user will receive an email message to the email
+        address you specified; he will have to click on the provided link to
+        complete the registration process.
+      </p>
+    </div>
+
+    <form role="form" [formGroup]="registration" (submit)="onSubmit()">
+      <!-- email -->
+      <div>
+        <mat-form-field>
+          <input
+            matInput
+            type="email"
+            id="email"
+            maxlength="256"
+            required
+            spellcheck="false"
+            placeholder="email"
+            formControlName="email"
+          />
+          <mat-error>{{ getEmailErrorLabel() }}</mat-error>
+          <mat-icon *ngIf="email.pending">hourglass</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <!-- name -->
+      <div>
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            id="name"
+            maxlength="50"
+            required
+            pattern="^[a-zA-Z][a-zA-Z0-9]{2,49}$"
+            spellcheck="false"
+            placeholder="username"
+            formControlName="name"
+          />
+          <mat-error>{{ getNameErrorLabel() }}</mat-error>
+          <mat-icon *ngIf="name.pending">hourglass</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <!-- first name -->
+      <div>
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            id="firstName"
+            maxlength="50"
+            required
+            spellcheck="false"
+            placeholder="first name"
+            formControlName="firstName"
+          />
+          <div
+            *ngIf="
+              firstName.hasError('required') &&
+              (firstName.dirty || firstName.touched)
+            "
+            class="text-danger small"
+          >
+            first name required
+          </div>
+        </mat-form-field>
+      </div>
+
+      <!-- last name -->
+      <div>
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            id="lastName"
+            maxlength="50"
+            required
+            spellcheck="false"
+            placeholder="last name"
+            formControlName="lastName"
+          />
+          <div
+            *ngIf="
+              lastName.hasError('required') &&
+              (lastName.dirty || lastName.touched)
+            "
+            class="text-danger small"
+          >
+            last name required
+          </div>
+        </mat-form-field>
+      </div>
+
+      <div [formGroup]="passwords">
+        <!-- password -->
+        <div>
+          <mat-form-field>
+            <input
+              matInput
+              type="password"
+              name="password"
+              maxlength="50"
+              required
+              spellcheck="false"
+              placeholder="password"
+              formControlName="password"
+            />
+            <cadmus-password-strength-bar [passwordToCheck]="password.value">
+            </cadmus-password-strength-bar>
+            <mat-error>{{ getPasswordErrorLabel() }}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- confirm password -->
+        <div>
+          <mat-form-field>
+            <input
+              matInput
+              type="password"
+              name="confirmPassword"
+              maxlength="50"
+              required
+              spellcheck="false"
+              placeholder="confirm password"
+              formControlName="confirmPassword"
+            />
+            <mat-error
+              *ngIf="
+                passwords.hasError('areEqual') &&
+                (confirmPassword.dirty || confirmPassword.touched)
+              "
+            >
+              password differs from confirmation password
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <button
+        mat-raised-button
+        type="submit"
+        color="primary"
+        [disabled]="
+          !registration.valid || busy || name.pending || email.pending
+        "
+      >
+        register
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -7,7 +7,9 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { AuthService } from '@cadmus/api';
-import { ExistResult } from '@cadmus/core';
+import { ExistResult, RegistrationModel } from '@cadmus/core';
+import { PasswordValidator } from './password.validator';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cadmus-admin-registration',
@@ -78,7 +80,7 @@ export class AdminRegistrationComponent implements OnInit {
     });
   }
 
-  private areEqual(group: FormGroup): IValidationResult {
+  private areEqual(group: FormGroup): { [key: string]: boolean } {
     if (this.password.value === this.confirmPassword.value) {
       return null;
     }
@@ -96,7 +98,7 @@ export class AdminRegistrationComponent implements OnInit {
    * See http://restlet.com/blog/2016/02/17/implementing-angular2-forms-beyond-basics-part-2/.
    */
   private createUniqueNameValidator(service: AuthService) {
-    return function(control) {
+    return function(control: FormControl) {
       return new Promise((resolve, reject) => {
         // avoid checking if empty
         if (!control.value) {
@@ -120,7 +122,7 @@ export class AdminRegistrationComponent implements OnInit {
   }
 
   private createUniqueEmailValidator(service: AuthService) {
-    return function(control) {
+    return function(control: FormControl) {
       return new Promise((resolve, reject) => {
         // avoid checking if empty
         if (!control.value) {
@@ -144,4 +146,106 @@ export class AdminRegistrationComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  public getEmailErrorLabel(): string {
+    if (!this.email.dirty) {
+      return null;
+    }
+
+    if (this.email.hasError('required')) {
+      return 'email address required';
+    }
+    if (this.email.hasError('pattern')) {
+      return 'invalid email address';
+    }
+    if (this.email.hasError('uniqueEmail') && !this.email.pending) {
+      return 'email address already registered';
+    }
+    return null;
+  }
+
+  public getNameErrorLabel(): string {
+    if (!this.name.dirty) {
+      return null;
+    }
+
+    if (this.name.hasError('required')) {
+      return 'username required';
+    }
+
+    if (this.name.hasError('pattern')) {
+      return 'invalid username';
+    }
+
+    if (this.name.hasError('uniqueName') && !this.name.pending) {
+      return 'username already taken';
+    }
+
+    return null;
+  }
+
+  public getPasswordErrorLabel(): string {
+    if (!this.password.dirty) {
+      return null;
+    }
+
+    if (this.password.hasError('required')) {
+      return 'password required';
+    }
+    if (this.password.hasError('passwordTooShort')) {
+      let s = 'at least 8 characters';
+      if (this.password.value) {
+        s += `(ora ${this.password.value.length})`;
+      }
+      return s;
+    }
+    if (this.password.hasError('noUpperInPassword')) {
+      return 'at least 1 uppercase letter';
+    }
+    if (this.password.hasError('noLowerInPassword')) {
+      return 'at least 1 lowercase letter';
+    }
+    if (this.password.hasError('noSymbolInPassword')) {
+      return 'at least 1 punctuation or symbol';
+    }
+
+    return null;
+  }
+
+  public onSubmit() {
+    if (
+      !this.registration.valid ||
+      this.busy ||
+      this.name.pending ||
+      this.email.pending
+    ) {
+      return;
+    }
+
+    const model: RegistrationModel = {
+      email: this.email.value,
+      name: this.name.value,
+      firstName: this.firstName.value,
+      lastName: this.lastName.value,
+      password: this.password.value
+    };
+
+    this.busy = true;
+    this._authService
+      .register(model)
+      .pipe(take(1))
+      .subscribe(
+        () => {
+          this.busy = false;
+          this._snackbar.open('Registration succeeded', 'OK');
+          this.registration.reset();
+          this.registration.markAsPristine();
+        },
+        error => {
+          this.busy = false;
+          console.error(error);
+          this._snackbar.open('Registration error', 'OK');
+        }
+      );
+  }
 }
