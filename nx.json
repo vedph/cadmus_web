@@ -58,6 +58,12 @@
     },
     "features-feature-admin": {
       "tags": []
+    },
+    "features-feature-user": {
+      "tags": []
+    },
+    "features-feature-reset-password": {
+      "tags": []
     }
   }
 }

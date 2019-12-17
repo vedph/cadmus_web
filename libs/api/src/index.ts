@@ -1,4 +1,5 @@
 export * from './lib/api.module';
+export * from './lib/services/account.service';
 export * from './lib/services/admin-guard.service';
 export * from './lib/services/auth-guard.service';
 export * from './lib/services/auth.interceptor';

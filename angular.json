@@ -550,6 +550,63 @@
         }
       },
       "schematics": {}
+    },
+    "features-feature-user": {
+      "projectType": "library",
+      "root": "libs/features/feature-user",
+      "sourceRoot": "libs/features/feature-user/src",
+      "prefix": "cadmus",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/features/feature-user/tsconfig.lib.json",
+              "libs/features/feature-user/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/features/feature-user/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/features/feature-user/jest.config.js",
+            "tsConfig": "libs/features/feature-user/tsconfig.spec.json",
+            "setupFile": "libs/features/feature-user/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {}
+    },
+    "features-feature-reset-password": {
+      "projectType": "library",
+      "root": "libs/features/feature-reset-password",
+      "sourceRoot": "libs/features/feature-reset-password/src",
+      "prefix": "cadmus",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/features/feature-reset-password/tsconfig.lib.json",
+              "libs/features/feature-reset-password/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/features/feature-reset-password/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/features/feature-reset-password/jest.config.js",
+            "tsConfig": "libs/features/feature-reset-password/tsconfig.spec.json",
+            "setupFile": "libs/features/feature-reset-password/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {}
     }
   },
   "cli": {

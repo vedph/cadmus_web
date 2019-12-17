@@ -25,10 +25,13 @@ import { HomeComponent } from './home/home.component';
 import { MaterialModule } from '@cadmus/material';
 import { FeatureNotePartDemoComponent } from './demo/feature-note-part-demo/feature-note-part-demo.component';
 import { FeatureOrthographyFragmentDemoComponent } from './demo/feature-orthography-fragment-demo/feature-orthography-fragment-demo.component';
-import { AuthInterceptor, AdminGuardService } from '@cadmus/api';
+import {
+  AuthInterceptor,
+  AdminGuardService,
+  AuthGuardService
+} from '@cadmus/api';
 import { FeatureTokenTextPartDemoComponent } from './demo/feature-token-text-part-demo/feature-token-text-part-demo.component';
 import { FeatureCommentFragmentDemoComponent } from './demo/feature-comment-fragment-demo/feature-comment-fragment-demo.component';
-import { TokenTextPartDemoComponent } from 'libs/parts/general/general-ui/src/lib/token-text-part-demo/token-text-part-demo.component';
 import { FeatureCategoriesPartDemoComponent } from './demo/feature-categories-part-demo/feature-categories-part-demo.component';
 import { FeatureKeywordsPartDemoComponent } from './demo/feature-keywords-part-demo/feature-keywords-part-demo.component';
 import { FeatureHistoricalDatePartDemoComponent } from './demo/feature-historical-date-part-demo/feature-historical-date-part-demo.component';
@@ -86,7 +89,7 @@ import { FeatureChronologyFragmentDemoComponent } from './demo/feature-chronolog
         },
         {
           path: 'demo/token-text-part',
-          component: TokenTextPartDemoComponent,
+          component: FeatureTokenTextPartDemoComponent,
           pathMatch: 'full'
         },
         {
@@ -146,6 +149,21 @@ import { FeatureChronologyFragmentDemoComponent } from './demo/feature-chronolog
               module => module.FeatureAdminModule
             ),
           canActivate: [AdminGuardService]
+        },
+        {
+          path: 'user',
+          loadChildren: () =>
+            import('@cadmus/features/feature-user').then(
+              module => module.FeatureUserModule
+            ),
+          canActivate: [AuthGuardService]
+        },
+        {
+          path: 'reset-password',
+          loadChildren: () =>
+            import('@cadmus/features/feature-reset-password').then(
+              module => module.FeatureResetPasswordModule
+            )
         },
         { path: '**', component: HomeComponent }
       ],

@@ -50,6 +50,12 @@
       ],
       "@cadmus/features/feature-admin": [
         "libs/features/feature-admin/src/index.ts"
+      ],
+      "@cadmus/features/feature-user": [
+        "libs/features/feature-user/src/index.ts"
+      ],
+      "@cadmus/features/feature-reset-password": [
+        "libs/features/feature-reset-password/src/index.ts"
       ]
     }
   },

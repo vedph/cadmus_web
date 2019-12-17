@@ -7,8 +7,7 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { AuthService } from '@cadmus/api';
-import { ExistResult, RegistrationModel } from '@cadmus/core';
-import { PasswordValidator } from './password.validator';
+import { ExistResult, RegistrationModel, PasswordValidator } from '@cadmus/core';
 import { take } from 'rxjs/operators';
 
 @Component({
