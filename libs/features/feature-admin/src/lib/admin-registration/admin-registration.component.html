@@ -169,6 +169,11 @@
       >
         register
       </button>
+      <mat-progress-spinner
+        diameter="20"
+        *ngIf="busy"
+        aria-label="Busy"
+      ></mat-progress-spinner>
     </form>
   </mat-card-content>
 </mat-card>

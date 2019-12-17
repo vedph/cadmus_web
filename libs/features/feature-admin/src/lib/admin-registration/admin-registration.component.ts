@@ -155,7 +155,7 @@ export class AdminRegistrationComponent implements OnInit {
     if (this.email.hasError('required')) {
       return 'email address required';
     }
-    if (this.email.hasError('pattern')) {
+    if (this.email.hasError('email')) {
       return 'invalid email address';
     }
     if (this.email.hasError('uniqueEmail') && !this.email.pending) {
@@ -195,7 +195,7 @@ export class AdminRegistrationComponent implements OnInit {
     if (this.password.hasError('passwordTooShort')) {
       let s = 'at least 8 characters';
       if (this.password.value) {
-        s += `(ora ${this.password.value.length})`;
+        s += ` (now ${this.password.value.length})`;
       }
       return s;
     }
