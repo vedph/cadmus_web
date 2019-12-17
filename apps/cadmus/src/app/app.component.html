@@ -9,18 +9,23 @@
 
     <button mat-button [matMenuTriggerFor]="demoMenu">Demo</button>
     <mat-menu #demoMenu>
-      <a mat-menu-item routerLink="/demo/categories-part">Categories part</a>
-      <a mat-menu-item routerLink="/demo/keywords-part">Keywords part</a>
-      <a mat-menu-item routerLink="/demo/note-part">Note part</a>
-      <a mat-menu-item routerLink="/demo/historical-date-part">Historical date part</a>
-      <a mat-menu-item routerLink="/demo/token-text-part">Token text part</a>
-      <a mat-menu-item routerLink="/demo/layers">Text Layers Part</a>
-      <mat-divider></mat-divider>
-      <a mat-menu-item routerLink="/demo/comment-fragment">Comment fragment</a>
-      <a mat-menu-item routerLink="/demo/chronology-fragment">Chronology fragment</a>
-      <a mat-menu-item routerLink="/demo/orthography-fragment"
-        >Orthography fragment</a
+      <a mat-menu-item [matMenuTriggerFor]="partsMenu">Parts</a>
+      <a mat-menu-item [matMenuTriggerFor]="fragmentsMenu">Fragments</a>
+    </mat-menu>
+    <mat-menu #partsMenu>
+      <a mat-menu-item routerLink="/demo/categories-part">Categories</a>
+      <a mat-menu-item routerLink="/demo/keywords-part">Keywords</a>
+      <a mat-menu-item routerLink="/demo/note-part">Note</a>
+      <a mat-menu-item routerLink="/demo/historical-date-part"
+        >Historical date</a
       >
+      <a mat-menu-item routerLink="/demo/token-text-part">Token text</a>
+      <a mat-menu-item routerLink="/demo/layers">Text Layers</a>
+    </mat-menu>
+    <mat-menu #fragmentsMenu>
+      <a mat-menu-item routerLink="/demo/comment-fragment">Comment</a>
+      <a mat-menu-item routerLink="/demo/chronology-fragment">Chronology</a>
+      <a mat-menu-item routerLink="/demo/orthography-fragment">Orthography</a>
     </mat-menu>
 
     <span class="tb-fill-remaining-space"></span>
@@ -45,7 +50,12 @@
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu x-position="before" #menu="matMenu">
-        <a mat-menu-item *ngIf="user && user.roles.includes('admin')" routerLink="/admin">Admin</a>
+        <a
+          mat-menu-item
+          *ngIf="user && user.roles.includes('admin')"
+          routerLink="/admin"
+          >Admin</a
+        >
         <a mat-menu-item (click)="logout()">Logout</a>
       </mat-menu>
     </div>
