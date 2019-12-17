@@ -8,6 +8,7 @@ import { MaterialModule } from '@cadmus/material';
 import { ApiModule } from '@cadmus/api';
 import { UiModule } from '@cadmus/ui';
 import { AdminRegistrationComponent } from './admin-registration/admin-registration.component';
+import { AdminHomeComponent } from './admin-home/admin-home.component';
 
 @NgModule({
   imports: [
@@ -19,6 +20,11 @@ import { AdminRegistrationComponent } from './admin-registration/admin-registrat
         path: 'register',
         pathMatch: 'full',
         component: AdminRegistrationComponent
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        component: AdminHomeComponent
       }
     ]),
     // cadmus
@@ -27,7 +33,13 @@ import { AdminRegistrationComponent } from './admin-registration/admin-registrat
     ApiModule,
     UiModule
   ],
-  declarations: [AdminRegistrationComponent],
-  exports: [AdminRegistrationComponent]
+  declarations: [
+    AdminHomeComponent,
+    AdminRegistrationComponent
+  ],
+  exports: [
+    AdminHomeComponent,
+    AdminRegistrationComponent
+  ]
 })
 export class FeatureAdminModule {}

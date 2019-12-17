@@ -25,7 +25,7 @@ import { HomeComponent } from './home/home.component';
 import { MaterialModule } from '@cadmus/material';
 import { FeatureNotePartDemoComponent } from './demo/feature-note-part-demo/feature-note-part-demo.component';
 import { FeatureOrthographyFragmentDemoComponent } from './demo/feature-orthography-fragment-demo/feature-orthography-fragment-demo.component';
-import { AuthInterceptor } from '@cadmus/api';
+import { AuthInterceptor, AdminGuardService } from '@cadmus/api';
 import { FeatureTokenTextPartDemoComponent } from './demo/feature-token-text-part-demo/feature-token-text-part-demo.component';
 import { FeatureCommentFragmentDemoComponent } from './demo/feature-comment-fragment-demo/feature-comment-fragment-demo.component';
 import { TokenTextPartDemoComponent } from 'libs/parts/general/general-ui/src/lib/token-text-part-demo/token-text-part-demo.component';
@@ -144,7 +144,8 @@ import { FeatureChronologyFragmentDemoComponent } from './demo/feature-chronolog
           loadChildren: () =>
             import('@cadmus/features/feature-admin').then(
               module => module.FeatureAdminModule
-            )
+            ),
+          canActivate: [AdminGuardService]
         },
         { path: '**', component: HomeComponent }
       ],

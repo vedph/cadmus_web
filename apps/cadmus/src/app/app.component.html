@@ -45,13 +45,13 @@
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu x-position="before" #menu="matMenu">
-        <a mat-menu-item *ngIf="user && user.roles.includes('admin')">Admin</a>
+        <a mat-menu-item *ngIf="user && user.roles.includes('admin')" routerLink="/admin">Admin</a>
         <a mat-menu-item (click)="logout()">Logout</a>
       </mat-menu>
     </div>
 
     <div *ngIf="!logged">
-      <a mat-button routerLink="/login" routerLinkActive="active">Login</a>
+      <a mat-button routerLink="/login">Login</a>
     </div>
   </mat-toolbar>
 </header>
