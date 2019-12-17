@@ -1,1 +1,58 @@
-<p>user-manager works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Users
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p *ngIf="paginator.isLoading$ | async">Loading...</p>
+
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="8px">
+      <!-- filters -->
+      <div fxFlex="0 0 auto">
+        <cadmus-user-filter [filter$]="filter$"></cadmus-user-filter>
+      </div>
+
+      <!-- list -->
+      <div fxFill fxLayout="column" *ngIf="pagination$ | async as pagination">
+        <table>
+          <thead>
+            <td></td>
+            <th>name</th>
+            <th>first</th>
+            <th>last</th>
+            <th>email</th>
+            <th>roles</th>
+            <th>lock end</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of pagination.data">
+              <td>
+                <img
+                  [src]="getGravatarUrl(user.email, 32)"
+                  [alt]="user.userName"
+                />
+              </td>
+              <td>{{ user.userName }}</td>
+              <td>{{ user.firstName }}</td>
+              <td>{{ user.lastName }}</td>
+              <td><a [href]="'mailto:' + user.email">{{ user.email }}</a></td>
+              <td>{{ user.roles?.join(' ') }}</td>
+              <td>{{ user.lockoutEnd }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <mat-paginator
+          fxFlex="0 0 auto"
+          fxFlexAlign="start"
+          [length]="pagination.total"
+          [pageSize]="pageSize?.value"
+          [pageSizeOptions]="[20, 50, 75, 100]"
+          [pageIndex]="pagination.currentPage - 1"
+          [showFirstLastButtons]="true"
+          (page)="pageChanged($event)"
+        ></mat-paginator>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

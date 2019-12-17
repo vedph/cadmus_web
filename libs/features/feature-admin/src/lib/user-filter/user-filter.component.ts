@@ -1,12 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
-
-export interface UserFilter {
-  pageNumber: number;
-  pageSize: number;
-  name?: string;
-}
+import { UserFilter } from '@cadmus/core';
 
 @Component({
   selector: 'cadmus-user-filter',
