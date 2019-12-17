@@ -228,23 +228,11 @@ export interface User {
   userName: string;
   email: string;
   roles: string[];
-  isVerified?: boolean;
+  emailConfirmed?: boolean;
   firstName: string;
   lastName: string;
-}
-
-/**
- * An editable user.
- */
-export interface EditableUser {
-  userName: string;
-  email: string;
-  emailConfirmed: boolean;
-  lockoutEnabled: boolean;
+  lockoutEnabled?: boolean;
   lockoutEnd?: Date;
-  firstName: string;
-  lastName: string;
-  roles: string[];
 }
 
 /**

@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { ErrorService, User, EditableUser, PasswordChange } from '@cadmus/core';
+import { ErrorService, User, PasswordChange } from '@cadmus/core';
 
 @Injectable({
   providedIn: 'root'
@@ -66,12 +66,12 @@ export class AccountService {
   }
 
   /**
-   * Get editable data about the specified user.
+   * Get data about the specified user.
    * @param name The user name.
    */
-  public getEditableUser(name: string): Observable<EditableUser> {
+  public getUser(name: string): Observable<User> {
     return this._http
-      .get<EditableUser>(this._apiEndpoint + 'users/' + name)
+      .get<User>(this._apiEndpoint + 'users/' + name)
       .pipe(
         retry(3),
         catchError(this._error.handleError)
@@ -82,7 +82,7 @@ export class AccountService {
    * Update the editable data for the specified user.
    * @param user The user to update.
    */
-  public updateUser(user: EditableUser): Observable<any> {
+  public updateUser(user: User): Observable<any> {
     return this._http
       .put(this._apiEndpoint + 'users', user)
       .pipe(catchError(this._error.handleError));

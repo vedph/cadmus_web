@@ -86,7 +86,7 @@ export class AuthService {
               token[
                 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
               ],
-            isVerified: token.vfd,
+            emailConfirmed: token.vfd,
             firstName:
               token[
                 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname'
@@ -145,7 +145,7 @@ export class AuthService {
     if (!verifiedOnly) {
       return true;
     }
-    return this.currentUserValue.isVerified;
+    return this.currentUserValue.emailConfirmed;
   }
 
   /**

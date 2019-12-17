@@ -40,7 +40,7 @@
       >
       <mat-icon
         class="small-icon"
-        *ngIf="user && !user.isVerified"
+        *ngIf="user && !user.emailConfirmed"
         title="You must verify your email address! Please check your mailbox {{
           user.email
         }}"

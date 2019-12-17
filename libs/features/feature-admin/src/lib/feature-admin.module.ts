@@ -10,6 +10,7 @@ import { UiModule } from '@cadmus/ui';
 import { AdminRegistrationComponent } from './admin-registration/admin-registration.component';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { UserEditorComponent } from './user-editor/user-editor.component';
+import { UserManagerComponent } from './user-manager/user-manager.component';
 
 @NgModule({
   imports: [
@@ -21,6 +22,11 @@ import { UserEditorComponent } from './user-editor/user-editor.component';
         path: 'register',
         pathMatch: 'full',
         component: AdminRegistrationComponent
+      },
+      {
+        path: 'users',
+        pathMatch: 'full',
+        component: UserManagerComponent
       },
       {
         path: '',
@@ -37,11 +43,13 @@ import { UserEditorComponent } from './user-editor/user-editor.component';
   declarations: [
     AdminHomeComponent,
     AdminRegistrationComponent,
-    UserEditorComponent
+    UserEditorComponent,
+    UserManagerComponent
   ],
   exports: [
     AdminHomeComponent,
-    AdminRegistrationComponent
+    AdminRegistrationComponent,
+    UserManagerComponent
   ]
 })
 export class FeatureAdminModule {}

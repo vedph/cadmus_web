@@ -30,7 +30,7 @@ export class AdminGuardService implements CanActivate {
       return false;
     }
     // if authenticated but not verified, redirect to login
-    if (!this._authService.currentUserValue.isVerified) {
+    if (!this._authService.currentUserValue.emailConfirmed) {
       this._router.navigate(['/login']);
       this._snackbar.open('User not verified', 'OK', { duration: 3000 });
       return false;

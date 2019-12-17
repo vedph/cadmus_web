@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { EditableUser } from '@cadmus/core';
+import { User } from '@cadmus/core';
 import {
   FormGroup,
   FormControl,
@@ -14,7 +14,7 @@ import { AuthService } from '@cadmus/api';
   styleUrls: ['./user-editor.component.css']
 })
 export class UserEditorComponent implements OnInit {
-  private _user: EditableUser;
+  private _user: User;
 
   public email: FormControl;
   public emailConfirmed: FormControl;
@@ -26,23 +26,23 @@ export class UserEditorComponent implements OnInit {
 
   public unlocked: boolean;
 
-  @Input() public set user(value: EditableUser) {
+  @Input() public set user(value: User) {
     if (this._user === value) {
       return;
     }
     this._user = value;
     this.updateForm(value);
   }
-  public get user(): EditableUser {
+  public get user(): User {
     return this._user;
   }
 
-  @Output() userChange: EventEmitter<EditableUser>;
+  @Output() userChange: EventEmitter<User>;
   @Output() editorClose: EventEmitter<any>;
 
   constructor(formBuilder: FormBuilder, private _authService: AuthService) {
     // events
-    this.userChange = new EventEmitter<EditableUser>();
+    this.userChange = new EventEmitter<User>();
     this.editorClose = new EventEmitter<any>();
     // form
     this.email = formBuilder.control(null, [
@@ -77,7 +77,7 @@ export class UserEditorComponent implements OnInit {
 
   ngOnInit() {}
 
-  private updateForm(user: EditableUser) {
+  private updateForm(user: User) {
     if (!user) {
       this.form.reset();
     } else {
@@ -94,7 +94,7 @@ export class UserEditorComponent implements OnInit {
     }
   }
 
-  private getUser(): EditableUser {
+  private getUserFromForm(): User {
     return {
       userName: this._user.userName,
       email: this.email.value,
@@ -122,6 +122,6 @@ export class UserEditorComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.userChange.emit(this.getUser());
+    this.userChange.emit(this.getUserFromForm());
   }
 }
