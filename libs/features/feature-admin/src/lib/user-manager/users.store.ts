@@ -1,8 +1,18 @@
-import { StoreConfig, EntityStore, EntityState } from '@datorama/akita';
+import {
+  StoreConfig,
+  EntityStore,
+  EntityState,
+  ActiveState
+} from '@datorama/akita';
 import { User } from '@cadmus/core';
 import { Injectable } from '@angular/core';
 
-export interface UsersState extends EntityState<User, string> {}
+// https://netbasal.gitbook.io/akita/entity-store/entity-store/active-state
+export interface UsersState
+  extends EntityState<User, string>,
+    ActiveState<string> {
+  active: string | null;
+}
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'users', idKey: 'userName' })

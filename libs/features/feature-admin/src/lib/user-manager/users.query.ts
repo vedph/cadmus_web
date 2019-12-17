@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { QueryEntity } from '@datorama/akita';
 import { UsersState, UsersStore } from './users.store';
+import { User } from '@cadmus/core';
 
 @Injectable({ providedIn: 'root' })
-export class UsersQuery extends QueryEntity<UsersState> {
+export class UsersQuery extends QueryEntity<UsersState, User, string> {
   constructor(protected store: UsersStore) {
     super(store);
   }

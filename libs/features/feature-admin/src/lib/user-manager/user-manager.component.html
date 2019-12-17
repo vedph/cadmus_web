@@ -7,16 +7,18 @@
   <mat-card-content>
     <p *ngIf="paginator.isLoading$ | async">Loading...</p>
 
-    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="8px">
+    <div>
       <!-- filters -->
-      <div fxFlex="0 0 auto">
+      <div>
         <cadmus-user-filter [filter$]="filter$"></cadmus-user-filter>
       </div>
 
       <!-- list -->
-      <div fxFill fxLayout="column" *ngIf="pagination$ | async as pagination">
+      <div *ngIf="pagination$ | async as pagination">
         <table>
           <thead>
+            <td></td>
+            <td></td>
             <td></td>
             <th>name</th>
             <th>first</th>
@@ -27,6 +29,28 @@
           </thead>
           <tbody>
             <tr *ngFor="let user of pagination.data">
+              <td class="command">
+                <button
+                  mat-icon-button
+                  type="button"
+                  matTooltip="Edit {{ user.userName }}"
+                  color="primary"
+                  (click)="setActiveUser(user)"
+                >
+                  <mat-icon>mode_edit</mat-icon>
+                </button>
+              </td>
+              <td class="command">
+                <button
+                  mat-icon-button
+                  type="button"
+                  matTooltip="Delete {{ user.userName }}"
+                  color="warn"
+                  (click)="deleteUser(user)"
+                >
+                  <mat-icon>remove_circle</mat-icon>
+                </button>
+              </td>
               <td>
                 <img
                   [src]="getGravatarUrl(user.email, 32)"
@@ -36,7 +60,9 @@
               <td>{{ user.userName }}</td>
               <td>{{ user.firstName }}</td>
               <td>{{ user.lastName }}</td>
-              <td><a [href]="'mailto:' + user.email">{{ user.email }}</a></td>
+              <td>
+                <a [href]="'mailto:' + user.email">{{ user.email }}</a>
+              </td>
               <td>{{ user.roles?.join(' ') }}</td>
               <td>{{ user.lockoutEnd }}</td>
             </tr>
@@ -53,6 +79,13 @@
           (page)="pageChanged($event)"
         ></mat-paginator>
       </div>
+    </div>
+    <div *ngIf="active$ | async as active">
+      <cadmus-user-editor
+        [user]="active"
+        (userChange)="saveActiveUser($event)"
+        (editorClose)="resetActiveUser()"
+      ></cadmus-user-editor>
     </div>
   </mat-card-content>
 </mat-card>
