@@ -11,6 +11,7 @@ import { AdminRegistrationComponent } from './admin-registration/admin-registrat
 import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { UserEditorComponent } from './user-editor/user-editor.component';
 import { UserManagerComponent } from './user-manager/user-manager.component';
+import { UserFilterComponent } from './user-filter/user-filter.component';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { UserManagerComponent } from './user-manager/user-manager.component';
     AdminHomeComponent,
     AdminRegistrationComponent,
     UserEditorComponent,
-    UserManagerComponent
+    UserManagerComponent,
+    UserFilterComponent
   ],
   exports: [
     AdminHomeComponent,

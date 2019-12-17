@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { ItemFilter, FacetDefinition, FlagDefinition } from '@cadmus/core';
+import { ItemFilter } from '@cadmus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ItemsLookupService } from '../services/items-lookup.service';
 import { ItemsLookupQuery } from '../state/items-lookup.query';
-import { LookupUser, ItemsLookupState } from '../state/items-lookup.store';
+import { ItemsLookupState } from '../state/items-lookup.store';
 
 /**
  * Items filter.
