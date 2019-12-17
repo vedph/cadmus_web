@@ -16,7 +16,7 @@ export interface UsersState
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'users', idKey: 'userName' })
-export class UsersStore extends EntityStore<EntityState<User>, User, string> {
+export class UsersStore extends EntityStore<UsersState> {
   constructor() {
     super({});
   }
