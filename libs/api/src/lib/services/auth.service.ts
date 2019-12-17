@@ -314,7 +314,7 @@ export class AuthService {
    * Gets the UTC date from the specified local date.
    * @param date local date
    */
-  private getUTCDate(date?: Date): Date {
+  public getUTCDate(date?: Date): Date {
     if (!date) {
       date = new Date();
     }

@@ -9,6 +9,7 @@ import { ApiModule } from '@cadmus/api';
 import { UiModule } from '@cadmus/ui';
 import { AdminRegistrationComponent } from './admin-registration/admin-registration.component';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
+import { UserEditorComponent } from './user-editor/user-editor.component';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
   ],
   declarations: [
     AdminHomeComponent,
-    AdminRegistrationComponent
+    AdminRegistrationComponent,
+    UserEditorComponent
   ],
   exports: [
     AdminHomeComponent,

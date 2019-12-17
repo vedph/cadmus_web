@@ -1,0 +1,123 @@
+<form [formGroup]="form" (submit)="save()">
+  <div>
+    <mat-form-field>
+      <input type="text" matInput formControlName="email" placeholder="email" />
+      <mat-error
+        *ngIf="email.hasError('required') && (email.dirty || email.touched)"
+      >
+        email address required
+      </mat-error>
+      <mat-error
+        *ngIf="email.hasError('pattern') && (email.dirty || email.touched)"
+      >
+        invalid email address
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-checkbox formControlName="emailConfirmed"
+      >email address confirmed</mat-checkbox
+    >
+  </div>
+
+  <div>
+    <mat-checkbox formControlName="lockoutEnabled"
+      >lockout enabled</mat-checkbox
+    >
+    &nbsp;
+    <button
+      mat-button
+      (click)="endLockout()"
+      [disabled]="unlocked"
+      matTooltip="Unlock this user if locked"
+    >
+      unlock
+    </button>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input
+        type="text"
+        matInput
+        formControlName="firstName"
+        placeholder="first name"
+      />
+      <mat-error
+        *ngIf="
+          firstName.hasError('required') &&
+          (firstName.dirty || firstName.touched)
+        "
+      >
+        first name required
+      </mat-error>
+      <mat-error
+        *ngIf="
+          firstName.hasError('maxlength') &&
+          (firstName.dirty || firstName.touched)
+        "
+      >
+        first name too long
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input
+        type="text"
+        matInput
+        formControlName="lastName"
+        placeholder="last name"
+      />
+      <mat-error
+        *ngIf="
+          lastName.hasError('required') && (lastName.dirty || lastName.touched)
+        "
+      >
+        last name required
+      </mat-error>
+      <mat-error
+        *ngIf="
+          lastName.hasError('maxlength') && (lastName.dirty || lastName.touched)
+        "
+      >
+        last name too long
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input
+        type="text"
+        matInput
+        formControlName="roles"
+        placeholder="ruoli (separated by space)"
+      />
+      <mat-error
+        *ngIf="roles.hasError('maxlength') && (roles.dirty || roles.touched)"
+      >
+        too long
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <!-- buttons -->
+  <br />
+  <div>
+    <button mat-raised-button color="warn" matTooltip="Close" (click)="close()">
+      <mat-icon>cancel</mat-icon>
+    </button>
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      [disabled]="editor.invalid"
+      matTooltip="Save user data"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>
