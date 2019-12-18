@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { CoreModule } from '@cadmus/core';
 import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
-import { GeneralUiModule, NOTE_PART_TYPEID, COMMENT_FRAGMENT_TYPEID, KEYWORDS_PART_TYPEID } from '@cadmus/parts/general/general-ui';
+import { GeneralUiModule, NOTE_PART_TYPEID, COMMENT_FRAGMENT_TYPEID, KEYWORDS_PART_TYPEID, TOKEN_TEXT_PART_TYPEID } from '@cadmus/parts/general/general-ui';
 import { EditStateModule } from '@cadmus/features/edit-state';
 
 import { NotePartFeatureComponent } from './note-part-feature/note-part-feature.component';
@@ -38,6 +38,11 @@ import { ChronologyFragmentFeatureComponent } from './chronology-fragment-featur
         path: `${NOTE_PART_TYPEID}/:pid`,
         pathMatch: 'full',
         component: NotePartFeatureComponent
+      },
+      {
+        path: `${TOKEN_TEXT_PART_TYPEID}/:pid`,
+        pathMatch: 'full',
+        component: TokenTextPartFeatureComponent
       },
       {
         path: `fragment/:pid/${COMMENT_FRAGMENT_TYPEID}/:loc`,
