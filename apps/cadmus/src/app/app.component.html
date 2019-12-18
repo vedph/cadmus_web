@@ -11,6 +11,7 @@
     <mat-menu #demoMenu>
       <a mat-menu-item [matMenuTriggerFor]="partsMenu">Parts</a>
       <a mat-menu-item [matMenuTriggerFor]="fragmentsMenu">Fragments</a>
+      <a mat-menu-item routerLink="/demo/layers">Text Layers</a>
     </mat-menu>
     <mat-menu #partsMenu>
       <a mat-menu-item routerLink="/demo/categories-part">Categories</a>
@@ -20,7 +21,6 @@
         >Historical date</a
       >
       <a mat-menu-item routerLink="/demo/token-text-part">Token text</a>
-      <a mat-menu-item routerLink="/demo/layers">Text Layers</a>
     </mat-menu>
     <mat-menu #fragmentsMenu>
       <a mat-menu-item routerLink="/demo/comment-fragment">Comment</a>

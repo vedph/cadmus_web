@@ -73,12 +73,12 @@ export class Datation implements DatationModel {
    * (no whitespaces at start/end and no sequence of whitespaces).
    * If the resulting sanitized string is empty, or it was null when received,
    * null is returned.
-   * @param hint The hint or null.
-   * @returns The sanitized hint or null.
+   * @param hint The hint or null/undefined.
+   * @returns The sanitized hint or undefined.
    */
   public static sanitizeHint(hint: string): string {
     if (!hint || !hint.trim()) {
-      return null;
+      return undefined;
     }
 
     // replace reserved characters
@@ -88,7 +88,7 @@ export class Datation implements DatationModel {
 
     // flatten and normalize whitespaces
     const s = hint.replace(/\s+/g, ' ').trim();
-    return s ? s : null;
+    return s ? s : undefined;
   }
 
   private static regexEscape(text: string): string {
@@ -136,17 +136,21 @@ export class Datation implements DatationModel {
    * Parse the specified text representing a datation.
    * @param text The text to be parsed.
    * @param options The formatter options.
+   * @returns The parsed datation, or undefined if invalid or empty.
+   * Note that here we return undefined to mean a non-existing point.
+   * We do not want a non-existing point to be represented as a null,
+   * as this would be included as in the JSON code when serializing.
    */
   public static parse(text: string,
     options: DatationFormatOptions = DATATION_FORMAT_OPTIONS): Datation {
     if (!text) {
-      return null;
+      return undefined;
     }
     const datation = new Datation();
     const datationRegex = this.getParserRegex(options);
     const m = datationRegex.exec(text);
     if (!m) {
-      return null;
+      return undefined;
     }
 
     // about
@@ -233,7 +237,7 @@ export class Datation implements DatationModel {
     this.isApproximate = false;
     this.day = 0;
     this.month = 0;
-    this.hint = null;
+    this.hint = undefined;
   }
 
   /**
@@ -248,11 +252,13 @@ export class Datation implements DatationModel {
     this.isDubious = datation.isDubious;
     this.day = datation.day;
     this.month = datation.month;
-    this.hint = datation.hint;
+    this.hint = datation.hint? datation.hint : undefined;
   }
 
   /**
-   * True if this datation is undefined.
+   * True if this datation is undefined. A datation is undefined when
+   * its value is 0. Undefined datations are used as unknown points in a range
+   * for termini ante/post.
    */
   public isUndefined(): boolean {
     return !this.value;

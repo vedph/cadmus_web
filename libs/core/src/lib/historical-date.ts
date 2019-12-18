@@ -1,4 +1,9 @@
-import { Datation, DatationFormatOptions, DATATION_FORMAT_OPTIONS, DatationModel } from './datation';
+import {
+  Datation,
+  DatationFormatOptions,
+  DATATION_FORMAT_OPTIONS,
+  DatationModel
+} from './datation';
 
 const APPROX_DELTA = 10;
 
@@ -29,9 +34,12 @@ export class HistoricalDate implements HistoricalDateModel {
   constructor(date: HistoricalDateModel = null) {
     if (!date) {
       this.a = new Datation();
+      // B=undefined for a single point
     } else {
       this.a = new Datation(date.a);
-      this.b = new Datation(date.b);
+      if (date.b) {
+        this.b = new Datation(date.b);
+      }
     }
   }
 
@@ -39,9 +47,12 @@ export class HistoricalDate implements HistoricalDateModel {
    * Parse the specified text representing a historical datation.
    * @param text The text to be parsed.
    * @param options The datation formatter options.
+   * @return The datation, or null if invalid.
    */
-  public static parse(text: string,
-    options: DatationFormatOptions = DATATION_FORMAT_OPTIONS): HistoricalDate {
+  public static parse(
+    text: string,
+    options: DatationFormatOptions = DATATION_FORMAT_OPTIONS
+  ): HistoricalDate {
     if (!text) {
       return null;
     }
@@ -59,11 +70,17 @@ export class HistoricalDate implements HistoricalDateModel {
         const bcad = Datation.getErasOptionsForRegex(options);
         const tailRegexp = new RegExp(
           // era (1)
-          '(' + bcad[0] + '|' + bcad[1] + ')?' +
-          // dubious (2)
-          '(\\s*\\?)?' +
-          // hint (3)
-          '(?:\\s*\\{?:([^)]+)\\})?\\s*$', 'gi');
+          '(' +
+            bcad[0] +
+            '|' +
+            bcad[1] +
+            ')?' +
+            // dubious (2)
+            '(\\s*\\?)?' +
+            // hint (3)
+            '(?:\\s*\\{?:([^)]+)\\})?\\s*$',
+          'gi'
+        );
         const m1 = tailRegexp.exec(s1);
 
         // if 1st has no era try integration from 2nd
@@ -90,6 +107,9 @@ export class HistoricalDate implements HistoricalDateModel {
       date.setStartPoint(Datation.parse(s1, options));
       date.setEndPoint(Datation.parse(s2, options));
     } else {
+      // here we have a s2, even if empty. When empty, it represents
+      // an unknown point in a terminus ante/post, and as such we
+      // must set B=null. When B=undefined, it's not a range but a point.
       const d = Datation.parse(s1, options);
       if (d && !d.isUndefined()) {
         date.setSinglePoint(d);
@@ -100,7 +120,7 @@ export class HistoricalDate implements HistoricalDateModel {
   }
 
   public getStartPoint(): Datation {
-    return this.getDateType() === HistoricalDateType.range ? this.a : null;
+    return this.getDateType() === HistoricalDateType.range ? this.a : undefined;
   }
 
   public setStartPoint(value: Datation) {
@@ -112,7 +132,7 @@ export class HistoricalDate implements HistoricalDateModel {
   }
 
   public getEndPoint(): Datation {
-    return this.getDateType() === HistoricalDateType.range ? this.b : null;
+    return this.getDateType() === HistoricalDateType.range ? this.b : undefined;
   }
 
   public setEndPoint(value: Datation) {
@@ -120,21 +140,22 @@ export class HistoricalDate implements HistoricalDateModel {
   }
 
   public getSinglePoint(): Datation {
-    return this.getDateType() === HistoricalDateType.point ? this.a : null;
+    return this.getDateType() === HistoricalDateType.point ? this.a : undefined;
   }
 
   public setSinglePoint(value: Datation) {
     this.a = new Datation(value);
-    // it's a point, ensure max is null
-    this.b = null;
+    // it's a point, ensure max is undefined
+    this.b = undefined;
   }
 
   /**
    * True if this date is undefined.
    */
   public isUndefined(): boolean {
-    return !this.a ||
-      (this.a.isUndefined() && (!this.b || this.b.isUndefined()));
+    return (
+      !this.a || (this.a.isUndefined() && (!this.b || this.b.isUndefined()))
+    );
   }
 
   /**
@@ -194,8 +215,10 @@ export class HistoricalDate implements HistoricalDateModel {
    * @param format The format string.
    * @param options The formatter options.
    */
-  public toString(format = 'G',
-    options: DatationFormatOptions = DATATION_FORMAT_OPTIONS) {
+  public toString(
+    format = 'G',
+    options: DatationFormatOptions = DATATION_FORMAT_OPTIONS
+  ) {
     const sb: string[] = [];
 
     switch (this.getDateType()) {
@@ -205,10 +228,15 @@ export class HistoricalDate implements HistoricalDateModel {
 
       case HistoricalDateType.range:
         // if both terms are present and belong to same era, omit it in 1st
-        if (!this.a.isUndefined() &&
-          this.b && !this.b.isUndefined() &&
-          this.a.value * this.b.value > 0) {
-          sb.push(this.a.toString(Datation.stripFormatStringEra(format), options));
+        if (
+          !this.a.isUndefined() &&
+          this.b &&
+          !this.b.isUndefined() &&
+          this.a.value * this.b.value > 0
+        ) {
+          sb.push(
+            this.a.toString(Datation.stripFormatStringEra(format), options)
+          );
           sb.push(' -- ');
           sb.push(this.b.toString(format, options));
           break;
@@ -250,26 +278,38 @@ export class HistoricalDate implements HistoricalDateModel {
 
     switch (this.getDateType()) {
       case HistoricalDateType.point:
-        year = Math.trunc(this.a.isCentury ? this.centuryToYear(this.a.value) : this.a.value);
+        year = Math.trunc(
+          this.a.isCentury ? this.centuryToYear(this.a.value) : this.a.value
+        );
         break;
 
       case HistoricalDateType.range:
         // min is missing: terminus ante
         if (this.a.isUndefined()) {
-          year = Math.trunc((this.b.isCentury ? this.centuryToYear(this.b.value) : this.b.value) -
-            (useTerminusSpan ? APPROX_DELTA : 0));
+          year = Math.trunc(
+            (this.b.isCentury
+              ? this.centuryToYear(this.b.value)
+              : this.b.value) - (useTerminusSpan ? APPROX_DELTA : 0)
+          );
           break;
         }
         // max is missing: terminus post
         if (!this.b || this.b.isUndefined()) {
-          year = Math.trunc((this.a.isCentury ? this.centuryToYear(this.a.value) : this.a.value) +
-            (useTerminusSpan ? APPROX_DELTA : 0));
+          year = Math.trunc(
+            (this.a.isCentury
+              ? this.centuryToYear(this.a.value)
+              : this.a.value) + (useTerminusSpan ? APPROX_DELTA : 0)
+          );
           break;
         }
         // both min and max
-        const min = this.a.isCentury ? this.centuryToYear(this.a.value) : this.a.value;
-        const max = this.b.isCentury ? this.centuryToYear(this.b.value) : this.b.value;
-        year = Math.trunc(((max - min) / 2) + min);
+        const min = this.a.isCentury
+          ? this.centuryToYear(this.a.value)
+          : this.a.value;
+        const max = this.b.isCentury
+          ? this.centuryToYear(this.b.value)
+          : this.b.value;
+        year = Math.trunc((max - min) / 2 + min);
         if (year === 0) {
           year = 1;
         }

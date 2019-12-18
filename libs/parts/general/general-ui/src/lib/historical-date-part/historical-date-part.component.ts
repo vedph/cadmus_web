@@ -58,14 +58,16 @@ export class HistoricalDatePartComponent
     if (!model || !model.date) {
       this.form.reset();
     } else {
-      const d = Object.assign(new HistoricalDate, model.date);
-      d.a = Object.assign(new Datation, d.a);
-      d.b = Object.assign(new Datation, d.b);
+      const d = Object.assign(new HistoricalDate(), model.date);
+      if (model.date.a) {
+        d.a = Object.assign(new Datation(), d.a);
+      }
+      if (model.date.b) {
+        d.b = Object.assign(new Datation(), d.b);
+      }
       this.a = d.a;
       this.b = d.b;
-      this.range.setValue(
-        d.getDateType() === HistoricalDateType.range
-      );
+      this.range.setValue(d.getDateType() === HistoricalDateType.range);
       this.txtDate.setValue(d.toString());
       this.form.markAsPristine();
     }

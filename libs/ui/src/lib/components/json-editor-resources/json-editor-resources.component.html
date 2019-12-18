@@ -11,7 +11,9 @@
         <mat-tab>
           <ng-template mat-tab-label>
             <span
-              [class.error-label]="model.invalid && (model.dirty || model.touched)"
+              [class.error-label]="
+                model.invalid && (model.dirty || model.touched)
+              "
               >Model</span
             >
           </ng-template>
@@ -20,19 +22,6 @@
             [options]="editorOptions"
             formControlName="model"
           ></ngx-monaco-editor>
-          <mat-error
-            *ngIf="model.hasError('json') && (model.dirty || model.touched)"
-          >
-            malformed model JSON code
-          </mat-error>
-          <mat-error
-            *ngIf="model.hasError('jsonSchema') && (model.dirty || model.touched)"
-          >
-            invalid model JSON code:
-            <cadmus-error-list
-              [errors]="model.errors['jsonSchema'].errors.split(', ')"
-            ></cadmus-error-list>
-          </mat-error>
           <button
             type="button"
             [disabled]="!model.value || model.hasError('json')"
@@ -43,6 +32,21 @@
             <mat-icon>format_align_right</mat-icon>
             prettify
           </button>
+          <mat-error
+            *ngIf="model.hasError('json') && (model.dirty || model.touched)"
+          >
+            malformed model JSON code
+          </mat-error>
+          <mat-error
+            *ngIf="
+              model.hasError('jsonSchema') && (model.dirty || model.touched)
+            "
+          >
+            invalid model JSON code:
+            <cadmus-error-list
+              [errors]="model.errors['jsonSchema'].errors.split(', ')"
+            ></cadmus-error-list>
+          </mat-error>
         </mat-tab>
 
         <mat-tab>
@@ -59,6 +63,16 @@
             [options]="editorOptions"
             formControlName="thesauri"
           ></ngx-monaco-editor>
+          <button
+            type="button"
+            [disabled]="!thesauri.value || thesauri.hasError('json')"
+            mat-button
+            matTooltip="Prettify code"
+            (click)="prettifyThesauriJson()"
+          >
+            <mat-icon>format_align_right</mat-icon>
+            prettify
+          </button>
           <mat-error
             *ngIf="
               thesauri.hasError('json') && (thesauri.dirty || thesauri.touched)
@@ -77,16 +91,6 @@
               [errors]="thesauri.errors['jsonSchema'].errors.split(', ')"
             ></cadmus-error-list>
           </mat-error>
-          <button
-            type="button"
-            [disabled]="!thesauri.value || thesauri.hasError('json')"
-            mat-button
-            matTooltip="Prettify code"
-            (click)="prettifyThesauriJson()"
-          >
-            <mat-icon>format_align_right</mat-icon>
-            prettify
-          </button>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

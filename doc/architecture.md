@@ -14,6 +14,8 @@ The general multirepo architecture is structured into these sections:
   - `<partgroup>/<partgroup>-feature`: feature pages for parts and fragments in a specific group. E.g. `libs/parts/general/general-feature`.
 - `libs/ui`: shared dumb UI components.
 
+TODO: complete the graph below
+
 ```plantuml
 @startuml
 core <|-- api

@@ -2,11 +2,11 @@
 
 The general architecture of part/fragments editing, from bottom to top, is as follows:
 
-1. `<X>PartComponent` or `<X>FragmentComponent` (in a `<partgroup>-ui` module): at the bottom level, we have a dumb UI component for part/fragment X, extending `ModelEditorComponentBase<T>`.
+1. `<X>PartComponent` or `<X>FragmentComponent` (in a `<partgroup>-ui` module): at the bottom level, we have a dumb UI component for part/fragment X, extending `ModelEditorComponentBase<T>`. Each dumb editor just ingests JSON documents representing the model and eventually its thesauri, and spits out JSON code representing the edited model. Usually, you derive your editors from base classes, which provide basic functionality and a useful template to start from.
 
-2. `<X>PartDemoComponent` or `<X>FragmentDemoComponent` (in the same `<partgroup>-ui` module): a container for a JSON code editor and the editor dumb component at (1), used for demo purposes.
+2. `<X>PartDemoComponent` or `<X>FragmentDemoComponent` (in the same `<partgroup>-ui` module): a container for a JSON code editor and the editor dumb component at (1), used for demo purposes. These are just wrapper components, including these two dumb controls.
 
-3. `<X>PartFeatureComponent` (in a `<partgroup>-feature` module): the dumb UI component for part X is wrapped into a feature UI component.
+3. `<X>PartFeatureComponent` (in a `<partgroup>-feature` module): the dumb UI component for part X is wrapped into a feature UI component. These components wrap their dumb counterparts, and provide Akita-based state management and route handling.
 
 ## Editor Components - 1. Dumb Editor
 
