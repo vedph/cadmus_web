@@ -20,7 +20,6 @@ import {
 } from '@angular/animations';
 import { MspOperation } from '../msp-operation';
 import { DifferResultToMspAdapter } from '../differ-result-to-msp-adapter';
-import { MAT_TOOLTIP_DEFAULT_OPTIONS } from '@angular/material';
 
 @Component({
   selector: 'cadmus-orthography-fragment',
@@ -101,6 +100,7 @@ export class OrthographyFragmentComponent
         ])
       })
     );
+    this.operations.markAsDirty();
   }
 
   public deleteOperation(index: number) {
@@ -110,6 +110,7 @@ export class OrthographyFragmentComponent
       .subscribe((ok: boolean) => {
         if (ok) {
           this.operations.removeAt(index);
+          this.operations.markAsDirty();
         }
       });
   }
@@ -122,6 +123,7 @@ export class OrthographyFragmentComponent
         if (ok) {
           this.operations.clear();
           this.currentOperationClosed();
+          this.operations.markAsDirty();
         }
       });
   }
@@ -133,6 +135,7 @@ export class OrthographyFragmentComponent
     const item = this.operations.controls[index];
     this.operations.removeAt(index);
     this.operations.insert(index - 1, item);
+    this.operations.markAsDirty();
   }
 
   public moveOperationDown(index: number) {
@@ -142,6 +145,7 @@ export class OrthographyFragmentComponent
     const item = this.operations.controls[index];
     this.operations.removeAt(index);
     this.operations.insert(index + 1, item);
+    this.operations.markAsDirty();
   }
 
   public editOperation(index: number) {
@@ -214,5 +218,6 @@ export class OrthographyFragmentComponent
     for (let i = 0; i < ops.length; i++) {
       this.addOperation(ops[i].toString());
     }
+    this.operations.markAsDirty();
   }
 }
