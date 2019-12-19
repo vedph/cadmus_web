@@ -77,13 +77,13 @@ export class NotePartComponent extends ModelEditorComponentBase<NotePart>
         id: null,
         typeId: NOTE_PART_TYPEID,
         roleId: null,
-        tag: this.tagEntries ? this.tags.value : this.tag.value,
-        text: this.text.value,
         timeModified: new Date(),
-        userId: null
+        userId: null,
+        tag: null,
+        text: null
       };
     }
-    part.tag = this.tag.value? this.tag.value.trim() : null;
+    part.tag = this.tagEntries ? this.tags.value : this.tag.value;
     part.text = this.text.value? this.text.value.trim() : null;
     return part;
   }

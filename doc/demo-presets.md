@@ -104,7 +104,7 @@ From the visual view you can then save, and go back to the JSON code view. You c
   "timeModified": "2019-11-29T16:48:49.694Z",
   "userId": "zeus",
   "tag": "green",
-  "text": "# Note\nThis is a **sample** text.\n## Markdown\nAs you can see, we're *Markdown* enabled."
+  "text": "# Note\nThis is a **sample** text.\n\n## Markdown\nAs you can see, we're *Markdown* enabled."
 }
 ```
 
