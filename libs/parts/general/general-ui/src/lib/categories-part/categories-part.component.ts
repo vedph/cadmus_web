@@ -54,6 +54,10 @@ export class CategoriesPartComponent
   ngOnInit() { }
 
   protected onModelSet(model: CategoriesPart) {
+    if (!model) {
+      this.categories.reset();
+      return;
+    }
     const cc = Object.assign([], model.categories);
     cc.sort();
     this.categories.setValue(cc);

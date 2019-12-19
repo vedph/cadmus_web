@@ -26,6 +26,8 @@ From the visual view you can then save, and go back to the JSON code view. You c
     "entries": [
       { "id": "red", "value": "rosso" },
       { "id": "green", "value": "verde" },
+      { "id": "green.lite", "value": "verde chiaro" },
+      { "id": "green.dark", "value": "verde scuro" },
       { "id": "blue", "value": "blu" }
     ]
   }
