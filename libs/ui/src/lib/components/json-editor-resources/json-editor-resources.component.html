@@ -10,6 +10,7 @@
       <mat-tab-group>
         <mat-tab>
           <ng-template mat-tab-label>
+            <mat-icon class="tab-icon">extension</mat-icon>
             <span
               [class.error-label]="
                 model.invalid && (model.dirty || model.touched)
@@ -17,6 +18,7 @@
               >Model</span
             >
           </ng-template>
+
           <ngx-monaco-editor
             id="partEditor"
             [options]="editorOptions"
@@ -51,6 +53,7 @@
 
         <mat-tab>
           <ng-template mat-tab-label>
+            <mat-icon class="tab-icon">list</mat-icon>
             <span
               [class.error-label]="
                 thesauri.invalid && (thesauri.dirty || thesauri.touched)
