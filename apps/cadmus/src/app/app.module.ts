@@ -119,28 +119,32 @@ import { FeatureChronologyFragmentDemoComponent } from './demo/feature-chronolog
           loadChildren: () =>
             import('@cadmus/features/feature-item-list').then(
               module => module.FeatureItemListModule
-            )
+            ),
+          canActivate: [AuthGuardService]
         },
         {
           path: 'items/:id',
           loadChildren: () =>
             import('@cadmus/features/feature-item-editor').then(
               module => module.FeatureItemEditorModule
-            )
+            ),
+          canActivate: [AuthGuardService]
         },
         {
           path: 'items/:iid/general',
           loadChildren: () =>
             import('@cadmus/parts/general/general-feature').then(
               module => module.GeneralFeatureModule
-            )
+            ),
+          canActivate: [AuthGuardService]
         },
         {
           path: 'items/:iid/layer/token/:pid',
           loadChildren: () =>
             import('@cadmus/features/feature-token-layer-part-editor').then(
               module => module.FeatureTokenLayerPartEditorModule
-            )
+            ),
+          canActivate: [AuthGuardService]
         },
         {
           path: 'admin',

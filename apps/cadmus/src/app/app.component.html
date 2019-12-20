@@ -5,7 +5,7 @@
     /></span>
     <a mat-button routerLink="/home">Cadmus</a>
 
-    <a mat-button routerLink="/items">Items</a>
+    <a mat-button routerLink="/items" *ngIf="logged">Items</a>
 
     <button mat-button [matMenuTriggerFor]="demoMenu">Demo</button>
     <mat-menu #demoMenu>
