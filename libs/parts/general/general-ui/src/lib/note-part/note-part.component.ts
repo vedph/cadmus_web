@@ -6,8 +6,7 @@ import { ThesaurusEntry } from '@cadmus/core';
 
 /**
  * Note part editor component.
- * Thesauri: optionally provide entries under a "note-tags" thesaurus
- * when you want to use a closed set of tags.
+ * Thesauri: optionally "note-tags", when you want to use a closed set of tags.
  */
 @Component({
   selector: 'cadmus-note-part',
@@ -43,7 +42,9 @@ export class NotePartComponent extends ModelEditorComponentBase<NotePart>
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initEditor();
+  }
 
   private updateForm(model: NotePart) {
     if (!model) {
@@ -56,7 +57,7 @@ export class NotePartComponent extends ModelEditorComponentBase<NotePart>
     this.form.markAsPristine();
   }
 
-  protected onModelSet(model: NotePart) {
+  protected onModelSet(model: NotePart): void {
     this.updateForm(model);
   }
 

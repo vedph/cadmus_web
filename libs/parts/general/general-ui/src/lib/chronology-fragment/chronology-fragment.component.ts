@@ -50,7 +50,9 @@ export class ChronologyFragmentComponent
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initEditor();
+  }
 
   protected onThesauriSet() {
     const key = 'chronology-tags';

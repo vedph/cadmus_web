@@ -70,7 +70,9 @@ export class OrthographyFragmentComponent
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initEditor();
+  }
 
   private updateForm(model: OrthographyFragment) {
     if (!model) {

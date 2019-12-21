@@ -17,7 +17,7 @@ import { MarkdownModule } from 'ngx-markdown';
 // Akita
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 
-import { CoreModule } from '@cadmus/core';
+import { CoreModule, PendingChangesGuard } from '@cadmus/core';
 import { UiModule } from '@cadmus/ui';
 import { GeneralUiModule } from '@cadmus/parts/general/general-ui';
 import { PhilologyUiModule } from '@cadmus/parts/philology/philology-ui';
@@ -128,7 +128,8 @@ import { FeatureChronologyFragmentDemoComponent } from './demo/feature-chronolog
             import('@cadmus/features/feature-item-editor').then(
               module => module.FeatureItemEditorModule
             ),
-          canActivate: [AuthGuardService]
+          canActivate: [AuthGuardService],
+          canDeactivate: [PendingChangesGuard]
         },
         {
           path: 'items/:iid/general',

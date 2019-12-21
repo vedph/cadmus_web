@@ -45,7 +45,9 @@ export class CommentFragmentComponent
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initEditor();
+  }
 
   private updateForm(model: CommentFragment) {
     if (!model) {

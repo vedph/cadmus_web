@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { ThesauriSet } from '@cadmus/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EditNotePartService } from './edit-note-part.service';
 import { EditNotePartQuery } from './edit-note-part.query';

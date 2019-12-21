@@ -36,7 +36,9 @@ export class HistoricalDatePartComponent
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initEditor();
+  }
 
   // invoked when A editor saves
   public updateA(d: Datation) {

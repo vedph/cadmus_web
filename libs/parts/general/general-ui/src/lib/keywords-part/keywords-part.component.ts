@@ -48,7 +48,9 @@ export class KeywordsPartComponent
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initEditor();
+  }
 
   protected onThesauriSet() {
     const key = 'languages';

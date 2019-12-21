@@ -1,6 +1,14 @@
 # Editor Components
 
-The general architecture of part/fragments editing, from bottom to top, is as follows:
+In general, each model editor is structured into 3 components, 1 of them being optional:
+
+- a *dumb UI component* which is the editor proper. This deals with raw JSON code both at its input and output, whatever its model.
+- a *feature UI component* which wraps the dumb editor, using it in the context of its route and edit state.
+- an optional *demo dumb component*, which wraps the dumb editor coupled with a JSON editor, mainly used for demonstrative or diagnostic purposes.
+
+The dumb components on one side, and the feature components on the other side, are located in two different libraries (feature components have routing and depend on states and services, whereas dumb components have much simpler dependencies).
+
+Thus, the architecture of part/fragments editing, from bottom to top, is as follows:
 
 1. `<X>PartComponent` or `<X>FragmentComponent` (in a `<partgroup>-ui` module): at the bottom level, we have a dumb UI component for part/fragment X, extending `ModelEditorComponentBase<T>`. Each dumb editor just ingests JSON documents representing the model and eventually its thesauri, and spits out JSON code representing the edited model. Usually, you derive your editors from base classes, which provide basic functionality and a useful template to start from.
 
@@ -12,6 +20,8 @@ The general architecture of part/fragments editing, from bottom to top, is as fo
 
 The open-ended portion of the UI is represented by part and fragment editors. At the bottom level, both are dumb UI components extending `ModelEditorComponentBase<T>`, where `T` is the model's type (=the type of the part or fragment).
 
+A dumb component gets as input the JSON representing the model, and optionally the JSON representing a set of thesauri. It outputs the JSON representing the model (when saved), a request to close the editor, and a notification about the dirty state of the editor itself.
+
 The base class provides this API:
 
 **Input**:
@@ -19,21 +29,23 @@ The base class provides this API:
 - `disabled` (type `boolean`): whether the editor is disabled. When changed, the "root" form of the editor is disabled or enabled accordingly.
 - `json` (type `string`): the JSON code representing the model being edited. The corresponding output is implemented via the `jsonChange` event.
 - `thesauri` (type `ThesauriSet | null`): optional thesauri sets to be consumed by the editor. Each thesaurus is keyed under its own ID.
-- `dirty$` (type `Observable<boolean>`): bound to an observable which tells whether the edited model is dirty, i.e. its data were edited locally, but not saved to the server.
 
 **Output**:
 
-- `jsonChange` (type `string`): fired when the user saves the form with valid data.
-- `editorClose` (no argument): fired when the user requests the editor to close.
+- `jsonChange` (type `string`): emitted when the user saves the form with valid data.
+- `editorClose` (no argument): emitted when the user requests the editor to close.
+- `dirtyChange` (type `boolean`): emitted when the dirty state of the editor form changes.
 
 **Helpers**:
 
-- `form: FormGroup`: the "root" form of the editor. You must instantiate this in your derived editor constructor.
-- `getModelFromJson(json: string = null): T`: get the model from the specified JSON code, or from the current json property if no JSON code is specified. This is just a helper method for parsing JSON (when truthy) and casting it to the template argument type.
-- `updateJson(json: string)`: update the `json` property from the specified code, without triggering a call to `onModelSet`.
-- `onModelSet`: invoked whenever the json property is set, unless setting it via `updateJson`. The default implementation does nothing. Override to add custom behavior, e.g. update the form to reflect the new part value.
+- `form: FormGroup`: the "root" form of the editor. You *must instantiate* this in your derived editor constructor.
+- `initEditor`: initialize the editor; you *must call* this in your `OnInit`.
+- `onModelSet`: invoked whenever the json property is set, unless setting it via `updateJson`. Implement to update the form to reflect the new part value.
 - `onThesauriSet`: invoked whenever the thesauri property is set.
-- `close()`: emit the close editor event.
+- `getModelFromJson(json: string = null): T`: get the model from the specified JSON code, or from the current json property if no JSON code is specified. This is just a helper method for parsing JSON code (when truthy), and casting it to the template argument type.
+- `getModelFromForm(): T`: implement in derived classes to get the model from form's controls. This is used when saving (=data goes to the output `jsonChange` event).
+- `updateJson(json: string)`: update the `json` property from the specified code, without triggering a call to `onModelSet`.
+- `close()`: emit the close editor request event. Note that an eventual dirty prompt is deferred to the guard.
 - `save()`: if the root form is valid, get the model from its controls, serialize it into JSON and emit the JSON change event, marking the root form as pristine.
 
 Also, the base class implements `ComponentCanDeactivate`, which is used by pending changes guards to decide if the user should be prompted when leaving the editor. This relies on the `dirty$` input property, and on the root form's dirty state: both must be false for the guard to allow exiting the editor without prompting.

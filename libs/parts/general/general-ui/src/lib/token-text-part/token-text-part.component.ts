@@ -40,7 +40,9 @@ export class TokenTextPartComponent
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initEditor();
+  }
 
   private getTextFromModel(model: TokenTextPart): string {
     if (!model) {

@@ -51,7 +51,9 @@ export class CategoriesPartComponent
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.initEditor();
+  }
 
   protected onModelSet(model: CategoriesPart) {
     if (!model) {

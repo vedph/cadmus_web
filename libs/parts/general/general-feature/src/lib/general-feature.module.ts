@@ -3,10 +3,16 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { CoreModule } from '@cadmus/core';
+import { CoreModule, PendingChangesGuard } from '@cadmus/core';
 import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
-import { GeneralUiModule, NOTE_PART_TYPEID, COMMENT_FRAGMENT_TYPEID, KEYWORDS_PART_TYPEID, TOKEN_TEXT_PART_TYPEID } from '@cadmus/parts/general/general-ui';
+import {
+  GeneralUiModule,
+  NOTE_PART_TYPEID,
+  COMMENT_FRAGMENT_TYPEID,
+  KEYWORDS_PART_TYPEID,
+  TOKEN_TEXT_PART_TYPEID
+} from '@cadmus/parts/general/general-ui';
 import { EditStateModule } from '@cadmus/features/edit-state';
 
 import { NotePartFeatureComponent } from './note-part-feature/note-part-feature.component';
@@ -14,7 +20,10 @@ import { FeaturesUiModule } from '@cadmus/features/features-ui';
 import { CommentFragmentFeatureComponent } from './comment-fragment-feature/comment-fragment-feature.component';
 import { TokenTextPartFeatureComponent } from './token-text-part-feature/token-text-part-feature.component';
 import { CategoriesPartFeatureComponent } from './categories-part-feature/categories-part-feature.component';
-import { CATEGORIES_PART_TYPEID, CHRONOLOGY_FRAGMENT_TYPEID } from '@cadmus/parts/general/general-ui';
+import {
+  CATEGORIES_PART_TYPEID,
+  CHRONOLOGY_FRAGMENT_TYPEID
+} from '@cadmus/parts/general/general-ui';
 import { KeywordsPartFeatureComponent } from './keywords-part-feature/keywords-part-feature.component';
 import { ChronologyFragmentFeatureComponent } from './chronology-fragment-feature/chronology-fragment-feature.component';
 
@@ -27,32 +36,38 @@ import { ChronologyFragmentFeatureComponent } from './chronology-fragment-featur
       {
         path: `${CATEGORIES_PART_TYPEID}/:pid`,
         pathMatch: 'full',
-        component: CategoriesPartFeatureComponent
+        component: CategoriesPartFeatureComponent,
+        canDeactivate: [PendingChangesGuard]
       },
       {
         path: `${KEYWORDS_PART_TYPEID}/:pid`,
         pathMatch: 'full',
-        component: KeywordsPartFeatureComponent
+        component: KeywordsPartFeatureComponent,
+        canDeactivate: [PendingChangesGuard]
       },
       {
         path: `${NOTE_PART_TYPEID}/:pid`,
         pathMatch: 'full',
-        component: NotePartFeatureComponent
+        component: NotePartFeatureComponent,
+        canDeactivate: [PendingChangesGuard]
       },
       {
         path: `${TOKEN_TEXT_PART_TYPEID}/:pid`,
         pathMatch: 'full',
-        component: TokenTextPartFeatureComponent
+        component: TokenTextPartFeatureComponent,
+        canDeactivate: [PendingChangesGuard]
       },
       {
         path: `fragment/:pid/${COMMENT_FRAGMENT_TYPEID}/:loc`,
         pathMatch: 'full',
-        component: CommentFragmentFeatureComponent
+        component: CommentFragmentFeatureComponent,
+        canDeactivate: [PendingChangesGuard]
       },
       {
         path: `fragment/:pid/${CHRONOLOGY_FRAGMENT_TYPEID}/:loc`,
         pathMatch: 'full',
-        component: ChronologyFragmentFeatureComponent
+        component: ChronologyFragmentFeatureComponent,
+        canDeactivate: [PendingChangesGuard]
       }
     ]),
     // cadmus
