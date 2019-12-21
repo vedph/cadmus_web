@@ -6,7 +6,18 @@ To add new parts/fragments libraries:
 
 - create a new Nrwl Angular library named `<partgroup>-ui` under `parts/<partgroup>` (use simple module name in generator). For instance, for general purpose parts I created `parts/general/general-ui`. This will host dumb components for editing and their demo counterparts.
 
-- create a new Nrwl Angular library named `<partgroup>-feature` under `parts/<partgroup>` (use simple module name in generator). For instance, for general purpose parts I created `parts/general/general-feature`. This will host the pages (features) for each part. Every page wraps the dumb UI component into a component which has a corresponding Akita's state, and gets its data pushed via observables. Also, each page has a route (see above).
+- create a new Nrwl Angular library named `<partgroup>-feature` under `parts/<partgroup>` (use simple module name in generator). For instance, for general purpose parts I created `parts/general/general-feature`. This will host the pages (features) for each part. Every page wraps the dumb UI component into a component which has a corresponding Akita's state, and gets its data pushed via observables. Also, each page has a route. The app module routes will just include a new route entry, representing the base route for all the routes defined for the new library module: customize it as required. For instance, here is the route to the general parts library:
+
+```ts
+{
+  path: 'items/:iid/general',
+  loadChildren: () =>
+    import('@cadmus/parts/general/general-feature').then(
+      module => module.GeneralFeatureModule
+    ),
+  canActivate: [AuthGuardService]
+},
+```
 
 ## Adding Part to the PartGroup-UI Library
 
@@ -69,7 +80,7 @@ export const __NAME___PART_SCHEMA = {
 };
 ```
 
-If you want to infer a schema in the [JSON schema tool](https://jsonschema.net/), which is usually the quickest way of writing the schema, you can use this JSON template adding your model's properties to it:
+If you want to infer a schema in the [JSON schema tool](https://jsonschema.net/), which is usually the quickest way of writing the schema, you can use this JSON template, adding your model's properties to it:
 
 ```json
 {
@@ -125,8 +136,8 @@ export class NotePartComponent extends ModelEditorComponentBase<NotePart>
     automaticLayout: true
   };
 
-  constructor(formBuilder: FormBuilder, dialogService: DialogService) {
-    super(dialogService);
+  constructor(formBuilder: FormBuilder) {
+    super();
     // form
     this.tag = formBuilder.control(null, Validators.maxLength(100));
     this.tags = formBuilder.control([]);

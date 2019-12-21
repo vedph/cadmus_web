@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService, ModelEditorComponentBase } from '@cadmus/ui';
+import { ModelEditorComponentBase } from '@cadmus/ui';
 import { NotePart, NOTE_PART_TYPEID } from '../..';
 import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ThesaurusEntry } from '@cadmus/core';
@@ -29,8 +29,8 @@ export class NotePartComponent extends ModelEditorComponentBase<NotePart>
     automaticLayout: true
   };
 
-  constructor(formBuilder: FormBuilder, dialogService: DialogService) {
-    super(dialogService);
+  constructor(formBuilder: FormBuilder) {
+    super();
     // form
     this.tag = formBuilder.control(null, Validators.maxLength(100));
     this.tags = formBuilder.control([]);

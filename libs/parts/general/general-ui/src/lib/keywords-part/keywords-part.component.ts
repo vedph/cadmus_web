@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { KeywordsPart, Keyword, KEYWORDS_PART_TYPEID } from '../keywords-part';
-import { ModelEditorComponentBase, DialogService } from '@cadmus/ui';
+import { ModelEditorComponentBase } from '@cadmus/ui';
 import {
   FormBuilder,
   FormControl,
@@ -29,8 +29,8 @@ export class KeywordsPartComponent
   // thesaurus
   public langEntries: ThesaurusEntry[];
 
-  constructor(formBuilder: FormBuilder, dialogService: DialogService) {
-    super(dialogService);
+  constructor(formBuilder: FormBuilder) {
+    super();
     // form
     this.keywords = formBuilder.control([], Validators.required);
     this.form = formBuilder.group({

@@ -55,8 +55,11 @@ export class OrthographyFragmentComponent
   public operations: FormArray;
   public currentOperation: MspOperation;
 
-  constructor(private _formBuilder: FormBuilder, dialogService: DialogService) {
-    super(dialogService);
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _dialogService: DialogService
+  ) {
+    super();
 
     // form
     this.standard = _formBuilder.control(null, [
@@ -106,7 +109,7 @@ export class OrthographyFragmentComponent
   }
 
   public deleteOperation(index: number) {
-    this.dialogService
+    this._dialogService
       .confirm('Warning', `Delete operation #${index + 1}?`)
       .pipe(take(1))
       .subscribe((ok: boolean) => {
@@ -118,7 +121,7 @@ export class OrthographyFragmentComponent
   }
 
   public clearOperations() {
-    this.dialogService
+    this._dialogService
       .confirm('Warning', 'Delete all the operations?')
       .pipe(take(1))
       .subscribe((ok: boolean) => {
@@ -192,7 +195,7 @@ export class OrthographyFragmentComponent
     }
     fr.location = this.fragment ? this.fragment.location : null;
     fr.standard = this.standard.value;
-    fr.operations = this.getOperations()
+    fr.operations = this.getOperations();
 
     return fr;
   }

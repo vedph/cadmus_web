@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommentFragment } from '../comment-fragment';
-import { ModelEditorComponentBase, DialogService } from '@cadmus/ui';
+import { ModelEditorComponentBase } from '@cadmus/ui';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ThesaurusEntry } from '@cadmus/core';
 
@@ -32,8 +32,8 @@ export class CommentFragmentComponent
     automaticLayout: true
   };
 
-  constructor(formBuilder: FormBuilder, dialogService: DialogService) {
-    super(dialogService);
+  constructor(formBuilder: FormBuilder) {
+    super();
     // form
     this.tag = formBuilder.control(null, Validators.maxLength(100));
     this.tags = formBuilder.control([]);

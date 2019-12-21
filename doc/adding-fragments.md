@@ -98,8 +98,8 @@ export class CommentFragmentComponent
     automaticLayout: true
   };
 
-  constructor(formBuilder: FormBuilder, dialogService: DialogService) {
-    super(dialogService);
+  constructor(formBuilder: FormBuilder) {
+    super();
     // form
     this.tag = formBuilder.control(null, Validators.maxLength(100));
     this.tags = formBuilder.control([]);

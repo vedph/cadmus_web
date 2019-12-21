@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoriesPart, CATEGORIES_PART_TYPEID } from '../categories-part';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { DialogService, ModelEditorComponentBase } from '@cadmus/ui';
+import { ModelEditorComponentBase } from '@cadmus/ui';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material';
 import { of } from 'rxjs';
@@ -37,8 +37,8 @@ export class CategoriesPartComponent
   public treeControl: NestedTreeControl<TreeNode>;
   public treeDataSource: MatTreeNestedDataSource<TreeNode>;
 
-  constructor(formBuilder: FormBuilder, dialogService: DialogService) {
-    super(dialogService);
+  constructor(formBuilder: FormBuilder) {
+    super();
     // tree
     this.treeControl = new NestedTreeControl<TreeNode>((n: TreeNode) => {
       return of(n.children);

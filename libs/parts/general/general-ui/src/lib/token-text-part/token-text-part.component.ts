@@ -4,7 +4,7 @@ import {
   TOKEN_TEXT_PART_TYPEID,
   TokenTextLine
 } from '../token-text-part';
-import { ModelEditorComponentBase, DialogService } from '@cadmus/ui';
+import { ModelEditorComponentBase } from '@cadmus/ui';
 import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 /**
@@ -29,8 +29,8 @@ export class TokenTextPartComponent
     automaticLayout: true
   };
 
-  constructor(formBuilder: FormBuilder, dialogService: DialogService) {
-    super(dialogService);
+  constructor(formBuilder: FormBuilder) {
+    super();
     // form
     this.citation = formBuilder.control(null);
     this.text = formBuilder.control(null, Validators.required);

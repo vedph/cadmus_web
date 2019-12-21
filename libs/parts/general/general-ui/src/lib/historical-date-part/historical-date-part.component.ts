@@ -3,7 +3,7 @@ import {
   HistoricalDatePart,
   HISTORICAL_DATE_PART_TYPEID
 } from '../historical-date-part';
-import { ModelEditorComponentBase, DialogService } from '@cadmus/ui';
+import { ModelEditorComponentBase } from '@cadmus/ui';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { HistoricalDate, Datation, HistoricalDateType } from '@cadmus/core';
 
@@ -23,8 +23,8 @@ export class HistoricalDatePartComponent
   public a: Datation;
   public b: Datation;
 
-  constructor(formBuilder: FormBuilder, dialogService: DialogService) {
-    super(dialogService);
+  constructor(formBuilder: FormBuilder) {
+    super();
     this.a = new Datation();
     this.b = new Datation();
     // form

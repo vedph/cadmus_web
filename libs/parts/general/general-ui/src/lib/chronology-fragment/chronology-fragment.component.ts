@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModelEditorComponentBase, DialogService } from '@cadmus/ui';
+import { ModelEditorComponentBase } from '@cadmus/ui';
 import { ChronologyFragment } from '../chronology-fragment';
 import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Datation, HistoricalDate, HistoricalDateType, ThesaurusEntry } from '@cadmus/core';
@@ -31,8 +31,8 @@ export class ChronologyFragmentComponent
   public tags: FormControl;
   public label: FormControl;
 
-  constructor(formBuilder: FormBuilder, dialogService: DialogService) {
-    super(dialogService);
+  constructor(formBuilder: FormBuilder) {
+    super();
     this.a = new Datation();
     this.b = new Datation();
     // form

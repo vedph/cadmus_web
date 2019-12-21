@@ -83,10 +83,12 @@ Also, the base class implements `ComponentCanDeactivate`, which is used by pendi
 
 A typical editor extending this base can follow these guidelines:
 
-- add your form controls, and eventually thesaurus properties to be consumed by the template. When thesaurus properties are required, set them in `onThesauriSet`.
-- add an `updateForm(model)` method to update the form controls from the part's model, calling it from `onModelSet`.
-- add a `getModelFromForm` method to get a model object from the form controls. Among the common part's properties, only `typeId` gets set at this level; the other properties will be set by the page wrapping the editor.
-- *template*: `form`, including a `mat-card`. Header and footer in the card should be standardized, while the content is free.
+- instantiate the root `form` adding to it your *form controls*.
+- eventually add *thesaurus properties* to be consumed by the template. When thesaurus properties are required, set them by overriding `onThesauriSet`.
+- call `initEditor()` in `ngOnInit`.
+- to *update the form controls* from the part's model (or null), add an `updateForm(model)` method, calling it from your `onModelSet` implementation.
+- to *get a model object from the form controls* (while inheriting in it properties set from the outer context, like IDs from the route), implement the `getModelFromForm` method. Among the common part's properties, only `typeId` gets set at this level; the other properties will be set by the feature component wrapping the editor.
+- *template*: a form bound to `form`, including a `mat-card`. Header and footer in the card should be standardized, while the content is free.
 
 ## 2. Editor Demo
 
@@ -99,38 +101,7 @@ The demo component is built of two distinct controls:
 
 In the code editor, you should enter the model's JSON code, and eventually one or more thesauri.
 
-The model's code must be valid according to its schema (the JSON schema specified in the models). For instance, a `NotePart` might appear as:
-
-```json
-{
-    "itemId": "4a26ad5c-0a82-4a21-b1d7-15cddbb1bfd1",
-    "id": "1bf411d8-54ad-4f4c-bde6-2fc78226ebd5",
-    "typeId": "net.fusisoft.note",
-    "roleId": "",
-    "tag": "some-tag",
-    "text": "This is a **sample** text.",
-    "timeModified": "2019-11-29T16:48:49.694Z",
-    "userId": "zeus"
-}
-```
-
-The thesauri code is like in this sample (for the `NotePart` tags):
-
-```json
-{
-  "note-tags": {
-    "id": "colors",
-    "language": "ita",
-    "entries": [
-      { "id": "red", "value": "rosso" },
-      { "id": "green", "value": "verde" },
-      { "id": "blue", "value": "blu" }
-    ]
-  }
-}
-```
-
-If no thesaurus with the specified is found, then the tag is just an open value.
+The model's code must be valid according to its schema (the JSON schema specified in the models). You can find instances of JSON presets for models and thesauri [here](demo-presets.md).
 
 ## 3. Feature Editor
 
