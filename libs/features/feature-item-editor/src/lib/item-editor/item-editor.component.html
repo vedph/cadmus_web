@@ -233,8 +233,14 @@
                     <mat-icon color="warn">clear</mat-icon>
                   </button>
                 </td>
-                <td [style.background-color]="getPartColor(part.typeId, part.roleId)">
-                  {{ getTypeIdName(part.typeId) }}
+                <td>
+                  <span
+                    class="model-type"
+                    [style.background-color]="
+                      getPartColor(part.typeId, part.roleId)
+                    "
+                    >{{ getTypeIdName(part.typeId) }}</span
+                  >
                 </td>
                 <td>{{ getRoleIdName(part.roleId) }}</td>
                 <td>{{ part.timeModified | amLocal | amTimeAgo }}</td>

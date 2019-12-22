@@ -1,3 +1,7 @@
 .full-width {
   width: 100%;
 }
+span.model-type {
+  padding: 4px;
+  border-radius: 6px;
+}
