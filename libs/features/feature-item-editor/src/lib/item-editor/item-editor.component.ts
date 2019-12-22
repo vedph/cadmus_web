@@ -7,7 +7,8 @@ import {
   FacetDefinition,
   FlagDefinition,
   Part,
-  LibraryRouteService
+  LibraryRouteService,
+  ThesaurusEntry
 } from '@cadmus/core';
 import {
   FormControl,
@@ -153,15 +154,37 @@ export class ItemEditorComponent implements OnInit {
     }
   }
 
-  public getPartColor(typeId: string): string {
+  public getPartColor(typeId: string, roleId: string): string {
     const state = this._query.getValue();
     let def: PartDefinition = null;
     if (state) {
       def = state.facetParts.find(d => {
-        return d.typeId === typeId;
+        return d.typeId === typeId && (!roleId || roleId === d.roleId);
       });
+      if (!def) {
+        def = state.facetParts.find(d => {
+          return d.typeId === typeId;
+        });
+      }
     }
     return def ? '#' + def.colorKey : '#f0f0f0';
+  }
+
+  public getTypeIdName(typeId: string): string {
+    const state = this._query.getValue();
+    if (state) {
+      const entry = state.typeThesaurus.entries.find(e => e.id === typeId);
+      return entry ? entry.value : typeId;
+    } else {
+      return typeId;
+    }
+  }
+
+  public getRoleIdName(roleId: string): string {
+    if (!roleId || !roleId.startsWith('fr.')) {
+      return roleId;
+    }
+    return this.getTypeIdName(roleId);
   }
 
   private tryTrim(value: string): string {

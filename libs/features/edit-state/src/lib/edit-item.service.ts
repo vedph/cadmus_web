@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ItemService, FlagService, FacetService } from '@cadmus/api';
+import { ItemService, FlagService, FacetService, ThesaurusService } from '@cadmus/api';
 import { forkJoin } from 'rxjs';
 import { Item } from '@cadmus/core';
 import { EditItemStore } from './edit-item.store';
@@ -10,7 +10,8 @@ export class EditItemService {
     private _store: EditItemStore,
     private _itemService: ItemService,
     private _facetService: FacetService,
-    private _flagService: FlagService
+    private _flagService: FlagService,
+    private _thesaurusService: ThesaurusService
   ) {}
 
   /**
@@ -20,13 +21,19 @@ export class EditItemService {
   public load(itemId: string) {
     this._store.setLoading(true);
 
+    const facetParts$ = this._facetService.getFacetParts();
+    const facets$ = this._facetService.getFacets();
+    const flags$ = this._flagService.getFlags();
+    const thesaurus$ = this._thesaurusService.getThesaurus('model-types');
+
     if (itemId) {
-      // load item, part definitions, facets definitions, and flags definitions
+      // if not new, include item in load
       forkJoin({
         item: this._itemService.getItem(itemId, true),
-        facetParts: this._facetService.getFacetParts(),
-        facets: this._facetService.getFacets(),
-        flags: this._flagService.getFlags()
+        facetParts: facetParts$,
+        facets: facets$,
+        flags: flags$,
+        thesaurus: thesaurus$
       }).subscribe(
         result => {
           this._store.setLoading(false);
@@ -40,7 +47,8 @@ export class EditItemService {
             ),
             facetParts: result.facetParts,
             facets: result.facets,
-            flags: result.flags
+            flags: result.flags,
+            typeThesaurus: result.thesaurus
           });
         },
         error => {
@@ -50,11 +58,12 @@ export class EditItemService {
         }
       );
     } else {
-      // load item, part definitions, facets definitions, and flags definitions
+      // if new, just set an empty item
       forkJoin({
-        facetParts: this._facetService.getFacetParts(),
-        facets: this._facetService.getFacets(),
-        flags: this._flagService.getFlags()
+        facetParts: facetParts$,
+        facets: facets$,
+        flags: flags$,
+        thesaurus: thesaurus$
       }).subscribe(
         result => {
           this._store.setLoading(false);
@@ -74,7 +83,8 @@ export class EditItemService {
             partGroups: [],
             facetParts: result.facetParts,
             facets: result.facets,
-            flags: result.flags
+            flags: result.flags,
+            typeThesaurus: result.thesaurus
           });
         },
         error => {

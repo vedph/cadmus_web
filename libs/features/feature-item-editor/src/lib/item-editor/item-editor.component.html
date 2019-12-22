@@ -77,7 +77,8 @@
           <!-- description -->
           <div>
             <mat-form-field class="full-width">
-              <textarea rows="2"
+              <textarea
+                rows="2"
                 matInput
                 id="description"
                 placeholder="description"
@@ -232,8 +233,10 @@
                     <mat-icon color="warn">clear</mat-icon>
                   </button>
                 </td>
-                <td [style.background-color]="getPartColor(part.typeId)">{{ part.typeId }}</td>
-                <td>{{ part.roleId }}</td>
+                <td [style.background-color]="getPartColor(part.typeId, part.roleId)">
+                  {{ getTypeIdName(part.typeId) }}
+                </td>
+                <td>{{ getRoleIdName(part.roleId) }}</td>
                 <td>{{ part.timeModified | amLocal | amTimeAgo }}</td>
                 <td>{{ part.userId }}</td>
               </tr>

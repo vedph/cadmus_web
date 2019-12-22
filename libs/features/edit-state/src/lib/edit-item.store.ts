@@ -4,9 +4,11 @@ import {
   PartDefinition,
   PartGroup,
   FacetDefinition,
-  FlagDefinition
+  FlagDefinition,
+  Thesaurus
 } from '@cadmus/core';
 import { Injectable } from '@angular/core';
+import { ThesaurusService } from '@cadmus/api';
 
 /**
  * The state of the currently edited item, if any.
@@ -20,6 +22,7 @@ export interface EditItemState {
   facetParts: PartDefinition[] | null;
   facets: FacetDefinition[] | null;
   flags: FlagDefinition[] | null;
+  typeThesaurus: Thesaurus | null;
   dirty?: boolean;
   saving?: boolean;
   deletingPart?: boolean;
@@ -35,6 +38,7 @@ const initialState: EditItemState = {
   facetParts: [],
   facets: [],
   flags: [],
+  typeThesaurus: null,
   dirty: false,
   saving: false,
   deletingPart: false,
