@@ -112,10 +112,8 @@ export class ItemEditorComponent implements OnInit {
       this.updateMetadataForm(item);
     });
 
-    // load the item if not a new one
-    if (this.id) {
-      this._editItemService.load(this.id);
-    }
+    // load the item (if any) and its lookup
+    this._editItemService.load(this.id);
   }
 
   private getFlags(value: number): FlagDefinition[] {

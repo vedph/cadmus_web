@@ -43,7 +43,7 @@ const initialState: EditItemState = {
 };
 
 @Injectable({ providedIn: 'root' })
-@StoreConfig({ name: 'edit-item' })
+@StoreConfig({ name: 'edit-item', resettable: true })
 export class EditItemStore extends Store<EditItemState> {
   constructor() {
     super(initialState);
