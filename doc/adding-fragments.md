@@ -470,5 +470,6 @@ Define the corresponding HTML template like:
   (jsonChange)="save($event)"
   [thesauri]="thesauri$ | async"
   (editorClose)="close()"
+  (dirtyChange)="onDirtyChange($event)"
 ></cadmus-__NAME__-fragment>
 ```
