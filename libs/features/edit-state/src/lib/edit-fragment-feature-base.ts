@@ -1,10 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ThesauriSet, TokenLocation } from '@cadmus/core';
+import {
+  ThesauriSet,
+  TokenLocation,
+  ComponentCanDeactivate
+} from '@cadmus/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { EditItemQuery, EditItemService, EditTokenLayerPartQuery, EditTokenLayerPartService, EditFragmentServiceBase, EditFragmentQueryBase } from '@cadmus/features/edit-state';
+import {
+  EditItemQuery,
+  EditItemService,
+  EditTokenLayerPartQuery,
+  EditTokenLayerPartService,
+  EditFragmentServiceBase,
+  EditFragmentQueryBase
+} from '@cadmus/features/edit-state';
 
-export abstract class EditFragmentFeatureBase {
+export abstract class EditFragmentFeatureBase
+  implements ComponentCanDeactivate {
+  private _formDirty: boolean;
+  private _stateDirty: boolean;
+
   public json$: Observable<string>;
   public thesauri$: Observable<ThesauriSet>;
 
@@ -32,6 +47,22 @@ export abstract class EditFragmentFeatureBase {
     this.frTypeId = route.snapshot.params['frtid'];
     this.loc = route.snapshot.params['loc'];
     this.frRoleId = route.snapshot.queryParams['frrid'];
+
+    // connect _stateDirty to the value of the edit state
+    this._editFrQuery.selectDirty().subscribe(d => {
+      this._stateDirty = d;
+    });
+  }
+
+  /**
+   * Implementation of ComponentCanDeactivate. The editor can deactivate
+   * when both its "root" form in the wrapped UI editor and the edit state
+   * are not dirty. The form gets dirty when edited by the user; the edit
+   * state gets dirty after a failed save attempt.
+   */
+  public canDeactivate(): boolean {
+    // can-deactivate from dirty
+    return !this._formDirty && !this._stateDirty;
   }
 
   private ensureItemLoaded(id: string) {
@@ -42,8 +73,11 @@ export abstract class EditFragmentFeatureBase {
 
   private ensureLayersLoaded() {
     if (!this._editLayersQuery.getValue().part) {
-      this._editLayersService.load(this.itemId, this.partId,
-        `${this.frTypeId}:${this.frRoleId}`);
+      this._editLayersService.load(
+        this.itemId,
+        this.partId,
+        `${this.frTypeId}:${this.frRoleId}`
+      );
     }
   }
 
@@ -59,6 +93,16 @@ export abstract class EditFragmentFeatureBase {
     this.ensureLayersLoaded();
     // load fragment
     this._editFrService.load(this.partId, this.loc, thesauriIds);
+  }
+
+  /**
+   * Called when the wrapped editor dirty state changes.
+   * In the HTML template, you MUST bind this handler to the dirtyChange event
+   * emitted by your wrapped editor (i.e. (dirtyChange)="onDirtyChange($event)").
+   * @param value The value of the dirty state.
+   */
+  public onDirtyChange(value: boolean) {
+    this._formDirty = value;
   }
 
   public save(json: string) {

@@ -10,4 +10,5 @@
   (jsonChange)="save($event)"
   [thesauri]="thesauri$ | async"
   (editorClose)="close()"
+  (dirtyChange)="onDirtyChange($event)"
 ></cadmus-comment-fragment>

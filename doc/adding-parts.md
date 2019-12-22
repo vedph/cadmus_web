@@ -342,7 +342,7 @@ export class Feature__NAME__PartDemoComponent {}
 
 2. in its module (`app.module.ts`), add the corresponding route:
 
-```json
+```ts
 {
   path: 'demo/__NAME__-part',
   component: Feature__NAME__PartDemoComponent,
@@ -362,7 +362,7 @@ In a `<partgroup>-feature` module:
 
 1. add a _part editor feature component_ named after the part (e.g. `ng g component note-part-feature` for `NotePartFeatureComponent` after `NotePart`), with routing. Each editor has its component, and its state management artifacts under the same folder (store, query, and service). Add the corresponding route in the module, e.g.:
 
-```json
+```ts
 {
   path: `${__NAME___PART_TYPEID}/:pid`,
   pathMatch: 'full',

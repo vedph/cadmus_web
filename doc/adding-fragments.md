@@ -2,7 +2,7 @@
 
 ## Adding a Parts/Fragments Libraries
 
-Same as parts.
+Same as [parts](adding-parts.md).
 
 ## Adding Fragment to the PartGroup-UI Library
 
@@ -55,11 +55,12 @@ If you want to infer a schema in the [JSON schema tool](https://jsonschema.net/)
 ```
 
 2. add a _fragment editor dumb component_ named after the fragment (e.g. `ng g component comment-fragment` for `CommentFragmentComponent` after `CommentFragment`), and extending `ModelEditorComponentBase<T>` where `T` is the fragment's type:
-   1. in the _constructor_ (injecting a `FormBuilder` and a `DialogService`; the latter to be passed to the `super` constructor: `formBuilder: FormBuilder, dialogService: DialogService`), instantiate its "root" form group (named `form`), filling it with the required controls.
+   1. in the _constructor_, instantiate its "root" form group (named `form`), filling it with the required controls.
    2. eventually add _thesaurus_ entries properties for binding, populating them by overriding `onThesauriSet` (`protected onThesauriSet() {}`).
-   3. (from _model to form_): override `onModelSet` (`protected onModelSet(model: YourModel)`) by calling an `updateForm(model: YourModel)` which either resets the form if the model is falsy, or sets the various form's controls values according to the received model, finally marking the form as pristine. Also, if you are keeping a property for the fragment's model, set it here.
-   4. (from _form to model_): override `getModelFromForm(): YourModel` to get the model from form controls by calling the base class `getModelFromJson`. If this returns null, return a new fragment object with default values; else, fill its properties from the form's controls. This merges the inherited properties with those edited.
-   5. build your component's _template_.
+   3. implement `OnInit` calling `this.initEditor();` in it.
+   4. (from _model to form_): implement `onModelSet` (`protected onModelSet(model: YourModel)`) by calling an `updateForm(model: YourModel)` which either resets the form if the model is falsy, or sets the various form's controls values according to the received model, finally marking the form as pristine. Also, if you are keeping a property for the fragment's model, set it here.
+   5. (from _form to model_): override `getModelFromForm(): YourModel` to get the model from form controls by calling the base class `getModelFromJson`. If this returns null, create a new fragment object with default values; then, fill its properties from the form's controls. This merges the inherited properties (from JSON code) with those edited.
+   6. build your component's _template_.
 
 Sample code:
 
@@ -111,7 +112,9 @@ export class CommentFragmentComponent
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initEditor();
+  }
 
   private updateForm(model: CommentFragment) {
     if (!model) {
@@ -304,7 +307,7 @@ export class Feature__NAME__FragmentDemoComponent {}
 
 2. in its module (`app.module.ts`), add the corresponding route:
 
-```json
+```ts
 {
   path: 'demo/__NAME__-fragment',
   component: Feature__NAME__FragmentDemoComponent,
@@ -324,11 +327,12 @@ In a `<partgroup>-feature` module:
 
 1. add a _fragment editor feature component_ named after the part (e.g. `ng g component comment-fragment-feature` for `CommentFragmentFeatureComponent` after `CommentFragment`), with routing. Each editor has its component, and its state management artifacts under the same folder (store, query, and service). Add the corresponding route in the module, e.g.:
 
-```json
+```ts
 {
   path: `fragment/:pid/${__NAME___FRAGMENT_TYPEID}/:loc`,
   pathMatch: 'full',
-  component: __NAME__FragmentFeatureComponent
+  component: __NAME__FragmentFeatureComponent,
+  canDeactivate: [PendingChangesGuard]
 }
 ```
 
@@ -399,7 +403,7 @@ export class Edit__NAME__FragmentService extends EditFragmentServiceBase {
 }
 ```
 
-5. implement the feature editor component by making it extend `EditPartFeatureBase`, like in this code template:
+5. implement the feature editor component by making it extend `EditFragmentFeatureBase`, like in this code template:
 
 ```ts
 import { Component, OnInit } from '@angular/core';
