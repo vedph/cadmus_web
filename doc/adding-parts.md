@@ -95,11 +95,12 @@ If you want to infer a schema in the [JSON schema tool](https://jsonschema.net/)
 ```
 
 2. add a _part editor dumb component_ named after the part (e.g. `ng g component note-part` for `NotePartComponent` after `NotePart`), and extending `ModelEditorComponentBase<T>` where `T` is the part's type:
-   1. in the _constructor_ (injecting a `FormBuilder` and a `DialogService`; the latter to be passed to the `super` constructor: `formBuilder: FormBuilder, dialogService: DialogService`), instantiate its "root" form group (named `form`), filling it with the required controls.
+   1. in the _constructor_, instantiate its "root" form group (named `form`), filling it with the required controls.
    2. eventually add _thesaurus_ entries properties for binding, populating them by overriding `onThesauriSet` (`protected onThesauriSet() {}`).
-   3. (from _model to form_): override `onModelSet` (`protected onModelSet(model: YourModel)`) by calling an `updateForm(model: YourModel)` which either resets the form if the model is falsy, or sets the various form's controls values according to the received model, finally marking the form as pristine.
-   4. (from _form to model_): override `getModelFromForm(): YourModel` to get the model from form controls by calling the base class `getModelFromJson`. If this returns null, return a new part object with default values; else, fill its properties from the form's controls. This merges the inherited properties with those edited.
-   5. build your component's _template_.
+   3. implement `OnInit` calling `this.initEditor();` in it.
+   4. (from _model to form_): implement `onModelSet` (`protected onModelSet(model: YourModel)`) by calling an `updateForm(model: YourModel)` which either resets the form if the model is falsy, or sets the various form's controls values according to the received model, finally marking the form as pristine.
+   5. (from _form to model_): override `getModelFromForm(): YourModel` to get the model from form controls by calling the base class `getModelFromJson`. If this returns null, create a new part object with default values (you just need to set `typeId` for the `Part`'s interface properties); then, fill the part object properties from the form's controls. This merges the inherited properties (from the initial JSON code, if any) with those edited.
+   6. build your component's _template_.
 
 Sample code:
 
@@ -149,7 +150,9 @@ export class NotePartComponent extends ModelEditorComponentBase<NotePart>
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initEditor();
+  }
 
   private updateForm(model: NotePart) {
     if (!model) {
@@ -185,11 +188,11 @@ export class NotePartComponent extends ModelEditorComponentBase<NotePart>
         roleId: null,
         timeModified: new Date(),
         userId: null,
-        tag: this.tagEntries ? this.tags.value : this.tag.value,
-        text: this.text.value,
+        tag: null,
+        text: null
       };
     }
-    part.tag = this.tag.value? this.tag.value.trim() : null;
+    part.tag = this.tagEntries ? this.tags.value : this.tag.value;
     part.text = this.text.value? this.text.value.trim() : null;
     return part;
   }
@@ -320,9 +323,9 @@ HTML template:
 
 ## Adding Part Demo Feature to the App
 
-1. add a demo page feature in the cadmus app, under its `demo` folder, creating a `feature-<partname>-part-demo` (or `...-fragment-demo`) component (e.g. `ng g component feature-note-part-demo -s -t`).
+1. add a demo page feature in the cadmus app, under its `demo` folder, creating a `feature-<partname>-part-demo` component (e.g. `ng g component feature-note-part-demo -s -t`).
 
-The code template is minimal (including also the HTML template and no CSS; replace `__NAME__` with your model name; you can use `ng g component ... -s -t` to inline the styles and HTML template, [more here](https://github.com/angular/angular-cli/wiki/generate-component)):
+The code template is minimal, including also the HTML template and no CSS; replace `__NAME__` with your model name; you can use `ng g component ... -s -t` to inline the styles and HTML template, [more here](https://github.com/angular/angular-cli/wiki/generate-component):
 
 ```ts
 import { Component } from '@angular/core';
@@ -363,7 +366,8 @@ In a `<partgroup>-feature` module:
 {
   path: `${__NAME___PART_TYPEID}/:pid`,
   pathMatch: 'full',
-  component: __NAME__PartFeatureComponent
+  component: __NAME__PartFeatureComponent,
+  canDeactivate: [PendingChangesGuard]
 },
 ```
 
@@ -481,8 +485,9 @@ export class __NAME__PartFeatureComponent extends EditPartFeatureBase
   }
 
   ngOnInit() {
-    // TODO: select your thesauri if required
-    this.initEditor(['your-thesauri-ids-here']);
+    // TODO: select your thesauri if required, e.g.:
+    // this.initEditor(['note-tags']);
+    this.initEditor(['your', 'thesauri', 'ids', 'here']);
   }
 }
 ```
@@ -496,5 +501,6 @@ Define the corresponding HTML template like:
   (jsonChange)="save($event)"
   [thesauri]="thesauri$ | async"
   (editorClose)="close()"
+  (dirtyChange)="onDirtyChange($event)"
 ></cadmus-__NAME__-part>
 ```
