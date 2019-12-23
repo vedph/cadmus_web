@@ -1,5 +1,17 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
+/* Offline material icons: used for developing.
+   To remove, just comment out this import.
+   The local font files are under assets/icons. If you want to totally
+   remove local icons, just delete the whole folder besides removing
+   this import. Their source is
+   https://github.com/google/material-design-icons/tree/master/iconfont
+   (when downloading from there, open each file in GitHub and click Download,
+   as right clicking on the file name and selecting Download link as won't
+   work as expected, producing corrupt files).
+ */
+@import 'assets/icons/material-icons.css';
+
 /* Rules for sizing icons */
 .material-icons.mat-18 { font-size: 18px; }
 .material-icons.mat-24 { font-size: 24px; }
