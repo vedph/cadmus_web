@@ -13,6 +13,11 @@
       {{ item.userId }} at
       {{ item.timeModified | date: 'yyyy-MM-dd HH:mm:ss' }}.
     </p>
+    <p *ngIf="id">
+      Created {{ item.timeCreated| amLocal | amTimeAgo }} by
+      {{ item.creatorId }} at
+      {{ item.timeCreated | date: 'yyyy-MM-dd HH:mm:ss' }}.
+    </p>
     <p *ngIf="error$ | async as error">
       <mat-error>
         {{ error }}
