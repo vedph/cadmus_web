@@ -8,7 +8,8 @@ import {
   FlagDefinition,
   Part,
   LibraryRouteService,
-  ThesaurusEntry
+  ThesaurusEntry,
+  User
 } from '@cadmus/core';
 import {
   FormControl,
@@ -20,6 +21,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { DialogService } from '@cadmus/ui';
 import { EditItemQuery, EditItemService } from '@cadmus/features/edit-state';
+import { AuthService } from '@cadmus/api';
 
 @Component({
   selector: 'cadmus-item-editor',
@@ -30,6 +32,7 @@ export class ItemEditorComponent implements OnInit {
   public id: string;
   public item$: Observable<Item>;
   public partGroups$: Observable<PartGroup[]>;
+  public user: User;
   // lookup data
   public facetParts$: Observable<PartDefinition[]>;
   public facets$: Observable<FacetDefinition[]>;
@@ -59,6 +62,7 @@ export class ItemEditorComponent implements OnInit {
     private _editItemService: EditItemService,
     private _libraryRouteService: LibraryRouteService,
     private _dialogService: DialogService,
+    private _authService: AuthService,
     formBuilder: FormBuilder
   ) {
     this.id = this._route.snapshot.params['id'];
@@ -98,6 +102,11 @@ export class ItemEditorComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.user = this._authService.currentUserValue;
+    this._authService.currentUser$.subscribe((user: User) => {
+      this.user = user;
+    });
+
     this.item$ = this._query.select(state => state.item);
     this.partGroups$ = this._query.select(state => state.partGroups);
     this.facetParts$ = this._query.select(state => state.facetParts);

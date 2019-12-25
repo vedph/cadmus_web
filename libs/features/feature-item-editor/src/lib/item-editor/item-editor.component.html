@@ -138,6 +138,11 @@
               color="primary"
               [disabled]="(saving$ | async) || (loading$ | async)"
               matTooltip="Save metadata"
+              *ngIf="
+                user.roles.includes('admin') ||
+                user.roles.includes('editor') ||
+                user.roles.includes('operator')
+              "
             >
               <mat-icon>save</mat-icon> save
             </button>
@@ -229,6 +234,11 @@
                     matTooltip="Delete this part"
                     [disabled]="(loading$ | async) || (deletingPart$ | async)"
                     (click)="deletePart(part)"
+                    *ngIf="
+                      user.roles.includes('admin') ||
+                      user.roles.includes('editor') ||
+                      user.roles.includes('operator')
+                    "
                   >
                     <mat-icon color="warn">clear</mat-icon>
                   </button>

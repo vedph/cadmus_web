@@ -11,15 +11,17 @@ Each of the upper roles has all the authorizations of the lower roles. The editi
 
 - register user: `admin`
 - resend confirmation email: `visitor`
-- conform registration: `visitor`
+- confirm registration: `visitor`
 - change password: `visitor`
 - reset password: `visitor`
-- delete user: `admin`
-- delete item: `editor`
-- delete part: `editor`; `operator` only for parts created by himself.
-- add/update item: `operator`
-- add/update part: `operator`
+
 - get users info list: `visitor`
-- get user: `admin`
 - get current user: `visitor`
+- get user: `admin`
 - update user: `admin`
+- delete user: `admin`
+
+- add/update item: `operator`
+- delete item: `editor`
+- add/update part: `operator`
+- delete part: `editor`; `operator` only for parts created by himself.
