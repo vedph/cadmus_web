@@ -103,6 +103,8 @@ export class KeywordsPartComponent
         id: null,
         typeId: KEYWORDS_PART_TYPEID,
         roleId: null,
+        timeCreated: new Date(),
+        creatorId: null,
         timeModified: new Date(),
         userId: null,
         keywords: []

@@ -83,6 +83,8 @@ export class HistoricalDatePartComponent
         id: null,
         typeId: HISTORICAL_DATE_PART_TYPEID,
         roleId: null,
+        timeCreated: new Date(),
+        creatorId: null,
         timeModified: new Date(),
         userId: null,
         date: null

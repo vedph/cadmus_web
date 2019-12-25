@@ -14,7 +14,7 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AdminGuardService implements CanActivate {
+export class EditorGuardService implements CanActivate {
   constructor(
     private _router: Router,
     private _snackbar: MatSnackBar,
@@ -41,9 +41,9 @@ export class AdminGuardService implements CanActivate {
       this._snackbar.open('User not verified', 'OK', { duration: 3000 });
       return false;
     }
-    // else activate only if admin
+    // else activate only if admin/editor
     const user = this._authService.currentUserValue;
-    const ok = user && user.roles.some(r => r === 'admin');
+    const ok = user && user.roles.some(r => r === 'admin' || r === 'editor');
     if (!ok) {
       this._snackbar.open('Unauthorized user', 'OK', { duration: 3000 });
     }

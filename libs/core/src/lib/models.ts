@@ -2,6 +2,8 @@
  * Interface implemented by versioned storage objects.
  */
 export interface HasVersion {
+  timeCreated: Date;
+  creatorId: string;
   timeModified: Date;
   userId: string;
 }
@@ -48,15 +50,13 @@ export interface ItemFilter {
 /**
  * Essential information about an item.
  */
-export interface ItemInfo {
+export interface ItemInfo extends HasVersion {
   id: string;
   title: string;
   description: string;
   facet: string;
   sortKey: string;
   flags: number;
-  timeModified: Date;
-  userId: string;
 }
 
 /**

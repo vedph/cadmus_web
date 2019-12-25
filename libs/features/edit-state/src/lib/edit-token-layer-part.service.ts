@@ -78,6 +78,8 @@ export class EditTokenLayerPartService {
       typeId: TOKEN_TEXT_PART_TYPEID,
       roleId: null,
       fragments: [],
+      timeCreated: new Date(),
+      creatorId: null,
       userId: null, // this will be filled by server
       timeModified: new Date()
     };

@@ -77,6 +77,8 @@ export class EditItemService {
               facetId: null,
               sortKey: null,
               flags: 0,
+              timeCreated: new Date(),
+              creatorId: null,
               timeModified: new Date(),
               userId: null
             },

@@ -186,6 +186,8 @@ export class NotePartComponent extends ModelEditorComponentBase<NotePart>
         id: null,
         typeId: NOTE_PART_TYPEID,
         roleId: null,
+        timeCreated: new Date(),
+        creatorId: null,
         timeModified: new Date(),
         userId: null,
         tag: null,

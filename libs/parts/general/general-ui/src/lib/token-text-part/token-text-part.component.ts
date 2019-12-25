@@ -91,6 +91,8 @@ export class TokenTextPartComponent
         typeId: TOKEN_TEXT_PART_TYPEID,
         roleId: null,
         lines: null,
+        timeCreated: new Date(),
+        creatorId: null,
         timeModified: new Date(),
         userId: null
       };

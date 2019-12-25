@@ -73,6 +73,8 @@ export class CategoriesPartComponent
         id: null,
         typeId: CATEGORIES_PART_TYPEID,
         roleId: null,
+        timeCreated: new Date(),
+        creatorId: null,
         timeModified: new Date(),
         userId: null,
         categories: []
