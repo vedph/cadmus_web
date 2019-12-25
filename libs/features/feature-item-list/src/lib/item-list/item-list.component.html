@@ -24,7 +24,7 @@
         <table>
           <thead>
             <th></th>
-            <th></th>
+            <th *ngIf="user.roles.includes('admin') || user.roles.includes('editor')"></th>
             <th>facet</th>
             <th>title</th>
             <th>description</th>
@@ -44,7 +44,8 @@
                   <mat-icon>mode_edit</mat-icon>
                 </button>
               </td>
-              <td class="command">
+              <td class="command"
+                *ngIf="user.roles.includes('admin') || user.roles.includes('editor')">
                 <button
                   mat-icon-button
                   type="button"

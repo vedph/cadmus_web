@@ -1,16 +1,15 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { PaginationResponse, PaginatorPlugin } from '@datorama/akita';
-import { ItemInfo, DataPage, ItemFilter } from '@cadmus/core';
+import { ItemInfo, DataPage, ItemFilter, User } from '@cadmus/core';
 import { ITEMS_PAGINATOR } from '../services/items-paginator';
 import { map, switchMap, tap, startWith } from 'rxjs/operators';
 import { ItemsState } from '../state/items.store';
 import { PageEvent } from '@angular/material';
-import { ItemService } from '@cadmus/api';
+import { ItemService, AuthService } from '@cadmus/api';
 import { DialogService } from '@cadmus/ui';
 import { FormControl, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ItemsQuery } from '../state/items.query';
 import { ItemsListService } from '../services/items-list.service';
 
 @Component({
@@ -22,6 +21,7 @@ export class ItemListComponent implements OnInit {
   public pagination$: Observable<PaginationResponse<ItemInfo>>;
   public filter$: BehaviorSubject<ItemFilter>;
   public pageSize: FormControl;
+  public user: User;
 
   constructor(
     @Inject(ITEMS_PAGINATOR) public paginator: PaginatorPlugin<ItemsState>,
@@ -29,6 +29,7 @@ export class ItemListComponent implements OnInit {
     private _itemListService: ItemsListService,
     private _dialogService: DialogService,
     private _router: Router,
+    private _authService: AuthService,
     formBuilder: FormBuilder
   ) {
     this.pageSize = formBuilder.control(20);
@@ -53,6 +54,11 @@ export class ItemListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.user = this._authService.currentUserValue;
+    this._authService.currentUser$.subscribe((user: User) => {
+      this.user = user;
+    });
+
     // filter
     const initialPageSize = 20;
     this.filter$ = new BehaviorSubject<ItemFilter>(
@@ -115,6 +121,10 @@ export class ItemListComponent implements OnInit {
   }
 
   public deleteItem(item: ItemInfo) {
+    if (this.user.roles.every(r => r !== 'admin' && r !== 'editor')) {
+      return;
+    }
+
     this._dialogService
       .confirm('Confirm Deletion', `Delete item "${item.title}"?`)
       .subscribe((ok: boolean) => {
