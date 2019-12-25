@@ -1,7 +1,8 @@
-import { ThesauriSet } from '@cadmus/core';
+import { ThesauriSet, User } from '@cadmus/core';
 import { Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { map, distinctUntilChanged } from 'rxjs/operators';
+import { AuthService } from '@cadmus/api';
 
 /**
  * Base class for part/fragment editors dumb components.
@@ -88,10 +89,32 @@ export abstract class ModelEditorComponentBase<T> {
    */
   public form: FormGroup;
 
-  constructor() {
+  /**
+   * The current user.
+   */
+  public user: User;
+
+  /**
+   * True if the current user is only a visitor.
+   */
+  public isVisitor: boolean;
+
+  constructor(authService: AuthService) {
     this.jsonChange = new EventEmitter<string>();
     this.editorClose = new EventEmitter<any>();
     this.dirtyChange = new EventEmitter<boolean>();
+
+    this.updateUserProperties(authService.currentUserValue);
+    authService.currentUser$.subscribe((user: User) => {
+      this.updateUserProperties(user);
+    });
+  }
+
+  private updateUserProperties(user: User) {
+    this.user = user;
+    this.isVisitor =
+      this.user.roles.length === 0 ||
+      (this.user.roles.length === 1 && this.user.roles[0] === 'visitor');
   }
 
   /**

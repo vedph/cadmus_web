@@ -6,6 +6,7 @@ import {
 } from '../token-text-part';
 import { ModelEditorComponentBase } from '@cadmus/ui';
 import { FormControl, FormBuilder, Validators } from '@angular/forms';
+import { AuthService } from '@cadmus/api';
 
 /**
  * Editor component for base text, as referenced by token-based layers.
@@ -29,8 +30,8 @@ export class TokenTextPartComponent
     automaticLayout: true
   };
 
-  constructor(formBuilder: FormBuilder) {
-    super();
+  constructor(authService: AuthService, formBuilder: FormBuilder) {
+    super(authService);
     // form
     this.citation = formBuilder.control(null);
     this.text = formBuilder.control(null, Validators.required);

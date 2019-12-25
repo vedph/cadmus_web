@@ -5,6 +5,7 @@ import { ModelEditorComponentBase } from '@cadmus/ui';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material';
 import { of } from 'rxjs';
+import { AuthService } from '@cadmus/api';
 
 interface TreeNode {
   id: string;
@@ -37,8 +38,8 @@ export class CategoriesPartComponent
   public treeControl: NestedTreeControl<TreeNode>;
   public treeDataSource: MatTreeNestedDataSource<TreeNode>;
 
-  constructor(formBuilder: FormBuilder) {
-    super();
+  constructor(authService: AuthService, formBuilder: FormBuilder) {
+    super(authService);
     // tree
     this.treeControl = new NestedTreeControl<TreeNode>((n: TreeNode) => {
       return of(n.children);

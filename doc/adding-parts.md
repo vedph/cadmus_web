@@ -137,8 +137,8 @@ export class NotePartComponent extends ModelEditorComponentBase<NotePart>
     automaticLayout: true
   };
 
-  constructor(formBuilder: FormBuilder) {
-    super();
+  constructor(authService: AuthService, formBuilder: FormBuilder) {
+    super(authService);
     // form
     this.tag = formBuilder.control(null, Validators.maxLength(100));
     this.tags = formBuilder.control([]);
@@ -216,6 +216,7 @@ export class NotePartComponent extends ModelEditorComponentBase<NotePart>
     <mat-card-actions>
       <cadmus-close-save-buttons
         [form]="form"
+        [noSave]="isVisitor"
         (closeRequest)="close()"
       ></cadmus-close-save-buttons>
     </mat-card-actions>

@@ -3,6 +3,7 @@ import { ModelEditorComponentBase } from '@cadmus/ui';
 import { NotePart, NOTE_PART_TYPEID } from '../..';
 import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ThesaurusEntry } from '@cadmus/core';
+import { AuthService } from '@cadmus/api';
 
 /**
  * Note part editor component.
@@ -29,8 +30,8 @@ export class NotePartComponent extends ModelEditorComponentBase<NotePart>
     automaticLayout: true
   };
 
-  constructor(formBuilder: FormBuilder) {
-    super();
+  constructor(authService: AuthService, formBuilder: FormBuilder) {
+    super(authService);
     // form
     this.tag = formBuilder.control(null, Validators.maxLength(100));
     this.tags = formBuilder.control([]);

@@ -3,6 +3,7 @@ import { ModelEditorComponentBase } from '@cadmus/ui';
 import { ChronologyFragment } from '../chronology-fragment';
 import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Datation, HistoricalDate, HistoricalDateType, ThesaurusEntry } from '@cadmus/core';
+import { AuthService } from '@cadmus/api';
 
 /**
  * Chronology fragment editor component.
@@ -31,8 +32,8 @@ export class ChronologyFragmentComponent
   public tags: FormControl;
   public label: FormControl;
 
-  constructor(formBuilder: FormBuilder) {
-    super();
+  constructor(authService: AuthService, formBuilder: FormBuilder) {
+    super(authService);
     this.a = new Datation();
     this.b = new Datation();
     // form

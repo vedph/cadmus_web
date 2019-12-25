@@ -6,6 +6,7 @@ import {
 import { ModelEditorComponentBase } from '@cadmus/ui';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { HistoricalDate, Datation, HistoricalDateType } from '@cadmus/core';
+import { AuthService } from '@cadmus/api';
 
 @Component({
   selector: 'cadmus-historical-date-part',
@@ -23,8 +24,8 @@ export class HistoricalDatePartComponent
   public a: Datation;
   public b: Datation;
 
-  constructor(formBuilder: FormBuilder) {
-    super();
+  constructor(authService: AuthService, formBuilder: FormBuilder) {
+    super(authService);
     this.a = new Datation();
     this.b = new Datation();
     // form

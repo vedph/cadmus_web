@@ -3,6 +3,7 @@ import { CommentFragment } from '../comment-fragment';
 import { ModelEditorComponentBase } from '@cadmus/ui';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ThesaurusEntry } from '@cadmus/core';
+import { AuthService } from '@cadmus/api';
 
 /**
  * Comment fragment editor component.
@@ -32,8 +33,8 @@ export class CommentFragmentComponent
     automaticLayout: true
   };
 
-  constructor(formBuilder: FormBuilder) {
-    super();
+  constructor(authService: AuthService, formBuilder: FormBuilder) {
+    super(authService);
     // form
     this.tag = formBuilder.control(null, Validators.maxLength(100));
     this.tags = formBuilder.control([]);

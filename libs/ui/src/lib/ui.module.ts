@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@cadmus/material';
+import { ApiModule } from '@cadmus/api';
 
 // Monaco
 import { MonacoEditorModule } from 'ngx-monaco-editor';
@@ -24,7 +25,9 @@ import { PasswordStrengthBarComponent } from './components/password-strength-bar
     FormsModule,
     ReactiveFormsModule,
     MonacoEditorModule,
+    // cadmus
     CoreModule,
+    ApiModule,
     MaterialModule
   ],
   declarations: [

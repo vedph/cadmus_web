@@ -8,7 +8,7 @@ The general multirepo architecture is structured into these sections:
 
 - `libs/api`: the API services. Dependencies: `core`.
 
-- `libs/ui`: general purpose, shared UI dumb components. Dependencies: `core`, `material`.
+- `libs/ui`: general purpose, shared UI dumb components. Dependencies: `core`, `api`, `material`.
 
 - `libs/features`: app's features libraries:
   - `libs/features/edit-state`: core components for editor state management. Dependencies: `core`, `api`.
@@ -53,6 +53,7 @@ Parts/fragments libraries follow this pattern:
 core <|-- api
 
 core <|-- ui
+api <|-- ui
 material <|-- ui
 
 core <|-- "edit-state"

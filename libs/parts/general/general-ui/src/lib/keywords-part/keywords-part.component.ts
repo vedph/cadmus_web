@@ -8,6 +8,7 @@ import {
   FormGroup
 } from '@angular/forms';
 import { ThesaurusEntry } from '@cadmus/core';
+import { AuthService } from '@cadmus/api';
 
 /**
  * Keywords editor component.
@@ -29,8 +30,8 @@ export class KeywordsPartComponent
   // thesaurus
   public langEntries: ThesaurusEntry[];
 
-  constructor(formBuilder: FormBuilder) {
-    super();
+  constructor(authService: AuthService, formBuilder: FormBuilder) {
+    super(authService);
     // form
     this.keywords = formBuilder.control([], Validators.required);
     this.form = formBuilder.group({

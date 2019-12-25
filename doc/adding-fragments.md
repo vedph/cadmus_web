@@ -99,8 +99,8 @@ export class CommentFragmentComponent
     automaticLayout: true
   };
 
-  constructor(formBuilder: FormBuilder) {
-    super();
+  constructor(authService: AuthService, formBuilder: FormBuilder) {
+    super(authService);
     // form
     this.tag = formBuilder.control(null, Validators.maxLength(100));
     this.tags = formBuilder.control([]);
@@ -179,6 +179,7 @@ Sample HTML template:
     <mat-card-actions>
       <cadmus-close-save-buttons
         [form]="form"
+        [noSave]="isVisitor"
         (closeRequest)="close()"
       ></cadmus-close-save-buttons>
     </mat-card-actions>

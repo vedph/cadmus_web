@@ -20,6 +20,7 @@ import {
 } from '@angular/animations';
 import { MspOperation } from '../msp-operation';
 import { DifferResultToMspAdapter } from '../differ-result-to-msp-adapter';
+import { AuthService } from '@cadmus/api';
 
 @Component({
   selector: 'cadmus-orthography-fragment',
@@ -56,10 +57,11 @@ export class OrthographyFragmentComponent
   public currentOperation: MspOperation;
 
   constructor(
+    authService: AuthService,
     private _formBuilder: FormBuilder,
     private _dialogService: DialogService
   ) {
-    super();
+    super(authService);
 
     // form
     this.standard = _formBuilder.control(null, [

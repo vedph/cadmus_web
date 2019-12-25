@@ -8,7 +8,7 @@
   <mat-icon>cancel</mat-icon>
   close
 </button>
-<button
+<button *ngIf="!noSave"
   type="submit"
   [disabled]="form.invalid || form.pristine"
   mat-raised-button

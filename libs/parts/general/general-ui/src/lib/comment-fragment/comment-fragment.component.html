@@ -52,6 +52,7 @@
     <mat-card-actions>
       <cadmus-close-save-buttons
         [form]="form"
+        [noSave]="isVisitor"
         (closeRequest)="close()"
       ></cadmus-close-save-buttons>
     </mat-card-actions>
