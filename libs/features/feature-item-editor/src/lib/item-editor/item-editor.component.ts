@@ -85,6 +85,7 @@ export class ItemEditorComponent implements OnInit {
       Validators.required,
       Validators.maxLength(500)
     ]);
+    this.sortKey.disable();
     this.description = formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(1000)
