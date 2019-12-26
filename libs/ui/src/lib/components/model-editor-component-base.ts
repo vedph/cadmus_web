@@ -184,6 +184,26 @@ export abstract class ModelEditorComponentBase<T> {
   protected abstract getModelFromForm(): T;
 
   /**
+   * Trim the specified text, if not falsy, eventually flattening and normalizing
+   * its whitespaces.
+   *
+   * @param text The text to trim.
+   * @param flattenWs True to flatten and normalize whitespaces. When this is
+   * true, all the whitespaces are converted into a single space.
+   * @returns The processed text.
+   */
+  protected trimIfAny(text: string, flattenWs = false): string {
+    if (!text) {
+      return text;
+    }
+    if (flattenWs) {
+      text = text.replace(/\s+/g, ' ');
+    }
+    text = text.trim();
+    return text;
+  }
+
+  /**
    * Emit a request to close the editor.
    */
   public close() {

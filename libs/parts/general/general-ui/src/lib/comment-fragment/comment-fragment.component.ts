@@ -84,8 +84,8 @@ export class CommentFragmentComponent
         text: null
       };
     }
-    fr.tag = this.tag.value? this.tag.value.trim() : null;
-    fr.text = this.text.value? this.text.value.trim() : null;
+    fr.tag = this.trimIfAny(this.tag.value, true);
+    fr.text = this.trimIfAny(this.text.value);
     return fr;
   }
 }

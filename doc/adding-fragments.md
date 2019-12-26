@@ -150,7 +150,7 @@ export class CommentFragmentComponent
         text: null
       };
     }
-    fr.tag = this.tag.value? this.tag.value.trim() : null;
+    fr.tag = this.trimIfAny(this.tag.value);
     fr.text = this.text.value? this.text.value.trim() : null;
     return fr;
   }
@@ -207,7 +207,7 @@ export class __NAME__FragmentDemoComponent implements OnInit {
   private _thesauriJson: string;
 
   public currentTabIndex: number;
-  public schemaName = __NAME___PART_TYPEID;
+  public schemaName = __NAME___FRAGMENT_TYPEID;
   public modelJson: string;
   public thesauri: ThesauriSet | null;
 

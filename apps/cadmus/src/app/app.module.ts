@@ -36,19 +36,21 @@ import { FeatureCategoriesPartDemoComponent } from './demo/feature-categories-pa
 import { FeatureKeywordsPartDemoComponent } from './demo/feature-keywords-part-demo/feature-keywords-part-demo.component';
 import { FeatureHistoricalDatePartDemoComponent } from './demo/feature-historical-date-part-demo/feature-historical-date-part-demo.component';
 import { FeatureChronologyFragmentDemoComponent } from './demo/feature-chronology-fragment-demo/feature-chronology-fragment-demo.component';
+import { FeatureApparatusFragmentDemoComponent } from './demo/feature-apparatus-fragment-demo/feature-apparatus-fragment-demo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    FeatureApparatusFragmentDemoComponent,
+    FeatureCategoriesPartDemoComponent,
+    FeatureChronologyFragmentDemoComponent,
+    FeatureCommentFragmentDemoComponent,
+    FeatureHistoricalDatePartDemoComponent,
+    FeatureKeywordsPartDemoComponent,
     FeatureNotePartDemoComponent,
     FeatureOrthographyFragmentDemoComponent,
     FeatureTokenTextPartDemoComponent,
-    FeatureCommentFragmentDemoComponent,
-    FeatureCategoriesPartDemoComponent,
-    FeatureKeywordsPartDemoComponent,
-    FeatureHistoricalDatePartDemoComponent,
-    FeatureChronologyFragmentDemoComponent
   ],
   imports: [
     BrowserModule,
@@ -93,13 +95,18 @@ import { FeatureChronologyFragmentDemoComponent } from './demo/feature-chronolog
           pathMatch: 'full'
         },
         {
-          path: 'demo/comment-fragment',
-          component: FeatureCommentFragmentDemoComponent,
+          path: 'demo/apparatus-fragment',
+          component: FeatureApparatusFragmentDemoComponent,
           pathMatch: 'full'
         },
         {
           path: 'demo/chronology-fragment',
           component: FeatureChronologyFragmentDemoComponent,
+          pathMatch: 'full'
+        },
+        {
+          path: 'demo/comment-fragment',
+          component: FeatureCommentFragmentDemoComponent,
           pathMatch: 'full'
         },
         {

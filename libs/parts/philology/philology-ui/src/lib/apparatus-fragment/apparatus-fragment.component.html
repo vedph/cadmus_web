@@ -1,0 +1,103 @@
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>textsms</mat-icon>
+      </div>
+      <mat-card-title
+        >Apparatus Fragment {{ fragment?.location }}</mat-card-title
+      >
+      <mat-card-subtitle>
+        {{ fragment?.baseText }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div>
+        <mat-form-field>
+          <mat-select placeholder="type" formControlName="type">
+            <mat-option [value]="0">replacement</mat-option>
+            <mat-option [value]="1">addition before</mat-option>
+            <mat-option [value]="2">addition after</mat-option>
+            <mat-option [value]="3">note</mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="type.hasError('required') && (type.touched || type.dirty)"
+            >select type</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            spellcheck="false"
+            placeholder="value"
+            formControlName="value"
+          />
+          <mat-error
+            *ngIf="
+              value.hasError('maxLength') && (value.dirty || value.touched)
+            "
+            >value too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-checkbox formControlName="accepted">accepted</mat-checkbox>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            spellcheck="false"
+            placeholder="author(s) separated by ;"
+            formControlName="authors"
+          />
+          <mat-error
+            *ngIf="
+              authors.hasError('required') && (authors.dirty || authors.touched)
+            "
+            >author(s) required</mat-error
+          >
+          <mat-error
+            *ngIf="
+              authors.hasError('maxLength') &&
+              (authors.dirty || authors.touched)
+            "
+            >author(s) too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field style="width: 90%">
+          <textarea
+            matInput
+            type="text"
+            spellcheck="false"
+            placeholder="notes"
+            formControlName="note"
+          ></textarea>
+          <mat-error
+            *ngIf="note.hasError('maxLength') && (note.dirty || note.touched)"
+            >note too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="isVisitor"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>
