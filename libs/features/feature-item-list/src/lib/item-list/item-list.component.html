@@ -32,8 +32,9 @@
             <th>facet</th>
             <th>title</th>
             <th>description</th>
-            <th>user</th>
-            <th>last saved</th>
+            <th fxHide.lt-md>user</th>
+            <th fxHide.lt-md>last saved</th>
+            <th fxHide.lt-md>creator</th>
           </thead>
           <tbody>
             <tr *ngFor="let item of pagination.data">
@@ -67,8 +68,9 @@
               <td>{{ item.facet }}</td>
               <td>{{ item.title }}</td>
               <td>{{ item.description }}</td>
-              <td>{{ item.userId }}</td>
-              <td>{{ item.timeModified | amLocal | amTimeAgo }}</td>
+              <td fxHide.lt-md>{{ item.userId }}</td>
+              <td fxHide.lt-md>{{ item.timeModified | amLocal | amTimeAgo }}</td>
+              <td fxHide.lt-md>{{ item.creatorId }}</td>
             </tr>
           </tbody>
         </table>
