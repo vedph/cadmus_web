@@ -56,6 +56,9 @@
       ],
       "@cadmus/features/feature-reset-password": [
         "libs/features/feature-reset-password/src/index.ts"
+      ],
+      "@cadmus/parts/philology/philology-feature": [
+        "libs/parts/philology/philology-feature/src/index.ts"
       ]
     }
   },

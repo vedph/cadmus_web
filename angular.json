@@ -607,6 +607,36 @@
         }
       },
       "schematics": {}
+    },
+    "parts-philology-philology-feature": {
+      "projectType": "library",
+      "root": "libs/parts/philology/philology-feature",
+      "sourceRoot": "libs/parts/philology/philology-feature/src",
+      "prefix": "cadmus",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/parts/philology/philology-feature/tsconfig.lib.json",
+              "libs/parts/philology/philology-feature/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/parts/philology/philology-feature/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/parts/philology/philology-feature/jest.config.js",
+            "tsConfig": "libs/parts/philology/philology-feature/tsconfig.spec.json",
+            "setupFile": "libs/parts/philology/philology-feature/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {}
     }
   },
   "cli": {

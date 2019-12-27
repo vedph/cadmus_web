@@ -5,7 +5,7 @@ span.model-type {
   padding: 4px;
   border-radius: 6px;
 }
-span.id {
+input.id {
   font-family: 'Courier New', Courier, monospace;
   color: gray;
 }

@@ -50,7 +50,7 @@ import { FeatureApparatusFragmentDemoComponent } from './demo/feature-apparatus-
     FeatureKeywordsPartDemoComponent,
     FeatureNotePartDemoComponent,
     FeatureOrthographyFragmentDemoComponent,
-    FeatureTokenTextPartDemoComponent,
+    FeatureTokenTextPartDemoComponent
   ],
   imports: [
     BrowserModule,
@@ -143,6 +143,14 @@ import { FeatureApparatusFragmentDemoComponent } from './demo/feature-apparatus-
           loadChildren: () =>
             import('@cadmus/parts/general/general-feature').then(
               module => module.GeneralFeatureModule
+            ),
+          canActivate: [AuthGuardService]
+        },
+        {
+          path: 'items/:iid/philology',
+          loadChildren: () =>
+            import('@cadmus/parts/philology/philology-feature').then(
+              module => module.PhilologyFeatureModule
             ),
           canActivate: [AuthGuardService]
         },
