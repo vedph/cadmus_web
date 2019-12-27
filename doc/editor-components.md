@@ -29,7 +29,7 @@ Thus, each part/fragment type has:
 
 As these components are modular, they are located in separate libraries. Each library contains a set of related part/fragment editors; for instance, the "general" part contains generic-purpose models like e.g. categories, keywords, or comments; the "philology" part contains critical apparatus or orthography layers; etc. In other terms, each library refers to a group of models (parts or fragments models).
 
-As we have two types of editors, dumb and smart (feature), for each group we also have two types of libraries: one for the dumb editors, and another for the feature editors.
+As we have two types of editors, dumb and smart (feature), for each group we also have two types of libraries (with a different set of dependencies): one for the dumb editors, and another for the feature editors.
 
 Thus, for each group of models we have 2 libraries; and for each model editor we have 3 components:
 
@@ -76,6 +76,7 @@ The base class provides this API:
 - `getModelFromJson(json: string = null): T`: get the model from the specified JSON code, or from the current json property if no JSON code is specified. This is just a helper method for parsing JSON code (when truthy), and casting it to the template argument type.
 - `getModelFromForm(): T`: implement in derived classes to get the model from form's controls. This is used when saving (=data goes to the output `jsonChange` event).
 - `updateJson(json: string)`: update the `json` property from the specified code, without triggering a call to `onModelSet`.
+- `trimIfAny`: a utility function for trimming a string, and optionally flatten and normalize its whitespaces. This is often the case when saving user input into a model.
 - `close()`: emit the close editor request event. Note that an eventual dirty prompt is deferred to the guard.
 - `save()`: if the root form is valid, get the model from its controls, serialize it into JSON and emit the JSON change event, marking the root form as pristine.
 

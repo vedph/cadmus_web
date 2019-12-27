@@ -14,6 +14,7 @@ import {
   ORTHOGRAPHY_FRAGMENT_TYPEID
 } from '@cadmus/parts/philology/philology-ui';
 import { ApparatusFragmentFeatureComponent } from './apparatus-fragment-feature/apparatus-fragment-feature.component';
+import { OrthographyFragmentFeatureComponent } from './orthography-fragment-feature/orthography-fragment-feature.component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,12 @@ import { ApparatusFragmentFeatureComponent } from './apparatus-fragment-feature/
         pathMatch: 'full',
         component: ApparatusFragmentFeatureComponent,
         canDeactivate: [PendingChangesGuard]
+      },
+      {
+        path: `fragment/:pid/${ORTHOGRAPHY_FRAGMENT_TYPEID}/:loc`,
+        pathMatch: 'full',
+        component: OrthographyFragmentFeatureComponent,
+        canDeactivate: [PendingChangesGuard]
       }
     ]),
     // cadmus
@@ -36,6 +43,13 @@ import { ApparatusFragmentFeatureComponent } from './apparatus-fragment-feature/
     EditStateModule,
     FeaturesUiModule
   ],
-  declarations: [ApparatusFragmentFeatureComponent]
+  declarations: [
+    ApparatusFragmentFeatureComponent,
+    OrthographyFragmentFeatureComponent
+  ],
+  exports: [
+    ApparatusFragmentFeatureComponent,
+    OrthographyFragmentFeatureComponent
+  ]
 })
 export class PhilologyFeatureModule {}
