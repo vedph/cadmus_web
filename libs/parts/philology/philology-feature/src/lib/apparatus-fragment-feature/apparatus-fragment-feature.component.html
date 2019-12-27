@@ -1,0 +1,14 @@
+<cadmus-current-item-bar></cadmus-current-item-bar>
+<div class="base-text">
+  <cadmus-decorated-token-text
+    [baseText]="baseText$ | async"
+    [locations]="[frLoc]"
+  ></cadmus-decorated-token-text>
+</div>
+<cadmus-apparatus-fragment
+  [json]="json$ | async"
+  (jsonChange)="save($event)"
+  [thesauri]="thesauri$ | async"
+  (editorClose)="close()"
+  (dirtyChange)="onDirtyChange($event)"
+></cadmus-apparatus-fragment>

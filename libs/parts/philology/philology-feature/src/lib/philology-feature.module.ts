@@ -13,6 +13,7 @@ import {
   APPARATUS_FRAGMENT_TYPEID,
   ORTHOGRAPHY_FRAGMENT_TYPEID
 } from '@cadmus/parts/philology/philology-ui';
+import { ApparatusFragmentFeatureComponent } from './apparatus-fragment-feature/apparatus-fragment-feature.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,12 @@ import {
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild([
-      /* {path: '', pathMatch: 'full', component: InsertYourComponentHere} */
+      {
+        path: `fragment/:pid/${APPARATUS_FRAGMENT_TYPEID}/:loc`,
+        pathMatch: 'full',
+        component: ApparatusFragmentFeatureComponent,
+        canDeactivate: [PendingChangesGuard]
+      }
     ]),
     // cadmus
     CoreModule,
@@ -29,6 +35,7 @@ import {
     PhilologyUiModule,
     EditStateModule,
     FeaturesUiModule
-  ]
+  ],
+  declarations: [ApparatusFragmentFeatureComponent]
 })
 export class PhilologyFeatureModule {}
