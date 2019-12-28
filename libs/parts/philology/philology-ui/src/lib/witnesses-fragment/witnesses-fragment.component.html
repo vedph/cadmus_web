@@ -13,11 +13,17 @@
     </mat-card-header>
 
     <mat-card-content>
-      <button type="button" mat-raised-button matTooltip="Add a new witness">
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        matTooltip="Add a new witness"
+        (click)="openCurrentWitness(null)"
+      >
         <mat-icon>add_circle</mat-icon>
         add
       </button>
-      <table>
+      <table *ngIf="witnesses.valid">
         <thead>
           <tr>
             <th></th>
@@ -92,14 +98,15 @@
         </tbody>
       </table>
       <hr />
-      <div *ngIf="currentWitnessOpen">
+      <div *ngIf="currentWitnessOpen" [@slideInOut]>
         <form [formGroup]="witness" (submit)="saveCurrentWitness()">
           <!-- id -->
           <div>
             <mat-form-field>
               <input
-                matInput
                 type="text"
+                matInput
+                placeholder="ID"
                 formControlName="id"
                 spellcheck="false"
               />
@@ -117,8 +124,9 @@
           <div>
             <mat-form-field>
               <input
-                matInput
                 type="text"
+                matInput
+                placeholder="citation"
                 formControlName="citation"
                 spellcheck="false"
               />
@@ -140,6 +148,7 @@
           </div>
           <!-- text -->
           <div>
+            <h3>Text</h3>
             <ngx-monaco-editor
               [options]="editorOptions"
               formControlName="text"
@@ -149,20 +158,22 @@
               >please enter some text</mat-error
             >
             <hr />
-            <markdown [data]="text?.value"></markdown>
+            <markdown *ngIf="text?.value" [data]="text?.value"></markdown>
           </div>
           <!-- note -->
           <div>
+            <h3>Note</h3>
             <ngx-monaco-editor
               [options]="editorOptions"
               formControlName="note"
             ></ngx-monaco-editor>
             <hr />
-            <markdown [data]="note?.value"></markdown>
+            <markdown *ngIf="note?.value" [data]="note?.value"></markdown>
           </div>
           <button
             type="button"
             mat-icon-button
+            color="warn"
             matTooltip="Close this witness"
             (click)="closeCurrentWitness()"
           >

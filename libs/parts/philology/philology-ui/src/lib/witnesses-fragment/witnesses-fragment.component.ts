@@ -8,11 +8,35 @@ import {
   FormGroup
 } from '@angular/forms';
 import { ModelEditorComponentBase } from '@cadmus/ui';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate
+} from '@angular/animations';
 
 @Component({
   selector: 'cadmus-witnesses-fragment',
   templateUrl: './witnesses-fragment.component.html',
-  styleUrls: ['./witnesses-fragment.component.css']
+  styleUrls: ['./witnesses-fragment.component.css'],
+  animations: [
+    trigger('slideInOut', [
+      state(
+        'open',
+        style({
+          height: '100%'
+        })
+      ),
+      state(
+        'close',
+        style({
+          height: 0
+        })
+      ),
+      transition('open <=> closed', [animate('300ms ease-in')])
+    ])
+  ]
 })
 export class WitnessesFragmentComponent
   extends ModelEditorComponentBase<WitnessesFragment>
@@ -39,10 +63,11 @@ export class WitnessesFragmentComponent
   constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
     // form
-    this.witnesses = formBuilder.control([], Validators.required);
+    this.witnesses = formBuilder.control(null, Validators.required);
     this.form = formBuilder.group({
       witnesses: this.witnesses
     });
+
     // single witness form
     this.id = formBuilder.control(null, [
       Validators.required,
@@ -67,13 +92,13 @@ export class WitnessesFragmentComponent
   }
 
   public deleteWitness(index: number) {
-    const witnesses = [...this.witnesses.value];
+    const witnesses = [...this.witnesses.value || []];
     witnesses.splice(index, 1);
     this.witnesses.setValue(witnesses);
   }
 
   public moveWitnessUp(index: number) {
-    const witnesses = [...this.witnesses.value];
+    const witnesses = [...this.witnesses.value || []];
     const w = witnesses[index];
     witnesses.splice(index, 1);
     witnesses.splice(index - 1, 0, w);
@@ -81,10 +106,10 @@ export class WitnessesFragmentComponent
   }
 
   public moveWitnessDown(index: number) {
-    const witnesses = [...this.witnesses.value];
+    const witnesses = [...this.witnesses.value || []];
     const w = witnesses[index];
     witnesses.splice(index, 1);
-    witnesses.splice(index + 1, w);
+    witnesses.splice(index + 1, 0, w);
     this.witnesses.setValue(witnesses);
   }
 
@@ -92,22 +117,22 @@ export class WitnessesFragmentComponent
     if (!witness) {
       this.currentWitnessId = null;
       this.witness.reset();
-      this.witness.disable();
     } else {
       this.currentWitnessId = witness.id;
       this.id.setValue(witness.id);
       this.citation.setValue(witness.citation);
       this.text.setValue(witness.text);
       this.note.setValue(witness.note);
-      this.witness.enable();
       this.witness.markAsPristine();
     }
     this.currentWitnessOpen = true;
+    this.witness.enable();
   }
 
   public closeCurrentWitness() {
     this.currentWitnessOpen = false;
     this.currentWitnessId = null;
+    this.witness.disable();
   }
 
   public saveCurrentWitness() {
@@ -120,7 +145,7 @@ export class WitnessesFragmentComponent
       text: this.trimIfAny(this.text.value),
       note: this.trimIfAny(this.note.value)
     };
-    const witnesses: Witness[] = [...this.witnesses.value];
+    const witnesses: Witness[] = [...this.witnesses.value || []];
     const i = witnesses.findIndex(w => {
       return w.id === newWitness.id;
     });
@@ -139,7 +164,7 @@ export class WitnessesFragmentComponent
       this.form.reset();
       return;
     }
-    this.witnesses.setValue(model.witnesses || []);
+    this.witnesses.setValue(model.witnesses);
     this.witness.reset();
     this.form.markAsPristine();
   }

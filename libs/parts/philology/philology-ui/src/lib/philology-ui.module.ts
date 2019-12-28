@@ -14,6 +14,7 @@ import { OrthographyFragmentDemoComponent } from './orthography-fragment-demo/or
 import { ApparatusFragmentComponent } from './apparatus-fragment/apparatus-fragment.component';
 import { ApparatusFragmentDemoComponent } from './apparatus-fragment-demo/apparatus-fragment-demo.component';
 import { WitnessesFragmentComponent } from './witnesses-fragment/witnesses-fragment.component';
+import { WitnessesFragmentDemoComponent } from './witnesses-fragment-demo/witnesses-fragment-demo.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { WitnessesFragmentComponent } from './witnesses-fragment/witnesses-fragm
     MspOperationComponent,
     OrthographyFragmentComponent,
     OrthographyFragmentDemoComponent,
-    WitnessesFragmentComponent
+    WitnessesFragmentComponent,
+    WitnessesFragmentDemoComponent
   ],
   exports: [
     ApparatusFragmentComponent,
@@ -41,7 +43,8 @@ import { WitnessesFragmentComponent } from './witnesses-fragment/witnesses-fragm
     MspOperationComponent,
     OrthographyFragmentComponent,
     OrthographyFragmentDemoComponent,
-    WitnessesFragmentComponent
+    WitnessesFragmentComponent,
+    WitnessesFragmentDemoComponent
   ]
 })
 export class PhilologyUiModule {}

@@ -7,7 +7,7 @@
 
     <a mat-button routerLink="/items" *ngIf="logged">Items</a>
 
-    <button mat-button [matMenuTriggerFor]="demoMenu">Demo</button>
+    <button mat-button [matMenuTriggerFor]="demoMenu" *ngIf="logged">Demo</button>
     <mat-menu #demoMenu>
       <a mat-menu-item [matMenuTriggerFor]="partsMenu">Parts</a>
       <a mat-menu-item [matMenuTriggerFor]="fragmentsMenu">Fragments</a>
@@ -27,6 +27,7 @@
       <a mat-menu-item routerLink="/demo/comment-fragment">Comment</a>
       <a mat-menu-item routerLink="/demo/chronology-fragment">Chronology</a>
       <a mat-menu-item routerLink="/demo/orthography-fragment">Orthography</a>
+      <a mat-menu-item routerLink="/demo/witnesses-fragment">Witnesses</a>
     </mat-menu>
 
     <span class="tb-fill-remaining-space"></span>

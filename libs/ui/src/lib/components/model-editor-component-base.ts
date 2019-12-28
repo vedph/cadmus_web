@@ -113,6 +113,7 @@ export abstract class ModelEditorComponentBase<T> {
   private updateUserProperties(user: User) {
     this.user = user;
     this.isVisitor =
+      !this.user ||
       this.user.roles.length === 0 ||
       (this.user.roles.length === 1 && this.user.roles[0] === 'visitor');
   }
