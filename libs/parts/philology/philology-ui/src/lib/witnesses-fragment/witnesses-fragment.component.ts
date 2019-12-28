@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WitnessesFragment, Witness } from '../witnesses.fragment';
+import { WitnessesFragment, Witness } from '../witnesses-fragment';
 import { AuthService } from '@cadmus/api';
 import {
   FormBuilder,

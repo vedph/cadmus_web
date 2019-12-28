@@ -3,7 +3,7 @@ import { JsonSchemaService, ThesauriSet } from '@cadmus/core';
 import {
   WITNESSES_FRAGMENT_TYPEID,
   WITNESSES_FRAGMENT_SCHEMA
-} from '../witnesses.fragment';
+} from '../witnesses-fragment';
 
 @Component({
   selector: 'cadmus-witnesses-fragment-demo',

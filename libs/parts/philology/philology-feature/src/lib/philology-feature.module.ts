@@ -11,10 +11,12 @@ import { FeaturesUiModule } from '@cadmus/features/features-ui';
 import {
   PhilologyUiModule,
   APPARATUS_FRAGMENT_TYPEID,
-  ORTHOGRAPHY_FRAGMENT_TYPEID
+  ORTHOGRAPHY_FRAGMENT_TYPEID,
+  WITNESSES_FRAGMENT_TYPEID
 } from '@cadmus/parts/philology/philology-ui';
 import { ApparatusFragmentFeatureComponent } from './apparatus-fragment-feature/apparatus-fragment-feature.component';
 import { OrthographyFragmentFeatureComponent } from './orthography-fragment-feature/orthography-fragment-feature.component';
+import { WitnessesFragmentFeatureComponent } from './witnesses-fragment-feature/witnesses-fragment-feature.component';
 
 @NgModule({
   imports: [
@@ -33,7 +35,13 @@ import { OrthographyFragmentFeatureComponent } from './orthography-fragment-feat
         pathMatch: 'full',
         component: OrthographyFragmentFeatureComponent,
         canDeactivate: [PendingChangesGuard]
-      }
+      },
+      {
+        path: `fragment/:pid/${WITNESSES_FRAGMENT_TYPEID}/:loc`,
+        pathMatch: 'full',
+        component: WitnessesFragmentFeatureComponent,
+        canDeactivate: [PendingChangesGuard]
+      },
     ]),
     // cadmus
     CoreModule,
@@ -45,11 +53,13 @@ import { OrthographyFragmentFeatureComponent } from './orthography-fragment-feat
   ],
   declarations: [
     ApparatusFragmentFeatureComponent,
-    OrthographyFragmentFeatureComponent
+    OrthographyFragmentFeatureComponent,
+    WitnessesFragmentFeatureComponent
   ],
   exports: [
     ApparatusFragmentFeatureComponent,
-    OrthographyFragmentFeatureComponent
+    OrthographyFragmentFeatureComponent,
+    WitnessesFragmentFeatureComponent
   ]
 })
 export class PhilologyFeatureModule {}
