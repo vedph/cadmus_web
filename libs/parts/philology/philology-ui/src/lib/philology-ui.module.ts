@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
+import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { MarkdownModule } from 'ngx-markdown';
+
 import { MspOperationComponent } from './msp-operation/msp-operation.component';
 import { CoreModule } from '@cadmus/core';
 import { MaterialModule } from '@cadmus/material';
@@ -9,12 +13,15 @@ import { OrthographyFragmentComponent } from './orthography-fragment/orthography
 import { OrthographyFragmentDemoComponent } from './orthography-fragment-demo/orthography-fragment-demo.component';
 import { ApparatusFragmentComponent } from './apparatus-fragment/apparatus-fragment.component';
 import { ApparatusFragmentDemoComponent } from './apparatus-fragment-demo/apparatus-fragment-demo.component';
+import { WitnessesFragmentComponent } from './witnesses-fragment/witnesses-fragment.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    MonacoEditorModule,
+    MarkdownModule,
     // cadmus
     CoreModule,
     MaterialModule,
@@ -25,14 +32,16 @@ import { ApparatusFragmentDemoComponent } from './apparatus-fragment-demo/appara
     ApparatusFragmentDemoComponent,
     MspOperationComponent,
     OrthographyFragmentComponent,
-    OrthographyFragmentDemoComponent
+    OrthographyFragmentDemoComponent,
+    WitnessesFragmentComponent
   ],
   exports: [
     ApparatusFragmentComponent,
     ApparatusFragmentDemoComponent,
     MspOperationComponent,
     OrthographyFragmentComponent,
-    OrthographyFragmentDemoComponent
+    OrthographyFragmentDemoComponent,
+    WitnessesFragmentComponent
   ]
 })
 export class PhilologyUiModule {}

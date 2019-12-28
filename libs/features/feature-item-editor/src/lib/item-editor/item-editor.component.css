@@ -8,4 +8,5 @@ span.model-type {
 input.id {
   font-family: 'Courier New', Courier, monospace;
   color: gray;
+  width: 22em;
 }

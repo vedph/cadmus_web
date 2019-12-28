@@ -1,0 +1,191 @@
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>textsms</mat-icon>
+      </div>
+      <mat-card-title
+        >Witnesses Fragment {{ fragment?.location }}</mat-card-title
+      >
+      <mat-card-subtitle>
+        {{ fragment?.baseText }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <button type="button" mat-raised-button matTooltip="Add a new witness">
+        <mat-icon>add_circle</mat-icon>
+        add
+      </button>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>id</th>
+            <th>cit.</th>
+            <th>text</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let w of witnesses?.value;
+              let i = index;
+              let first = first;
+              let last = last
+            "
+          >
+            <td>
+              <button
+                type="button"
+                mat-icon-button
+                matTooltip="Edit this witness"
+                (click)="openCurrentWitness(w)"
+              >
+                <mat-icon color="primary">edit</mat-icon>
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                mat-icon-button
+                matTooltip="Move this witness up"
+                (click)="moveWitnessUp(i)"
+                [disabled]="first"
+              >
+                <mat-icon>arrow_upwards</mat-icon>
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                mat-icon-button
+                matTooltip="Move this witness down"
+                (click)="moveWitnessDown(i)"
+                [disabled]="last"
+              >
+                <mat-icon>arrow_downwards</mat-icon>
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                mat-icon-button
+                matTooltip="Remove this witness"
+                (click)="deleteWitness(i)"
+              >
+                <mat-icon color="warn">remove_circle</mat-icon>
+              </button>
+            </td>
+            <td>
+              {{ w.id }}
+            </td>
+            <td>
+              {{ w.citation }}
+            </td>
+            <td>
+              {{ w.text }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <hr />
+      <div *ngIf="currentWitnessOpen">
+        <form [formGroup]="witness" (submit)="saveCurrentWitness()">
+          <!-- id -->
+          <div>
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                formControlName="id"
+                spellcheck="false"
+              />
+              <mat-error
+                *ngIf="id.hasError('required') && (id.dirty || id.touched)"
+                >ID required</mat-error
+              >
+              <mat-error
+                *ngIf="id.hasError('maxLength') && (id.dirty || id.touched)"
+                >ID too long</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <!-- citation -->
+          <div>
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                formControlName="citation"
+                spellcheck="false"
+              />
+              <mat-error
+                *ngIf="
+                  citation.hasError('required') &&
+                  (citation.dirty || citation.touched)
+                "
+                >citation required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  citation.hasError('maxLength') &&
+                  (citation.dirty || citation.touched)
+                "
+                >citation too long</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <!-- text -->
+          <div>
+            <ngx-monaco-editor
+              [options]="editorOptions"
+              formControlName="text"
+            ></ngx-monaco-editor>
+            <mat-error
+              *ngIf="text.hasError('required') && (text.touched || text.dirty)"
+              >please enter some text</mat-error
+            >
+            <hr />
+            <markdown [data]="text?.value"></markdown>
+          </div>
+          <!-- note -->
+          <div>
+            <ngx-monaco-editor
+              [options]="editorOptions"
+              formControlName="note"
+            ></ngx-monaco-editor>
+            <hr />
+            <markdown [data]="note?.value"></markdown>
+          </div>
+          <button
+            type="button"
+            mat-icon-button
+            matTooltip="Close this witness"
+            (click)="closeCurrentWitness()"
+          >
+            <mat-icon>clear</mat-icon>
+          </button>
+          <button
+            type="submit"
+            color="primary"
+            mat-icon-button
+            matTooltip="Save this witness"
+          >
+            <mat-icon>check_circle</mat-icon>
+          </button>
+        </form>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="isVisitor"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>
