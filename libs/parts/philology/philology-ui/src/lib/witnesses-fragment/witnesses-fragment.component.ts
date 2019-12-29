@@ -147,7 +147,7 @@ export class WitnessesFragmentComponent
     };
     const witnesses: Witness[] = [...this.witnesses.value || []];
     const i = witnesses.findIndex(w => {
-      return w.id === newWitness.id;
+      return w.id === newWitness.id && w.citation === newWitness.citation;
     });
     if (i === -1) {
       witnesses.push(newWitness);
