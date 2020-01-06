@@ -26,6 +26,8 @@ import {
 } from '@cadmus/parts/general/general-ui';
 import { KeywordsPartFeatureComponent } from './keywords-part-feature/keywords-part-feature.component';
 import { ChronologyFragmentFeatureComponent } from './chronology-fragment-feature/chronology-fragment-feature.component';
+import { HistoricalDatePartFeatureComponent } from './historical-date-part-feature/historical-date-part-feature.component';
+import { HISTORICAL_DATE_PART_TYPEID } from 'libs/parts/general/general-ui/src/lib/historical-date-part';
 
 @NgModule({
   imports: [
@@ -37,6 +39,12 @@ import { ChronologyFragmentFeatureComponent } from './chronology-fragment-featur
         path: `${CATEGORIES_PART_TYPEID}/:pid`,
         pathMatch: 'full',
         component: CategoriesPartFeatureComponent,
+        canDeactivate: [PendingChangesGuard]
+      },
+      {
+        path: `${HISTORICAL_DATE_PART_TYPEID}/:pid`,
+        pathMatch: 'full',
+        component: HistoricalDatePartFeatureComponent,
         canDeactivate: [PendingChangesGuard]
       },
       {
@@ -82,6 +90,7 @@ import { ChronologyFragmentFeatureComponent } from './chronology-fragment-featur
     CategoriesPartFeatureComponent,
     ChronologyFragmentFeatureComponent,
     CommentFragmentFeatureComponent,
+    HistoricalDatePartFeatureComponent,
     KeywordsPartFeatureComponent,
     NotePartFeatureComponent,
     TokenTextPartFeatureComponent
@@ -90,6 +99,7 @@ import { ChronologyFragmentFeatureComponent } from './chronology-fragment-featur
     CategoriesPartFeatureComponent,
     ChronologyFragmentFeatureComponent,
     CommentFragmentFeatureComponent,
+    HistoricalDatePartFeatureComponent,
     KeywordsPartFeatureComponent,
     NotePartFeatureComponent,
     TokenTextPartFeatureComponent

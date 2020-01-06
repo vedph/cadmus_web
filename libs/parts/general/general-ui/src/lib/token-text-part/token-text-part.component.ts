@@ -46,7 +46,7 @@ export class TokenTextPartComponent
   }
 
   private getTextFromModel(model: TokenTextPart): string {
-    if (!model) {
+    if (!model || !model.lines) {
       return null;
     }
     return model.lines.map(l => l.text).join('\n');
