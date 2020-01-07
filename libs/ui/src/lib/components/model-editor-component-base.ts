@@ -122,10 +122,7 @@ export abstract class ModelEditorComponentBase<T> {
    * Initialize the editor. You MUST call this at the end of your OnInit.
    */
   protected initEditor() {
-    // subscribe to status change, but looking after dirty value;
-    // for this to work, you must set dirty before setting value.
-    // Currently Angular provides no dirty change event.
-    this.form.statusChanges
+    this.form.valueChanges
       .pipe(
         map(_ => {
           return this.form.dirty;
@@ -227,7 +224,8 @@ export abstract class ModelEditorComponentBase<T> {
     }
     const part = this.getModelFromForm();
     this.updateJson(JSON.stringify(part));
-    // TODO: this is not reflected in an event, use a workaround
+    // the form is no more dirty
     this.form.markAsPristine();
+    this.dirtyChange.emit(false);
   }
 }
