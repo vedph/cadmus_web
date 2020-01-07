@@ -15,7 +15,8 @@ export class LoginPageComponent implements OnInit {
 
   constructor(
     private _authQuery: AuthQuery,
-    private _loginService: LoginService) { }
+    private _loginService: LoginService
+  ) {}
 
   ngOnInit() {
     this.validating$ = this._authQuery.validating$;
@@ -23,6 +24,10 @@ export class LoginPageComponent implements OnInit {
   }
 
   public onSubmit(credentials: Credentials) {
-    this._loginService.login(credentials.name, credentials.password);
+    this._loginService.login(
+      credentials.name,
+      credentials.password,
+      credentials.returnUrl
+    );
   }
 }

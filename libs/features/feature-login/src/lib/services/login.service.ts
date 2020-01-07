@@ -13,7 +13,7 @@ export class LoginService {
     private _router: Router
   ) {}
 
-  public login(name: string, password: string) {
+  public login(name: string, password: string, returnUrl: string = null) {
     this._authStore.update({ validating: true });
 
     this._authService
@@ -27,7 +27,7 @@ export class LoginService {
       )
       .subscribe(user => {
         this._authStore.login(user);
-        this._router.navigate(['/']);
+        this._router.navigate([returnUrl || '/']);
       });
   }
 

@@ -18,11 +18,13 @@ import { CloseSaveButtonsComponent } from './components/close-save-buttons/close
 import { DatationEditorComponent } from './components/datation-editor/datation-editor.component';
 import { HistoricalDateEditorComponent } from './components/historical-date-editor/historical-date-editor.component';
 import { PasswordStrengthBarComponent } from './components/password-strength-bar/password-strength-bar.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     ReactiveFormsModule,
     MonacoEditorModule,
     // cadmus

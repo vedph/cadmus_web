@@ -5,10 +5,12 @@ import {
   FormBuilder,
   Validators
 } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 export interface Credentials {
   name: string;
   password: string;
+  returnUrl?: string;
 }
 
 @Component({
@@ -17,6 +19,8 @@ export interface Credentials {
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  private _returnUrl: string;
+
   @Input()
   public set validating(value: boolean) {
     if (value) {
@@ -36,7 +40,7 @@ export class LoginComponent implements OnInit {
   public password: FormControl;
   public form: FormGroup;
 
-  constructor(formBuilder: FormBuilder) {
+  constructor(formBuilder: FormBuilder, route: ActivatedRoute) {
     // events
     this.submitted = new EventEmitter<Credentials>();
     // form
@@ -46,6 +50,9 @@ export class LoginComponent implements OnInit {
       name: this.name,
       password: this.password
     });
+
+    // get return URL if any
+    this._returnUrl = route.snapshot.queryParams['returnUrl'];
   }
 
   ngOnInit() {}
@@ -56,7 +63,8 @@ export class LoginComponent implements OnInit {
     }
     this.submitted.emit({
       name: this.name.value,
-      password: this.password.value
+      password: this.password.value,
+      returnUrl: this._returnUrl
     });
   }
 }

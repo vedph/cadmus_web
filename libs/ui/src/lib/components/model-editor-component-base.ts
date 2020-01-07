@@ -227,6 +227,7 @@ export abstract class ModelEditorComponentBase<T> {
     }
     const part = this.getModelFromForm();
     this.updateJson(JSON.stringify(part));
+    // TODO: this is not reflected in an event, use a workaround
     this.form.markAsPristine();
   }
 }
