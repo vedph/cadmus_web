@@ -186,8 +186,8 @@ export class CategoriesPartComponent
     const cc = Object.assign([], this.categories.value);
     cc.push(node.id.toString());
     cc.sort();
+    this.categories.markAsDirty();
     this.categories.setValue(cc);
-    this.form.markAsDirty();
   }
 
   public removeCategory(category: string) {
@@ -197,8 +197,8 @@ export class CategoriesPartComponent
     if (i > -1) {
       const cc = Object.assign([], this.categories.value);
       cc.splice(i, 1);
+      this.categories.markAsDirty();
       this.categories.setValue(cc);
-      this.form.markAsDirty();
     }
   }
 }

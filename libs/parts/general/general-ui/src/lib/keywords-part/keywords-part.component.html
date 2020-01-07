@@ -4,7 +4,11 @@
       <div mat-card-avatar>
         <mat-icon>picture_in_picture</mat-icon>
       </div>
-      <mat-card-title>Keywords Part</mat-card-title>
+      <mat-card-title
+        [matBadge]="keywords?.value?.length"
+        matBadgeOverlap="false"
+        >Keywords Part</mat-card-title
+      >
     </mat-card-header>
     <mat-card-content>
       <!-- language -->

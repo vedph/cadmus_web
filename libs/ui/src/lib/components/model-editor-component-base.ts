@@ -122,12 +122,17 @@ export abstract class ModelEditorComponentBase<T> {
    * Initialize the editor. You MUST call this at the end of your OnInit.
    */
   protected initEditor() {
+    // subscribe to status change, but looking after dirty value;
+    // for this to work, you must set dirty before setting value.
+    // Currently Angular provides no dirty change event.
     this.form.statusChanges
       .pipe(
-        map(_ => this.form.dirty),
+        map(_ => {
+          return this.form.dirty;
+        }),
         distinctUntilChanged()
       )
-      .subscribe(dirty => {
+      .subscribe((dirty: boolean) => {
         this.dirtyChange.emit(dirty);
       });
   }

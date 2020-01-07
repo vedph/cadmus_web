@@ -4,7 +4,11 @@
       <div mat-card-avatar>
         <mat-icon>picture_in_picture</mat-icon>
       </div>
-      <mat-card-title>Categories Part</mat-card-title>
+      <mat-card-title
+        [matBadge]="categories?.value?.length"
+        matBadgeOverlap="false"
+        >Categories Part</mat-card-title
+      >
     </mat-card-header>
     <mat-card-content>
       <!-- available categories (from thesaurus) -->

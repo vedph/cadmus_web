@@ -99,6 +99,7 @@ export class OrthographyFragmentComponent
   }
 
   public addOperation(operation: string = null) {
+    this.operations.markAsDirty();
     this.operations.push(
       this._formBuilder.group({
         text: this._formBuilder.control(operation, [
@@ -107,7 +108,6 @@ export class OrthographyFragmentComponent
         ])
       })
     );
-    this.operations.markAsDirty();
   }
 
   public deleteOperation(index: number) {
@@ -116,8 +116,8 @@ export class OrthographyFragmentComponent
       .pipe(take(1))
       .subscribe((ok: boolean) => {
         if (ok) {
-          this.operations.removeAt(index);
           this.operations.markAsDirty();
+          this.operations.removeAt(index);
         }
       });
   }
@@ -128,9 +128,9 @@ export class OrthographyFragmentComponent
       .pipe(take(1))
       .subscribe((ok: boolean) => {
         if (ok) {
+          this.operations.markAsDirty();
           this.operations.clear();
           this.currentOperationClosed();
-          this.operations.markAsDirty();
         }
       });
   }
@@ -140,9 +140,9 @@ export class OrthographyFragmentComponent
       return;
     }
     const item = this.operations.controls[index];
+    this.operations.markAsDirty();
     this.operations.removeAt(index);
     this.operations.insert(index - 1, item);
-    this.operations.markAsDirty();
   }
 
   public moveOperationDown(index: number) {
@@ -150,9 +150,9 @@ export class OrthographyFragmentComponent
       return;
     }
     const item = this.operations.controls[index];
+    this.operations.markAsDirty();
     this.operations.removeAt(index);
     this.operations.insert(index + 1, item);
-    this.operations.markAsDirty();
   }
 
   public editOperation(index: number) {
@@ -221,10 +221,10 @@ export class OrthographyFragmentComponent
     );
     const ops = this._adapter.adapt(result);
 
+    this.operations.markAsDirty();
     this.operations.clear();
     for (let i = 0; i < ops.length; i++) {
       this.addOperation(ops[i].toString());
     }
-    this.operations.markAsDirty();
   }
 }

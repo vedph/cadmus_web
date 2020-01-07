@@ -45,16 +45,16 @@ export class HistoricalDatePartComponent
   public updateA(d: Datation) {
     this.a = d;
     const model = this.getModelFromForm();
-    this.txtDate.setValue(model.date.toString());
     this.txtDate.markAsDirty();
+    this.txtDate.setValue(model.date.toString());
   }
 
   // invoked when B editor saves
   public updateB(d: Datation) {
     this.b = d;
     const model = this.getModelFromForm();
-    this.txtDate.setValue(model.date.toString());
     this.txtDate.markAsDirty();
+    this.txtDate.setValue(model.date.toString());
   }
 
   protected onModelSet(model: HistoricalDatePart) {
