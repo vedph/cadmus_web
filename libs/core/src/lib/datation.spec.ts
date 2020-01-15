@@ -23,13 +23,13 @@ describe('Class: HistoricalDate', () => {
     expect(c).toBe(1);
   });
 
-  it('parse empty should be null', () => {
+  it('parse empty should be undefined', () => {
     const d = Datation.parse('');
-    expect(d).toBeNull();
+    expect(d).toBeUndefined();
   });
-  it('parse whitespaces should be null', () => {
+  it('parse whitespaces should be undefined', () => {
     const d = Datation.parse('  ');
-    expect(d).toBeNull();
+    expect(d).toBeUndefined();
   });
   it('parse "45" should get year', () => {
     const d = Datation.parse('45');
