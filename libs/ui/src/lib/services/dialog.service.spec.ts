@@ -2,7 +2,8 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { DialogService } from './dialog.service';
 import { Provider } from '@angular/core';
-import { MatDialog, MatDialogRef, MatDialogModule } from '@angular/material';
+// note we import from @angular/material/dialog, not just @angular/material!
+import { MatDialog, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 
 describe('DialogService', () => {

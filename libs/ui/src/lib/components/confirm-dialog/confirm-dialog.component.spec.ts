@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConfirmDialogComponent } from './confirm-dialog.component';
+// note we import from @angular/material/dialog, not just @angular/material!
+import { MatDialog, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+
 import { MaterialModule } from '@cadmus/material';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -23,6 +26,13 @@ describe('ConfirmDialogComponent', () => {
         {
           provide: HAMMER_LOADER,
           useValue: () => new Promise(() => {})
+        },
+        {
+          provide: MatDialogRef,
+          useValue: {
+            close: (dialogResult: any) => { },
+            afterClosed: () => { }
+          }
         }
       ],
       declarations: [ConfirmDialogComponent]
