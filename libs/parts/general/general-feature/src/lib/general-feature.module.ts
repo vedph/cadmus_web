@@ -11,7 +11,8 @@ import {
   NOTE_PART_TYPEID,
   COMMENT_FRAGMENT_TYPEID,
   KEYWORDS_PART_TYPEID,
-  TOKEN_TEXT_PART_TYPEID
+  TOKEN_TEXT_PART_TYPEID,
+  HISTORICAL_DATE_PART_TYPEID
 } from '@cadmus/parts/general/general-ui';
 import { EditStateModule } from '@cadmus/features/edit-state';
 
@@ -27,7 +28,6 @@ import {
 import { KeywordsPartFeatureComponent } from './keywords-part-feature/keywords-part-feature.component';
 import { ChronologyFragmentFeatureComponent } from './chronology-fragment-feature/chronology-fragment-feature.component';
 import { HistoricalDatePartFeatureComponent } from './historical-date-part-feature/historical-date-part-feature.component';
-import { HISTORICAL_DATE_PART_TYPEID } from 'libs/parts/general/general-ui/src/lib/historical-date-part';
 
 @NgModule({
   imports: [
