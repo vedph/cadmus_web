@@ -3,9 +3,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from '@cadmus/material';
 import { HAMMER_LOADER } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -16,8 +17,9 @@ describe('LoginComponent', () => {
       imports: [
         CommonModule,
         FormsModule,
-        RouterModule,
+        RouterTestingModule,
         ReactiveFormsModule,
+        BrowserAnimationsModule,
         MaterialModule
       ],
       // https://github.com/angular/components/issues/14668

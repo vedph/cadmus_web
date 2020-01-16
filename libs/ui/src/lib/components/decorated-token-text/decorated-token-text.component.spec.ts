@@ -26,10 +26,12 @@ describe('DecoratedTokenTextComponent', () => {
         {
           provide: HAMMER_LOADER,
           useValue: () => new Promise(() => {})
-        },
-        SafeHtmlPipe
+        }
       ],
-      declarations: [ DecoratedTokenTextComponent ]
+      declarations: [
+        DecoratedTokenTextComponent,
+        SafeHtmlPipe
+      ]
     })
     .compileComponents();
   }));

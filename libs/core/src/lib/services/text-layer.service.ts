@@ -23,7 +23,7 @@ export interface SelectedRange {
 
 @Injectable({ providedIn: 'root' })
 export class TextLayerService {
-  private readonly _wsRegex;
+  private readonly _wsRegex : RegExp;
 
   constructor() {
     this._wsRegex = new RegExp('^\\s$', 'g');

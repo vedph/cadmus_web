@@ -6,6 +6,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '@cadmus/material';
 import { HAMMER_LOADER } from '@angular/platform-browser';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { ErrorListComponent } from '../error-list/error-list.component';
+import { DialogService } from '../../services/dialog.service';
 
 describe('JsonEditorResourcesComponent', () => {
   let component: JsonEditorResourcesComponent;
@@ -18,16 +21,21 @@ describe('JsonEditorResourcesComponent', () => {
         FormsModule,
         RouterModule,
         ReactiveFormsModule,
-        MaterialModule
+        MaterialModule,
+        MonacoEditorModule
       ],
       // https://github.com/angular/components/issues/14668
       providers: [
         {
           provide: HAMMER_LOADER,
           useValue: () => new Promise(() => {})
-        }
+        },
+        DialogService
       ],
-      declarations: [ JsonEditorResourcesComponent ]
+      declarations: [
+        ErrorListComponent,
+        JsonEditorResourcesComponent
+      ]
     })
     .compileComponents();
   }));

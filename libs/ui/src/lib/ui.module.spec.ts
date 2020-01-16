@@ -16,7 +16,9 @@ describe('UiModule', () => {
       {
         provide: MatDialogRef,
         useValue: {
-          close: (dialogResult: any) => {}
+          open: (component: any) => { },
+          close: (dialogResult: any) => { },
+          afterClosed: () => { }
         }
       }
     ];

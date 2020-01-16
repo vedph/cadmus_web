@@ -3,10 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CloseSaveButtonsComponent } from './close-save-buttons.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { MonacoEditorModule } from 'ngx-monaco-editor';
-import { CoreModule } from '@cadmus/core';
-import { ApiModule } from '@cadmus/api';
 import { MaterialModule } from '@cadmus/material';
 import { HAMMER_LOADER } from '@angular/platform-browser';
 
@@ -19,7 +15,6 @@ describe('CloseSaveButtonsComponent', () => {
       imports: [
         CommonModule,
         FormsModule,
-        RouterModule,
         ReactiveFormsModule,
         MaterialModule
       ],

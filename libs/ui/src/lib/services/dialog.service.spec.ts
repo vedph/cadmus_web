@@ -3,6 +3,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { DialogService } from './dialog.service';
 import { Provider } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { CommonModule } from '@angular/common';
 
 describe('DialogService', () => {
   const mockMatDialog = {
@@ -16,13 +17,21 @@ describe('DialogService', () => {
       {
         provide: MatDialogRef,
         useValue: {
-          close: (dialogResult: any) => { }
+          open: (component: any) => { },
+          close: (dialogResult: any) => { },
+          afterClosed: () => { }
         }
       }
     ];
 
     TestBed.configureTestingModule({
-      providers: [mockProviders, DialogService]
+      imports: [
+        CommonModule
+      ],
+      providers: [
+        mockProviders,
+        DialogService
+      ]
     });
   });
 
