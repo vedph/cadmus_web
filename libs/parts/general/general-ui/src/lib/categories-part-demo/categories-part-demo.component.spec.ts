@@ -7,6 +7,7 @@ import { MaterialModule } from '@cadmus/material';
 import { HAMMER_LOADER } from '@angular/platform-browser';
 import { CategoriesPartComponent } from '../categories-part/categories-part.component';
 import { UiModule } from '@cadmus/ui';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 describe('CategoriesPartDemoComponent', () => {
   let component: CategoriesPartDemoComponent;
@@ -26,6 +27,20 @@ describe('CategoriesPartDemoComponent', () => {
         {
           provide: HAMMER_LOADER,
           useValue: () => new Promise(() => {})
+        },
+        {
+          provide: MatDialog,
+          useValue: {
+            open: (_: any) => { },
+            closeAll: (): void => undefined
+          }
+        },
+        {
+          provide: MatDialogRef,
+          useValue: {
+            close: (dialogResult: any) => { },
+            afterClosed: () => { }
+          }
         }
       ],
       declarations: [

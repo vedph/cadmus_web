@@ -12,7 +12,7 @@ describe('DialogService', () => {
       {
         provide: MatDialog,
         useValue: {
-          open: (component: any) => { },
+          open: (_: any) => { },
           closeAll: (): void => undefined
         }
       },

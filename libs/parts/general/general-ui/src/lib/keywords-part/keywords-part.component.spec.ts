@@ -7,6 +7,7 @@ import { HAMMER_LOADER } from '@angular/platform-browser';
 
 import { KeywordsPartComponent } from './keywords-part.component';
 import { UiModule } from '@cadmus/ui';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 describe('KeywordsPartComponent', () => {
   let component: KeywordsPartComponent;
@@ -27,6 +28,20 @@ describe('KeywordsPartComponent', () => {
         {
           provide: HAMMER_LOADER,
           useValue: () => new Promise(() => {})
+        },
+        {
+          provide: MatDialog,
+          useValue: {
+            open: (_: any) => { },
+            closeAll: (): void => undefined
+          }
+        },
+        {
+          provide: MatDialogRef,
+          useValue: {
+            close: (dialogResult: any) => { },
+            afterClosed: () => { }
+          }
         },
         {
           provide: 'apiEndpoint',

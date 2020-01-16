@@ -7,6 +7,7 @@ import { HAMMER_LOADER } from '@angular/platform-browser';
 import { HistoricalDatePartDemoComponent } from './historical-date-part-demo.component';
 import { HistoricalDatePartComponent } from '../historical-date-part/historical-date-part.component';
 import { UiModule } from '@cadmus/ui';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 describe('HistoricalDatePartDemoComponent', () => {
   let component: HistoricalDatePartDemoComponent;
@@ -26,6 +27,20 @@ describe('HistoricalDatePartDemoComponent', () => {
         {
           provide: HAMMER_LOADER,
           useValue: () => new Promise(() => {})
+        },
+        {
+          provide: MatDialog,
+          useValue: {
+            open: (_: any) => { },
+            closeAll: (): void => undefined
+          }
+        },
+        {
+          provide: MatDialogRef,
+          useValue: {
+            close: (dialogResult: any) => { },
+            afterClosed: () => { }
+          }
         }
       ],
       declarations: [
