@@ -2,22 +2,23 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { DialogService } from './dialog.service';
 import { Provider } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef, MatDialogModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
 
 describe('DialogService', () => {
-  const mockMatDialog = {
-    closeAll: (): void => undefined
-  };
-
   beforeEach(() => {
-    const mockProviders: Provider[] = [
-      { provide: MatDialog, useValue: mockMatDialog },
       // https://github.com/angular/components/issues/8419
+      const mockProviders: Provider[] = [
+      {
+        provide: MatDialog,
+        useValue: {
+          open: (component: any) => { },
+          closeAll: (): void => undefined
+        }
+      },
       {
         provide: MatDialogRef,
         useValue: {
-          open: (component: any) => { },
           close: (dialogResult: any) => { },
           afterClosed: () => { }
         }
@@ -26,7 +27,8 @@ describe('DialogService', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        CommonModule
+        CommonModule,
+        MatDialogModule
       ],
       providers: [
         mockProviders,
