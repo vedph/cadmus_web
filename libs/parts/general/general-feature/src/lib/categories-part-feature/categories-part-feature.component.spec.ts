@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HAMMER_LOADER } from '@angular/platform-browser';
 import { MaterialModule } from '@cadmus/material';
 import { MomentModule } from 'ngx-moment';
+import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 
 import { UiModule } from '@cadmus/ui';
 import { CategoriesPartFeatureComponent } from './categories-part-feature.component';
@@ -22,6 +23,7 @@ describe('CategoriesPartFeatureComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         RouterTestingModule,
+        AkitaNgDevtools.forRoot(),
         MomentModule,
         MaterialModule,
         UiModule

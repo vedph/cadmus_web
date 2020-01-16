@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HAMMER_LOADER } from '@angular/platform-browser';
 import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
+import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 
 import { TokenTextPartFeatureComponent } from './token-text-part-feature.component';
 import { CurrentItemBarComponent } from '@cadmus/features/features-ui';
@@ -25,6 +26,7 @@ describe('TokenTextPartFeatureComponent', () => {
         ReactiveFormsModule,
         BrowserAnimationsModule,
         RouterTestingModule,
+        AkitaNgDevtools.forRoot(),
         MonacoEditorModule.forRoot(),
         MomentModule,
         MaterialModule,

@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HAMMER_LOADER } from '@angular/platform-browser';
 import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
+import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 
 import { CommentFragmentFeatureComponent } from './comment-fragment-feature.component';
 import { CurrentItemBarComponent } from '@cadmus/features/features-ui';
@@ -26,6 +27,7 @@ describe('CommentFragmentFeatureComponent', () => {
         ReactiveFormsModule,
         BrowserAnimationsModule,
         RouterTestingModule,
+        AkitaNgDevtools.forRoot(),
         MaterialModule,
         MonacoEditorModule.forRoot(),
         MarkdownModule.forRoot(),
