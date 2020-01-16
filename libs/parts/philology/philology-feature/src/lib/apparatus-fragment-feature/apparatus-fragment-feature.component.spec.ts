@@ -4,10 +4,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HAMMER_LOADER } from '@angular/platform-browser';
 import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ApparatusFragmentFeatureComponent } from './apparatus-fragment-feature.component';
 import { ApparatusFragmentComponent } from '@cadmus/parts/philology/philology-ui';
 import { CurrentItemBarComponent } from '@cadmus/features/features-ui';
+import { MomentModule } from 'ngx-moment';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ApparatusFragmentFeatureComponent', () => {
   let component: ApparatusFragmentFeatureComponent;
@@ -19,6 +22,9 @@ describe('ApparatusFragmentFeatureComponent', () => {
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        RouterTestingModule,
+        BrowserAnimationsModule,
+        MomentModule,
         MaterialModule,
         UiModule
       ],
