@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Thesaurus, JsonSchemaService, ThesauriSet } from '@cadmus/core';
-import { ORTHOGRAPHY_FRAGMENT_TYPEID, ORTHOGRAPHY_FRAGMENT_SCHEMA } from '../..';
+import { JsonSchemaService, ThesauriSet } from '@cadmus/core';
+import { ORTHOGRAPHY_FRAGMENT_TYPEID, ORTHOGRAPHY_FRAGMENT_SCHEMA } from '../orthography-fragment';
 
 @Component({
   selector: 'cadmus-orthography-fragment-demo',

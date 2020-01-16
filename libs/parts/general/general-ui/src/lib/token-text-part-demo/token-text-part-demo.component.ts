@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { TOKEN_TEXT_PART_TYPEID, TOKEN_TEXT_PART_SCHEMA } from '../..';
+import { TOKEN_TEXT_PART_TYPEID, TOKEN_TEXT_PART_SCHEMA } from '../token-text-part';
 import { ThesauriSet, JsonSchemaService } from '@cadmus/core';
 
 @Component({

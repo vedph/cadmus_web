@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ModelEditorComponentBase } from '@cadmus/ui';
-import { NotePart, NOTE_PART_TYPEID } from '../..';
 import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ThesaurusEntry } from '@cadmus/core';
 import { AuthService } from '@cadmus/api';
+import { NotePart, NOTE_PART_TYPEID } from '../note-part';
 
 /**
  * Note part editor component.
