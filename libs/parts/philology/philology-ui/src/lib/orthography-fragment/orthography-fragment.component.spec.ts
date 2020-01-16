@@ -1,6 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from '@cadmus/material';
+import { HAMMER_LOADER } from '@angular/platform-browser';
 
 import { OrthographyFragmentComponent } from './orthography-fragment.component';
+import { MspOperationComponent } from '../msp-operation/msp-operation.component';
+import { UiModule } from '@cadmus/ui';
 
 describe('OrthographyFragmentComponent', () => {
   let component: OrthographyFragmentComponent;
@@ -8,7 +14,32 @@ describe('OrthographyFragmentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OrthographyFragmentComponent ]
+      imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MaterialModule,
+        UiModule
+      ],
+      // https://github.com/angular/components/issues/14668
+      providers: [
+        {
+          provide: HAMMER_LOADER,
+          useValue: () => new Promise(() => {})
+        },
+        {
+          provide: 'apiEndpoint',
+          useValue: 'http://localhost:60304/api/'
+        },
+        {
+          provide: 'databaseId',
+          useValue: 'cadmus'
+        }
+      ],
+      declarations: [
+        MspOperationComponent,
+        OrthographyFragmentComponent
+      ]
     })
     .compileComponents();
   }));
