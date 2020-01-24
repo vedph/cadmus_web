@@ -9,6 +9,7 @@ import {
   EditTokenLayerPartService,
   EditFragmentFeatureBase
 } from '@cadmus/features/edit-state';
+import { LibraryRouteService } from '@cadmus/core';
 
 @Component({
   selector: 'cadmus-witnesses-fragment-feature',
@@ -25,7 +26,8 @@ export class WitnessesFragmentFeatureComponent extends EditFragmentFeatureBase
     editItemQuery: EditItemQuery,
     editItemService: EditItemService,
     editLayersQuery: EditTokenLayerPartQuery,
-    editLayersService: EditTokenLayerPartService
+    editLayersService: EditTokenLayerPartService,
+    libraryRouteService: LibraryRouteService
   ) {
     super(
       router,
@@ -35,7 +37,8 @@ export class WitnessesFragmentFeatureComponent extends EditFragmentFeatureBase
       editItemQuery,
       editItemService,
       editLayersQuery,
-      editLayersService
+      editLayersService,
+      libraryRouteService
     );
   }
 

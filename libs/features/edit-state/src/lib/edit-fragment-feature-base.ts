@@ -2,7 +2,8 @@ import { Observable } from 'rxjs';
 import {
   ThesauriSet,
   TokenLocation,
-  ComponentCanDeactivate
+  ComponentCanDeactivate,
+  LibraryRouteService
 } from '@cadmus/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -25,11 +26,11 @@ export abstract class EditFragmentFeatureBase
   public baseText$: Observable<string>;
   public frLoc: TokenLocation;
 
-  public itemId: string;
-  public partId: string;
-  public frTypeId: string;
-  public loc: string;
-  public frRoleId: string;
+  public readonly itemId: string;
+  public readonly partId: string;
+  public readonly frTypeId: string;
+  public readonly loc: string;
+  public readonly frRoleId: string;
 
   constructor(
     private _router: Router,
@@ -39,11 +40,12 @@ export abstract class EditFragmentFeatureBase
     private _editItemQuery: EditItemQuery,
     private _editItemService: EditItemService,
     private _editLayersQuery: EditTokenLayerPartQuery,
-    private _editLayersService: EditTokenLayerPartService
+    private _editLayersService: EditTokenLayerPartService,
+    private _libraryRouteService: LibraryRouteService
   ) {
     this.itemId = route.snapshot.params['iid'];
     this.partId = route.snapshot.params['pid'];
-    this.frTypeId = route.snapshot.params['frtid'];
+    this.frTypeId = route.snapshot.url[2].path;
     this.loc = route.snapshot.params['loc'];
     this.frRoleId = route.snapshot.queryParams['frrid'];
 
@@ -109,6 +111,17 @@ export abstract class EditFragmentFeatureBase
   }
 
   public close() {
-    this._router.navigate(['items', this.itemId]);
+    // /items/<id>/<part-group>/<part-typeid>/<part-id>?rid=<role-id>
+    const partTypeId = this._editLayersQuery.getValue().part.typeId;
+    const { partKey, frKey } = this._libraryRouteService.decomposeEditorKey(
+      this._editLayersQuery.getValue().selectedLayer.editorKey
+    );
+
+    const url = `/items/${this.itemId}/${partKey}/${partTypeId}/${this.partId}`;
+    this._router.navigate([url], {
+      queryParams: {
+        rid: this.frTypeId
+      }
+    });
   }
 }

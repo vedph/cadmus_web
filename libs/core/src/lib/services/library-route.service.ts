@@ -144,6 +144,27 @@ export class LibraryRouteService {
   }
 
   /**
+   * Decompose the specified editor key into part and fragment.
+   * A simple editor key will just provide the same value for both.
+   *
+   * @param key The editor key to decompose.
+   */
+  public decomposeEditorKey(key: string): { partKey: string, frKey: string } {
+    const i = key.indexOf(' ');
+    if (i > -1) {
+      return {
+        partKey: key.substr(0, i),
+        frKey: key.substr(i + 1)
+      };
+    } else {
+      return {
+        partKey: key,
+        frKey: key
+      };
+    }
+  }
+
+  /**
    * Get the base text part editor key from the specified definitions.
    * @param partDefs The part definitions.
    * @returns The key or null if not found.

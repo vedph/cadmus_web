@@ -9,6 +9,7 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 import { EditChronologyFragmentQuery } from './edit-chronology-fragment.query';
 import { EditChronologyFragmentService } from './edit-chronology-fragment.service';
+import { LibraryRouteService } from '@cadmus/core';
 
 @Component({
   selector: 'cadmus-chronology-fragment-feature',
@@ -25,7 +26,8 @@ export class ChronologyFragmentFeatureComponent extends EditFragmentFeatureBase
     editItemQuery: EditItemQuery,
     editItemService: EditItemService,
     editLayersQuery: EditTokenLayerPartQuery,
-    editLayersService: EditTokenLayerPartService
+    editLayersService: EditTokenLayerPartService,
+    libraryRouteService: LibraryRouteService
   ) {
     super(
       router,
@@ -35,7 +37,8 @@ export class ChronologyFragmentFeatureComponent extends EditFragmentFeatureBase
       editItemQuery,
       editItemService,
       editLayersQuery,
-      editLayersService
+      editLayersService,
+      libraryRouteService
     );
   }
 

@@ -73,4 +73,16 @@
       [locations]="locations"
     ></cadmus-decorated-token-text>
   </mat-card-content>
+  <div>
+    <button
+      type="button"
+      mat-raised-button
+      color="warn"
+      matTooltip="Close this editor"
+      (click)="close()"
+    >
+      <mat-icon>cancel</mat-icon>
+      close
+    </button>
+  </div>
 </mat-card>

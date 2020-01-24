@@ -224,4 +224,8 @@ export class TokenTextLayerPartFeatureComponent implements OnInit,
       this.coordsInfo = coords.toString();
     }
   }
+
+  public close() {
+    this._router.navigate(['/items', this.itemId]);
+  }
 }
