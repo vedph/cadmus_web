@@ -80,9 +80,9 @@ export class ItemService {
 
   /**
    * Get a page of items matching the specified filters.
-   * @param filter IItemFilter Items filter.
-   * @param parts boolean True to get also item's parts.
-   * @returns Observable<IPagedResult<IItemInfo>> Observable with paged result.
+   * @param filter Items filter.
+   * @param parts True to get also item's parts.
+   * @returns Observable with paged result.
    */
   public getItem(id: string, parts: boolean): Observable<Item> {
     let url = `${this._apiEndpoint}${this._databaseId}/item/${id}`;
@@ -94,8 +94,8 @@ export class ItemService {
 
   /**
    * Delete the item with the specified ID.
-   * @param string id The item's ID.
-   * @returns Observable<Object> Observable with result.
+   * @param id The item's ID.
+   * @returns Observable with result.
    */
   public deleteItem(id: string): Observable<Object> {
     const url = `${this._apiEndpoint}${this._databaseId}/item/${id}`;
@@ -104,8 +104,8 @@ export class ItemService {
 
   /**
    * Add or update the specified item.
-   * @param item IItem The item.
-   * @returns Observable<Response> Observable with result.
+   * @param item The item.
+   * @returns Observable with result.
    */
   public addItem(item: Item): Observable<Item> {
     const url = `${this._apiEndpoint}${this._databaseId}/items`;
@@ -116,8 +116,8 @@ export class ItemService {
 
   /**
    * Get the item's part with the specified ID.
-   * @param id string The part ID.
-   * @returns Observable<Part> Observable with result.
+   * @param id The part ID.
+   * @returns Observable with result.
    */
   public getPart(id: string): Observable<Part> {
     const url = `${this._apiEndpoint}${this._databaseId}/part/${id}`;
@@ -130,10 +130,10 @@ export class ItemService {
   /**
    * From the item with the specified ID, get the part matching the specified type
    * and role.
-   * @param itemId string The item ID.
-   * @param type string The part type.
-   * @param role string The part role.
-   * @returns Observable<Part> Observable with result.
+   * @param itemId The item ID.
+   * @param type The part type.
+   * @param role The part role.
+   * @returns Observable with result.
    */
   public getPartFromTypeAndRole(
     itemId: string,
@@ -144,6 +144,21 @@ export class ItemService {
       `${this._apiEndpoint}${this._databaseId}/` +
       `item/${itemId}/part/${type}/${role}`;
     return this._http.get<Part>(url).pipe(
+      retry(3),
+      catchError(this._error.handleError)
+    );
+  }
+
+  /**
+   * Gets the base text (if any) of the item with the specified ID.
+   * @param itemId The item's ID.
+   * @returns An observable of an object with a "text" property.
+   */
+  public getBaseText(itemId: string): Observable<{text: string}> {
+    const url =
+      `${this._apiEndpoint}${this._databaseId}/` +
+      `item/${itemId}/base-text`;
+    return this._http.get<{text: string}>(url).pipe(
       retry(3),
       catchError(this._error.handleError)
     );
@@ -165,8 +180,8 @@ export class ItemService {
    * Thus, the role IDs (=layer type) for layer parts may just be equal
    * to the fragment type ID (e.g. "fr.net.fusisoft.comment"), or include
    * this + dot + role ID proper (e.g."fr.net.fusisoft.comment:scholarly").
-   * @param itemId string The item's ID.
-   * @returns Observable<IRolePartId[]> Observable with array of IRolePartId's.
+   * @param itemId The item's ID.
+   * @returns Observable with array of IRolePartId's.
    */
   public getItemLayerPartIds(itemId: string): Observable<RolePartId[]> {
     const url =
@@ -179,8 +194,8 @@ export class ItemService {
 
   /**
    * Gets the data pins of the part with the specified ID.
-   * @param id string The part ID.
-   * @returns Observable<IDataPin[]> Observable with array of IDataPin's.
+   * @param id The part ID.
+   * @returns Observable with array of IDataPin's.
    */
   public getPartPins(id: string): Observable<RolePartId[]> {
     const url = `${this._apiEndpoint}${this._databaseId}/` + `part/${id}/pins`;
@@ -192,7 +207,7 @@ export class ItemService {
 
   /**
    * Delete the part with the specified ID.
-   * @param string id The part's ID.
+   * @param id The part's ID.
    * @returns Observable with result.
    */
   public deletePart(id: string): Observable<Object> {
@@ -215,7 +230,7 @@ export class ItemService {
   /**
    * Add or update the specified part.
    * @param item Part The part.
-   * @returns Observable<Object> Observable with result.
+   * @returns Observable with result.
    */
   public addPartJson(json: string): Observable<Object> {
     const url = `${this._apiEndpoint}${this._databaseId}/parts`;

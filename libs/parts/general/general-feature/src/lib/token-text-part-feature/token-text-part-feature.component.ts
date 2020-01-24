@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ThesauriSet } from '@cadmus/core';
+import { ThesauriSet, ComponentCanDeactivate } from '@cadmus/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EditItemQuery, EditItemService } from '@cadmus/features/edit-state';
 import { EditTokenTextPartQuery } from './edit-token-text-part.query';
@@ -11,7 +11,8 @@ import { EditTokenTextPartService } from './edit-token-text-part.service';
   templateUrl: './token-text-part-feature.component.html',
   styleUrls: ['./token-text-part-feature.component.css']
 })
-export class TokenTextPartFeatureComponent implements OnInit {
+export class TokenTextPartFeatureComponent
+  implements OnInit, ComponentCanDeactivate {
   public json$: Observable<string>;
   public thesauri$: Observable<ThesauriSet>;
 
@@ -33,6 +34,10 @@ export class TokenTextPartFeatureComponent implements OnInit {
       this.partId = null;
     }
     this.roleId = route.snapshot.queryParams['rid'];
+  }
+
+  public canDeactivate(): boolean {
+    return true;
   }
 
   private ensureItemLoaded(id: string) {

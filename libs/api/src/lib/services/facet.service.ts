@@ -15,7 +15,7 @@ export class FacetService {
 
   /**
    * Get a list of facets.
-   * @returns Observable<IFacet[]> Observable with facets array.
+   * @returns Observable with facets array.
    */
   public getFacets(): Observable<FacetDefinition[]> {
     const url = `${this._apiEndpoint}${this._databaseId}/facets`;
@@ -30,9 +30,9 @@ export class FacetService {
    * Get a list of all the parts defined in all the facets. This is useful
    * when the UI requires a list of items parts, assuming that all the parts used
    * in a database should occur at least 1 time in any of the defined facets.
-   * @param boolean noRoles True to ignore the roles when collecting parts from
+   * @param boolean True to ignore the roles when collecting parts from
    *  facets. In this case, you will get just 1 part for each part type.
-   * @returns Observable<IFacet[]> Observable with facets array.
+   * @returns Observable with facets array.
    */
   public getFacetParts(
     noRoles = false
@@ -43,6 +43,19 @@ export class FacetService {
     }
 
     return this._http.get<PartDefinition[]>(url).pipe(
+      retry(3),
+      catchError(this._error.handleError)
+    );
+  }
+
+  /**
+   * Get the text layer part type ID if any.
+   * @returns Observable of an object with property typeId=result or null.
+   */
+  public getTextLayerPartTypeId(): Observable<{typeId: string}> {
+    const url = `${this._apiEndpoint}${this._databaseId}/facets/layer-type-id`;
+
+    return this._http.get<{typeId: string}>(url).pipe(
       retry(3),
       catchError(this._error.handleError)
     );

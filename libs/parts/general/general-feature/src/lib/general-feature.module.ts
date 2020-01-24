@@ -28,6 +28,7 @@ import {
 import { KeywordsPartFeatureComponent } from './keywords-part-feature/keywords-part-feature.component';
 import { ChronologyFragmentFeatureComponent } from './chronology-fragment-feature/chronology-fragment-feature.component';
 import { HistoricalDatePartFeatureComponent } from './historical-date-part-feature/historical-date-part-feature.component';
+import { TokenTextLayerPartFeatureComponent } from './token-text-layer-part-feature/token-text-layer-part-feature.component';
 
 @NgModule({
   imports: [
@@ -66,6 +67,12 @@ import { HistoricalDatePartFeatureComponent } from './historical-date-part-featu
         canDeactivate: [PendingChangesGuard]
       },
       {
+        path: 'net.fusisoft.token-text-layer/:pid',
+        pathMatch: 'full',
+        component: TokenTextLayerPartFeatureComponent,
+        canDeactivate: [PendingChangesGuard]
+      },
+      {
         path: `fragment/:pid/${COMMENT_FRAGMENT_TYPEID}/:loc`,
         pathMatch: 'full',
         component: CommentFragmentFeatureComponent,
@@ -93,7 +100,8 @@ import { HistoricalDatePartFeatureComponent } from './historical-date-part-featu
     HistoricalDatePartFeatureComponent,
     KeywordsPartFeatureComponent,
     NotePartFeatureComponent,
-    TokenTextPartFeatureComponent
+    TokenTextPartFeatureComponent,
+    TokenTextLayerPartFeatureComponent
   ],
   exports: [
     CategoriesPartFeatureComponent,
@@ -102,7 +110,8 @@ import { HistoricalDatePartFeatureComponent } from './historical-date-part-featu
     HistoricalDatePartFeatureComponent,
     KeywordsPartFeatureComponent,
     NotePartFeatureComponent,
-    TokenTextPartFeatureComponent
+    TokenTextPartFeatureComponent,
+    TokenTextLayerPartFeatureComponent
   ]
 })
 export class GeneralFeatureModule {}

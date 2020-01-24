@@ -1,29 +1,38 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import {
+  PartDefinition,
+  TokenLocation,
+  LibraryRouteService,
+  TextLayerService,
+  ComponentCanDeactivate
+} from '@cadmus/core';
+import { RolePartId } from '@cadmus/api';
+import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DialogService } from '@cadmus/ui';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import {
   EditTokenLayerPartQuery,
   EditTokenLayerPartService,
   EditItemQuery,
   EditItemService
 } from '@cadmus/features/edit-state';
-import { Observable } from 'rxjs';
-import {
-  PartDefinition,
-  TokenLocation,
-  TextLayerService,
-  LibraryRouteService
-} from '@cadmus/core';
-import { RolePartId } from '@cadmus/api';
-import { FormControl, FormBuilder, Validators } from '@angular/forms';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { DialogService } from '@cadmus/ui';
 
+/**
+ * Token-based text layer part feature editor. This is a special type of editor,
+ * rather than being a simple wrapper like the others; it is used for editing
+ * any text layer (using token-based coordinates), whatever the type of its
+ * fragments. Being a sort of portal for accessing a fragments editor, it has
+ * no save capability: the single fragments are edited and saved as needed.
+ */
 @Component({
-  selector: 'cadmus-token-layer-part-editor',
-  templateUrl: './token-layer-part-editor.component.html',
-  styleUrls: ['./token-layer-part-editor.component.css']
+  selector: 'cadmus-token-text-layer-part-feature',
+  templateUrl: './token-text-layer-part-feature.component.html',
+  styleUrls: ['./token-text-layer-part-feature.component.css']
 })
-export class TokenLayerPartEditorComponent implements OnInit {
+export class TokenTextLayerPartFeatureComponent implements OnInit,
+  ComponentCanDeactivate {
   public itemId: string;
   public partId: string;
   public roleId: string;
@@ -63,6 +72,10 @@ export class TokenLayerPartEditorComponent implements OnInit {
 
     // form
     this.selectedLayer = formBuilder.control(null, Validators.required);
+  }
+
+  public canDeactivate(): boolean {
+    return true;
   }
 
   private ensureItemLoaded(id: string) {

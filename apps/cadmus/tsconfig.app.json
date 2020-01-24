@@ -16,8 +16,6 @@
 
     "../../libs/parts/general/general-feature/src/index.ts",
 
-    "../../libs/features/feature-token-layer-part-editor/src/index.ts",
-
     "../../libs/features/feature-admin/src/index.ts",
 
     "../../libs/features/feature-user/src/index.ts",

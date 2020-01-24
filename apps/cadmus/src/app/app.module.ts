@@ -162,14 +162,6 @@ import { FeatureWitnessesFragmentDemoComponent } from './demo/feature-witnesses-
           canActivate: [AuthGuardService]
         },
         {
-          path: 'items/:iid/layer/token/:pid',
-          loadChildren: () =>
-            import('@cadmus/features/feature-token-layer-part-editor').then(
-              module => module.FeatureTokenLayerPartEditorModule
-            ),
-          canActivate: [AuthGuardService]
-        },
-        {
           path: 'admin',
           loadChildren: () =>
             import('@cadmus/features/feature-admin').then(

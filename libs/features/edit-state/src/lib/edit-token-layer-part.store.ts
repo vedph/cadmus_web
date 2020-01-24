@@ -1,9 +1,7 @@
 import { StoreConfig, Store } from '@datorama/akita';
-import { PartDefinition, TokenTextLayerPart } from '@cadmus/core';
+import { PartDefinition, TextLayerPart } from '@cadmus/core';
 import { Injectable } from '@angular/core';
 import { RolePartId } from '@cadmus/api';
-
-export const TOKEN_TEXT_PART_TYPEID = 'net.fusisoft.token-text';
 
 /**
  * The state of the currently edited token-based text layer part, if any.
@@ -13,7 +11,7 @@ export interface EditTokenLayerPartState {
   /**
    * The layer part being edited.
    */
-  part: TokenTextLayerPart | null;
+  part: TextLayerPart | null;
   /**
    * The base text.
    */

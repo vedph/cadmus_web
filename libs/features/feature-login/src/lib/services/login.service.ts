@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthStore } from '../state/auth.store';
-import { AuthService } from '@cadmus/api';
+import { AuthService, RuntimeSettingsService } from '@cadmus/api';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -10,6 +10,7 @@ export class LoginService {
   constructor(
     private _authStore: AuthStore,
     private _authService: AuthService,
+    private _settingsService: RuntimeSettingsService,
     private _router: Router
   ) {}
 
@@ -27,6 +28,8 @@ export class LoginService {
       )
       .subscribe(user => {
         this._authStore.login(user);
+        // load runtime settings once logged in
+        this._settingsService.load();
         this._router.navigate([returnUrl || '/']);
       });
   }

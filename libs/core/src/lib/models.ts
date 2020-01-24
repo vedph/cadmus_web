@@ -83,10 +83,10 @@ export interface Fragment {
 }
 
 /**
- * Token-based text layer part. This represents a special type of part,
+ * Text layer part. This represents a special type of part,
  * whose only content is a collection of fragments.
  */
-export interface TokenTextLayerPart extends Part {
+export interface TextLayerPart extends Part {
   fragments: Fragment[];
 }
 

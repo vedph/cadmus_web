@@ -22,9 +22,7 @@ The general multirepo architecture is structured into these sections:
   - `libs/features/feature-item-list`: list of items page. Dependencies: `api`, `material`, `ui`.
   
   - `libs/features/feature-item-editor`: item editor page. Dependencies: `core`, `material`, `api`, `ui`, `edit-state`.
-  
-  - `libs/features/feature-token-layer-part-editor`: token-based layer part editor page. Dependencies: `core`, `material`, `api`, `ui`, `edit-state`, `features-ui`.
-  
+ 
   - `libs/features/feature-admin`: admin section pages: admin home, user registration, users manager. Dependencies: `core`, `material`, `api`, `ui`.
   
   - `libs/features/features-ui`: components shared among features. Dependencies: `core`, `material`, `edit-state`.
@@ -86,13 +84,6 @@ material <|-- "feature-item-editor"
 api <|-- "feature-item-editor"
 ui <|-- "feature-item-editor"
 "edit-state" <|-- "feature-item-editor"
-
-core <|-- "feature-token-layer-part-editor"
-material <|-- "feature-token-layer-part-editor"
-api <|-- "feature-token-layer-part-editor"
-ui <|-- "feature-token-layer-part-editor"
-"edit-state" <|-- "feature-token-layer-part-editor"
-"features-ui" <|-- "feature-token-layer-part-editor"
 
 core <|-- "feature-admin"
 material <|-- "feature-admin"

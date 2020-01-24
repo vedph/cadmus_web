@@ -7,5 +7,6 @@ export * from './lib/services/auth.service';
 export * from './lib/services/facet.service';
 export * from './lib/services/flag.service';
 export * from './lib/services/item.service';
+export * from './lib/services/runtime-settings.service';
 export * from './lib/services/thesaurus.service';
 export * from './lib/services/user.service';

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { User, GravatarService } from '@cadmus/core';
+import {
+  User,
+  GravatarService
+} from '@cadmus/core';
 import { AuthService } from '@cadmus/api';
 
 @Component({
@@ -13,7 +16,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private _authService: AuthService,
-    private _gravatarService: GravatarService) {}
+    private _gravatarService: GravatarService
+  ) {}
 
   ngOnInit() {
     this.user = this._authService.currentUserValue;
@@ -25,7 +29,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  public getGravatarUrl(email: string, size=80) {
+  public getGravatarUrl(email: string, size = 80) {
     return this._gravatarService.buildGravatarUrl(email, size);
   }
 

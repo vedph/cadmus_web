@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ItemService, FacetService } from '@cadmus/api';
 import {
-  EditTokenLayerPartStore,
-  TOKEN_TEXT_PART_TYPEID
-} from './edit-token-layer-part.store';
+  ItemService,
+  FacetService,
+  RuntimeSettingsService,
+  RS_TEXT_LAYER_TYPE_ID
+} from '@cadmus/api';
+import { EditTokenLayerPartStore } from './edit-token-layer-part.store';
 import { forkJoin } from 'rxjs';
 import {
-  TokenTextLayerPart,
+  TextLayerPart,
   Part,
   PartDefinition,
   TokenLocation,
@@ -14,17 +16,14 @@ import {
   Fragment
 } from '@cadmus/core';
 
-interface TokenTextPart extends Part {
-  lines: { y: number; text: string }[];
-}
-
 @Injectable({ providedIn: 'root' })
 export class EditTokenLayerPartService {
   constructor(
     private _store: EditTokenLayerPartStore,
     private _itemService: ItemService,
     private _facetService: FacetService,
-    private _utilService: UtilService
+    private _utilService: UtilService,
+    private _settingsService: RuntimeSettingsService
   ) {}
 
   public load(
@@ -37,19 +36,14 @@ export class EditTokenLayerPartService {
     forkJoin({
       // TODO: eventually optimize by adding method param to load only fragments locations
       layerPart: this._itemService.getPart(partId),
-      basePart: this._itemService.getPartFromTypeAndRole(
-        itemId,
-        TOKEN_TEXT_PART_TYPEID
-      ),
+      baseText: this._itemService.getBaseText(itemId),
       layers: this._facetService.getFacetParts(),
       rolePartIds: this._itemService.getItemLayerPartIds(itemId)
     }).subscribe(
       result => {
         this._store.update({
-          part: result.layerPart as TokenTextLayerPart,
-          baseText: (result.basePart as TokenTextPart).lines
-            .map(l => l.text)
-            .join('\n'),
+          part: result.layerPart as TextLayerPart,
+          baseText: result.baseText.text,
           layers: result.layers.filter(l => {
             return l.roleId && l.roleId.startsWith('fr.');
           }),
@@ -72,12 +66,11 @@ export class EditTokenLayerPartService {
   public addAndLoad(itemId: string) {
     this._store.setLoading(true);
 
-    const part: TokenTextLayerPart = {
+    const part: Part = {
       id: null, // this will be filled by server
       itemId: itemId,
-      typeId: TOKEN_TEXT_PART_TYPEID,
+      typeId: this._settingsService.get<string>(RS_TEXT_LAYER_TYPE_ID),
       roleId: null,
-      fragments: [],
       timeCreated: new Date(),
       creatorId: null,
       userId: null, // this will be filled by server

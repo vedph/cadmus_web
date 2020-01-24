@@ -1,6 +1,6 @@
 import { ItemService, ThesaurusService } from '@cadmus/api';
 import { forkJoin } from 'rxjs';
-import { TokenTextLayerPart } from '@cadmus/core';
+import { TextLayerPart } from '@cadmus/core';
 
 export interface EditFragmentStoreApi {
   update(value: any): void;
@@ -39,7 +39,7 @@ export abstract class EditFragmentServiceBase {
         part: this._itemService.getPart(partId),
         thesauri: this._thesaurusService.getThesauri(thesauriIds)
       }).subscribe(result => {
-        const layerPart = result.part as TokenTextLayerPart;
+        const layerPart = result.part as TextLayerPart;
         const fr = layerPart.fragments.find(f => f.location === loc);
         if (!fr) {
           this.setNotFoundError(partId, loc);
@@ -55,7 +55,7 @@ export abstract class EditFragmentServiceBase {
     } else {
       this._itemService.getPart(partId).subscribe(
         part => {
-          const layerPart = part as TokenTextLayerPart;
+          const layerPart = part as TextLayerPart;
           const fr = layerPart.fragments.find(f => f.location === loc);
           if (!fr) {
             this.setNotFoundError(partId, loc);

@@ -8,11 +8,28 @@ The editing-related routes are:
 
 - `/items/<id>/<part-group>/<part-typeid>/<part-id>?rid=<role-id>`: single part editor. Role ID is optional.
 
-- `/items/<id>/layer/token/<part-id>?rid=<role-id>`: single part's token-based text layer editor. Role ID is optional and can be used to pre-select a layer.
-
 - `/items/<id>/<part-group>/fragment/<part-id>/<fr-typeid>/<loc>?rid=<role-id>`: single part's fragment editor. Role ID is optional.
 
 Note that the part-editing routes always have a part-group key. This comes from the `editorKey` property of each part's definition; if such a property is not defined (but in practice this should never happen), it defaults to `default`.
+
+Note that for layer parts the `editorKey` can be a composite value, with 2 different values separated by space. In this case, the first value is the part editor key, and the second value is the fragment editor key. Should these be equal, you can just use a single, non composite value for both.
+
+For instance, consider this part definition in a data profile:
+
+```json
+{
+  "typeId": "net.fusisoft.token-text-layer",
+  "roleId": "fr.net.fusisoft.apparatus",
+  "name": "apparatus",
+  "description": "Critical apparatus.",
+  "colorKey": "D4E0A4",
+  "groupKey": "text",
+  "sortKey": "text-apparatus",
+  "editorKey": "general philology"
+},
+```
+
+Here, the editor key is composite because the text layer part editor is in the `general` library, while the apparatus fragment editor is in the `philology` module.
 
 Grouping parts is required as far as we want to be able to lazily load our part-related modules. For instance, all our generic parts will be under the same `generic` group key, and their code will be found in the corresponding, lazy-loaded module. When editing an item's part, the frontend looks at the part definitions, searching for the first one matching the part's type ID; then, it uses the corresponding part's group key to build the edit URL.
 
@@ -41,26 +58,7 @@ Here the group key follows the route to the lazily loaded module with the part e
 
 Here the role ID is ignored as for determining the target page, as the part's editor is always the same, whatever its role. Yet, the role information must be retained in order to properly save the part.
 
-3. a **text layer part** route:
-
-- `/items/`
-- `41d5208b-1af7-44a1-b690-33f85c7d24fa/`: item's ID.
-- `layer/`
-- `token/`
-- `eafc9d63-f790-4c96-8107-294f4cb1a952`: part's ID.
-
-The part layers editor is always the same, whatever the layers types. Thus, its route does not require a group key for identifying the module, or a part type ID for identifying the editor. It just reflects the fact that we are editing a `layer`, and that the layer's location rests on `token`-based coordinates. This is currently the only type of text layer possible, but we could provide more in the future. In this case, they will require a different part layers editor, whose route will replace `token` with something else.
-
-4. a **text layer part** route with **role**: this is the same as #3, except for the final `rid` query parameter. This is used to pre-select a specific layer in the layers editor.
-
-- `/items/`
-- `41d5208b-1af7-44a1-b690-33f85c7d24fa/`: item's ID.
-- `layer/`
-- `token/`
-- `eafc9d63-f790-4c96-8107-294f4cb1a952`: part's ID.
-- `?rid=fr.net.fusisoft.comment`: select the comments layer in the editor.
-
-5. a **text layer fragment** route:
+3. a **text layer fragment** route:
 
 - `/items/`
 - `41d5208b-1af7-44a1-b690-33f85c7d24fa/`: item's ID.
@@ -70,7 +68,7 @@ The part layers editor is always the same, whatever the layers types. Thus, its 
 - `fr.net.fusisoft.comment`: fragment's type ID. This is equal to the part's role ID, stripping an eventual layer's role ID out.
 - `2.1`: the fragment's location.
 
-6. a **text layer fragment** route with layer **role**:
+4. a **text layer fragment** route with layer **role**:
 
 - `/items/`
 - `41d5208b-1af7-44a1-b690-33f85c7d24fa/`: item's ID.

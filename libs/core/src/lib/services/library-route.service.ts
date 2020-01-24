@@ -74,38 +74,85 @@ export class LibraryRouteService {
   }
 
   /**
+   * Find among the specified parts definitions the one matching the specified
+   * type ID, and eventually role ID when specified.
+   * @param partDefs The parts definitions.
+   * @param typeId The type ID.
+   * @param roleId The role ID or null.
+   * @returns Part definition or null if not found.
+   */
+  private findPartDefinition(
+    partDefs: PartDefinition[],
+    typeId: string,
+    roleId: string = null
+  ): PartDefinition | null {
+    if (!partDefs) {
+      return null;
+    }
+
+    // if role ID is specified, find both type and role
+    if (roleId) {
+      const reqRoleId = this.stripFragmentRoleId(roleId);
+      return partDefs.find(d => {
+        return (
+          d.typeId === typeId &&
+          this.stripFragmentRoleId(d.roleId) === reqRoleId
+        );
+      });
+    }
+    // else just find type ID
+    return partDefs.find(d => {
+      return d.typeId === typeId;
+    });
+  }
+
+  /**
    * Get the library editor key from the specified part type, looking up
    * the specified parts definitions.
    *
    * @param partDefs The parts definitions.
    * @param typeId The part's type ID.
    * @param roleId The part's role ID.
+   * @param fragment True to return the fragment's editor key rather than
+   * the part's editor key, when the editor key is composite (in this case,
+   * there are two values separated by space where 1=part and 2=fragment key,
+   * unless they are equal).
    */
   public getEditorKeyFromPartType(
     partDefs: PartDefinition[],
     typeId: string,
-    roleId: string = null
+    roleId: string = null,
+    fragment = false
   ): string {
     if (!partDefs) {
       return 'default';
     }
 
-    let def: PartDefinition;
-    if (roleId) {
-      // find both type and role
-      const reqRoleId = this.stripFragmentRoleId(roleId);
-      def = partDefs.find(d => {
-        return (
-          d.typeId === typeId &&
-          this.stripFragmentRoleId(d.roleId) === reqRoleId
-        );
-      });
-    } else {
-      def = partDefs.find(d => {
-        return d.typeId === typeId;
-      });
+    // find the matching definition
+    const def = this.findPartDefinition(partDefs, typeId, roleId);
+    if (!def || !def.editorKey) {
+      return 'default';
     }
-    return def && def.editorKey ? def.editorKey : 'default';
+
+    // if dealing with a composite key, return the requested portion of it
+    const i = def.editorKey.indexOf(' ');
+    if (i > -1) {
+      return fragment? def.editorKey.substr(i + 1) : def.editorKey.substr(0, i);
+    }
+    // else just return it as a whole
+    return def.editorKey;
+  }
+
+  /**
+   * Get the base text part editor key from the specified definitions.
+   * @param partDefs The part definitions.
+   * @returns The key or null if not found.
+   */
+  private getBaseTextPartEditorKey(partDefs: PartDefinition[]): string {
+    const def = partDefs.find(d => {
+      return d.roleId === 'base-text';
+    });
+    return def ? def.editorKey : null;
   }
 
   /**
@@ -137,25 +184,13 @@ export class LibraryRouteService {
     typeId: string,
     roleId: string
   ): { route: string; rid: string | null } {
-    const def = partDefs.find(p => p.typeId === typeId);
-
-    // layer parts always have a role ID equal to the fragment's type ID,
-    // which always starts with "fr.".
-    const isLayer = def && roleId && roleId.startsWith('fr.');
-
     let route: string;
     let rid: string = null;
     const editorKey = this.getEditorKeyFromPartType(partDefs, typeId);
 
-    if (isLayer) {
-      // /items/<id>/layer/token/<pid>?rid=X
-      route = `/items/${itemId}/layer/token/${partId}`;
-      // (currently rid has no meaning for a layers part)
-    } else {
-      // /items/<id>/<part-group>/ +
-      // <part-typeid>/<part-id>?rid=<role-id>
-      route = `/items/${itemId}/${editorKey}/${typeId}/${partId}`;
-    }
+    // /items/<id>/<part-group>/<part-typeid>/<part-id>?rid=<role-id>
+    route = `/items/${itemId}/${editorKey}/${typeId}/${partId}`;
+
     if (roleId) {
       rid = roleId;
     }
@@ -187,7 +222,7 @@ export class LibraryRouteService {
     loc: string
   ): { route: string; rid: string | null } {
     let route: string;
-    const editorKey = this.getEditorKeyFromPartType(partDefs, typeId, roleId);
+    const editorKey = this.getEditorKeyFromPartType(partDefs, typeId, roleId, true);
     const { frTypeId, frRoleId } = this.getFragmentTypeAndRole(roleId);
 
     route = `/items/${itemId}/${editorKey}/fragment/${partId}/${frTypeId}/${loc}`;
