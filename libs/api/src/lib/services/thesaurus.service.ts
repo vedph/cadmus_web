@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { ErrorService, Thesaurus, ThesauriSet } from '@cadmus/core';
@@ -28,13 +28,24 @@ export class ThesaurusService {
   /**
    * Gets the tags set with the specified ID.
    * @param id string The tag set ID.
+   * @param emptyIfNotFound True to return an empty thesaurus when the requested
+   * thesaurus ID is not found, rather than getting a 404.
    * @returns Tag set.
    */
-  public getThesaurus(id: string): Observable<Thesaurus> {
+  public getThesaurus(
+    id: string,
+    emptyIfNotFound = false
+  ): Observable<Thesaurus> {
+    let httpParams = new HttpParams();
+    if (emptyIfNotFound) {
+      httpParams = httpParams.set('emptyIfNotFound', true.toString());
+    }
     const url =
       `${this._apiEndpoint}${this._databaseId}` +
       `/thesauri/${encodeURIComponent(id)}`;
-    return this._http.get<Thesaurus>(url).pipe(
+    return this._http.get<Thesaurus>(url, {
+      params: httpParams
+    }).pipe(
       retry(3),
       catchError(this._error.handleError)
     );

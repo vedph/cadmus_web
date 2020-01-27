@@ -24,7 +24,7 @@ export class EditItemService {
     const facetParts$ = this._facetService.getFacetParts();
     const facets$ = this._facetService.getFacets();
     const flags$ = this._flagService.getFlags();
-    const thesaurus$ = this._thesaurusService.getThesaurus('model-types');
+    const thesaurus$ = this._thesaurusService.getThesaurus('model-types@en', true);
 
     if (itemId) {
       // if not new, include item in load

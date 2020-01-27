@@ -182,12 +182,11 @@ export class ItemEditorComponent implements OnInit {
 
   public getTypeIdName(typeId: string): string {
     const state = this._query.getValue();
-    if (state) {
-      const entry = state.typeThesaurus.entries.find(e => e.id === typeId);
-      return entry ? entry.value : typeId;
-    } else {
+    if (!state || !state.typeThesaurus) {
       return typeId;
     }
+    const entry = state.typeThesaurus.entries.find(e => e.id === typeId);
+    return entry ? entry.value : typeId;
   }
 
   public getRoleIdName(roleId: string): string {
