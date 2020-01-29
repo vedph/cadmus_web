@@ -23,10 +23,20 @@ export const KEYWORDS_PART_TYPEID = 'net.fusisoft.keywords';
  */
 export const KEYWORDS_PART_SCHEMA = {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'www.fusisoft.net/cadmus/parts/general/keywords.json',
+  $id:
+    'www.fusisoft.net/cadmus/parts/general/' + KEYWORDS_PART_TYPEID + '.json',
   type: 'object',
   title: 'KeywordsPart',
-  required: ['id', 'itemId', 'timeModified', 'typeId', 'userId', 'keywords'],
+  required: [
+    'id',
+    'itemId',
+    'typeId',
+    'timeCreated',
+    'creatorId',
+    'timeModified',
+    'userId',
+    'keywords'
+  ],
   properties: {
     timeCreated: {
       type: 'string',
@@ -55,8 +65,8 @@ export const KEYWORDS_PART_SCHEMA = {
       pattern: '^[a-z][-0-9a-z._]*$'
     },
     roleId: {
-      type: 'string'
-      // pattern: '^([a-z][-0-9a-z._]*)?$'
+      type: ['string', 'null'],
+      pattern: '^([a-z][-0-9a-z._]*)?$'
     },
     keywords: {
       type: 'array',

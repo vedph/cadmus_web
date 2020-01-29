@@ -13,10 +13,13 @@ export const ORTHOGRAPHY_FRAGMENT_TYPEID = 'fr.net.fusisoft.orthography';
 export const ORTHOGRAPHY_FRAGMENT_SCHEMA = {
   definitions: {},
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'http://example.com/root.json',
+  $id:
+    'www.fusisoft.net/cadmus/fragments/philology/' +
+    ORTHOGRAPHY_FRAGMENT_TYPEID +
+    '.json',
   type: 'object',
   title: 'OrthographyFragment',
-  required: ['location', 'standard', 'operations'],
+  required: ['location', 'standard'],
   properties: {
     location: {
       $id: '#/properties/location',

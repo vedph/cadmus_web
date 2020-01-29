@@ -22,11 +22,20 @@ export const NOTE_PART_SCHEMA = {
   $id: 'www.fusisoft.net/cadmus/parts/general/' + NOTE_PART_TYPEID + '.json',
   type: 'object',
   title: 'NotePart',
-  required: ['id', 'itemId', 'text', 'timeModified', 'typeId', 'userId'],
+  required: [
+    'id',
+    'itemId',
+    'typeId',
+    'timeCreated',
+    'creatorId',
+    'timeModified',
+    'userId',
+    'text'
+  ],
   properties: {
     timeModified: {
       type: 'string',
-      pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\.\\d+Z$'
+      pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d+Z$'
     },
     userId: {
       type: 'string'
@@ -44,14 +53,14 @@ export const NOTE_PART_SCHEMA = {
       pattern: '^[a-z][-0-9a-z._]*$'
     },
     roleId: {
-      type: 'string'
-      // pattern: '^([a-z][-0-9a-z._]*)?$'
+      type: ['string', 'null'],
+      pattern: '^([a-z][-0-9a-z._]*)?$'
     },
     text: {
       type: 'string'
     },
     tag: {
-      type: 'string'
+      type: ['string', 'null']
     }
   }
 };

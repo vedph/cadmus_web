@@ -14,7 +14,10 @@ export const CHRONOLOGY_FRAGMENT_TYPEID = 'fr.net.fusisoft.chronology';
 export const CHRONOLOGY_FRAGMENT_SCHEMA = {
   definitions: {},
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'www.fusisoft.net/cadmus/parts/general/' + CHRONOLOGY_FRAGMENT_TYPEID + '.json',
+  $id:
+    'www.fusisoft.net/cadmus/fragments/general/' +
+    CHRONOLOGY_FRAGMENT_TYPEID +
+    '.json',
   type: 'object',
   title: 'ChronologyFragment',
   required: ['location', 'date'],
@@ -57,7 +60,7 @@ export const CHRONOLOGY_FRAGMENT_SCHEMA = {
               type: 'integer'
             },
             hint: {
-              type: 'string'
+              type: ['string', 'null']
             }
           }
         },
@@ -87,7 +90,7 @@ export const CHRONOLOGY_FRAGMENT_SCHEMA = {
               type: 'integer'
             },
             hint: {
-              type: 'string'
+              type: ['string', 'null']
             }
           }
         }

@@ -18,10 +18,19 @@ export const CATEGORIES_PART_TYPEID = 'net.fusisoft.categories';
  */
 export const CATEGORIES_PART_SCHEMA = {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'www.fusisoft.net/cadmus/parts/general/categories.json',
+  $id: 'www.fusisoft.net/cadmus/parts/general/' + CATEGORIES_PART_TYPEID + '.json',
   type: 'object',
   title: 'CategoriesPart',
-  required: ['id', 'itemId', 'timeModified', 'typeId', 'userId', 'categories'],
+  required: [
+    'id',
+    'itemId',
+    'typeId',
+    'timeCreated',
+    'creatorId',
+    'timeModified',
+    'userId',
+    'categories'
+  ],
   properties: {
     timeCreated: {
       type: 'string',
@@ -50,8 +59,8 @@ export const CATEGORIES_PART_SCHEMA = {
       pattern: '^[a-z][-0-9a-z._]*$'
     },
     roleId: {
-      type: 'string'
-      // pattern: '^([a-z][-0-9a-z._]*)?$'
+      type: ['string', 'null'],
+      pattern: '^([a-z][-0-9a-z._]*)?$'
     },
     categories: {
       type: 'array',

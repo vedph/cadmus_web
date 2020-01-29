@@ -31,7 +31,17 @@ export const TOKEN_TEXT_PART_SCHEMA = {
     'www.fusisoft.net/cadmus/parts/general/' + TOKEN_TEXT_PART_TYPEID + '.json',
   type: 'object',
   title: 'TokenTextPart',
-  required: ['id', 'itemId', 'lines', 'timeModified', 'typeId', 'userId'],
+  required: [
+    'id',
+    'itemId',
+    'typeId',
+    'timeCreated',
+    'creatorId',
+    'timeModified',
+    'userId',
+    'categories',
+    'lines'
+  ],
   properties: {
     timeModified: {
       type: 'string',
@@ -53,11 +63,11 @@ export const TOKEN_TEXT_PART_SCHEMA = {
       pattern: '^[a-z][-0-9a-z._]*$'
     },
     roleId: {
-      type: 'string'
-      // pattern: '^([a-z][-0-9a-z._]*)?$'
+      type: ['string', 'null'],
+      pattern: '^([a-z][-0-9a-z._]*)?$'
     },
     citation: {
-      type: 'string'
+      type: ['string', 'null']
     },
     lines: {
       $id: '#/properties/lines',

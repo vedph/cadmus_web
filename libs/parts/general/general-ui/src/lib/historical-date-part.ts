@@ -18,10 +18,22 @@ export const HISTORICAL_DATE_PART_TYPEID = 'net.fusisoft.historical-date';
  */
 export const HISTORICAL_DATE_PART_SCHEMA = {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'www.fusisoft.net/cadmus/parts/general/historical-date.json',
+  $id:
+    'www.fusisoft.net/cadmus/parts/general/' +
+    HISTORICAL_DATE_PART_TYPEID +
+    '.json',
   type: 'object',
   title: 'HistoricalDatePart',
-  required: ['id', 'itemId', 'timeModified', 'typeId', 'userId', 'date'],
+  required: [
+    'id',
+    'itemId',
+    'typeId',
+    'timeCreated',
+    'creatorId',
+    'timeModified',
+    'userId',
+    'date'
+  ],
   properties: {
     timeCreated: {
       type: 'string',
@@ -50,8 +62,8 @@ export const HISTORICAL_DATE_PART_SCHEMA = {
       pattern: '^[a-z][-0-9a-z._]*$'
     },
     roleId: {
-      type: 'string'
-      // pattern: '^([a-z][-0-9a-z._]*)?$'
+      type: ['string', 'null'],
+      pattern: '^([a-z][-0-9a-z._]*)?$'
     },
     date: {
       type: 'object',
@@ -83,7 +95,7 @@ export const HISTORICAL_DATE_PART_SCHEMA = {
               type: 'integer'
             },
             hint: {
-              type: 'string'
+              type: ['string', 'null']
             }
           }
         },
@@ -113,7 +125,7 @@ export const HISTORICAL_DATE_PART_SCHEMA = {
               type: 'integer'
             },
             hint: {
-              type: 'string'
+              type: ['string', 'null']
             }
           }
         }

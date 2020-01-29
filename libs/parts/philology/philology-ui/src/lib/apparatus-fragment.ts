@@ -33,7 +33,10 @@ export const APPARATUS_FRAGMENT_TYPEID = 'fr.net.fusisoft.apparatus';
 export const APPARATUS_FRAGMENT_SCHEMA = {
   definitions: {},
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'http://example.com/root.json',
+  $id:
+    'www.fusisoft.net/cadmus/fragments/philology/' +
+    APPARATUS_FRAGMENT_TYPEID +
+    '.json',
   type: 'object',
   title: 'ApparatusFragment',
   required: ['location', 'type', 'authors'],
@@ -62,7 +65,7 @@ export const APPARATUS_FRAGMENT_SCHEMA = {
       }
     },
     note: {
-      type: 'string'
+      type: ['string', 'null']
     }
   }
 };
