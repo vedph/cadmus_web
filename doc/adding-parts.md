@@ -46,7 +46,7 @@ export const __NAME___PART_TYPEID = 'net.fusisoft.__NAME__';
  */
 export const __NAME___PART_SCHEMA = {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'www.fusisoft.net/cadmus/parts/general/__NAME__.json',
+  $id: 'www.fusisoft.net/cadmus/parts/general/' + __NAME___PART_TYPEID + '.json',
   type: 'object',
   title: '__NAME__Part',
   required: ['id', 'itemId', 'timeModified', 'typeId', 'userId'],
@@ -71,8 +71,8 @@ export const __NAME___PART_SCHEMA = {
       pattern: '^[a-z][-0-9a-z._]*$'
     },
     roleId: {
-      type: 'string'
-      // pattern: '^([a-z][-0-9a-z._]*)?$'
+      type: ['string', 'null'],
+      pattern: '^([a-z][-0-9a-z._]*)?$'
     }
 
     // TODO: add properties and fill the "required" array as needed

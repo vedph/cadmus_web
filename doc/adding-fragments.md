@@ -25,7 +25,7 @@ export const __NAME___FRAGMENT_TYPEID = 'fr.net.fusisoft.__NAME__';
 export const __NAME___FRAGMENT_SCHEMA = {
   definitions: {},
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'http://example.com/root.json',
+  $id: 'www.fusisoft.net/cadmus/fragments/general/' + __NAME___FRAGMENT_TYPEID + '.json',
   type: 'object',
   title: '__NAME__Fragment',
   // TODO: add which properties are required
