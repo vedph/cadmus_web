@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import {
   MatBadgeModule,
   MatButtonModule,
@@ -33,6 +34,7 @@ import {
   imports: [
     CommonModule,
     FlexLayoutModule,
+    DragDropModule,
     MatBadgeModule,
     MatButtonModule,
     MatCardModule,
@@ -60,6 +62,7 @@ import {
   ],
   exports: [
     FlexLayoutModule,
+    DragDropModule,
     MatBadgeModule,
     MatButtonModule,
     MatCardModule,

@@ -15,21 +15,27 @@
         </mat-form-field>
       </div>
       <!-- rows -->
-      <div *ngIf="rows">
+      <div *ngIf="rows" cdkDropListGroup>
+        <!-- row -->
         <div
+          cdkDropList
+          cdkDropListOrientation="horizontal"
           *ngFor="let row of rows; let i = index"
+          (cdkDropListDropped)="drop($event, row)"
           fxLayout="row"
           fxLayoutAlign="start center"
         >
           <span class="row-nr">{{ i + 1 }}</span>
+          <!-- tiles -->
           <cadmus-text-tile
             *ngFor="let tile of row.tiles || []"
             [tile]="tile"
+            cdkDrag
+            fxFlex="none"
           ></cadmus-text-tile>
           <button
             type="button"
             mat-icon-button
-            color="primary"
             (click)="addTile(row)"
             matTooltip="Append new tile"
           >
@@ -37,16 +43,14 @@
           </button>
         </div>
       </div>
-      <div *ngIf="rows?.length === 0">
-        <button
-          type="button"
-          mat-raised-button
-          (click)="addRow()"
-        >
-          <mat-icon>add_circle</mat-icon>
-          add row
-        </button>
-      </div>
+      <button
+        type="button"
+        mat-icon-button
+        matTooltip="Append new row"
+        (click)="addRow()"
+      >
+        <mat-icon>add_circle</mat-icon>
+      </button>
 
       <mat-card-actions>
         <cadmus-close-save-buttons

@@ -10,9 +10,11 @@ import {
   TiledTextPart,
   TextTileRow,
   TILEDTEXTPART_TYPEID,
-  TEXT_TILE_TEXT_DATA_NAME
+  TEXT_TILE_TEXT_DATA_NAME,
+  TextTile
 } from '../tiled-text-part';
 import { AuthService } from '@cadmus/api';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'cadmus-tiled-text-part',
@@ -119,5 +121,11 @@ export class TiledTextPartComponent
       x: x,
       data: data
     });
+  }
+
+  public drop(event: CdkDragDrop<TextTile[]>, row: TextTileRow) {
+    // https://material.angular.io/cdk/drag-drop/overview
+    moveItemInArray(row.tiles, event.previousIndex, event.currentIndex);
+    this.adjustCoords();
   }
 }

@@ -145,7 +145,7 @@ The thesaurus is optional. When not set, the editor allows free text for the tag
 
 No thesaurus is required for this part.
 
-## Part/Text Part
+## Part/Token Text Part
 
 ```json
 {
@@ -166,6 +166,72 @@ No thesaurus is required for this part.
     }
   ],
   "citation": "Sen. ep. 1,23"
+}
+```
+
+No thesaurus is required for this part.
+
+## Part/Tiled Text Part
+
+```json
+{
+  "id": "009dcbd9-b1f1-4dc2-845d-1d9c88c83269",
+  "itemId": "2c2eadb7-1972-4415-9a43-b8036b6fa685",
+  "typeId": "net.fusisoft.tiled-text-part",
+  "roleId": null,
+  "timeModified": "2019-12-10T20:31:31.7000245Z",
+  "userId": "zeus",
+  "citation": "1.2",
+  "rows": [
+    {
+      "y": 1,
+      "tiles": [
+        {
+          "x": 1,
+          "data": {
+            "text": "one",
+            "id": "t1"
+          }
+        },
+        {
+          "x": 2,
+          "data": {
+            "text": "two",
+            "id": "t2"
+          }
+        },
+        {
+          "x": 3,
+          "data": {
+            "text": "three",
+            "id": "t3"
+          }
+        }
+      ],
+      "data": {
+        "id": "r1"
+      }
+    },
+    {
+      "y": 2,
+      "tiles": [
+        {
+          "x": 1,
+          "data": {
+            "text": "four",
+            "id": "t4"
+          }
+        },
+        {
+          "x": 2,
+          "data": {
+            "text": "five",
+            "id": "t5"
+          }
+        }
+      ]
+    }
+  ]
 }
 ```
 

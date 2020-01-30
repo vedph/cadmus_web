@@ -112,6 +112,7 @@ export class TextTileComponent implements OnInit {
     this.editing = true;
     setTimeout(() => {
       this.textElement.nativeElement.focus();
+      this.textElement.nativeElement.select();
     }, 500);
   }
 
