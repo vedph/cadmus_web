@@ -1,4 +1,5 @@
 div.tile {
+  margin: 2px;
   padding-left: 4px;
   padding-right: 4px;
   border: 1px solid gray;

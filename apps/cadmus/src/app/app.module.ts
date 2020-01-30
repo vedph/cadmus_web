@@ -38,6 +38,7 @@ import { FeatureHistoricalDatePartDemoComponent } from './demo/feature-historica
 import { FeatureChronologyFragmentDemoComponent } from './demo/feature-chronology-fragment-demo/feature-chronology-fragment-demo.component';
 import { FeatureApparatusFragmentDemoComponent } from './demo/feature-apparatus-fragment-demo/feature-apparatus-fragment-demo.component';
 import { FeatureWitnessesFragmentDemoComponent } from './demo/feature-witnesses-fragment-demo/feature-witnesses-fragment-demo.component';
+import { FeatureTiledTextPartDemoComponent } from './demo/feature-tiled-text-part-demo/feature-tiled-text-part-demo.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { FeatureWitnessesFragmentDemoComponent } from './demo/feature-witnesses-
     FeatureNotePartDemoComponent,
     FeatureOrthographyFragmentDemoComponent,
     FeatureTokenTextPartDemoComponent,
-    FeatureWitnessesFragmentDemoComponent
+    FeatureWitnessesFragmentDemoComponent,
+    FeatureTiledTextPartDemoComponent
   ],
   imports: [
     BrowserModule,
@@ -94,6 +96,11 @@ import { FeatureWitnessesFragmentDemoComponent } from './demo/feature-witnesses-
         {
           path: 'demo/token-text-part',
           component: FeatureTokenTextPartDemoComponent,
+          pathMatch: 'full'
+        },
+        {
+          path: 'demo/tiled-text-part',
+          component: FeatureTiledTextPartDemoComponent,
           pathMatch: 'full'
         },
         {

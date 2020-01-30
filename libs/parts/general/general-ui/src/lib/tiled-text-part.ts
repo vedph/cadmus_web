@@ -10,7 +10,7 @@ export const TEXT_TILE_TEXT_DATA_NAME = "text";
  */
 export interface TextTile {
   x: number;
-  data: { [key: string]: any };
+  data?: { [key: string]: any };
 }
 
 /**
@@ -19,7 +19,7 @@ export interface TextTile {
 export interface TextTileRow {
   y: number;
   tiles: TextTile[];
-  data: { [key: string]: any };
+  data?: { [key: string]: any };
 }
 
 /**

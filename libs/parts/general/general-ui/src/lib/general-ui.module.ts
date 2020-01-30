@@ -24,6 +24,7 @@ import { ChronologyFragmentComponent } from './chronology-fragment/chronology-fr
 import { ChronologyFragmentDemoComponent } from './chronology-fragment-demo/chronology-fragment-demo.component';
 import { TiledTextPartComponent } from './tiled-text-part/tiled-text-part.component';
 import { TextTileComponent } from './text-tile/text-tile.component';
+import { TiledTextPartDemoComponent } from './tiled-text-part-demo/tiled-text-part-demo.component';
 
 @NgModule({
   imports: [
@@ -52,6 +53,7 @@ import { TextTileComponent } from './text-tile/text-tile.component';
     NotePartDemoComponent,
     TextTileComponent,
     TiledTextPartComponent,
+    TiledTextPartDemoComponent,
     TokenTextPartComponent,
     TokenTextPartDemoComponent
   ],
@@ -70,6 +72,7 @@ import { TextTileComponent } from './text-tile/text-tile.component';
     NotePartDemoComponent,
     TextTileComponent,
     TiledTextPartComponent,
+    TiledTextPartDemoComponent,
     TokenTextPartComponent,
     TokenTextPartDemoComponent
   ]

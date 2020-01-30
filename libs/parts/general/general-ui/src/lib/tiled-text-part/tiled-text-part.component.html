@@ -1,1 +1,60 @@
-<p>tiled-text-part works!</p>
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>Tiled Text Part</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- citation -->
+      <div>
+        <mat-form-field>
+          <input matInput formControlName="citation" placeholder="citation" />
+        </mat-form-field>
+      </div>
+      <!-- rows -->
+      <div *ngIf="rows">
+        <div
+          *ngFor="let row of rows; let i = index"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+        >
+          <span class="row-nr">{{ i + 1 }}</span>
+          <cadmus-text-tile
+            *ngFor="let tile of row.tiles || []"
+            [tile]="tile"
+          ></cadmus-text-tile>
+          <button
+            type="button"
+            mat-icon-button
+            color="primary"
+            (click)="addTile(row)"
+            matTooltip="Append new tile"
+          >
+            <mat-icon>add_circle</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="rows?.length === 0">
+        <button
+          type="button"
+          mat-raised-button
+          (click)="addRow()"
+        >
+          <mat-icon>add_circle</mat-icon>
+          add row
+        </button>
+      </div>
+
+      <mat-card-actions>
+        <cadmus-close-save-buttons
+          [form]="form"
+          [noSave]="isVisitor"
+          (closeRequest)="close()"
+        ></cadmus-close-save-buttons>
+      </mat-card-actions>
+    </mat-card-content>
+  </mat-card>
+</form>
