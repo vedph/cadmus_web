@@ -1,0 +1,13 @@
+div.tile {
+  padding-left: 4px;
+  padding-right: 4px;
+  border: 1px solid gray;
+  border-radius: 4px;
+}
+div.selected {
+  background-color: aliceblue;
+}
+span.text {
+  font-weight: bold;
+  color: #202020;
+}

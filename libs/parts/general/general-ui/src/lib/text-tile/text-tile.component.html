@@ -1,0 +1,66 @@
+<div *ngIf="tile" class="tile" [class.selected]="selected">
+  <ng-container *ngIf="editing">
+    <form [formGroup]="form" (submit)="save()">
+      <mat-form-field>
+        <input
+          #textInput
+          matInput
+          type="text"
+          placeholder="text [{{ tile.x }}]"
+          spellcheck="false"
+          formControlName="editedText"
+        />
+        <mat-error
+          *ngIf="
+            editedText.hasError('required') &&
+            (editedText.dirty || editedText.touched)
+          "
+          >enter a text</mat-error
+        >
+        <mat-error
+          *ngIf="
+            editedText.hasError('maxLength') &&
+            (editedText.dirty || editedText.touched)
+          "
+          >text too long</mat-error
+        >
+      </mat-form-field>
+
+      <button
+        type="button"
+        mat-icon-button
+        matTooltip="Discard text"
+        color="warn"
+        (click)="cancel()"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+      <button
+        type="submit"
+        [disabled]="form.invalid"
+        mat-icon-button
+        matTooltip="Save text"
+        color="primary"
+      >
+        <mat-icon>check_circle</mat-icon>
+      </button>
+    </form>
+  </ng-container>
+
+  <ng-container *ngIf="!editing">
+    <span class="text">{{ text }}</span>
+    <button
+      type="button"
+      mat-icon-button
+      matTooltip="Edit text"
+      color="primary"
+      (click)="edit()"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+    <mat-checkbox
+      [formControl]="selector"
+      matTooltip="Toggle selection"
+    ></mat-checkbox>
+  </ng-container>
+</div>

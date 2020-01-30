@@ -22,6 +22,8 @@ import { HistoricalDatePartComponent } from './historical-date-part/historical-d
 import { HistoricalDatePartDemoComponent } from './historical-date-part-demo/historical-date-part-demo.component';
 import { ChronologyFragmentComponent } from './chronology-fragment/chronology-fragment.component';
 import { ChronologyFragmentDemoComponent } from './chronology-fragment-demo/chronology-fragment-demo.component';
+import { TiledTextPartComponent } from './tiled-text-part/tiled-text-part.component';
+import { TextTileComponent } from './text-tile/text-tile.component';
 
 @NgModule({
   imports: [
@@ -48,6 +50,8 @@ import { ChronologyFragmentDemoComponent } from './chronology-fragment-demo/chro
     KeywordsPartDemoComponent,
     NotePartComponent,
     NotePartDemoComponent,
+    TextTileComponent,
+    TiledTextPartComponent,
     TokenTextPartComponent,
     TokenTextPartDemoComponent
   ],
@@ -64,6 +68,8 @@ import { ChronologyFragmentDemoComponent } from './chronology-fragment-demo/chro
     KeywordsPartDemoComponent,
     NotePartComponent,
     NotePartDemoComponent,
+    TextTileComponent,
+    TiledTextPartComponent,
     TokenTextPartComponent,
     TokenTextPartDemoComponent
   ]
