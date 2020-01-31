@@ -16,6 +16,10 @@ import {
 import { AuthService } from '@cadmus/api';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
+interface Data {
+  [key: string]: any;
+}
+
 @Component({
   selector: 'cadmus-tiled-text-part',
   templateUrl: './tiled-text-part.component.html',
@@ -31,7 +35,7 @@ export class TiledTextPartComponent
   public citation: FormControl;
   public rowCount: FormControl;
   public rows: TextTileRow[];
-  public editedData: {[key: string]: any};
+  public editedData: Data;
   public editedDataTitle: string;
   public currentTabIndex: number;
 
@@ -204,5 +208,17 @@ export class TiledTextPartComponent
     this.editedDataTitle = `Tile ${tile.x}`;
     this.editedData = tile.data;
     this.currentTabIndex = 1;
+  }
+
+  public closeDataEditor() {
+    this.currentTabIndex = 0;
+    this._editedDataOwner = null;
+    this.editedDataTitle = null;
+    this.editedData = null;
+  }
+
+  public saveEditedData(data: Data) {
+    this._editedDataOwner.data = data;
+    this.closeDataEditor();
   }
 }

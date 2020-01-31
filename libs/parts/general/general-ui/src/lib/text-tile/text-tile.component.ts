@@ -32,6 +32,9 @@ export class TextTileComponent implements OnInit {
   public selected: boolean;
 
   @Input()
+  public checkable: boolean;
+
+  @Input()
   public get checked(): boolean {
     return this.checker.value;
   }
@@ -86,7 +89,7 @@ export class TextTileComponent implements OnInit {
   ngOnInit() {
     this.checker.valueChanges.pipe(distinctUntilChanged())
       .subscribe(_ => {
-        if (this._checkedChangeFrozen) {
+        if (this._checkedChangeFrozen || !this.checkable) {
           return;
         }
         this.checkedChange.emit({
@@ -112,7 +115,7 @@ export class TextTileComponent implements OnInit {
   }
 
   public toggleCheckedNonEdit() {
-    if (!this.editing) {
+    if (!this.editing && this.checkable) {
       this.checked = !this.checked;
     }
   }

@@ -68,6 +68,7 @@
       <mat-icon>edit</mat-icon>
     </button>
     <mat-checkbox
+      *ngIf="checkable"
       [formControl]="checker"
       matTooltip="Toggle check"
     ></mat-checkbox>

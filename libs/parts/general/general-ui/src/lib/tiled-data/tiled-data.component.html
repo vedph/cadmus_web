@@ -1,10 +1,42 @@
 <div>
   <h3 *ngIf="title">{{ title }}</h3>
+  <form [formGroup]="filterForm">
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        spellcheck="false"
+        formControlName="keyFilter"
+        placeholder="filter"
+      />
+      <button
+        mat-button
+        *ngIf="keyFilter.value"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="keyFilter.setValue('')"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </form>
   <form [formGroup]="form" (submit)="save()">
     <table>
       <tbody>
         <tr *ngFor="let key of keys">
           <ng-container *ngIf="key.visible">
+            <td>
+              <button
+                type="button"
+                color="warn"
+                (click)="deleteDatum(key)"
+                mat-icon-button
+                matTooltip="Remove this datum"
+              >
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+            </td>
             <td class="key-label">
               {{ key.value }}
             </td>
@@ -22,11 +54,67 @@
       </tbody>
     </table>
     <div>
-      <button type="button" mat-icon-button color="warn" (click)="close()">
+      <form [formGroup]="newForm" (submit)="addDatum()">
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            formControlName="newKey"
+            placeholder="key"
+          />
+          <mat-error
+            *ngIf="
+              newKey.hasError('required') && (newKey.dirty || newKey.touched)
+            "
+            >enter a key</mat-error
+          >
+          <mat-error
+            *ngIf="
+              newKey.hasError('pattern') && (newKey.dirty || newKey.touched)
+            "
+            >invalid key</mat-error
+          >
+        </mat-form-field>
+        &nbsp;
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            formControlName="newValue"
+            placeholder="value"
+          />
+          <mat-error
+            *ngIf="
+              newValue.hasError('maxLength') &&
+              (newValue.dirty || newValue.touched)
+            "
+            >too long</mat-error
+          >
+        </mat-form-field>
+        <button type="submit" matTooltip="Add new datum" mat-icon-button>
+          <mat-icon>add_circle</mat-icon>
+        </button>
+      </form>
+    </div>
+    <div>
+      <button
+        type="button"
+        mat-icon-button
+        color="warn"
+        (click)="close()"
+        matTooltip="Close without saving"
+      >
         <mat-icon>clear</mat-icon>
       </button>
-      <button type="submit" mat-icon-button color="primary">
+      <button
+        type="submit"
+        mat-button
+        color="primary"
+        [disabled]="form.invalid"
+        matTooltip="Save data"
+      >
         <mat-icon>check_circle</mat-icon>
+        save data
       </button>
     </div>
   </form>

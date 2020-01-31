@@ -130,10 +130,13 @@
             ></cadmus-close-save-buttons>
           </mat-card-actions>
         </mat-tab>
+
         <mat-tab label="Data">
           <cadmus-tiled-data
             [data]="editedData"
             [title]="editedDataTitle"
+            (cancel)="closeDataEditor()"
+            (dataChange)="saveEditedData($event)"
           ></cadmus-tiled-data>
         </mat-tab>
       </mat-tab-group>
