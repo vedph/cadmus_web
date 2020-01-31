@@ -32,7 +32,11 @@
             [tile]="tile"
             cdkDrag
             fxFlex="none"
-          ></cadmus-text-tile>
+            (click)="selectedTile=tile"
+            [selected]="tile===selectedTile"
+          >
+          <div class="tile-placeholder" *cdkDragPlaceholder></div>
+          </cadmus-text-tile>
           <button
             type="button"
             mat-icon-button

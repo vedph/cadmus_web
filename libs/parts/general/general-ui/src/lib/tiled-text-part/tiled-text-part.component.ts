@@ -24,6 +24,7 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 export class TiledTextPartComponent
   extends ModelEditorComponentBase<TiledTextPart>
   implements OnInit {
+  public selectedTile: TextTile;
   public form: FormGroup;
   public citation: FormControl;
   public rowCount: FormControl;

@@ -1,4 +1,9 @@
-<div *ngIf="tile" class="tile" [class.selected]="selected">
+<div
+  *ngIf="tile"
+  class="tile"
+  [class.checked]="checked"
+  [class.selected]="selected"
+>
   <ng-container *ngIf="editing">
     <form [formGroup]="form" (submit)="save()">
       <mat-form-field>
@@ -59,8 +64,8 @@
       <mat-icon>edit</mat-icon>
     </button>
     <mat-checkbox
-      [formControl]="selector"
-      matTooltip="Toggle selection"
+      [formControl]="checker"
+      matTooltip="Toggle check"
     ></mat-checkbox>
   </ng-container>
 </div>

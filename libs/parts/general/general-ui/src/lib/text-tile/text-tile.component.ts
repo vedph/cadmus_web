@@ -23,19 +23,22 @@ import { distinctUntilChanged } from 'rxjs/operators';
 })
 export class TextTileComponent implements OnInit {
   private _tile: TextTile;
-  private _selectedChangeFrozen: boolean;
+  private _checkedChangeFrozen: boolean;
 
   @ViewChild('textInput', { static: false })
   public textElement: ElementRef;
 
   @Input()
-  public get selected(): boolean {
-    return this.selector.value;
+  public selected: boolean;
+
+  @Input()
+  public get checked(): boolean {
+    return this.checker.value;
   }
-  public set selected(value: boolean) {
-    this._selectedChangeFrozen = true;
-    this.selector.setValue(value);
-    this._selectedChangeFrozen = false;
+  public set checked(value: boolean) {
+    this._checkedChangeFrozen = true;
+    this.checker.setValue(value);
+    this._checkedChangeFrozen = false;
   }
 
   @Input()
@@ -54,13 +57,13 @@ export class TextTileComponent implements OnInit {
   @Output()
   public editData: EventEmitter<TextTile>;
   @Output()
-  public selectedChange: EventEmitter<{selected: boolean, tile: TextTile}>;
+  public checkedChange: EventEmitter<{checked: boolean, tile: TextTile}>;
 
   public form: FormGroup;
   public editedText: FormControl;
   public text: string;
   public editing: boolean;
-  public selector: FormControl;
+  public checker: FormControl;
 
   constructor(formBuilder: FormBuilder) {
     // form
@@ -72,22 +75,22 @@ export class TextTileComponent implements OnInit {
       editedText: this.editedText
     });
 
-    this.selector = formBuilder.control(false);
+    this.checker = formBuilder.control(false);
 
     // events
     this.tileChange = new EventEmitter<TextTile>();
     this.editData = new EventEmitter<TextTile>();
-    this.selectedChange = new EventEmitter<{selected: boolean, tile: TextTile}>();
+    this.checkedChange = new EventEmitter<{checked: boolean, tile: TextTile}>();
   }
 
   ngOnInit() {
-    this.selector.valueChanges.pipe(distinctUntilChanged())
+    this.checker.valueChanges.pipe(distinctUntilChanged())
       .subscribe(_ => {
-        if (this._selectedChangeFrozen) {
+        if (this._checkedChangeFrozen) {
           return;
         }
-        this.selectedChange.emit({
-          selected: this.selector.value,
+        this.checkedChange.emit({
+          checked: this.checker.value,
           tile: this.tile
         });
     });

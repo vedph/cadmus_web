@@ -6,6 +6,9 @@ div.tile {
   border-radius: 4px;
 }
 div.selected {
+  border: 2px solid #202020;
+}
+div.checked {
   background-color: aliceblue;
 }
 span.text {

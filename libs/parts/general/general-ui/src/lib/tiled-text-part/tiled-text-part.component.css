@@ -1,4 +1,10 @@
 span.row-nr {
-  color: #C0C0C0;
+  color: #c0c0c0;
   font-weight: bold;
+}
+div.tile-placeholder {
+  background: #ccc;
+  border: dotted 3px #999;
+  min-width: 60px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
