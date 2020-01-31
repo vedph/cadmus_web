@@ -3,6 +3,9 @@
   class="tile"
   [class.checked]="checked"
   [class.selected]="selected"
+  tabindex="1"
+  (keydown.F2)="edit()"
+  (keydown.space)="toggleCheckedNonEdit()"
 >
   <ng-container *ngIf="editing">
     <form [formGroup]="form" (submit)="save()">
@@ -14,6 +17,7 @@
           placeholder="text [{{ tile.x }}]"
           spellcheck="false"
           formControlName="editedText"
+          (keydown.esc)="cancel()"
         />
         <mat-error
           *ngIf="

@@ -111,7 +111,16 @@ export class TextTileComponent implements OnInit {
     this.editData.emit(this.tile);
   }
 
+  public toggleCheckedNonEdit() {
+    if (!this.editing) {
+      this.checked = !this.checked;
+    }
+  }
+
   public edit() {
+    if (this.editing) {
+      return;
+    }
     this.editing = true;
     setTimeout(() => {
       this.textElement.nativeElement.focus();
