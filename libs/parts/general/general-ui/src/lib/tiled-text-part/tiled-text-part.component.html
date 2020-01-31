@@ -8,103 +8,135 @@
     </mat-card-header>
 
     <mat-card-content>
-      <!-- citation -->
-      <div>
-        <mat-form-field>
-          <input matInput formControlName="citation" placeholder="citation" />
-        </mat-form-field>
-      </div>
-      <!-- rows -->
-      <div *ngIf="rows" cdkDropListGroup>
-        <!-- row -->
-        <div
-          cdkDropList
-          cdkDropListOrientation="horizontal"
-          *ngFor="
-            let row of rows;
-            let i = index;
-            let first = first;
-            let last = last
-          "
-          (cdkDropListDropped)="drop($event, row)"
-          fxLayout="row"
-          fxLayoutAlign="start center"
-        >
-          <span class="row-nr">{{ i + 1 }}</span>
-          <!-- tiles -->
-          <cadmus-text-tile
-            *ngFor="let tile of row.tiles || []"
-            [tile]="tile"
-            cdkDrag
-            fxFlex="none"
-            (click)="selectedTile = tile"
-            [selected]="tile === selectedTile"
-          >
-            <div class="tile-placeholder" *cdkDragPlaceholder></div>
-          </cadmus-text-tile>
+    <!-- note 2-way databinding for selectedIndex: it's a bug in Angular, need it -->
+    <mat-tab-group [(selectedIndex)]="currentTabIndex">
+      <mat-tab label="Text">
+          <!-- citation -->
+          <div>
+            <mat-form-field>
+              <input
+                matInput
+                formControlName="citation"
+                placeholder="citation"
+              />
+            </mat-form-field>
+          </div>
+          <!-- rows -->
+          <div *ngIf="rows" cdkDropListGroup>
+            <!-- row -->
+            <div
+              cdkDropList
+              cdkDropListOrientation="horizontal"
+              *ngFor="
+                let row of rows;
+                let i = index;
+                let first = first;
+                let last = last
+              "
+              (cdkDropListDropped)="drop($event, row)"
+              fxLayout="row"
+              fxLayoutAlign="start center"
+            >
+              <span class="row-nr">{{ i + 1 }}</span>
+              <!-- tiles -->
+              <cadmus-text-tile
+                *ngFor="let tile of row.tiles || []"
+                [tile]="tile"
+                cdkDrag
+                fxFlex="none"
+                (click)="selectedTile = tile"
+                [selected]="tile === selectedTile"
+              >
+                <div class="tile-placeholder" *cdkDragPlaceholder></div>
+              </cadmus-text-tile>
+              <button
+                type="button"
+                mat-icon-button
+                (click)="addTile(row)"
+                matTooltip="Append new tile"
+              >
+                <mat-icon>add_circle</mat-icon>
+              </button>
+              <button
+                type="button"
+                mat-icon-button
+                (click)="moveRowUp(i)"
+                [disabled]="first"
+                matTooltip="Move this row up"
+              >
+                <mat-icon>arrow_upward</mat-icon>
+              </button>
+              <button
+                type="button"
+                mat-icon-button
+                (click)="moveRowDown(i)"
+                [disabled]="last"
+                matTooltip="Move this row down"
+              >
+                <mat-icon>arrow_downward</mat-icon>
+              </button>
+              <button
+                type="button"
+                mat-icon-button
+                matTooltip="Delete whole row"
+                color="warn"
+                (click)="deleteRow(i)"
+              >
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+              <button
+                type="button"
+                mat-icon-button
+                matTooltip="Edit row's data"
+                (click)="editRowData(row)"
+              >
+                <mat-icon>list</mat-icon>
+              </button>
+            </div>
+          </div>
           <button
             type="button"
             mat-icon-button
-            (click)="addTile(row)"
-            matTooltip="Append new tile"
+            matTooltip="Append new row"
+            (click)="addRow()"
           >
             <mat-icon>add_circle</mat-icon>
           </button>
           <button
             type="button"
             mat-icon-button
-            (click)="moveRowUp(i)"
-            [disabled]="first"
-            matTooltip="Move this row up"
+            matTooltip="Edit selected tile's data"
+            [disabled]="!selectedTile"
+            (click)="editTileData(selectedTile)"
           >
-            <mat-icon>arrow_upward</mat-icon>
+            <mat-icon>list</mat-icon>
           </button>
           <button
             type="button"
             mat-icon-button
-            (click)="moveRowDown(i)"
-            [disabled]="last"
-            matTooltip="Move this row down"
-          >
-            <mat-icon>arrow_downward</mat-icon>
-          </button>
-          <button
-            type="button"
-            mat-icon-button
-            matTooltip="Delete whole row"
+            matTooltip="Delete the selected tile"
             color="warn"
-            (click)="deleteRow(i)"
+            (click)="deleteSelectedTile()"
+            [disabled]="!selectedTile"
           >
             <mat-icon>remove_circle</mat-icon>
           </button>
-        </div>
-      </div>
-      <button
-        type="button"
-        mat-icon-button
-        matTooltip="Append new row"
-        (click)="addRow()"
-      >
-        <mat-icon>add_circle</mat-icon>
-      </button>
-      <button
-        type="button"
-        mat-icon-button
-        matTooltip="Delete the selected tile"
-        color="warn"
-        (click)="deleteSelectedTile()"
-        [disabled]="!selectedTile"
-      >
-        <mat-icon>remove_circle</mat-icon>
-      </button>
 
-      <mat-card-actions>
-        <cadmus-close-save-buttons
-          [form]="form"
-          [noSave]="isVisitor"
-          (closeRequest)="close()"
-        ></cadmus-close-save-buttons>
-      </mat-card-actions>
+          <mat-card-actions>
+            <cadmus-close-save-buttons
+              [form]="form"
+              [noSave]="isVisitor"
+              (closeRequest)="close()"
+            ></cadmus-close-save-buttons>
+          </mat-card-actions>
+        </mat-tab>
+        <mat-tab label="Data">
+          <cadmus-tiled-data
+            [data]="editedData"
+            [title]="editedDataTitle"
+          ></cadmus-tiled-data>
+        </mat-tab>
+      </mat-tab-group>
     </mat-card-content>
   </mat-card>
 </form>

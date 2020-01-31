@@ -25,6 +25,7 @@ import { ChronologyFragmentDemoComponent } from './chronology-fragment-demo/chro
 import { TiledTextPartComponent } from './tiled-text-part/tiled-text-part.component';
 import { TextTileComponent } from './text-tile/text-tile.component';
 import { TiledTextPartDemoComponent } from './tiled-text-part-demo/tiled-text-part-demo.component';
+import { TiledDataComponent } from './tiled-data/tiled-data.component';
 
 @NgModule({
   imports: [
@@ -55,7 +56,8 @@ import { TiledTextPartDemoComponent } from './tiled-text-part-demo/tiled-text-pa
     TiledTextPartComponent,
     TiledTextPartDemoComponent,
     TokenTextPartComponent,
-    TokenTextPartDemoComponent
+    TokenTextPartDemoComponent,
+    TiledDataComponent
   ],
   exports: [
     CategoriesPartComponent,

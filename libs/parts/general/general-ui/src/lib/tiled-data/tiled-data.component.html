@@ -1,0 +1,33 @@
+<div>
+  <h3 *ngIf="title">{{ title }}</h3>
+  <form [formGroup]="form" (submit)="save()">
+    <table>
+      <tbody>
+        <tr *ngFor="let key of keys">
+          <ng-container *ngIf="key.visible">
+            <td class="key-label">
+              {{ key.value }}
+            </td>
+            <td>
+              <mat-form-field>
+                <input
+                  matInput
+                  spellcheck="false"
+                  [formControlName]="key.value"
+                />
+              </mat-form-field>
+            </td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      <button type="button" mat-icon-button color="warn" (click)="close()">
+        <mat-icon>clear</mat-icon>
+      </button>
+      <button type="submit" mat-icon-button color="primary">
+        <mat-icon>check_circle</mat-icon>
+      </button>
+    </div>
+  </form>
+</div>

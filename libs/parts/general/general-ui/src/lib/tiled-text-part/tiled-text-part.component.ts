@@ -24,11 +24,16 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 export class TiledTextPartComponent
   extends ModelEditorComponentBase<TiledTextPart>
   implements OnInit {
+  private _editedDataOwner: TextTile | TextTileRow;
+
   public selectedTile: TextTile;
   public form: FormGroup;
   public citation: FormControl;
   public rowCount: FormControl;
   public rows: TextTileRow[];
+  public editedData: {[key: string]: any};
+  public editedDataTitle: string;
+  public currentTabIndex: number;
 
   constructor(
     authService: AuthService,
@@ -36,6 +41,7 @@ export class TiledTextPartComponent
     private _dialogService: DialogService
   ) {
     super(authService);
+    this.currentTabIndex = 0;
     // form
     this.citation = formBuilder.control(null);
     this.rowCount = formBuilder.control(0, Validators.min(1));
@@ -184,5 +190,19 @@ export class TiledTextPartComponent
     // https://material.angular.io/cdk/drag-drop/overview
     moveItemInArray(row.tiles, event.previousIndex, event.currentIndex);
     this.adjustCoords();
+  }
+
+  public editRowData(row: TextTileRow) {
+    this._editedDataOwner = row;
+    this.editedDataTitle = `Row ${row.y}`;
+    this.editedData = row.data;
+    this.currentTabIndex = 1;
+  }
+
+  public editTileData(tile: TextTile) {
+    this._editedDataOwner = tile;
+    this.editedDataTitle = `Tile ${tile.x}`;
+    this.editedData = tile.data;
+    this.currentTabIndex = 1;
   }
 }
