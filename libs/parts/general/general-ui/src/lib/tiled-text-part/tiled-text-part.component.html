@@ -20,7 +20,12 @@
         <div
           cdkDropList
           cdkDropListOrientation="horizontal"
-          *ngFor="let row of rows; let i = index"
+          *ngFor="
+            let row of rows;
+            let i = index;
+            let first = first;
+            let last = last
+          "
           (cdkDropListDropped)="drop($event, row)"
           fxLayout="row"
           fxLayoutAlign="start center"
@@ -32,10 +37,10 @@
             [tile]="tile"
             cdkDrag
             fxFlex="none"
-            (click)="selectedTile=tile"
-            [selected]="tile===selectedTile"
+            (click)="selectedTile = tile"
+            [selected]="tile === selectedTile"
           >
-          <div class="tile-placeholder" *cdkDragPlaceholder></div>
+            <div class="tile-placeholder" *cdkDragPlaceholder></div>
           </cadmus-text-tile>
           <button
             type="button"
@@ -44,6 +49,33 @@
             matTooltip="Append new tile"
           >
             <mat-icon>add_circle</mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            (click)="moveRowUp(i)"
+            [disabled]="first"
+            matTooltip="Move this row up"
+          >
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            (click)="moveRowDown(i)"
+            [disabled]="last"
+            matTooltip="Move this row down"
+          >
+            <mat-icon>arrow_downward</mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            matTooltip="Delete whole row"
+            color="warn"
+            (click)="deleteRow(i)"
+          >
+            <mat-icon>remove_circle</mat-icon>
           </button>
         </div>
       </div>
@@ -54,6 +86,16 @@
         (click)="addRow()"
       >
         <mat-icon>add_circle</mat-icon>
+      </button>
+      <button
+        type="button"
+        mat-icon-button
+        matTooltip="Delete the selected tile"
+        color="warn"
+        (click)="deleteSelectedTile()"
+        [disabled]="!selectedTile"
+      >
+        <mat-icon>remove_circle</mat-icon>
       </button>
 
       <mat-card-actions>

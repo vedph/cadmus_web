@@ -14,7 +14,7 @@ import {
   TextTile
 } from '../tiled-text-part';
 import { AuthService } from '@cadmus/api';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'cadmus-tiled-text-part',
@@ -30,7 +30,11 @@ export class TiledTextPartComponent
   public rowCount: FormControl;
   public rows: TextTileRow[];
 
-  constructor(authService: AuthService, formBuilder: FormBuilder) {
+  constructor(
+    authService: AuthService,
+    formBuilder: FormBuilder,
+    private _dialogService: DialogService
+  ) {
     super(authService);
     // form
     this.citation = formBuilder.control(null);
@@ -122,6 +126,58 @@ export class TiledTextPartComponent
       x: x,
       data: data
     });
+  }
+
+  public deleteSelectedTile() {
+    if (!this.selectedTile) {
+      return;
+    }
+    for (let i = 0; i < this.rows.length; i++) {
+      const row = this.rows[i];
+      if (row.tiles) {
+        const index = row.tiles.indexOf(this.selectedTile);
+        if (index > -1) {
+          this.selectedTile =
+            index + 1 < row.tiles.length
+              ? row.tiles[index + 1]
+              : row.tiles.length > 1
+              ? row.tiles[index - 1]
+              : null;
+          row.tiles.splice(index, 1);
+          this.adjustCoords();
+          break;
+        }
+      }
+    }
+  }
+
+  public deleteRow(rowIndex: number) {
+    this._dialogService
+      .confirm('Confirm Deletion', `Delete row #"${rowIndex + 1}"?`)
+      .subscribe((ok: boolean) => {
+        if (!ok) {
+          return;
+        }
+        this.rows.splice(rowIndex, 1);
+        this.adjustCoords();
+        this.rowCount.setValue(this.rows.length);
+      });
+  }
+
+  public moveRowUp(rowIndex: number) {
+    if (rowIndex < 1) {
+      return;
+    }
+    moveItemInArray(this.rows, rowIndex, rowIndex - 1);
+    this.adjustCoords();
+  }
+
+  public moveRowDown(rowIndex: number) {
+    if (rowIndex + 1 === this.rows.length) {
+      return;
+    }
+    moveItemInArray(this.rows, rowIndex, rowIndex + 1);
+    this.adjustCoords();
   }
 
   public drop(event: CdkDragDrop<TextTile[]>, row: TextTileRow) {
