@@ -131,7 +131,7 @@
           </mat-card-actions>
         </mat-tab>
 
-        <mat-tab label="Data">
+        <mat-tab label="Data" *ngIf="editedData">
           <cadmus-tiled-data
             [data]="editedData"
             [title]="editedDataTitle"
