@@ -8,9 +8,9 @@
     </mat-card-header>
 
     <mat-card-content>
-    <!-- note 2-way databinding for selectedIndex: it's a bug in Angular, need it -->
-    <mat-tab-group [(selectedIndex)]="currentTabIndex">
-      <mat-tab label="Text">
+      <!-- note 2-way databinding for selectedIndex: it's a bug in Angular, need it -->
+      <mat-tab-group [(selectedIndex)]="currentTabIndex">
+        <mat-tab label="Text">
           <!-- citation -->
           <div>
             <mat-form-field>
@@ -19,6 +19,12 @@
                 formControlName="citation"
                 placeholder="citation"
               />
+              <mat-error
+                *ngIf="
+                  citation.hasError('maxLength') &&
+                  (citation.dirty || citation.touched)
+                "
+              ></mat-error>
             </mat-form-field>
           </div>
           <!-- rows -->
@@ -102,6 +108,7 @@
           >
             <mat-icon>add_circle</mat-icon>
           </button>
+          <span>{{ getTileCoords() }}</span>
           <button
             type="button"
             mat-icon-button

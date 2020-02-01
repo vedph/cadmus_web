@@ -59,6 +59,7 @@
   <ng-container *ngIf="!editing">
     <span class="text">{{ text }}</span>
     <button
+      *ngIf="!readonly"
       type="button"
       mat-icon-button
       matTooltip="Edit text (F2)"

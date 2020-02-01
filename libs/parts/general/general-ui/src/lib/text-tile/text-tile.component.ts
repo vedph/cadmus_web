@@ -35,6 +35,9 @@ export class TextTileComponent implements OnInit {
   public checkable: boolean;
 
   @Input()
+  public readonly: boolean;
+
+  @Input()
   public get checked(): boolean {
     return this.checker.value;
   }
@@ -60,7 +63,7 @@ export class TextTileComponent implements OnInit {
   @Output()
   public editData: EventEmitter<TextTile>;
   @Output()
-  public checkedChange: EventEmitter<{checked: boolean, tile: TextTile}>;
+  public checkedChange: EventEmitter<{ checked: boolean; tile: TextTile }>;
 
   public form: FormGroup;
   public editedText: FormControl;
@@ -83,19 +86,21 @@ export class TextTileComponent implements OnInit {
     // events
     this.tileChange = new EventEmitter<TextTile>();
     this.editData = new EventEmitter<TextTile>();
-    this.checkedChange = new EventEmitter<{checked: boolean, tile: TextTile}>();
+    this.checkedChange = new EventEmitter<{
+      checked: boolean;
+      tile: TextTile;
+    }>();
   }
 
   ngOnInit() {
-    this.checker.valueChanges.pipe(distinctUntilChanged())
-      .subscribe(_ => {
-        if (this._checkedChangeFrozen || !this.checkable) {
-          return;
-        }
-        this.checkedChange.emit({
-          checked: this.checker.value,
-          tile: this.tile
-        });
+    this.checker.valueChanges.pipe(distinctUntilChanged()).subscribe(_ => {
+      if (this._checkedChangeFrozen || !this.checkable) {
+        return;
+      }
+      this.checkedChange.emit({
+        checked: this.checker.value,
+        tile: this.tile
+      });
     });
   }
 
@@ -111,7 +116,9 @@ export class TextTileComponent implements OnInit {
   }
 
   public requestDataEdit() {
-    this.editData.emit(this.tile);
+    if (!this.readonly) {
+      this.editData.emit(this.tile);
+    }
   }
 
   public toggleCheckedNonEdit() {
@@ -121,7 +128,7 @@ export class TextTileComponent implements OnInit {
   }
 
   public edit() {
-    if (this.editing) {
+    if (this.editing || this.readonly) {
       return;
     }
     this.editing = true;
@@ -136,7 +143,7 @@ export class TextTileComponent implements OnInit {
   }
 
   public save() {
-    if (this.form.invalid) {
+    if (this.form.invalid || this.readonly) {
       return;
     }
     this.text = this.editedText.value.trim();

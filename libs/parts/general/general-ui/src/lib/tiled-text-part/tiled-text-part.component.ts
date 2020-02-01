@@ -47,7 +47,7 @@ export class TiledTextPartComponent
     super(authService);
     this.currentTabIndex = 0;
     // form
-    this.citation = formBuilder.control(null);
+    this.citation = formBuilder.control(null, Validators.maxLength(1000));
     this.rowCount = formBuilder.control(0, Validators.min(1));
     this.form = formBuilder.group({
       citation: this.citation,
@@ -205,7 +205,7 @@ export class TiledTextPartComponent
 
   public editTileData(tile: TextTile) {
     this._editedDataOwner = tile;
-    this.editedDataTitle = `Tile ${tile.x}`;
+    this.editedDataTitle = `Tile ${this.getTileCoords(tile)}`;
     this.editedData = tile.data;
     this.currentTabIndex = 1;
   }
@@ -220,5 +220,23 @@ export class TiledTextPartComponent
   public saveEditedData(data: Data) {
     this._editedDataOwner.data = data;
     this.closeDataEditor();
+  }
+
+  public getTileCoords(tile: TextTile = null): string {
+    if (!tile) {
+      tile = this.selectedTile;
+    }
+    if (!tile) {
+      return '';
+    } else {
+      let y = 0;
+      for (let i = 0; i < this.rows.length; i++) {
+        if (this.rows[i].tiles.indexOf(tile) > -1) {
+          y = i + 1;
+          break;
+        }
+      }
+      return `${y},${tile.x}`;
+    }
   }
 }

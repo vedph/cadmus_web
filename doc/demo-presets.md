@@ -181,7 +181,7 @@ No thesaurus is required for this part.
   "roleId": null,
   "timeModified": "2019-12-10T20:31:31.7000245Z",
   "userId": "zeus",
-  "citation": "1.2",
+  "citation": "LVCR-rena xml:id=d002|type=section|decls=#md|met=H 1#d002l1",
   "rows": [
     {
       "y": 1,
@@ -189,27 +189,51 @@ No thesaurus is required for this part.
         {
           "x": 1,
           "data": {
-            "text": "one",
-            "id": "t1"
+            "text": "Suaue,",
+            "patch": "Suave",
+            "id": "d002w1"
           }
         },
         {
           "x": 2,
           "data": {
-            "text": "two",
-            "id": "t2"
+            "text": "mari",
+            "id": "d002w2"
           }
         },
         {
           "x": 3,
           "data": {
-            "text": "three",
-            "id": "t3"
+            "text": "magno",
+            "id": "d002w3"
+          }
+        },
+        {
+          "x": 4,
+          "data": {
+            "text": "turbantibus",
+            "id": "d002w4"
+          }
+        },
+        {
+          "x": 5,
+          "data": {
+            "text": "aequora",
+            "id": "d002w5"
+          }
+        },
+        {
+          "x": 6,
+          "data": {
+            "text": "uentis",
+            "id": "d002w6",
+            "patch": "ventis"
           }
         }
       ],
       "data": {
-        "id": "r1"
+        "id": "d002l1",
+        "n": "1"
       }
     },
     {
@@ -218,18 +242,50 @@ No thesaurus is required for this part.
         {
           "x": 1,
           "data": {
-            "text": "four",
-            "id": "t4"
+            "text": "E",
+            "id": "d002w7"
           }
         },
         {
           "x": 2,
           "data": {
-            "text": "five",
-            "id": "t5"
+            "text": "terra",
+            "id": "d002w8"
+          }
+        },
+        {
+          "x": 3,
+          "data": {
+            "text": "magnum",
+            "id": "d002w9"
+          }
+        },
+        {
+          "x": 4,
+          "data": {
+            "text": "alterius",
+            "id": "d002w10"
+          }
+        },
+        {
+          "x": 5,
+          "data": {
+            "text": "spectare",
+            "id": "d002w11"
+          }
+        },
+        {
+          "x": 6,
+          "data": {
+            "text": "laborem;",
+            "id": "d002w12"
           }
         }
-      ]
+      ],
+      "data": {
+        "id": "d002l2",
+        "n": "2"
+      }
     }
   ]
 }
