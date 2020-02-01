@@ -28,7 +28,8 @@ interface Data {
 export class TiledTextPartComponent
   extends ModelEditorComponentBase<TiledTextPart>
   implements OnInit {
-  private _editedDataOwner: TextTile | TextTileRow;
+  private _editedDataTile: TextTile;
+  private _editedDataRow: TextTileRow;
 
   public selectedTile: TextTile;
   public form: FormGroup;
@@ -197,14 +198,16 @@ export class TiledTextPartComponent
   }
 
   public editRowData(row: TextTileRow) {
-    this._editedDataOwner = row;
+    this._editedDataRow = row;
+    this._editedDataTile = null;
     this.editedDataTitle = `Row ${row.y}`;
     this.editedData = row.data;
     this.currentTabIndex = 1;
   }
 
   public editTileData(tile: TextTile) {
-    this._editedDataOwner = tile;
+    this._editedDataTile = tile;
+    this._editedDataRow = null;
     this.editedDataTitle = `Tile ${this.getTileCoords(tile)}`;
     this.editedData = tile.data;
     this.currentTabIndex = 1;
@@ -212,13 +215,17 @@ export class TiledTextPartComponent
 
   public closeDataEditor() {
     this.currentTabIndex = 0;
-    this._editedDataOwner = null;
+    this._editedDataRow = null;
     this.editedDataTitle = null;
     this.editedData = null;
   }
 
   public saveEditedData(data: Data) {
-    this._editedDataOwner.data = data;
+    if (this._editedDataTile) {
+      this._editedDataTile.data = data;
+    } else {
+      this._editedDataRow.data = data;
+    }
     this.closeDataEditor();
   }
 

@@ -5,6 +5,7 @@
   [class.selected]="selected"
   tabindex="1"
   (keydown.F2)="edit()"
+  (keydown.F3)="requestEditData()"
   (keydown.space)="toggleCheckedNonEdit()"
 >
   <ng-container *ngIf="editing">

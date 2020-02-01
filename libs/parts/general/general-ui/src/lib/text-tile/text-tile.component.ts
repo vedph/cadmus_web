@@ -138,6 +138,13 @@ export class TextTileComponent implements OnInit {
     }, 500);
   }
 
+  public requestEditData() {
+    if (this.editing || this.readonly) {
+      return;
+    }
+    this.editData.emit(this._tile);
+  }
+
   public cancel() {
     this.editing = false;
   }

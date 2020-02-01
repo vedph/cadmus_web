@@ -44,17 +44,19 @@
               fxLayoutAlign="start center"
             >
               <span class="row-nr">{{ i + 1 }}</span>
-              <!-- tiles -->
+              <!-- tile -->
               <cadmus-text-tile
                 *ngFor="let tile of row.tiles || []"
                 [tile]="tile"
+                [selected]="tile === selectedTile"
                 cdkDrag
                 fxFlex="none"
                 (click)="selectedTile = tile"
-                [selected]="tile === selectedTile"
+                (editData)="editTileData(tile)"
               >
                 <div class="tile-placeholder" *cdkDragPlaceholder></div>
               </cadmus-text-tile>
+              <!-- row tail buttons -->
               <button
                 type="button"
                 mat-icon-button
@@ -100,6 +102,7 @@
               </button>
             </div>
           </div>
+          <!-- bottom buttons -->
           <button
             type="button"
             mat-icon-button
@@ -142,6 +145,7 @@
           <cadmus-tiled-data
             [data]="editedData"
             [title]="editedDataTitle"
+            [hiddenKeys]="['text']"
             (cancel)="closeDataEditor()"
             (dataChange)="saveEditedData($event)"
           ></cadmus-tiled-data>

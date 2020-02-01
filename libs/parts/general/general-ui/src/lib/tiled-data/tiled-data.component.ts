@@ -24,6 +24,8 @@ const VALUE_MAX_LEN = 100;
 })
 export class TiledDataComponent implements OnInit {
   private _data: Data;
+  private _hiddenData: Data;
+  private _hiddenKeys: string[];
   public keys: DataKey[];
 
   @Input()
@@ -35,6 +37,15 @@ export class TiledDataComponent implements OnInit {
   }
   public set data(value: Data) {
     this._data = value;
+    this.updateForm();
+  }
+
+  @Input()
+  public get hiddenKeys(): string[] {
+    return this._hiddenKeys;
+  }
+  public set hiddenKeys(value: string[]) {
+    this._hiddenKeys = value;
     this.updateForm();
   }
 
@@ -108,6 +119,7 @@ export class TiledDataComponent implements OnInit {
   private updateForm() {
     // reset
     this.keys = [];
+    this._hiddenData = {};
     this.form = this._formBuilder.group({});
 
     if (!this._data) {
@@ -117,7 +129,11 @@ export class TiledDataComponent implements OnInit {
     // collect keys from data's own properties and sort the result
     const cache: DataKey[] = [];
     Object.getOwnPropertyNames(this._data).forEach((key: string) => {
-      cache.push({ value: key, visible: this.matchesFilter(key) });
+      if (!this.hiddenKeys || this.hiddenKeys.indexOf(key) === -1) {
+        cache.push({ value: key, visible: this.matchesFilter(key) });
+      } else {
+        this._hiddenData[key] = this._data[key];
+      }
     });
     cache.sort();
 
@@ -145,11 +161,13 @@ export class TiledDataComponent implements OnInit {
   }
 
   private getData(): Data {
-    const data: Data = {};
+    const data: Data = this._hiddenData? {...this._hiddenData} : {};
+
     for (let i = 0; i < this.keys.length; i++) {
       const keyValue = this.keys[i].value;
       data[keyValue] = this.form.controls[keyValue].value;
     }
+
     return data;
   }
 
