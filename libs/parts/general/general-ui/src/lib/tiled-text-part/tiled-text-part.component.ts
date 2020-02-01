@@ -34,7 +34,6 @@ export class TiledTextPartComponent
   public selectedTile: TextTile;
   public form: FormGroup;
   public citation: FormControl;
-  public rowCount: FormControl;
   public rows: TextTileRow[];
   public editedData: Data;
   public editedDataTitle: string;
@@ -49,10 +48,8 @@ export class TiledTextPartComponent
     this.currentTabIndex = 0;
     // form
     this.citation = formBuilder.control(null, Validators.maxLength(1000));
-    this.rowCount = formBuilder.control(0, Validators.min(1));
     this.form = formBuilder.group({
-      citation: this.citation,
-      rowCount: this.rowCount
+      citation: this.citation
     });
   }
 
@@ -67,7 +64,6 @@ export class TiledTextPartComponent
       return;
     }
     this.citation.setValue(model.citation);
-    this.rowCount.setValue(model.rows ? model.rows.length : 0);
     this.rows = model.rows || [];
     this.form.markAsPristine();
   }
@@ -76,6 +72,10 @@ export class TiledTextPartComponent
     this.updateForm(model);
   }
 
+  /**
+   * Recalculate the coordinates of all the tiles in this set,
+   * according to the tiles position.
+   */
   private adjustCoords() {
     for (let i = 0; i < this.rows.length; i++) {
       const row = this.rows[i];
@@ -104,12 +104,17 @@ export class TiledTextPartComponent
         rows: []
       };
     }
+    // ensure that form's coordinates are ok
     this.adjustCoords();
+    // set part's citation and rows
     part.citation = this.citation.value ? this.citation.value.trim() : null;
     part.rows = this.rows;
     return part;
   }
 
+  /**
+   * Append a new row at the bottom.
+   */
   public addRow() {
     const data = {};
     data[TEXT_TILE_TEXT_DATA_NAME] = 'text1';
@@ -123,9 +128,13 @@ export class TiledTextPartComponent
         }
       ]
     });
-    this.rowCount.setValue(this.rows.length);
+    this.form.markAsDirty();
   }
 
+  /**
+   * Append a new tile at the end of the specified row.
+   * @param row The row to add the tile to.
+   */
   public addTile(row: TextTileRow) {
     const x = row.tiles ? row.tiles.length + 1 : 1;
     const data = {};
@@ -137,12 +146,17 @@ export class TiledTextPartComponent
       x: x,
       data: data
     });
+    this.form.markAsDirty();
   }
 
+  /**
+   * Delete the selected tile, if any.
+   */
   public deleteSelectedTile() {
     if (!this.selectedTile) {
       return;
     }
+
     for (let i = 0; i < this.rows.length; i++) {
       const row = this.rows[i];
       if (row.tiles) {
@@ -156,12 +170,17 @@ export class TiledTextPartComponent
               : null;
           row.tiles.splice(index, 1);
           this.adjustCoords();
+          this.form.markAsDirty();
           break;
         }
       }
     }
   }
 
+  /**
+   * Delete the row at the specified index.
+   * @param rowIndex The row's index.
+   */
   public deleteRow(rowIndex: number) {
     this._dialogService
       .confirm('Confirm Deletion', `Delete row #"${rowIndex + 1}"?`)
@@ -171,30 +190,45 @@ export class TiledTextPartComponent
         }
         this.rows.splice(rowIndex, 1);
         this.adjustCoords();
-        this.rowCount.setValue(this.rows.length);
+        this.form.markAsDirty();
       });
   }
 
+  /**
+   * Move the row at the specified index up.
+   * @param rowIndex The row index.
+   */
   public moveRowUp(rowIndex: number) {
     if (rowIndex < 1) {
       return;
     }
     moveItemInArray(this.rows, rowIndex, rowIndex - 1);
     this.adjustCoords();
+    this.form.markAsDirty();
   }
 
+  /**
+   * Move the row at the specified index down.
+   * @param rowIndex The row index.
+   */
   public moveRowDown(rowIndex: number) {
     if (rowIndex + 1 === this.rows.length) {
       return;
     }
     moveItemInArray(this.rows, rowIndex, rowIndex + 1);
     this.adjustCoords();
+    this.form.markAsDirty();
   }
 
   public drop(event: CdkDragDrop<TextTile[]>, row: TextTileRow) {
     // https://material.angular.io/cdk/drag-drop/overview
     moveItemInArray(row.tiles, event.previousIndex, event.currentIndex);
     this.adjustCoords();
+    this.form.markAsDirty();
+  }
+
+  public onTileChange(tile: TextTile) {
+    this.form.markAsDirty();
   }
 
   public editRowData(row: TextTileRow) {
@@ -226,6 +260,7 @@ export class TiledTextPartComponent
     } else {
       this._editedDataRow.data = data;
     }
+    this.form.markAsDirty();
     this.closeDataEditor();
   }
 
