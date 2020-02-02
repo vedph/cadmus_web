@@ -38,6 +38,9 @@ export class TextTileComponent implements OnInit {
   public readonly: boolean;
 
   @Input()
+  public color: string;
+
+  @Input()
   public get checked(): boolean {
     return this.checker.value;
   }

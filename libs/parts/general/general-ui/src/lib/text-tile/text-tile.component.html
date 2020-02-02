@@ -3,6 +3,7 @@
   class="tile"
   [class.checked]="checked"
   [class.selected]="selected"
+  [style.background-color]="color || 'transparent'"
   tabindex="1"
   (keydown.F2)="edit()"
   (keydown.F3)="requestEditData()"
