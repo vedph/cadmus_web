@@ -5,7 +5,7 @@ import {
   RuntimeSettingsService,
   RS_TEXT_LAYER_TYPE_ID
 } from '@cadmus/api';
-import { EditTokenLayerPartStore } from './edit-token-layer-part.store';
+import { EditLayerPartStore } from './edit-layer-part.store';
 import { forkJoin } from 'rxjs';
 import {
   TextLayerPart,
@@ -17,9 +17,9 @@ import {
 } from '@cadmus/core';
 
 @Injectable({ providedIn: 'root' })
-export class EditTokenLayerPartService {
+export class EditLayerPartService {
   constructor(
-    private _store: EditTokenLayerPartStore,
+    private _store: EditLayerPartStore,
     private _itemService: ItemService,
     private _facetService: FacetService,
     private _utilService: UtilService,

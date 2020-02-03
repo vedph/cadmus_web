@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {
   EditItemQuery,
   EditItemService,
-  EditTokenLayerPartQuery,
-  EditTokenLayerPartService,
+  EditLayerPartQuery,
+  EditLayerPartService,
   EditFragmentFeatureBase
 } from '@cadmus/features/edit-state';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -25,8 +25,8 @@ export class ChronologyFragmentFeatureComponent extends EditFragmentFeatureBase
     editFrService: EditChronologyFragmentService,
     editItemQuery: EditItemQuery,
     editItemService: EditItemService,
-    editLayersQuery: EditTokenLayerPartQuery,
-    editLayersService: EditTokenLayerPartService,
+    editLayersQuery: EditLayerPartQuery,
+    editLayersService: EditLayerPartService,
     libraryRouteService: LibraryRouteService
   ) {
     super(

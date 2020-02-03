@@ -4,10 +4,10 @@ import { Injectable } from '@angular/core';
 import { RolePartId } from '@cadmus/api';
 
 /**
- * The state of the currently edited token-based text layer part, if any.
- * This state is set when editing a token-based text layer.
+ * The state of the currently edited text layer part, if any.
+ * This state is set when editing a text layer.
  */
-export interface EditTokenLayerPartState {
+export interface EditLayerPartState {
   /**
    * The layer part being edited.
    */
@@ -41,7 +41,7 @@ export interface EditTokenLayerPartState {
   savingFragment?: boolean;
 }
 
-const initialState: EditTokenLayerPartState = {
+const initialState: EditLayerPartState = {
   part: null,
   baseText: null,
   layers: null,
@@ -55,7 +55,7 @@ const initialState: EditTokenLayerPartState = {
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'edit-token-layer-part' })
-export class EditTokenLayerPartStore extends Store<EditTokenLayerPartState> {
+export class EditLayerPartStore extends Store<EditLayerPartState> {
   constructor() {
     super(initialState);
   }

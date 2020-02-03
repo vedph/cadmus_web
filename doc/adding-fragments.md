@@ -414,8 +414,8 @@ import { Edit__NAME__FragmentService } from './edit-__NAME__-fragment.service';
 import {
   EditItemQuery,
   EditItemService,
-  EditTokenLayerPartQuery,
-  EditTokenLayerPartService,
+  EditLayerPartQuery,
+  EditLayerPartService,
   EditFragmentFeatureBase
 } from '@cadmus/features/edit-state';
 
@@ -433,8 +433,8 @@ export class __NAME__FragmentFeatureComponent extends EditFragmentFeatureBase
     editFrService: Edit__NAME__FragmentService,
     editItemQuery: EditItemQuery,
     editItemService: EditItemService,
-    editLayersQuery: EditTokenLayerPartQuery,
-    editLayersService: EditTokenLayerPartService
+    editLayersQuery: EditLayerPartQuery,
+    editLayersService: EditLayerPartService
   ) {
     super(
       router,

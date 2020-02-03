@@ -13,8 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '@cadmus/ui';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import {
-  EditTokenLayerPartQuery,
-  EditTokenLayerPartService,
+  EditLayerPartQuery,
+  EditLayerPartService,
   EditItemQuery,
   EditItemService
 } from '@cadmus/features/edit-state';
@@ -52,8 +52,8 @@ export class TokenTextLayerPartFeatureComponent implements OnInit,
     formBuilder: FormBuilder,
     route: ActivatedRoute,
     private _router: Router,
-    private _editQuery: EditTokenLayerPartQuery,
-    private _editService: EditTokenLayerPartService,
+    private _editQuery: EditLayerPartQuery,
+    private _editService: EditLayerPartService,
     private _textLayerService: TextLayerService,
     private _editItemQuery: EditItemQuery,
     private _editItemService: EditItemService,

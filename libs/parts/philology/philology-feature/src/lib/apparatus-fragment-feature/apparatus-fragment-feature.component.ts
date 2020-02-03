@@ -5,8 +5,8 @@ import { EditApparatusFragmentService } from './edit-apparatus-fragment.service'
 import {
   EditItemQuery,
   EditItemService,
-  EditTokenLayerPartQuery,
-  EditTokenLayerPartService,
+  EditLayerPartQuery,
+  EditLayerPartService,
   EditFragmentFeatureBase
 } from '@cadmus/features/edit-state';
 import { LibraryRouteService } from '@cadmus/core';
@@ -25,8 +25,8 @@ export class ApparatusFragmentFeatureComponent extends EditFragmentFeatureBase
     editFrService: EditApparatusFragmentService,
     editItemQuery: EditItemQuery,
     editItemService: EditItemService,
-    editLayersQuery: EditTokenLayerPartQuery,
-    editLayersService: EditTokenLayerPartService,
+    editLayersQuery: EditLayerPartQuery,
+    editLayersService: EditLayerPartService,
     libraryRouteService: LibraryRouteService
   ) {
     super(

@@ -5,8 +5,8 @@ import { EditOrthographyFragmentService } from './edit-orthography-fragment.serv
 import {
   EditItemQuery,
   EditItemService,
-  EditTokenLayerPartQuery,
-  EditTokenLayerPartService,
+  EditLayerPartQuery,
+  EditLayerPartService,
   EditFragmentFeatureBase
 } from '@cadmus/features/edit-state';
 import { LibraryRouteService } from '@cadmus/core';
@@ -25,8 +25,8 @@ export class OrthographyFragmentFeatureComponent extends EditFragmentFeatureBase
     editFrService: EditOrthographyFragmentService,
     editItemQuery: EditItemQuery,
     editItemService: EditItemService,
-    editLayersQuery: EditTokenLayerPartQuery,
-    editLayersService: EditTokenLayerPartService,
+    editLayersQuery: EditLayerPartQuery,
+    editLayersService: EditLayerPartService,
     libraryRouteService: LibraryRouteService
   ) {
     super(

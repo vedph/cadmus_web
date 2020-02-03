@@ -9,8 +9,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {
   EditItemQuery,
   EditItemService,
-  EditTokenLayerPartQuery,
-  EditTokenLayerPartService,
+  EditLayerPartQuery,
+  EditLayerPartService,
   EditFragmentServiceBase,
   EditFragmentQueryBase
 } from '@cadmus/features/edit-state';
@@ -39,8 +39,8 @@ export abstract class EditFragmentFeatureBase
     private _editFrService: EditFragmentServiceBase,
     private _editItemQuery: EditItemQuery,
     private _editItemService: EditItemService,
-    private _editLayersQuery: EditTokenLayerPartQuery,
-    private _editLayersService: EditTokenLayerPartService,
+    private _editLayersQuery: EditLayerPartQuery,
+    private _editLayersService: EditLayerPartService,
     private _libraryRouteService: LibraryRouteService
   ) {
     this.itemId = route.snapshot.params['iid'];
