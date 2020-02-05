@@ -137,7 +137,7 @@ export class TiledTextUIState {
   }
 
   /**
-   * Find the coordinates of the first tile having the specified checked state
+   * Find the coordinates of the first tile having the specified checked state,
    * starting from the specified coordinates.
    *
    * @param y The y coordinates to start from.
@@ -224,12 +224,13 @@ export class TiledTextUIState {
 
   /**
    * Get the coordinates of the next tile starting from the specified origin
-   * tile.
+   * tile. The next tile is the tile to the right of the origin tile in the
+   * same row, or the first tile of the next row (if any) when the origin is
+   * the last tile in its row.
    *
    * @param y The y coordinate of the origin tile.
    * @param x The x coordinate of the origin tile.
-   * @param rows The checked states tiles rows.
-   * @returns The coordinates or null if no other tiles past origin.
+   * @returns The coordinates, or null if no other tiles after origin.
    */
   public getNextTileCoords(
     y: number,
@@ -250,6 +251,39 @@ export class TiledTextUIState {
         };
       }
       y++;
+    }
+    return null;
+  }
+
+  /**
+   * Get the coordinates of the previous tile starting from the specified origin
+   * tile. The previous tile is the tile to the left of the origin tile in the
+   * same row, or the last tile of the previous row (if any) when the origin is
+   * the first tile in its row.
+   *
+   * @param y The y coordinate of the origin tile.
+   * @param x The x coordinate of the origin tile.
+   * @returns The coordinates, or null if no other tiles before origin.
+   */
+  public getPrevTileCoords(
+    y: number,
+    x: number
+  ): { y: number; x: number } | null {
+    if (x > 1) {
+      return {
+        y: y,
+        x: x - 1
+      };
+    }
+    y--;
+    while (y > 0) {
+      if (this._rows[y - 1].tiles.length > 0) {
+        return {
+          y: y,
+          x: this._rows[y - 1].tiles.length
+        };
+      }
+      y--;
     }
     return null;
   }
@@ -315,7 +349,9 @@ export class TiledTextUIState {
   }
 
   /**
-   * Get the location of the checked tiles, if any.
+   * Get the location of the checked tiles, if any. As tiles are checked
+   * only as an uninterrupted sequence, there can be only 0 or 1 location
+   * in a set.
    *
    * @returns The location, or null if no tiles are checked.
    */
@@ -325,11 +361,15 @@ export class TiledTextUIState {
       return null;
     }
     const end = this.findFirstCheckedCoords(start.y, start.x, false);
-    return !end || (end.y === start.y && end.x === start.x)
+    if (!end || (end.y === start.y && end.x === start.x)) {
+      return;
+    }
+    const last = this.getPrevTileCoords(end.y, end.x);
+    return last.y === start.y && last.x === start.x
       ? new TokenLocation(new TokenPoint(start.y, start.x))
       : new TokenLocation(
           new TokenPoint(start.y, start.x),
-          new TokenPoint(end.y, end.x)
+          new TokenPoint(last.y, last.x)
         );
   }
 
