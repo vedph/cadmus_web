@@ -97,6 +97,7 @@ export class TiledTextUIState {
         if (setFrIndex) {
           newState.frIndex = state.frIndex;
         }
+        row.tiles[j] = newState;
       }
     }
   }
@@ -113,7 +114,9 @@ export class TiledTextUIState {
     // set fragment indexes from their locations
     for (let i = 0; i < locations.length; i++) {
       const loc = locations[i];
+
       if (loc.secondary) {
+        // range
         for (let y = loc.primary.y; y <= loc.secondary.y; y++) {
           const row = this._rows[y - 1];
           for (
@@ -123,10 +126,11 @@ export class TiledTextUIState {
               : x <= row.tiles.length;
             x++
           ) {
-            row[x - 1] = { ...row[x - 1], frIndex: i };
+            row.tiles[x - 1] = { ...row.tiles[x - 1], frIndex: i };
           }
         }
       } else {
+        // point
         this._rows[loc.primary.y - 1].tiles[loc.primary.x - 1].frIndex = i;
       }
     }
