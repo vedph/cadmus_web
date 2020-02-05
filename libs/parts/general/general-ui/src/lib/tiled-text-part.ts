@@ -33,7 +33,7 @@ export interface TiledTextPart extends Part {
 /**
  * The type ID used to identify the TiledTextPart type.
  */
-export const TILEDTEXTPART_TYPEID = 'net.fusisoft.tiled-text';
+export const TILED_TEXT_PART_TYPEID = 'net.fusisoft.tiled-text';
 
 /**
  * JSON schema for the tiled text part. This is used in the editor demo.
@@ -42,7 +42,7 @@ export const TILEDTEXTPART_TYPEID = 'net.fusisoft.tiled-text';
 export const TILEDTEXTPART_SCHEMA = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   $id:
-    'www.fusisoft.net/cadmus/parts/general/' + TILEDTEXTPART_TYPEID + '.json',
+    'www.fusisoft.net/cadmus/parts/general/' + TILED_TEXT_PART_TYPEID + '.json',
   type: 'object',
   title: 'TiledTextPart',
   required: ['id', 'itemId', 'timeModified', 'typeId', 'userId', 'rows'],

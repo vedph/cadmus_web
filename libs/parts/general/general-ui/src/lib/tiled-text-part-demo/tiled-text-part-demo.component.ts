@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { TILEDTEXTPART_TYPEID, TILEDTEXTPART_SCHEMA } from '../tiled-text-part';
+import { TILED_TEXT_PART_TYPEID, TILEDTEXTPART_SCHEMA } from '../tiled-text-part';
 import { ThesauriSet, JsonSchemaService } from '@cadmus/core';
 
 @Component({
@@ -11,7 +11,7 @@ export class TiledTextPartDemoComponent implements OnInit {
   private _thesauriJson: string;
 
   public currentTabIndex: number;
-  public schemaName = TILEDTEXTPART_TYPEID;
+  public schemaName = TILED_TEXT_PART_TYPEID;
   public modelJson: string;
   public thesauri: ThesauriSet | null;
 
@@ -33,7 +33,7 @@ export class TiledTextPartDemoComponent implements OnInit {
 
   constructor(schemaService: JsonSchemaService) {
     this.currentTabIndex = 0;
-    schemaService.addSchema(TILEDTEXTPART_TYPEID, TILEDTEXTPART_SCHEMA);
+    schemaService.addSchema(TILED_TEXT_PART_TYPEID, TILEDTEXTPART_SCHEMA);
   }
 
   ngOnInit() {}

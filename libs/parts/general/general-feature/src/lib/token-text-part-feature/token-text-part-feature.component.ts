@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ThesauriSet, ComponentCanDeactivate } from '@cadmus/core';
+import { ThesauriSet } from '@cadmus/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { EditItemQuery, EditItemService } from '@cadmus/features/edit-state';
+import { EditItemQuery, EditItemService, EditPartFeatureBase } from '@cadmus/features/edit-state';
 import { EditTokenTextPartQuery } from './edit-token-text-part.query';
 import { EditTokenTextPartService } from './edit-token-text-part.service';
 
@@ -11,8 +11,8 @@ import { EditTokenTextPartService } from './edit-token-text-part.service';
   templateUrl: './token-text-part-feature.component.html',
   styleUrls: ['./token-text-part-feature.component.css']
 })
-export class TokenTextPartFeatureComponent
-  implements OnInit, ComponentCanDeactivate {
+export class TokenTextPartFeatureComponent extends EditPartFeatureBase
+  implements OnInit {
   public json$: Observable<string>;
   public thesauri$: Observable<ThesauriSet>;
 
@@ -21,13 +21,21 @@ export class TokenTextPartFeatureComponent
   public roleId: string;
 
   constructor(
-    private _router: Router,
+    router: Router,
     route: ActivatedRoute,
-    private _editPartQuery: EditTokenTextPartQuery,
-    private _editPartService: EditTokenTextPartService,
-    private _editItemQuery: EditItemQuery,
-    private _editItemService: EditItemService
+    editPartQuery: EditTokenTextPartQuery,
+    editPartService: EditTokenTextPartService,
+    editItemQuery: EditItemQuery,
+    editItemService: EditItemService
   ) {
+    super(
+      router,
+      route,
+      editPartQuery,
+      editPartService,
+      editItemQuery,
+      editItemService
+    );
     this.itemId = route.snapshot.params['iid'];
     this.partId = route.snapshot.params['pid'];
     if (this.partId === 'new') {
@@ -36,36 +44,7 @@ export class TokenTextPartFeatureComponent
     this.roleId = route.snapshot.queryParams['rid'];
   }
 
-  public canDeactivate(): boolean {
-    return true;
-  }
-
-  private ensureItemLoaded(id: string) {
-    if (!this._editItemQuery.hasItem(id)) {
-      this._editItemService.load(id);
-    }
-  }
-
   ngOnInit() {
-    this.json$ = this._editPartQuery.selectJson(
-      this.itemId,
-      this.partId,
-      this.roleId
-    );
-    this.thesauri$ = this._editPartQuery.selectThesauri();
-    // load item if required
-    this.ensureItemLoaded(this.itemId);
-    // load part
-    if (this.partId) {
-      this._editPartService.load(this.partId);
-    }
-  }
-
-  public save(json: string) {
-    this._editPartService.save(json);
-  }
-
-  public close() {
-    this._router.navigate(['items', this.itemId]);
+    this.initEditor(null);
   }
 }

@@ -75,7 +75,7 @@ export abstract class EditPartFeatureBase implements ComponentCanDeactivate {
    * @param thesauriIds The optional ID(s) of the thesauri sets you want
    * to use in your editor.
    */
-  protected initEditor(thesauriIds: string[]) {
+  protected initEditor(thesauriIds: string[] | null) {
     this.json$ = this._editPartQuery.selectJson(
       this.itemId,
       this.partId,

@@ -45,6 +45,9 @@ export class TextTileComponent implements OnInit {
     return this.checker.value;
   }
   public set checked(value: boolean) {
+    if (this.checker.value === value) {
+      return;
+    }
     this._checkedChangeFrozen = true;
     this.checker.setValue(value);
     this._checkedChangeFrozen = false;

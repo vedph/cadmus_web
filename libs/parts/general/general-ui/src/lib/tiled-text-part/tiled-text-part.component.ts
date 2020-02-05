@@ -9,7 +9,7 @@ import {
 import {
   TiledTextPart,
   TextTileRow,
-  TILEDTEXTPART_TYPEID,
+  TILED_TEXT_PART_TYPEID,
   TEXT_TILE_TEXT_DATA_NAME,
   TextTile
 } from '../tiled-text-part';
@@ -94,7 +94,7 @@ export class TiledTextPartComponent
       part = {
         itemId: null,
         id: null,
-        typeId: TILEDTEXTPART_TYPEID,
+        typeId: TILED_TEXT_PART_TYPEID,
         roleId: null,
         timeCreated: new Date(),
         creatorId: null,
