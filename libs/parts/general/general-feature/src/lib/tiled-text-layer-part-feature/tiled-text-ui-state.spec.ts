@@ -15,10 +15,10 @@ import { CoreModule } from '@cadmus/core';
 import { GeneralFeatureModule } from '../general-feature.module';
 import { EditStateModule } from '@cadmus/features/edit-state';
 
-describe('TiledTextService', () => {
+describe('TiledTextUIState', () => {
   let rows: TextTileRow[];
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
@@ -51,10 +51,10 @@ describe('TiledTextService', () => {
         }
       ],
       declarations: [
-        CurrentItemBarComponent
+        //CurrentItemBarComponent
       ]
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     rows = [];

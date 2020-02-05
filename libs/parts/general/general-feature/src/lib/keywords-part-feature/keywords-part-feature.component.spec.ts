@@ -12,6 +12,7 @@ import { KeywordsPartComponent } from '@cadmus/parts/general/general-ui';
 import { MomentModule } from 'ngx-moment';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 describe('KeywordsPartFeatureComponent', () => {
   let component: KeywordsPartFeatureComponent;
@@ -43,6 +44,20 @@ describe('KeywordsPartFeatureComponent', () => {
         {
           provide: 'databaseId',
           useValue: 'cadmus'
+        },
+        {
+          provide: MatDialog,
+          useValue: {
+            open: (_: any) => { },
+            closeAll: (): void => undefined
+          }
+        },
+        {
+          provide: MatDialogRef,
+          useValue: {
+            close: (dialogResult: any) => { },
+            afterClosed: () => { }
+          }
         }
       ],
       declarations: [
