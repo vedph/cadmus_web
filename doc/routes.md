@@ -10,9 +10,9 @@ The editing-related routes are:
 
 - `/items/<id>/<part-group>/fragment/<part-id>/<fr-typeid>/<loc>?rid=<role-id>`: single part's fragment editor. Role ID is optional.
 
-Note that the part-editing routes always have a part-group key. This comes from the `editorKey` property of each part's definition; if such a property is not defined (but in practice this should never happen), it defaults to `default`.
+Note that the part-editing routes always have a `part-group` key. This comes from the `editorKey` property of each part's definition; if such a property is not defined (but in practice this should never happen), it defaults to `default`.
 
-Note that for layer parts the `editorKey` can be a composite value, with 2 different values separated by space. In this case, the first value is the part editor key, and the second value is the fragment editor key. Should these be equal, you can just use a single, non composite value for both.
+For layer parts, the `editorKey` can be a composite value, with 2 different values separated by space. In this case, the first value is the *part* editor key, and the second value is the *fragment* editor key. Should these be equal, you can just use a single, non composite value for both.
 
 For instance, consider this part definition in a data profile:
 
@@ -29,9 +29,9 @@ For instance, consider this part definition in a data profile:
 },
 ```
 
-Here, the editor key is composite because the text layer part editor is in the `general` library, while the apparatus fragment editor is in the `philology` module.
+Here, the editor key is composite, because the text layer part editor is in the `general` library, while the apparatus fragment editor is in the `philology` module.
 
-Grouping parts is required as far as we want to be able to lazily load our part-related modules. For instance, all our generic parts will be under the same `generic` group key, and their code will be found in the corresponding, lazy-loaded module. When editing an item's part, the frontend looks at the part definitions, searching for the first one matching the part's type ID; then, it uses the corresponding part's group key to build the edit URL.
+Grouping parts is a requirement because we want to be able to *lazily* load our part-related modules. For instance, all our generic parts are under the same `generic` group key, and their code is found in the corresponding, lazy-loaded module. When editing an item's part, the frontend looks at the part definitions, searching for the first one matching the part's type ID; then, it uses the corresponding part's group key to build the edit URL.
 
 Routes to part/fragment editors are built by a specialized service, `LibraryRouteService`. The routes to feature editors are defined in the respective lazily-loaded modules.
 
@@ -45,7 +45,7 @@ Routes **examples**:
 - `net.fusisoft.note/`: part's type ID.
 - `eafc9d63-f790-4c96-8107-294f4cb1a952`: part's ID.
 
-Here the group key follows the route to the lazily loaded module with the part editor, while the part's type ID tells which editor should be used from that module.
+Here the group key follows the route to the lazily loaded module with the part editor (`general`), while the part's type ID (`net.fusisoft.net`) tells which editor should be used from that module.
 
 2. a **part** route with **role**: this is the same as #1, except for the final `rid` query parameter.
 

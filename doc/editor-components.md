@@ -10,7 +10,7 @@ In the item editor, if the user clicks on any part, he navigates to the **part e
 
 When closing the part editor, the user navigates back to the item editor. A "pending changes" warning will appear if he has edited the part's data without saving them, or if he has attempted to save but there was an error (e.g. a network error).
 
-The *layer part editor* is special, as far as its type is the same for any type of layer. Just like items types just result from the sum of their parts, layer types result from the fragments they contain. For instance, a comments layer is just a layer including comment fragments.
+The *layer part editor* is just a part editor like any other, and this is true also for its route. Anyway, its type is the same for any type of layer. Just like items types just result from the sum of their parts, layer types result from the fragments they contain. For instance, a comments layer is just a layer including comment fragments.
 
 Thus, the layer part editor can be the same for any layer: it just presents the base text, where each portion linked to a fragment is highlighted. The user can either select a new text portion to link it to a new fragment; or select any part of the highlighted text to edit the corresponding fragment.
 
@@ -25,9 +25,39 @@ Thus, each part/fragment type has:
 - its own **route** in the web app. All the editor routes are built so that you can directly jump to any specific item, part, or fragment, by just entering its URL.
 - (optionally) its own **demo control**, which is just a wrapper for the dumb editor component, with demo and diagnostic purposes only, and a generic JSON code editor. Thus, the user can edit JSON code and see how it gets mapped to the visual editor; or visually edit a model, and see how it gets serialized into JSON code. In turn, here the JSON code editor is another dumb component, to be included in any demo control.
 
+### Layers Editors Types
+
+As remarked above, in general a text layers part is no different from any other part: it has the same route structure, which brings to an editor page. The only operative difference is that this page is used to select layers and fragments inside them, and in turn to edit fragments into another page.
+
+The layers part editor is thus the same whatever the layers we are going to support: it is just the fragment type which changes.
+
+Yet, there is another factor in text layers, other than the layer type: it is the text itself, i.e. the *type of the base text*. For instance, currently there are 2 types of text parts: token-based and tiles-based.
+
+In **token-based text part** (here *T-text* for short), which is the usual choice, users type a freely editable, multiline plain text.
+
+Here, the coordinates system used to link layers essentially relies on line and token number. The *token* here is defined as any sequence of characters separated by space (i.e. as a "graphical" word). Additionally, coordinates can refer also to a portion of a token, by specifying character number and count. This makes it possible to refer layers up to a single character in the base text. In practice, whatever text you can select can be linked to a layer, from a single character up to any number of words, even spanning multiple lines.
+
+In the layers part editor referring to a token-based text, users have the base text displayed, and they just select any portion of it. The coordinates corresponding to the selection are automatically calculated, whatever the extent of the selection.
+
+The **tiles-based text part** (here *L-text* for short) is a special-purpose model, where the text is laid on a bidimensional plane made of rows, and each row contains 1 or more tiles. You can think of it as a floor paved with rows of differently-sized tiles. Each tile contains an atomic portion of the text, arbitrarily defined. For instance it could just be a word, or a syllable in a syllabic writing system; whatever it is, it represents the atom as far as layers are concerned.
+
+The coordinates system is similar to the token-based text, but limited to this atom (the tile): it has a row number (like line number in the T-text) and a tile number (like token number in the T-text).
+
+In the layers part editor referring to a tiles-based text, users have the base text displayed as tiles (rectangles including text) in rows. Each tile can be checked with a tick to select it. Coordinates just refer to the checked tiles, which are always contiguous.
+
+This type of text editing is thus more constrained, as far as tiles are atoms: users can add new tiles, delete or move existing tiles, or change their text; but each tile is allowed to keep its identity together with any number of other metadata, which survive all these editing operations. Further, metadata can also be attached to each row, which can be similarly edited.
+
+Even if it is generic enough to find other usages (non-alphabetic writing systems can be an example), this system was first born to provide Cadmus with a way to *keep legacy metadata while editing them*. This is a requirement in scenarios where the primary purpose is not creating a database, but rather edit a set of resources provided by a third-party legacy system, and then lend them back to this system. In this case, Cadmus must deal with a big number of metadata connected to arbitrary portions of text, which are useless in the context of its own boundaries, but required to ensure compatibility with the target legacy system.
+
+For instance, this happens when dealing with legacy TEI documents with standoff apparatus, like those provided by an export of MQDQ data. In this case, we have a set of poetic texts, each divided into lines; some of these lines just contain the text, while others, being connected to an apparatus, contain a number of children elements, each representing a word. Each line and word element have their own attributes (first of all the `xml:id` attribute identifying each to allow linking to the apparatus), which must be kept unchanged during editing, to be later re-exported into TEI documents.
+
+In this scenario, the tiles-based text is used so that rows are lines and tiles are words; all the attributes of each element become metadata, attached to rows and tiles. Users are free to edit the base text or the apparatus linked to it; yet, whatever their actions legacy metadata are preserved inside each row and tile. These metadata can be edited too (in the tiled-text editor UI), but this rarely happens: in practice it is limited to fix errors in the source.
+
+Thus, as there are 2 types of base texts, there are also 2 types of layer parts, one for each base text type. Each of these layer parts has its own editor and route, just like any other part editor.
+
 ## Architecture
 
-As these components are modular, they are located in separate libraries. Each library contains a set of related part/fragment editors; for instance, the "general" part contains generic-purpose models like e.g. categories, keywords, or comments; the "philology" part contains critical apparatus or orthography layers; etc. In other terms, each library refers to a group of models (parts or fragments models).
+As editing components are modular, they are located in separate libraries. Each library contains a set of related part/fragment editors; for instance, the "general" part contains generic-purpose models like e.g. categories, keywords, or comments; the "philology" part contains critical apparatus or orthography layers; etc. In other terms, each library refers to a group of models (parts or fragments models).
 
 As we have two types of editors, dumb and smart (feature), for each group we also have two types of libraries (with a different set of dependencies): one for the dumb editors, and another for the feature editors.
 
