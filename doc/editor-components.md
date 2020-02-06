@@ -55,6 +55,37 @@ In this scenario, the tiles-based text is used so that rows are lines and tiles 
 
 Thus, as there are 2 types of base texts, there are also 2 types of layer parts, one for each base text type. Each of these layer parts has its own editor and route, just like any other part editor.
 
+### Finding the Base Text for a Layer
+
+It should be noticed that whatever the layer part type, some common functionalities are shared among them.
+
+For instance, whenever editing a fragment, as a reference to the user we must show the base text it refers to. Whatever its model, here we just require a string representing it.
+
+This is the purpose of the `baseText` property of the layer part editor's state (`EditLayerPartState`), which is filled by requesting the API server the base text for the part's item (at the endpoint `api/{database}/item/{itemId}/base-text`).
+
+Thus, in turn the backend must be able to know which is the the part representing the base text for any specified item. This is accomplished thanks to the `base-text` reserved role ID, specified in the facet definitions. For any facet related to an item having layered text, the definition of its part representing the base text must have this role ID.
+
+For instance, here is the definition of the base text part in a Cadmus profile:
+
+```json
+{
+  "typeId": "net.fusisoft.token-text",
+  "roleId": "base-text",
+  "name": "text",
+  "description": "Item's token-based text.",
+  "colorKey": "31AB54",
+  "groupKey": "text",
+  "sortKey": "text",
+  "editorKey": "general"
+}
+```
+
+Finally, we should notice that, deeper in the backend layer, all the parts representing base text implement the `IHasText` interface, which defines a `GetText()` method returning a string. Whatever the model of the part, it is up to it to implement this method, so that it can return a single string representing its text.
+
+Another potential usage for this method is full-text indexing: for instance, the generic note part implements this interface as well, right for this purpose. Anyway, the above API endpoint is the reason why every base-text part must ensure to implement this interface.
+
+**Implementation note**: the base text as a (multiline) string is all what is required for a token-based layer part editor, because in this text model the text is automatically partitioned on the basis of lines and tokens. For instance, when we consider the first line of such a text, we can tell that its Y coordinate is 1 (just because it's the first line), and that the X coordinate of its second token is 2 (just because it's the sequence of characters after the first space in that line). This is not the case for other text models: in fact, the tiles-based text reflects an *arbitrary* division of text into its tiles: they could be words, syllables, groups of words, etc. Thus, there is no way of reconstructing this division from the raw base text. This is why the tiles-based part editor needs to retrieve the base text part model, besides the part layer part it represents. Anyway this is just an implementation detail, the general architecture staying the same. The fact that the layer part based on T-text is a different type from the layer part based on L-text ensures that each can have its specific implementation when required.
+
 ## Architecture
 
 As editing components are modular, they are located in separate libraries. Each library contains a set of related part/fragment editors; for instance, the "general" part contains generic-purpose models like e.g. categories, keywords, or comments; the "philology" part contains critical apparatus or orthography layers; etc. In other terms, each library refers to a group of models (parts or fragments models).

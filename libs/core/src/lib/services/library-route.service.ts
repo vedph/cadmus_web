@@ -165,18 +165,6 @@ export class LibraryRouteService {
   }
 
   /**
-   * Get the base text part editor key from the specified definitions.
-   * @param partDefs The part definitions.
-   * @returns The key or null if not found.
-   */
-  private getBaseTextPartEditorKey(partDefs: PartDefinition[]): string {
-    const def = partDefs.find(d => {
-      return d.roleId === 'base-text';
-    });
-    return def ? def.editorKey : null;
-  }
-
-  /**
    * Build the route to the part editor corresponding to the specified
    * part.
    *
