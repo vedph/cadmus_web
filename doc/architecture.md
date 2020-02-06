@@ -1,6 +1,6 @@
 # Architecture
 
-The general multirepo architecture is structured into these sections:
+The general monorepo architecture is structured into these sections:
 
 - `apps/cadmus`: the frontend app.
 
