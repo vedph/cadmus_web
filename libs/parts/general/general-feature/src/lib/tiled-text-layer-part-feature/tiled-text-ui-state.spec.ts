@@ -25,9 +25,7 @@ describe('TiledTextUIState', () => {
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        RouterTestingModule,
-        CoreModule,
-        GeneralUiModule
+        RouterTestingModule
       ],
       // https://github.com/angular/components/issues/14668
       providers: [
@@ -78,10 +76,10 @@ describe('TiledTextUIState', () => {
     }
   });
 
-  it('setTileState for checked should set checked only', () => {
+  it('setTileState for checked sets checked only', () => {
     const state = new TiledTextUIState(rows);
 
-    state.setTileState({checked: true, frIndex: 123}, true, false);
+    state.setTileState({ checked: true, frIndex: 123 }, true, false);
 
     const stateRows = state.rows;
     for (let y = 1; y <= 3; y++) {
@@ -93,10 +91,10 @@ describe('TiledTextUIState', () => {
     }
   });
 
-  it('setTileState for frIndex should set frIndex only', () => {
+  it('setTileState for frIndex sets frIndex only', () => {
     const state = new TiledTextUIState(rows);
 
-    state.setTileState({checked: true, frIndex: 1}, false, true);
+    state.setTileState({ checked: true, frIndex: 1 }, false, true);
 
     const stateRows = state.rows;
     for (let y = 1; y <= 3; y++) {
@@ -108,7 +106,7 @@ describe('TiledTextUIState', () => {
     }
   });
 
-  it ('setFragmentLocations (points) should set frIndex', () => {
+  it('setFragmentLocations (points) sets frIndex', () => {
     const state = new TiledTextUIState(rows);
     const locations: TokenLocation[] = [];
     locations.push(TokenLocation.parse('2.1'));
@@ -128,7 +126,7 @@ describe('TiledTextUIState', () => {
     expect(stateRows[2].tiles[2].frIndex).toBe(1);
   });
 
-  it ('setFragmentLocations (ranges) should set frIndex', () => {
+  it('setFragmentLocations (ranges) sets frIndex', () => {
     const state = new TiledTextUIState(rows);
     const locations: TokenLocation[] = [];
     locations.push(TokenLocation.parse('2.1-3.1'));
@@ -148,13 +146,13 @@ describe('TiledTextUIState', () => {
     expect(stateRows[2].tiles[2].frIndex).toBe(1);
   });
 
-  it('findFirstCheckedCoords with none checked should ret null', () => {
+  it('findFirstCheckedCoords with none checked rets null', () => {
     const state = new TiledTextUIState(rows);
 
     expect(state.findFirstCheckedCoords(1, 1, true)).toBeNull();
   });
 
-  it('findFirstCheckedCoords for unchecked with none checked should ret coords', () => {
+  it('findFirstCheckedCoords for unchecked with none checked rets coords', () => {
     const state = new TiledTextUIState(rows);
 
     const yx = state.findFirstCheckedCoords(1, 1, false);
@@ -163,7 +161,7 @@ describe('TiledTextUIState', () => {
     expect(yx.x).toBe(1);
   });
 
-  it('findFirstCheckedCoords (reverse) for unchecked with none checked should ret coords', () => {
+  it('findFirstCheckedCoords (reverse) for unchecked with none checked rets coords', () => {
     const state = new TiledTextUIState(rows);
 
     const yx = state.findFirstCheckedCoords(3, 3, false, true);
@@ -172,13 +170,13 @@ describe('TiledTextUIState', () => {
     expect(yx.x).toBe(3);
   });
 
-  it('findFirstCheckedCoords (reverse) with none checked should ret null', () => {
+  it('findFirstCheckedCoords (reverse) with none checked rets null', () => {
     const state = new TiledTextUIState(rows);
 
     expect(state.findFirstCheckedCoords(3, 3, true, true)).toBeNull();
   });
 
-  it('findFirstCheckedCoords with checked should ret coords', () => {
+  it('findFirstCheckedCoords with checked rets coords', () => {
     const state = new TiledTextUIState(rows);
     state.linearSetCheck(3, 2, 3, 2, true);
 
@@ -188,7 +186,7 @@ describe('TiledTextUIState', () => {
     expect(yx.x).toBe(2);
   });
 
-  it('findFirstCheckedCoords (reverse) with checked should ret coords', () => {
+  it('findFirstCheckedCoords (reverse) with checked rets coords', () => {
     const state = new TiledTextUIState(rows);
     state.linearSetCheck(2, 1, 2, 1, true);
 
@@ -198,7 +196,7 @@ describe('TiledTextUIState', () => {
     expect(yx.x).toBe(1);
   });
 
-  it('linearSetCheck a single tile should check it', () => {
+  it('linearSetCheck a single tile checks it', () => {
     const state = new TiledTextUIState(rows);
 
     state.linearSetCheck(1, 1, 1, 1, true);
@@ -215,7 +213,7 @@ describe('TiledTextUIState', () => {
     expect(stateRows[2].tiles[2].checked).toBeFalsy();
   });
 
-  it('linearSetCheck 2 tiles in a row should check them', () => {
+  it('linearSetCheck 2 tiles in a row checks them', () => {
     const state = new TiledTextUIState(rows);
 
     state.linearSetCheck(3, 2, 3, 3, true);
@@ -232,7 +230,7 @@ describe('TiledTextUIState', () => {
     expect(stateRows[2].tiles[2].checked).toBeTruthy();
   });
 
-  it('linearSetCheck tiles spanning 2 rows should check them', () => {
+  it('linearSetCheck tiles spanning 2 rows checks them', () => {
     const state = new TiledTextUIState(rows);
 
     state.linearSetCheck(2, 1, 3, 2, true);
@@ -249,7 +247,7 @@ describe('TiledTextUIState', () => {
     expect(stateRows[2].tiles[2].checked).toBeFalsy();
   });
 
-  it('linearSetCheck tiles for uncheck spanning 2 rows should uncheck them', () => {
+  it('linearSetCheck tiles for uncheck spanning 2 rows unchecks them', () => {
     const state = new TiledTextUIState(rows);
     state.setTileState({ checked: true, frIndex: -1 }, true, false);
 
@@ -267,7 +265,7 @@ describe('TiledTextUIState', () => {
     expect(stateRows[2].tiles[2].checked).toBeTruthy();
   });
 
-  it('getNextTileCoords from non-last tile in row should ret its right sibling', () => {
+  it('getNextTileCoords from non-last tile in row rets its right sibling', () => {
     const state = new TiledTextUIState(rows);
 
     const yx = state.getNextTileCoords(2, 1);
@@ -276,7 +274,7 @@ describe('TiledTextUIState', () => {
     expect(yx.x).toBe(2);
   });
 
-  it('getNextTileCoords from last tile in row should ret 1st tile in next row', () => {
+  it('getNextTileCoords from last tile in row rets 1st tile in next row', () => {
     const state = new TiledTextUIState(rows);
 
     const yx = state.getNextTileCoords(1, 1);
@@ -285,7 +283,7 @@ describe('TiledTextUIState', () => {
     expect(yx.x).toBe(1);
   });
 
-  it('getNextTileCoords from last tile in last row should ret null', () => {
+  it('getNextTileCoords from last tile in last row rets null', () => {
     const state = new TiledTextUIState(rows);
 
     const yx = state.getNextTileCoords(3, 3);
@@ -293,7 +291,7 @@ describe('TiledTextUIState', () => {
     expect(yx).toBeNull();
   });
 
-  it('getPrevTileCoords from non-first tile in row should ret its left sibling', () => {
+  it('getPrevTileCoords from non-first tile in row rets its left sibling', () => {
     const state = new TiledTextUIState(rows);
 
     const yx = state.getPrevTileCoords(2, 2);
@@ -302,7 +300,7 @@ describe('TiledTextUIState', () => {
     expect(yx.x).toBe(1);
   });
 
-  it('getPrevTileCoords from first tile in row should ret last tile in prev row', () => {
+  it('getPrevTileCoords from first tile in row rets last tile in prev row', () => {
     const state = new TiledTextUIState(rows);
 
     const yx = state.getPrevTileCoords(3, 1);
@@ -311,7 +309,7 @@ describe('TiledTextUIState', () => {
     expect(yx.x).toBe(2);
   });
 
-  it('getPrevTileCoords from first tile in first row should ret null', () => {
+  it('getPrevTileCoords from first tile in first row rets null', () => {
     const state = new TiledTextUIState(rows);
 
     const yx = state.getPrevTileCoords(1, 1);
@@ -319,13 +317,13 @@ describe('TiledTextUIState', () => {
     expect(yx).toBeNull();
   });
 
-  it('getCheckedLocation with no checked should ret null', () => {
+  it('getCheckedLocation with no checked rets null', () => {
     const state = new TiledTextUIState(rows);
 
     expect(state.getCheckedLocation()).toBeNull();
   });
 
-  it('getCheckedLocation with single checked should ret point location', () => {
+  it('getCheckedLocation with single checked rets point location', () => {
     const state = new TiledTextUIState(rows);
     state.linearSetCheck(3, 2, 3, 2, true);
 
@@ -334,12 +332,55 @@ describe('TiledTextUIState', () => {
     expect(loc.toString()).toBe('3.2');
   });
 
-  it('getCheckedLocation with several checkeds should ret range location', () => {
+  it('getCheckedLocation with several checkeds rets range location', () => {
     const state = new TiledTextUIState(rows);
     state.linearSetCheck(2, 2, 3, 2, true);
 
     const loc = state.getCheckedLocation();
 
     expect(loc.toString()).toBe('2.2-3.2');
+  });
+
+  it('getCheckedLocationAndFragment no checked rets null', () => {
+    const state = new TiledTextUIState(rows);
+
+    const fl = state.getCheckedLocationAndFragment();
+
+    expect(fl).toBeNull();
+  });
+
+  it('getCheckedLocationAndFragment checked no fragment rets location', () => {
+    const state = new TiledTextUIState(rows);
+    state.linearSetCheck(2, 2, 3, 2, true);
+
+    const fl = state.getCheckedLocationAndFragment();
+
+    expect(fl.fragment).toBe(-1);
+    expect(fl.location).toBeTruthy();
+    expect(fl.location.toString()).toBe('2.2-3.2');
+  });
+
+  it('getCheckedLocationAndFragment checked outside fragment rets location', () => {
+    const state = new TiledTextUIState(rows);
+    state.linearSetCheck(2, 2, 3, 2, true);
+    state.setFragmentLocations([TokenLocation.parse('3.3')]);
+
+    const fl = state.getCheckedLocationAndFragment();
+
+    expect(fl.fragment).toBe(-1);
+    expect(fl.location).toBeTruthy();
+    expect(fl.location.toString()).toBe('2.2-3.2');
+  });
+
+  it('getCheckedLocationAndFragment checked inside fragment rets location and fragment', () => {
+    const state = new TiledTextUIState(rows);
+    state.linearSetCheck(2, 2, 3, 2, true);
+    state.setFragmentLocations([TokenLocation.parse('3.2')]);
+
+    const fl = state.getCheckedLocationAndFragment();
+
+    expect(fl.fragment).toBe(0);
+    expect(fl.location).toBeTruthy();
+    expect(fl.location.toString()).toBe('2.2-3.2');
   });
 });
