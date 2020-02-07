@@ -11,7 +11,7 @@ import { TokenLocation, TextLayerService } from '@cadmus/core';
   styleUrls: ['./decorated-token-text.component.css']
 })
 export class DecoratedTokenTextComponent implements OnInit {
-  @ViewChild('textElem', { static: false }) _textElement: ElementRef;
+  @ViewChild('textElem') _textElement: ElementRef;
   private _baseText: string;
   private _locations: TokenLocation[];
   private _selectedLoc: TokenLocation;

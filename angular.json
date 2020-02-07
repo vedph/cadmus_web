@@ -16,7 +16,7 @@
             "main": "apps/cadmus/src/main.ts",
             "polyfills": "apps/cadmus/src/polyfills.ts",
             "tsConfig": "apps/cadmus/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "apps/cadmus/src/favicon.ico",
               "apps/cadmus/src/assets",
@@ -42,7 +42,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,

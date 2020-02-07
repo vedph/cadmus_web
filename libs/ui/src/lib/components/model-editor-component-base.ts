@@ -1,5 +1,5 @@
 import { ThesauriSet, User } from '@cadmus/core';
-import { Input, Output, EventEmitter } from '@angular/core';
+import { Input, Output, EventEmitter, Directive } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 import { AuthService } from '@cadmus/api';
@@ -18,6 +18,7 @@ import { AuthService } from '@cadmus/api';
  * - override onModelSet, and eventually OnThesauriSet;
  * - override getModelFromForm.
  */
+@Directive()
 export abstract class ModelEditorComponentBase<T> {
   private _json: string;
   private _ignoreJsonChange: boolean;

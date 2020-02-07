@@ -25,7 +25,7 @@ export class TextTileComponent implements OnInit {
   private _tile: TextTile;
   private _checkedChangeFrozen: boolean;
 
-  @ViewChild('textInput', { static: false })
+  @ViewChild('textInput')
   public textElement: ElementRef;
 
   @Input()

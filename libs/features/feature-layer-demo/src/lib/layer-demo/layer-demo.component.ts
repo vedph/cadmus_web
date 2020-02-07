@@ -8,7 +8,7 @@ import { TextLayerService, TokenLocation } from '@cadmus/core';
   styleUrls: ['./layer-demo.component.css']
 })
 export class LayerDemoComponent implements OnInit {
-  @ViewChild('resultElem', { static: false }) _resultElement: ElementRef;
+  @ViewChild('resultElem') _resultElement: ElementRef;
 
   public locations: TokenLocation[];
   public result: string;

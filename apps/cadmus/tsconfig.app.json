@@ -6,7 +6,7 @@
   },
   "files": ["src/main.ts", "src/polyfills.ts"],
   "include": [
-    "**/*.ts",
+    "**/*.d.ts",
     "../../libs/features/feature-layer-demo/src/index.ts",
     "../../libs/features/feature-item-list/src/index.ts",
 
