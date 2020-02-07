@@ -54,7 +54,7 @@ export interface ItemInfo extends HasVersion {
   id: string;
   title: string;
   description: string;
-  facet: string;
+  facetId: string;
   sortKey: string;
   flags: number;
 }
