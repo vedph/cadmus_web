@@ -8,7 +8,8 @@ import { UsersState } from './users.store';
 import { UserService, AccountService } from '@cadmus/api';
 import { DialogService } from '@cadmus/ui';
 import { startWith, tap, switchMap, map } from 'rxjs/operators';
-import { PageEvent, MatSnackBar } from '@angular/material';
+import { PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { UsersService } from './users.service';
 import { UsersQuery } from './users.query';
 

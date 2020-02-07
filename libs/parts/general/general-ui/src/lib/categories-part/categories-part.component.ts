@@ -3,7 +3,7 @@ import { CategoriesPart, CATEGORIES_PART_TYPEID } from '../categories-part';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ModelEditorComponentBase } from '@cadmus/ui';
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { MatTreeNestedDataSource } from '@angular/material';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { of } from 'rxjs';
 import { AuthService } from '@cadmus/api';
 

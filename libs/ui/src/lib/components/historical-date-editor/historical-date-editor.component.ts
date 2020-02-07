@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HistoricalDate, Datation, HistoricalDateType } from '@cadmus/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'cadmus-historical-date-editor',

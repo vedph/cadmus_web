@@ -7,7 +7,7 @@ import { HAMMER_LOADER } from '@angular/platform-browser';
 
 import { KeywordsPartComponent } from './keywords-part.component';
 import { UiModule } from '@cadmus/ui';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 describe('KeywordsPartComponent', () => {
   let component: KeywordsPartComponent;

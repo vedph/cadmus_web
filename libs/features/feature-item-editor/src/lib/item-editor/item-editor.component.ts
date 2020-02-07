@@ -18,7 +18,7 @@ import {
   Validators
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from '@cadmus/ui';
 import { EditItemQuery, EditItemService } from '@cadmus/features/edit-state';
 import { AuthService } from '@cadmus/api';

@@ -5,7 +5,7 @@ import { ItemInfo, DataPage, ItemFilter, User } from '@cadmus/core';
 import { ITEMS_PAGINATOR } from '../services/items-paginator';
 import { map, switchMap, tap, startWith } from 'rxjs/operators';
 import { ItemsState } from '../state/items.store';
-import { PageEvent } from '@angular/material';
+import { PageEvent } from '@angular/material/paginator';
 import { ItemService, AuthService } from '@cadmus/api';
 import { DialogService } from '@cadmus/ui';
 import { FormControl, FormBuilder } from '@angular/forms';

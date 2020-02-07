@@ -5,7 +5,7 @@ import {
   FormBuilder,
   Validators
 } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '@cadmus/api';
 import { ExistResult, RegistrationModel, PasswordValidator } from '@cadmus/core';
 import { take } from 'rxjs/operators';

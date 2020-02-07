@@ -11,7 +11,7 @@ import { MomentModule } from 'ngx-moment';
 import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
 import { HAMMER_LOADER } from '@angular/platform-browser';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 describe('TiledTextLayerPartFeatureComponent', () => {
   let component: TiledTextLayerPartFeatureComponent;

@@ -12,7 +12,7 @@ import { KeywordsPartComponent } from '@cadmus/parts/general/general-ui';
 import { MomentModule } from 'ngx-moment';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 describe('KeywordsPartFeatureComponent', () => {
   let component: KeywordsPartFeatureComponent;
