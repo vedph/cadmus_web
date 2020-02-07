@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ItemService, FlagService, FacetService, ThesaurusService } from '@cadmus/api';
 import { forkJoin } from 'rxjs';
-import { Item } from '@cadmus/core';
+import { Item, FacetDefinition } from '@cadmus/core';
 import { EditItemStore } from './edit-item.store';
 
 @Injectable({ providedIn: 'root' })
@@ -21,7 +21,6 @@ export class EditItemService {
   public load(itemId: string) {
     this._store.setLoading(true);
 
-    const facetParts$ = this._facetService.getFacetParts();
     const facets$ = this._facetService.getFacets();
     const flags$ = this._flagService.getFlags();
     const thesaurus$ = this._thesaurusService.getThesaurus('model-types@en', true);
@@ -30,7 +29,6 @@ export class EditItemService {
       // if not new, include item in load
       forkJoin({
         item: this._itemService.getItem(itemId, true),
-        facetParts: facetParts$,
         facets: facets$,
         flags: flags$,
         thesaurus: thesaurus$
@@ -39,13 +37,18 @@ export class EditItemService {
           this._store.setLoading(false);
           this._store.setError(null);
 
+          const itemFacet = result.facets.find(f => {
+            return f.id === result.item.facetId;
+          });
+          const facetParts = itemFacet? itemFacet.partDefinitions : [];
+
           this._store.update({
             item: result.item,
             partGroups: this._itemService.groupParts(
               result.item.parts,
-              result.facetParts
+              facetParts
             ),
-            facetParts: result.facetParts,
+            facetParts: facetParts,
             facets: result.facets,
             flags: result.flags,
             typeThesaurus: result.thesaurus
@@ -60,7 +63,6 @@ export class EditItemService {
     } else {
       // if new, just set an empty item
       forkJoin({
-        facetParts: facetParts$,
         facets: facets$,
         flags: flags$,
         thesaurus: thesaurus$
@@ -68,6 +70,8 @@ export class EditItemService {
         result => {
           this._store.setLoading(false);
           this._store.setError(null);
+
+          const facetParts = result.facets[0].partDefinitions;
 
           this._store.update({
             item: {
@@ -83,7 +87,7 @@ export class EditItemService {
               userId: null
             },
             partGroups: [],
-            facetParts: result.facetParts,
+            facetParts: facetParts,
             facets: result.facets,
             flags: result.flags,
             typeThesaurus: result.thesaurus
@@ -114,8 +118,17 @@ export class EditItemService {
     this._itemService.addItem(item).subscribe(
       _ => {
         this._store.setSaving(false);
+
+        // we need to update the facet's parts as the item just saved
+        // could have changed its facet
+        const itemFacet = this._store.getValue().facets.find(f => {
+          return f.id === item.facetId;
+        });
+        const facetParts = itemFacet? itemFacet.partDefinitions : [];
+
         this._store.update({
-          item: item
+          item: item,
+          facetParts: facetParts
         });
       },
       error => {
