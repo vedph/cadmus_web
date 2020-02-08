@@ -24,11 +24,13 @@
         {{ error }}
       </mat-error>
     </p>
+
     <!-- item content -->
     <mat-tab-group [selectedIndex]="1">
       <!-- metadata -->
       <mat-tab label="Metadata">
         <form [formGroup]="metadata" (ngSubmit)="save()">
+
           <!-- title -->
           <div>
             <mat-form-field>
@@ -54,6 +56,7 @@
               >
             </mat-form-field>
           </div>
+
           <!-- sortKey -->
           <div>
             <mat-form-field>
@@ -80,6 +83,7 @@
               >
             </mat-form-field>
           </div>
+
           <!-- description -->
           <div>
             <mat-form-field class="full-width">
@@ -106,6 +110,7 @@
               >
             </mat-form-field>
           </div>
+
           <!-- facet -->
           <div>
             <mat-form-field style="width:400px">
@@ -114,7 +119,6 @@
                 formControlName="facet"
                 required="true"
               >
-                <mat-option [value]="null">(any)</mat-option>
                 <mat-option *ngFor="let f of facets$ | async" [value]="f.id">
                   {{ f.label }}
                 </mat-option>
@@ -122,6 +126,7 @@
               <mat-error>please select a facet</mat-error>
             </mat-form-field>
           </div>
+
           <!-- flags -->
           <div *ngIf="flags$ | async as flags">
             <mat-form-field style="width:400px">
@@ -167,7 +172,7 @@
                 required
               >
                 <mat-option
-                  *ngFor="let p of facetParts$ | async"
+                  *ngFor="let p of (facet$ | async).partDefinitions"
                   [value]="p.typeId"
                 >
                   {{ p.name }}

@@ -23,6 +23,9 @@ import { DialogService } from '@cadmus/ui';
 import { EditItemQuery, EditItemService } from '@cadmus/features/edit-state';
 import { AuthService } from '@cadmus/api';
 
+/**
+ * Item editor. This can edit a new or existing item's metadata and parts.
+ */
 @Component({
   selector: 'cadmus-item-editor',
   templateUrl: './item-editor.component.html',
@@ -34,7 +37,7 @@ export class ItemEditorComponent implements OnInit {
   public partGroups$: Observable<PartGroup[]>;
   public user: User;
   // lookup data
-  public facetParts$: Observable<PartDefinition[]>;
+  public facet$: Observable<FacetDefinition>;
   public facets$: Observable<FacetDefinition[]>;
   public flags$: Observable<FlagDefinition[]>;
   public loading$: Observable<boolean>;
@@ -108,9 +111,9 @@ export class ItemEditorComponent implements OnInit {
       this.user = user;
     });
 
-    this.item$ = this._query.select(state => state.item);
+    this.item$ = this._query.selectItem();
     this.partGroups$ = this._query.select(state => state.partGroups);
-    this.facetParts$ = this._query.select(state => state.facetParts);
+    this.facet$ = this._query.selectFacet();
     this.facets$ = this._query.select(state => state.facets);
     this.flags$ = this._query.select(state => state.flags);
     this.loading$ = this._query.selectLoading();
@@ -168,11 +171,11 @@ export class ItemEditorComponent implements OnInit {
     const state = this._query.getValue();
     let def: PartDefinition = null;
     if (state) {
-      def = state.facetParts.find(d => {
+      def = state.facet.partDefinitions.find(d => {
         return d.typeId === typeId && (!roleId || roleId === d.roleId);
       });
       if (!def) {
-        def = state.facetParts.find(d => {
+        def = state.facet.partDefinitions.find(d => {
           return d.typeId === typeId;
         });
       }
@@ -242,7 +245,7 @@ export class ItemEditorComponent implements OnInit {
   public editPart(part: Part) {
     // build the target route to the appropriate part editor
     const route = this._libraryRouteService.buildPartEditorRoute(
-      this._query.getValue().facetParts,
+      this._query.getValue().facet.partDefinitions,
       part.itemId,
       part.id,
       part.typeId

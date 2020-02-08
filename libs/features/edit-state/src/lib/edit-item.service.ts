@@ -4,6 +4,9 @@ import { forkJoin } from 'rxjs';
 import { Item, FacetDefinition } from '@cadmus/core';
 import { EditItemStore } from './edit-item.store';
 
+/**
+ * The service which handles the edit item store.
+ */
 @Injectable({ providedIn: 'root' })
 export class EditItemService {
   constructor(
@@ -13,6 +16,19 @@ export class EditItemService {
     private _flagService: FlagService,
     private _thesaurusService: ThesaurusService
   ) {}
+
+  private pickDefaultFacet(facets: FacetDefinition[]): FacetDefinition | null {
+    if (!facets.length) {
+      return null;
+    }
+    // if there is a facet with id="default", pick it
+    const defaultFacet = facets.find(f => f.id === 'default');
+    if (defaultFacet) {
+      return defaultFacet;
+    }
+    // else just pick the first in the list
+    return facets[0];
+  }
 
   /**
    * Load the item with the specified ID (if any; the ID can be null for
@@ -25,8 +41,8 @@ export class EditItemService {
     const flags$ = this._flagService.getFlags();
     const thesaurus$ = this._thesaurusService.getThesaurus('model-types@en', true);
 
+    // if not a new item, include it in load
     if (itemId) {
-      // if not new, include item in load
       forkJoin({
         item: this._itemService.getItem(itemId, true),
         facets: facets$,
@@ -48,7 +64,7 @@ export class EditItemService {
               result.item.parts,
               facetParts
             ),
-            facetParts: facetParts,
+            facet: result.facets.find(f => f.id === result.item.facetId),
             facets: result.facets,
             flags: result.flags,
             typeThesaurus: result.thesaurus
@@ -87,7 +103,7 @@ export class EditItemService {
               userId: null
             },
             partGroups: [],
-            facetParts: facetParts,
+            facet: this.pickDefaultFacet(result.facets),
             facets: result.facets,
             flags: result.flags,
             typeThesaurus: result.thesaurus
@@ -124,11 +140,9 @@ export class EditItemService {
         const itemFacet = this._store.getValue().facets.find(f => {
           return f.id === item.facetId;
         });
-        const facetParts = itemFacet? itemFacet.partDefinitions : [];
-
         this._store.update({
           item: item,
-          facetParts: facetParts
+          facet: itemFacet
         });
       },
       error => {
@@ -148,7 +162,7 @@ export class EditItemService {
     // delete from server
     this._itemService.deletePart(id).subscribe(
       _ => {
-        // once deleted, update the store by removing the deleted part
+        // once deleted, update the local store by removing the deleted part
         const groups = this._store.getValue().partGroups;
         for (let i = 0; i < groups.length; i++) {
           for (let j = 0; j < groups[i].parts.length; j++) {
