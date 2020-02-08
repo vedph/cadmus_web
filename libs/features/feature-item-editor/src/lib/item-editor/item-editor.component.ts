@@ -241,18 +241,17 @@ export class ItemEditorComponent implements OnInit {
 
   public editPart(part: Part) {
     // build the target route to the appropriate part editor
-    const { route, rid } = this._libraryRouteService.buildPartEditorRoute(
+    const route = this._libraryRouteService.buildPartEditorRoute(
       this._query.getValue().facetParts,
       part.itemId,
       part.id,
-      part.typeId,
-      part.roleId
+      part.typeId
     );
 
     // navigate to the editor
     this._router.navigate(
       [route],
-      rid
+      part.roleId
         ? {
             queryParams: {
               rid: part.roleId

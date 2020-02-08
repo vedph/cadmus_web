@@ -182,7 +182,6 @@ export class LibraryRouteService {
    * @param itemId The ID of the item the parts belongs to.
    * @param partId The part's ID.
    * @param typeId The part's type ID.
-   * @param roleId The part's role ID.
    * @returns Object with a route property and an optional rid property
    * representing the role ID, which will be rendered as a query parameter.
    */
@@ -190,23 +189,14 @@ export class LibraryRouteService {
     partDefs: PartDefinition[],
     itemId: string,
     partId: string,
-    typeId: string,
-    roleId: string
-  ): { route: string; rid: string | null } {
+    typeId: string
+  ): string {
     let route: string;
-    let rid: string = null;
     const editorKey = this.getEditorKeyFromPartType(partDefs, typeId);
 
     // /items/<id>/<part-group>/<part-typeid>/<part-id>?rid=<role-id>
     route = `/items/${itemId}/${editorKey}/${typeId}/${partId}`;
-
-    if (roleId) {
-      rid = roleId;
-    }
-    return {
-      route: route,
-      rid: rid
-    };
+    return route;
   }
 
   /**
