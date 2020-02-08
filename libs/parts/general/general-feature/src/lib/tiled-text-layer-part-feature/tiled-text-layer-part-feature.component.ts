@@ -24,7 +24,7 @@ import {
 } from '@cadmus/parts/general/general-ui';
 import { EditTiledTextPartQuery } from '../tiled-text-part-feature/edit-tiled-text-part.query';
 import { EditTiledTextPartService } from '../tiled-text-part-feature/edit-tiled-text-part.service';
-import { TiledTextUIState } from './tiled-text-ui-state';
+import { TiledTextLayerView, TextTileLayerView } from './tiled-text-layer-view';
 
 /**
  * Tiled text layer part editor.
@@ -46,12 +46,8 @@ import { TiledTextUIState } from './tiled-text-ui-state';
 })
 export class TiledTextLayerPartFeatureComponent
   implements OnInit, ComponentCanDeactivate {
-  // this handles the UI state of all the text tiles, i.e. their checked state,
-  // and their link to any of the fragments. Fragments links are expressed
-  // via indexes, which refer to the locations array. This is filled with the
-  // locations of all the fragments in the selected layer.
-  private _textRows: TextTileRow[];
-  private _tiledTextUIState: TiledTextUIState;
+  public view: TiledTextLayerView;
+  public selectedTile: TextTileLayerView;
 
   public itemId: string;
   public partId: string;
@@ -63,9 +59,7 @@ export class TiledTextLayerPartFeatureComponent
   public layers$: Observable<PartDefinition[]>;
   public selectedLayer$: Observable<PartDefinition>;
   public rolePartIds$: Observable<RolePartId[]>;
-
   public rows$: Observable<TextTileRow[]>;
-  public selectedTile: TextTile;
 
   public selectedLayer: FormControl;
   public coordsInfo: string;
@@ -127,19 +121,15 @@ export class TiledTextLayerPartFeatureComponent
     // when the base text changes, load all the fragments locations
     // and setup their UI state
     this.rows$.subscribe(rows => {
-      this._textRows = rows;
       this.loadAllFragmentLocations();
-      this._tiledTextUIState = rows? new TiledTextUIState(rows) : null;
-      this._tiledTextUIState?.setFragmentLocations(this.locations);
+      this.view = rows? new TiledTextLayerView(rows) : null;
+      this.view?.setFragmentLocations(this.locations);
     });
 
     // when the selected layer changes, re-set all the fragment locations
     this.selectedLayer$.subscribe(_ => {
       this.loadAllFragmentLocations();
-      if (this._textRows) {
-        this._tiledTextUIState = new TiledTextUIState(this._textRows);
-        this._tiledTextUIState.setFragmentLocations(this.locations);
-      }
+      this.view?.setFragmentLocations(this.locations);
     });
 
     // when the available layers are loaded, set the initial layer selection if any
@@ -189,29 +179,16 @@ export class TiledTextLayerPartFeatureComponent
     this.locations = locations;
   }
 
-  public isTileInFragment(y: number, x: number): boolean {
-    return (
-      this._tiledTextUIState &&
-      this._tiledTextUIState.getFragmentIndex(y, x) > -1
-    );
-  }
-
   public onTileChecked(y: number, x: number, checked: boolean) {
-    // reflect user check in the UI state
-    this._tiledTextUIState.toggleLinearTileCheck(y, x, checked);
-  }
-
-  public isTileChecked(y: number, x: number): boolean {
-    // reflect the UI state in the view
-    return this._tiledTextUIState.isChecked(y, x);
+    this.view.toggleLinearTileCheck(y, x, checked);
   }
 
   private getSelectedTileCoords(): { y: number, x: number } | null {
-    if (!this.selectedTile || !this._textRows) {
+    if (!this.selectedTile || !this.view) {
       return null;
     }
-    for (let i = 0; i < this._textRows.length; i++) {
-      const j = this._textRows[i].tiles.indexOf(this.selectedTile);
+    for (let i = 0; i < this.view.rows.length; i++) {
+      const j = this.view.rows[i].tiles.indexOf(this.selectedTile);
       if (j > -1) {
         return { y: i + 1, x: j + 1};
       }
@@ -222,9 +199,9 @@ export class TiledTextLayerPartFeatureComponent
   public selectPrevTile() {
     let yx = this.getSelectedTileCoords();
     if (yx) {
-      yx = this._tiledTextUIState.getPrevTileCoords(yx.y, yx.x);
+      yx = this.view.getPrevTileCoords(yx.y, yx.x);
       if (yx) {
-        this.selectedTile = this._textRows[yx.y - 1].tiles[yx.x - 1];
+        this.selectedTile = this.view.rows[yx.y - 1].tiles[yx.x - 1];
       }
     }
   }
@@ -232,15 +209,15 @@ export class TiledTextLayerPartFeatureComponent
   public selectNextTile() {
     let yx = this.getSelectedTileCoords();
     if (yx) {
-      yx = this._tiledTextUIState.getNextTileCoords(yx.y, yx.x);
+      yx = this.view.getNextTileCoords(yx.y, yx.x);
       if (yx) {
-        this.selectedTile = this._textRows[yx.y - 1].tiles[yx.x - 1];
+        this.selectedTile = this.view.rows[yx.y - 1].tiles[yx.x - 1];
       }
     }
   }
 
   public deleteFragment() {
-    const lf = this._tiledTextUIState.getCheckedLocationAndFragment();
+    const lf = this.view.getCheckedLocationAndFragment();
     if (!lf || lf.fragment === -1) {
       return;
     }
@@ -291,7 +268,7 @@ export class TiledTextLayerPartFeatureComponent
     if (this.selectedLayer.invalid) {
       return;
     }
-    const lf = this._tiledTextUIState.getCheckedLocationAndFragment();
+    const lf = this.view.getCheckedLocationAndFragment();
     if (!lf || lf.fragment === -1) {
       return;
     }
@@ -302,7 +279,7 @@ export class TiledTextLayerPartFeatureComponent
     if (this.selectedLayer.invalid) {
       return;
     }
-    const lf = this._tiledTextUIState.getCheckedLocationAndFragment();
+    const lf = this.view.getCheckedLocationAndFragment();
     if (!lf || lf.fragment > -1) {
       return;
     }
@@ -310,7 +287,7 @@ export class TiledTextLayerPartFeatureComponent
   }
 
   public getCoordsInfo() {
-    const lf = this._tiledTextUIState.getCheckedLocationAndFragment();
+    const lf = this.view.getCheckedLocationAndFragment();
     if (!lf) {
       return;
     }
@@ -318,6 +295,11 @@ export class TiledTextLayerPartFeatureComponent
       ? lf.location
       : this.locations[lf.fragment]
     ).toString();
+  }
+
+  public clearTileChecks() {
+    this.view.setAllTilesViewState({checked: false});
+    this.coordsInfo = null;
   }
 
   public close() {

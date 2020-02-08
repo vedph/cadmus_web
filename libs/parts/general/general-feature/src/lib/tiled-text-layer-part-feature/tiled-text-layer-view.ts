@@ -1,117 +1,115 @@
 import { TokenLocation, TokenPoint } from '@cadmus/core';
-import { TextTileRow } from '@cadmus/parts/general/general-ui';
+import { TextTileRow, TextTile } from '@cadmus/parts/general/general-ui';
 
 /**
- * UI state for a text tile.
+ * The layer view model for a text tile.
  */
-export interface TextTileUIState {
+export interface TextTileLayerView {
   checked: boolean;
   frIndex: number;
+  model: TextTile;
 }
 
 /**
- * UI state for the tiles in a text row.
+ * The layer view model for a row of text tiles.
  */
-export interface TextTileRowUIState {
-  tiles: TextTileUIState[];
+export interface TextTileRowLayerView {
+  tiles: TextTileLayerView[];
 }
 
 /**
- * UI state for a tiled text.
+ * The layer view model for a tiled text.
  */
-export class TiledTextUIState {
-  private _rows: TextTileRowUIState[];
+export class TiledTextLayerView {
+  private _rows: TextTileRowLayerView[];
 
   /**
-   * Create a new state from the specified tiled text.
+   * Create a new view from the specified tiled text.
    * @param rows The tiled text rows.
    */
   constructor(rows: TextTileRow[]) {
     // setup rows to reflect the text
     this._rows = [];
-    for (let i = 0; i < rows.length; i++) {
-      this._rows[i] = {
-        tiles: []
-      };
-      for (let j = 0; j < (rows[i].tiles ? rows[i].tiles.length : 0); j++) {
-        this._rows[i].tiles[j] = {
-          checked: false,
-          frIndex: -1
+
+    if (rows) {
+      // for each row
+      for (let i = 0; i < rows.length; i++) {
+        this._rows[i] = {
+          tiles: []
+        };
+        // for each tile in row
+        for (let j = 0; j < (rows[i].tiles ? rows[i].tiles.length : 0); j++) {
+          this._rows[i].tiles[j] = {
+            checked: false,
+            frIndex: -1,
+            model: rows[i].tiles[j]
+          };
+        }
+      }
+    }
+  }
+
+  /**
+   * The internal rows view models.
+   */
+  public get rows(): TextTileRowLayerView[] {
+    return this._rows;
+  }
+
+  /**
+   * Get the tile at the specified coordinates.
+   *
+   * @param y The tile's y coordinate.
+   * @param x The tile's x coordinate.
+   */
+  public getTileAt(y: number, x: number) {
+    return this._rows[y - 1].tiles[x - 1];
+  }
+
+  /**
+   * Set the view state of all the tiles.
+   *
+   * @param state The state values to set in each tile's state.
+   * @param setChecked True to set the checked property of states.
+   * @param setFrIndex True to set the frIndex property of states.
+   */
+  public setAllTilesViewState(state: { checked?: boolean; frIndex?: number }) {
+    const hasChecked = state.hasOwnProperty('checked');
+    const hasFrIndex = state.hasOwnProperty('frIndex');
+    if (!hasChecked && !hasFrIndex) {
+      return;
+    }
+
+    // for each row
+    for (let i = 0; i < this._rows.length; i++) {
+      const row = this._rows[i];
+
+      // for each tile in row
+      for (let j = 0; j < row.tiles.length; j++) {
+        const tile = row.tiles[j];
+
+        row.tiles[j] = {
+          checked: hasChecked ? state.checked : tile.checked,
+          frIndex: hasFrIndex ? state.frIndex : tile.frIndex,
+          model: tile.model
         };
       }
     }
   }
 
   /**
-   * The internal rows.
-   */
-  public get rows(): TextTileRowUIState[] {
-    return this._rows;
-  }
-
-  /**
-   * Check whether the tile at the specified coordinates is checked.
-   *
-   * @param y The tile's y coordinate.
-   * @param x The tile's x coordinate.
-   */
-  public isChecked(y: number, x: number): boolean {
-    return this._rows[y - 1].tiles[x - 1].checked;
-  }
-
-  /**
-   * Get the index of the fragment including the tile at the specified
-   * coordinates.
-   *
-   * @param y The tile's y coordinate.
-   * @param x The tile's x coordinate.
-   */
-  public getFragmentIndex(y: number, x: number): number {
-    return this._rows[y - 1].tiles[x - 1].frIndex;
-  }
-
-  /**
-   * Set the state of all the tiles.
-   *
-   * @param state The state values to set in each tile's state.
-   * @param setChecked True to set the checked property of states.
-   * @param setFrIndex True to set the frIndex property of states.
-   */
-  public setTileState(
-    state: TextTileUIState,
-    setChecked = true,
-    setFrIndex = true
-  ) {
-    if (!setChecked && !setFrIndex) {
-      return;
-    }
-
-    for (let i = 0; i < this._rows.length; i++) {
-      const row = this._rows[i];
-
-      for (let j = 0; j < row.tiles.length; j++) {
-        const newState = { ...row.tiles[j] };
-        if (setChecked) {
-          newState.checked = state.checked;
-        }
-        if (setFrIndex) {
-          newState.frIndex = state.frIndex;
-        }
-        row.tiles[j] = newState;
-      }
-    }
-  }
-
-  /**
-   * Set the tiles state corresponding to the fragments locations.
+   * Set the fragment index of each tile in this view. This is equal to the
+   * index to the fragment including the tile, when the tile is inside that
+   * fragment, or to -1, when the tile is outside any fragment. Fragment indexes
+   * refer to their locations, as received by this function.
    *
    * @param locations Fragments locations.
    */
   public setFragmentLocations(locations: TokenLocation[]) {
     // reset all the tiles fragment indexes
-    this.setTileState({ checked: false, frIndex: -1 }, false, true);
+    this.setAllTilesViewState({ frIndex: -1 });
 
-    // set fragment indexes from their locations
+    // for each fragment's location
     for (let i = 0; i < locations.length; i++) {
       const loc = locations[i];
 
@@ -126,12 +124,22 @@ export class TiledTextUIState {
               : x <= row.tiles.length;
             x++
           ) {
-            row.tiles[x - 1] = { ...row.tiles[x - 1], frIndex: i };
+            const tile = row.tiles[x - 1];
+            row.tiles[x - 1] = {
+              checked: tile.checked,
+              frIndex: i,
+              model: tile.model
+            };
           }
         }
       } else {
         // point
-        this._rows[loc.primary.y - 1].tiles[loc.primary.x - 1].frIndex = i;
+        const tile = this.getTileAt(loc.primary.y, loc.primary.x);
+        this._rows[loc.primary.y - 1].tiles[loc.primary.x - 1] = {
+          checked: tile.checked,
+          frIndex: i,
+          model: tile.model
+        };
       }
     }
   }
@@ -156,7 +164,7 @@ export class TiledTextUIState {
       let xstart = x;
       while (true) {
         for (let xi = xstart; xi >= 1; xi--) {
-          if (this._rows[y - 1].tiles[xi - 1].checked === checked) {
+          if (this.getTileAt(y, xi).checked === checked) {
             return {
               y: y,
               x: xi
@@ -173,7 +181,7 @@ export class TiledTextUIState {
       let xstart = x;
       while (true) {
         for (let xi = xstart; xi <= this._rows[y - 1].tiles.length; xi++) {
-          if (this._rows[y - 1].tiles[xi - 1].checked === checked) {
+          if (this.getTileAt(y, xi).checked === checked) {
             return {
               y: y,
               x: xi
@@ -214,9 +222,11 @@ export class TiledTextUIState {
         y === y2 ? x <= x2 : x <= row.tiles.length;
         x++
       ) {
+        const tile = row.tiles[x - 1];
         row.tiles[x - 1] = {
-          frIndex: row.tiles[x - 1].frIndex,
-          checked: checked
+          frIndex: tile.frIndex,
+          checked: checked,
+          model: tile.model
         };
       }
     }
@@ -323,7 +333,12 @@ export class TiledTextUIState {
         return;
       }
       // not found: check y,x
-      this._rows[y - 1].tiles[x - 1].checked = true;
+      const tile = this.getTileAt(y, x);
+      this._rows[y - 1].tiles[x - 1] = {
+        checked: true,
+        frIndex: tile.frIndex,
+        model: tile.model
+      };
     } else {
       // it was toggled from checked:
       // find 1st prev non-checked and set origin (y1,x1) equal to 1 if not found,

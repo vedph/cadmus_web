@@ -39,7 +39,7 @@
         [disabled]="selectedLayer.invalid"
         matTooltip="Delete the selected fragment"
       >
-        <mat-icon>clear</mat-icon>
+        <mat-icon>delete</mat-icon>
       </button>
       <button
         mat-icon-button
@@ -48,6 +48,15 @@
         matTooltip="Get the text coordinates of the selection for a new fragment"
       >
         <mat-icon>info</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        type="button"
+        color="warn"
+        (click)="clearTileChecks()"
+        matTooltip="Clear any selection"
+      >
+        <mat-icon>clear</mat-icon>
       </button>
       <button
         mat-icon-button
@@ -69,9 +78,9 @@
     <div *ngIf="error$ | async as error" class="error-message">{{ error }}</div>
 
     <!-- rows -->
-    <div *ngIf="rows$ | async as rows">
+    <div *ngIf="view">
       <div
-        *ngFor="let row of rows; let iy = index"
+        *ngFor="let row of view.rows; let iy = index"
         class="tile-row"
         fxLayout="row"
         fxLayoutAlign="start center"
@@ -80,12 +89,12 @@
         <!-- tile -->
         <cadmus-text-tile
           *ngFor="let tile of row.tiles || []; let ix = index"
-          [tile]="tile"
+          [tile]="tile.model"
           [readonly]="true"
           [selected]="tile === selectedTile"
           [checkable]="true"
-          [checked]="isTileChecked(iy + 1, ix + 1)"
-          [color]="isTileInFragment(iy + 1, ix + 1) ? 'yellow' : 'transparent'"
+          [checked]="tile.checked"
+          [color]="tile.frIndex > -1 ? 'yellow' : 'transparent'"
           fxFlex="none"
           (click)="selectedTile = tile"
           (checkedChange)="onTileChecked(iy + 1, ix + 1, $event)"

@@ -1,3 +1,7 @@
 div.tile-row {
   margin-bottom: 6px;
 }
+span.row-nr {
+  color: #c0c0c0;
+  font-weight: bold;
+}
