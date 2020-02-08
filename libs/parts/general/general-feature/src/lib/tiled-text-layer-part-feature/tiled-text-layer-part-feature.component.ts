@@ -71,8 +71,6 @@ export class TiledTextLayerPartFeatureComponent
     private _router: Router,
     private _editQuery: EditLayerPartQuery,
     private _editService: EditLayerPartService,
-    private _editBaseTextQuery: EditTiledTextPartQuery,
-    private _editBaseTextService: EditTiledTextPartService,
     private _editItemQuery: EditItemQuery,
     private _editItemService: EditItemService,
     private _libraryRouteService: LibraryRouteService,
@@ -104,11 +102,9 @@ export class TiledTextLayerPartFeatureComponent
 
   ngOnInit() {
     // base text: connect rows to the base text part
-    this.rows$ = this._editBaseTextQuery.select(
-      state => (state.part as TiledTextPart)?.rows
+    this.rows$ = this._editQuery.select(
+      state => (state.baseTextPart as TiledTextPart)?.rows
     );
-    // retrieve the base text part
-    this._editBaseTextService.loadBaseTextPart(this.itemId, null);
 
     // layers part
     this.loading$ = this._editQuery.selectLoading();
@@ -243,7 +239,7 @@ export class TiledTextLayerPartFeatureComponent
     const part = this._editQuery.getValue().part;
 
     const { route, rid } = this._libraryRouteService.buildFragmentEditorRoute(
-      this._editItemQuery.getValue().facetParts,
+      this._editItemQuery.getValue().facet.partDefinitions,
       part.itemId,
       part.id,
       part.typeId,
