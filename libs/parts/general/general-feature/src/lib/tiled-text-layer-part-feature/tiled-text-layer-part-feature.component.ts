@@ -109,13 +109,12 @@ export class TiledTextLayerPartFeatureComponent
   }
 
   ngOnInit() {
-    // base text
+    // base text: connect rows to the base text part
     this.rows$ = this._editBaseTextQuery.select(
       state => (state.part as TiledTextPart)?.rows
     );
-    if (this.partId) {
-      this._editBaseTextService.load(this.partId, null);
-    }
+    // retrieve the base text part
+    this._editBaseTextService.loadBaseTextPart(this.itemId, null);
 
     // layers part
     this.loading$ = this._editQuery.selectLoading();

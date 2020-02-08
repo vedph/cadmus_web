@@ -128,11 +128,11 @@ export class ItemService {
   }
 
   /**
-   * From the item with the specified ID, get the part matching the specified type
-   * and role.
+   * From the item with the specified ID, get the first (and normally unique)
+   * part matching the specified type and/or role.
    * @param itemId The item ID.
-   * @param type The part type.
-   * @param role The part role.
+   * @param type The part type or "any".
+   * @param role The part role or "default".
    * @returns Observable with result.
    */
   public getPartFromTypeAndRole(
@@ -140,6 +140,12 @@ export class ItemService {
     type: string,
     role = 'default'
   ): Observable<Part> {
+    if (!type) {
+      type = 'any';
+    }
+    if (!role) {
+      role = 'default';
+    }
     const url =
       `${this._apiEndpoint}${this._databaseId}/` +
       `item/${itemId}/part/${type}/${role}`;

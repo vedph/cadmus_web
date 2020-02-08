@@ -13,8 +13,8 @@ export abstract class EditPartServiceBase {
   protected store: EditPartStoreApi;
 
   constructor(
-    private _itemService: ItemService,
-    private _thesaurusService: ThesaurusService
+    protected itemService: ItemService,
+    protected thesaurusService: ThesaurusService
   ) {}
 
   public load(partId: string, thesauriIds: string[] | null = null) {
@@ -22,8 +22,8 @@ export abstract class EditPartServiceBase {
 
     if (thesauriIds) {
       forkJoin({
-        part: this._itemService.getPart(partId),
-        thesauri: this._thesaurusService.getThesauri(thesauriIds)
+        part: this.itemService.getPart(partId),
+        thesauri: this.thesaurusService.getThesauri(thesauriIds)
       }).subscribe(result => {
         this.store.setLoading(false);
         this.store.update({
@@ -32,7 +32,7 @@ export abstract class EditPartServiceBase {
         });
       });
     } else {
-      this._itemService.getPart(partId).subscribe(
+      this.itemService.getPart(partId).subscribe(
         part => {
           this.store.update({
             part: part,
@@ -53,7 +53,7 @@ export abstract class EditPartServiceBase {
     this.store.setSaving(true);
     this.store.setDirty(true);
 
-    this._itemService.addPartJson(json)
+    this.itemService.addPartJson(json)
       .subscribe(_ => {
         this.store.setSaving(false);
         this.store.setDirty(false);
