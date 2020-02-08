@@ -43,7 +43,7 @@ export class EditLayerPartService {
     forkJoin({
       // TODO: eventually optimize by adding method param to load only fragments locations
       layerPart: this._itemService.getPart(partId),
-      baseText: this._itemService.getBaseText(itemId),
+      baseText: this._itemService.getBaseTextPart(itemId),
       layers: this._facetService.getFacetParts(itemId, true),
       rolePartIds: this._itemService.getItemLayerPartIds(itemId)
     }).subscribe(
@@ -51,6 +51,7 @@ export class EditLayerPartService {
         this._store.update({
           part: result.layerPart as TextLayerPart,
           baseText: result.baseText.text,
+          baseTextPart: result.baseText.part,
           layers: result.layers.filter(l => {
             return l.roleId && l.roleId.startsWith('fr.');
           }),

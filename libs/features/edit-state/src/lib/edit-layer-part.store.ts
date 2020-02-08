@@ -1,5 +1,5 @@
 import { StoreConfig, Store } from '@datorama/akita';
-import { PartDefinition, TextLayerPart } from '@cadmus/core';
+import { PartDefinition, TextLayerPart, Part } from '@cadmus/core';
 import { Injectable } from '@angular/core';
 import { RolePartId } from '@cadmus/api';
 
@@ -20,6 +20,10 @@ export interface EditLayerPartState {
    * but not e.g. for the tiles-based text).
    */
   baseText: string | null;
+  /**
+   * The base text part.
+   */
+  baseTextPart: Part | null;
   /**
    * The available layer part definitions. This is used to show the list of
    * layers to pick from. Whenever a layer is selected, this implies changing
@@ -51,6 +55,7 @@ export interface EditLayerPartState {
 const initialState: EditLayerPartState = {
   part: null,
   baseText: null,
+  baseTextPart: null,
   layers: null,
   selectedLayer: null,
   rolePartIds: null,
@@ -61,7 +66,7 @@ const initialState: EditLayerPartState = {
 };
 
 @Injectable({ providedIn: 'root' })
-@StoreConfig({ name: 'edit-token-layer-part' })
+@StoreConfig({ name: 'edit-layer-part' })
 export class EditLayerPartStore extends Store<EditLayerPartState> {
   constructor() {
     super(initialState);

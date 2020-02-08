@@ -160,11 +160,11 @@ export class ItemService {
    * @param itemId The item's ID.
    * @returns An observable of an object with a "text" property.
    */
-  public getBaseText(itemId: string): Observable<{text: string}> {
+  public getBaseTextPart(itemId: string): Observable<{part: Part, text: string }> {
     const url =
       `${this._apiEndpoint}${this._databaseId}/` +
       `item/${itemId}/base-text`;
-    return this._http.get<{text: string}>(url).pipe(
+    return this._http.get<{part: Part, text: string}>(url).pipe(
       retry(3),
       catchError(this._error.handleError)
     );
