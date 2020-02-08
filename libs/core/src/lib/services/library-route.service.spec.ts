@@ -6,7 +6,7 @@ describe('LibraryRouteServiceService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: LibraryRouteService = TestBed.get(
+    const service: LibraryRouteService = TestBed.inject(
       LibraryRouteService
     );
     expect(service).toBeTruthy();

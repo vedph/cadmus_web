@@ -6,7 +6,7 @@ describe('RuntimeSettingsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: RuntimeSettingsService = TestBed.get(RuntimeSettingsService);
+    const service: RuntimeSettingsService = TestBed.inject(RuntimeSettingsService);
     expect(service).toBeTruthy();
   });
 });

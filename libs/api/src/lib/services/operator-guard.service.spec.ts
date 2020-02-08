@@ -6,7 +6,7 @@ describe('OperatorGuardService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: OperatorGuardService = TestBed.get(OperatorGuardService);
+    const service: OperatorGuardService = TestBed.inject(OperatorGuardService);
     expect(service).toBeTruthy();
   });
 });

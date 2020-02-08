@@ -16,7 +16,7 @@ describe('FacetService', () => {
   });
 
   it('should be created', () => {
-    const service: FacetService = TestBed.get(FacetService);
+    const service: FacetService = TestBed.inject(FacetService);
     expect(service).toBeTruthy();
   });
 });

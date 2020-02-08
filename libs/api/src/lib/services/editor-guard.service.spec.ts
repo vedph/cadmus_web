@@ -6,7 +6,7 @@ describe('EditorGuardService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: EditorGuardService = TestBed.get(EditorGuardService);
+    const service: EditorGuardService = TestBed.inject(EditorGuardService);
     expect(service).toBeTruthy();
   });
 });

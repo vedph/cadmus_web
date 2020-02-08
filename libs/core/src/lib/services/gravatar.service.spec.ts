@@ -6,7 +6,7 @@ describe('GravatarService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: GravatarService = TestBed.get(GravatarService);
+    const service: GravatarService = TestBed.inject(GravatarService);
     expect(service).toBeTruthy();
   });
 });

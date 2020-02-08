@@ -16,7 +16,7 @@ describe('FlagService', () => {
   });
 
   it('should be created', () => {
-    const service: FlagService = TestBed.get(FlagService);
+    const service: FlagService = TestBed.inject(FlagService);
     expect(service).toBeTruthy();
   });
 });

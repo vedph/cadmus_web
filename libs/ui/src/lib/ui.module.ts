@@ -56,8 +56,8 @@ import { RouterModule } from '@angular/router';
     PasswordStrengthBarComponent,
     SafeHtmlPipe
   ],
-  entryComponents: [
-    ConfirmDialogComponent
-  ]
+  // entryComponents: [
+  //   ConfirmDialogComponent
+  // ]
 })
 export class UiModule { }

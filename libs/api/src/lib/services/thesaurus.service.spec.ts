@@ -16,7 +16,7 @@ xdescribe('TagService', () => {
   });
 
   it('should be created', () => {
-    const service: ThesaurusService = TestBed.get(ThesaurusService);
+    const service: ThesaurusService = TestBed.inject(ThesaurusService);
     expect(service).toBeTruthy();
   });
 });

@@ -14,7 +14,7 @@ describe('JsonSchemaService', () => {
   );
 
   it('should be created', () => {
-    const service: JsonSchemaService = TestBed.get(JsonSchemaService);
+    const service: JsonSchemaService = TestBed.inject(JsonSchemaService);
     expect(service).toBeTruthy();
   });
 });
