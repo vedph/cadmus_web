@@ -144,13 +144,13 @@ export class TiledTextLayerPartFeatureComponent
       }
     });
 
-    // when the selected layer changes, update the store
+    // when the user changes the selected layer, update the store
     this.selectedLayer.valueChanges
       .pipe(
         debounceTime(200),
         distinctUntilChanged()
       )
-      .subscribe(layer => {
+      .subscribe((layer: PartDefinition) => {
         this._editService.selectLayer(layer);
       });
 

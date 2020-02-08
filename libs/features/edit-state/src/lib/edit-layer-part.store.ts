@@ -9,19 +9,26 @@ import { RolePartId } from '@cadmus/api';
  */
 export interface EditLayerPartState {
   /**
-   * The layer part being edited.
+   * The layer part (=collection of fragments) being edited.
    */
   part: TextLayerPart | null;
   /**
-   * The base text.
+   * The base text rendered into a plain string, whatever its original model.
+   * This is used for reference (e.g. show it to the user while editing),
+   * even if in some cases it can be enough to work with the base text in the
+   * layer part editor itself (this is the case of the token-based text,
+   * but not e.g. for the tiles-based text).
    */
   baseText: string | null;
   /**
-   * The available layer parts.
+   * The available layer part definitions. This is used to show the list of
+   * layers to pick from. Whenever a layer is selected, this implies changing
+   * the current edit layer part.
    */
   layers: PartDefinition[] | null;
   /**
-   * The currently selected layer part.
+   * The currently selected layer part. This correspond to the type of the
+   * part being edited here (see the "part" property above).
    */
   selectedLayer: PartDefinition | null;
   /**

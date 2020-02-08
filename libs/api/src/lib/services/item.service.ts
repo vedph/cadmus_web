@@ -185,9 +185,9 @@ export class ItemService {
    * and its role ("scholarly").
    * Thus, the role IDs (=layer type) for layer parts may just be equal
    * to the fragment type ID (e.g. "fr.net.fusisoft.comment"), or include
-   * this + dot + role ID proper (e.g."fr.net.fusisoft.comment:scholarly").
+   * this + colon + role ID proper (e.g."fr.net.fusisoft.comment:scholarly").
    * @param itemId The item's ID.
-   * @returns Observable with array of IRolePartId's.
+   * @returns Observable with array of RolePartId's.
    */
   public getItemLayerPartIds(itemId: string): Observable<RolePartId[]> {
     const url =

@@ -26,6 +26,13 @@ export class EditLayerPartService {
     private _settingsService: RuntimeSettingsService
   ) {}
 
+  /**
+   * Load the state for editing layer part(s).
+   *
+   * @param itemId The item ID the layer part belongs to.
+   * @param partId The layer part ID.
+   * @param selectedLayerRoleId The selected layer role ID, if any.
+   */
   public load(
     itemId: string,
     partId: string,
@@ -37,7 +44,7 @@ export class EditLayerPartService {
       // TODO: eventually optimize by adding method param to load only fragments locations
       layerPart: this._itemService.getPart(partId),
       baseText: this._itemService.getBaseText(itemId),
-      layers: this._facetService.getFacetParts(),
+      layers: this._facetService.getFacetParts(itemId, true),
       rolePartIds: this._itemService.getItemLayerPartIds(itemId)
     }).subscribe(
       result => {
