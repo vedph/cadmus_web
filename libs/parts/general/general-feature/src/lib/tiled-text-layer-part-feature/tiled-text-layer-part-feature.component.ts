@@ -50,6 +50,7 @@ export class TiledTextLayerPartFeatureComponent
   // and their link to any of the fragments. Fragments links are expressed
   // via indexes, which refer to the locations array. This is filled with the
   // locations of all the fragments in the selected layer.
+  private _textRows: TextTileRow[];
   private _tiledTextUIState: TiledTextUIState;
 
   public itemId: string;
@@ -110,7 +111,7 @@ export class TiledTextLayerPartFeatureComponent
   ngOnInit() {
     // base text
     this.rows$ = this._editBaseTextQuery.select(
-      state => (state.part as TiledTextPart).rows
+      state => (state.part as TiledTextPart)?.rows
     );
     if (this.partId) {
       this._editBaseTextService.load(this.partId, null);
@@ -127,16 +128,20 @@ export class TiledTextLayerPartFeatureComponent
     // when the base text changes, load all the fragments locations
     // and setup their UI state
     this.rows$.subscribe(rows => {
+      this._textRows = rows;
       this.loadAllFragmentLocations();
-      this._tiledTextUIState = new TiledTextUIState(rows);
-      this._tiledTextUIState.setFragmentLocations(this.locations);
+      this._tiledTextUIState = rows? new TiledTextUIState(rows) : null;
+      this._tiledTextUIState?.setFragmentLocations(this.locations);
     });
 
     // when the selected layer changes, re-set all the fragment locations
-    // this.selectedLayer$.subscribe(_ => {
-    //   this.loadAllFragmentLocations();
-    //   this._tiledTextUIState.setFragmentLocations(this.locations);
-    // });
+    this.selectedLayer$.subscribe(_ => {
+      this.loadAllFragmentLocations();
+      if (this._textRows) {
+        this._tiledTextUIState = new TiledTextUIState(this._textRows);
+        this._tiledTextUIState.setFragmentLocations(this.locations);
+      }
+    });
 
     // when the available layers are loaded, set the initial layer selection if any
     this.layers$.subscribe(l => {
