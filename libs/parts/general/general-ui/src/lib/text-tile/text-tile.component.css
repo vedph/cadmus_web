@@ -14,4 +14,5 @@ div.checked {
 span.text {
   font-weight: bold;
   color: #202020;
+  padding: 4px;
 }

@@ -72,6 +72,7 @@
     <div *ngIf="rows$ | async as rows">
       <div
         *ngFor="let row of rows; let iy = index"
+        class="tile-row"
         fxLayout="row"
         fxLayoutAlign="start center"
       >
@@ -88,6 +89,8 @@
           fxFlex="none"
           (click)="selectedTile = tile"
           (checkedChange)="onTileChecked(iy + 1, ix + 1, $event)"
+          (keydown.control.arrowleft)="selectPrevTile(iy + 1, ix + 1)"
+          (keydown.control.arrowright)="selectNextTile(iy + 1, ix + 1)"
         >
         </cadmus-text-tile>
       </div>

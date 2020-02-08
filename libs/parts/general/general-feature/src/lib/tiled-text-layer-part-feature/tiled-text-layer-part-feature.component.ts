@@ -206,6 +206,39 @@ export class TiledTextLayerPartFeatureComponent
     return this._tiledTextUIState.isChecked(y, x);
   }
 
+  private getSelectedTileCoords(): { y: number, x: number } | null {
+    if (!this.selectedTile || !this._textRows) {
+      return null;
+    }
+    for (let i = 0; i < this._textRows.length; i++) {
+      const j = this._textRows[i].tiles.indexOf(this.selectedTile);
+      if (j > -1) {
+        return { y: i + 1, x: j + 1};
+      }
+    }
+    return null;
+  }
+
+  public selectPrevTile() {
+    let yx = this.getSelectedTileCoords();
+    if (yx) {
+      yx = this._tiledTextUIState.getPrevTileCoords(yx.y, yx.x);
+      if (yx) {
+        this.selectedTile = this._textRows[yx.y - 1].tiles[yx.x - 1];
+      }
+    }
+  }
+
+  public selectNextTile() {
+    let yx = this.getSelectedTileCoords();
+    if (yx) {
+      yx = this._tiledTextUIState.getNextTileCoords(yx.y, yx.x);
+      if (yx) {
+        this.selectedTile = this._textRows[yx.y - 1].tiles[yx.x - 1];
+      }
+    }
+  }
+
   public deleteFragment() {
     const lf = this._tiledTextUIState.getCheckedLocationAndFragment();
     if (!lf || lf.fragment === -1) {
