@@ -2,13 +2,20 @@ import { ThesauriSet, Part } from '@cadmus/core';
 import { Injectable } from '@angular/core';
 import { StoreConfig, Store } from '@datorama/akita';
 
+/**
+ * The state of the currently edited part, if any.
+ */
 export interface EditPartState {
+  /**
+   * The part being edited.
+   */
   part: Part | null;
+  /**
+   * All the thesauri required by the part's editor.
+   */
   thesauri: ThesauriSet | null;
   dirty?: boolean;
   saving?: boolean;
-  // this is implemented in Akita stores, but you must add the keys
-  // https://github.com/datorama/akita/issues/61
   loading?: boolean;
   error?: string;
 }
