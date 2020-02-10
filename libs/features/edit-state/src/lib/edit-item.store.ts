@@ -1,11 +1,11 @@
 import { StoreConfig, Store } from '@datorama/akita';
 import {
   Item,
-  PartDefinition,
   PartGroup,
   FacetDefinition,
   FlagDefinition,
-  Thesaurus
+  Thesaurus,
+  LayerPartInfo
 } from '@cadmus/core';
 import { Injectable } from '@angular/core';
 
@@ -28,6 +28,11 @@ export interface EditItemState {
    * The item's parts, grouped.
    */
   partGroups: PartGroup[] | null;
+  /**
+   * The set of all the possible layer parts for this item, either
+   * present or absent.
+   */
+  layerPartInfos: LayerPartInfo[] | null;
   /**
    * The facet definition assigned to the item.
    */
@@ -57,6 +62,7 @@ export interface EditItemState {
 const initialState: EditItemState = {
   item: null,
   partGroups: [],
+  layerPartInfos: [],
   facet: null,
   facets: [],
   flags: [],

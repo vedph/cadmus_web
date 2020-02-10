@@ -5,6 +5,14 @@ span.model-type {
   padding: 4px;
   border-radius: 6px;
 }
+td.count-n {
+  text-align: center;
+  color: #03c03c;
+}
+td.count-z {
+  text-align: center;
+  color: #f34f41;
+}
 input.id {
   font-family: 'Courier New', Courier, monospace;
   color: gray;

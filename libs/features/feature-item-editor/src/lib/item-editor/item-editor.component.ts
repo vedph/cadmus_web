@@ -8,8 +8,8 @@ import {
   FlagDefinition,
   Part,
   LibraryRouteService,
-  ThesaurusEntry,
-  User
+  User,
+  LayerPartInfo
 } from '@cadmus/core';
 import {
   FormControl,
@@ -35,6 +35,7 @@ export class ItemEditorComponent implements OnInit {
   public id: string;
   public item$: Observable<Item>;
   public partGroups$: Observable<PartGroup[]>;
+  public layerPartInfos$: Observable<LayerPartInfo[]>;
   public user: User;
   // lookup data
   public facet$: Observable<FacetDefinition>;
@@ -113,6 +114,7 @@ export class ItemEditorComponent implements OnInit {
 
     this.item$ = this._query.selectItem();
     this.partGroups$ = this._query.select(state => state.partGroups);
+    this.layerPartInfos$ = this._query.select(state => state.layerPartInfos);
     this.facet$ = this._query.selectFacet();
     this.facets$ = this._query.select(state => state.facets);
     this.flags$ = this._query.select(state => state.flags);
@@ -272,6 +274,25 @@ export class ItemEditorComponent implements OnInit {
           return;
         }
         this._editItemService.deletePart(part.id);
+      });
+  }
+
+  public addLayerPart(part: LayerPartInfo) {
+    let name = this.getTypeIdName(part.typeId);
+    if (part.roleId) {
+      name += ' for ' + this.getRoleIdName(part.roleId);
+    }
+    this._dialogService
+      .confirm('Confirm Addition', `Add layer "${name}"?`)
+      .subscribe(result => {
+        if (!result) {
+          return;
+        }
+        this._editItemService.addNewLayerPart(
+          part.itemId,
+          part.typeId,
+          part.roleId
+        );
       });
   }
 }

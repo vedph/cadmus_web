@@ -3,7 +3,8 @@ import {
   ThesauriSet,
   TokenLocation,
   ComponentCanDeactivate,
-  LibraryRouteService
+  LibraryRouteService,
+  FacetDefinition
 } from '@cadmus/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -112,12 +113,22 @@ export abstract class EditFragmentFeatureBase
 
   public close() {
     // /items/<id>/<part-group>/<part-typeid>/<part-id>?rid=<role-id>
-    const partTypeId = this._editLayersQuery.getValue().part.typeId;
+    const part = this._editLayersQuery.getValue().part;
+    const item = this._editItemQuery.getValue().item;
+    const facet: FacetDefinition = this._editItemQuery
+      .getValue()
+      .facets.find(f => {
+        return f.id === item.facetId;
+      });
+    const partDef = facet.partDefinitions.find(d => {
+      return d.typeId === part.typeId && d.roleId === d.roleId;
+    });
+
     const { partKey, frKey } = this._libraryRouteService.decomposeEditorKey(
-      this._editLayersQuery.getValue().selectedLayer.editorKey
+      partDef.editorKey
     );
 
-    const url = `/items/${this.itemId}/${partKey}/${partTypeId}/${this.partId}`;
+    const url = `/items/${this.itemId}/${partKey}/${part.typeId}/${this.partId}`;
     this._router.navigate([url], {
       queryParams: {
         rid: this.frTypeId

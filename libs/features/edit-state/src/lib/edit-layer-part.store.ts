@@ -1,7 +1,6 @@
 import { StoreConfig, Store } from '@datorama/akita';
-import { PartDefinition, TextLayerPart, Part } from '@cadmus/core';
+import { TextLayerPart, Part } from '@cadmus/core';
 import { Injectable } from '@angular/core';
-import { RolePartId } from '@cadmus/api';
 
 /**
  * The state of the currently edited text layer part, if any.
@@ -24,26 +23,6 @@ export interface EditLayerPartState {
    * The base text part.
    */
   baseTextPart: Part | null;
-  /**
-   * The available layer part definitions. This is used to show the list of
-   * layers to pick from. Whenever a layer is selected, this implies changing
-   * the current edit layer part.
-   */
-  layers: PartDefinition[] | null;
-  /**
-   * The currently selected layer part. This correspond to the type of the
-   * part being edited here (see the "part" property above).
-   */
-  selectedLayer: PartDefinition | null;
-  /**
-   * A list of layer parts IDs and role IDs for the edited item.
-   * Note that the role IDs for layer parts may just be equal to the fragment
-   * type ID (e.g. "fr.net.fusisoft.comment"), or include this + dot + role ID
-   * proper (e.g."fr.net.fusisoft.comment:scholarly").
-   * This list allows to retrieve the ID of the layer part to be loaded
-   * from its role (i.e. its layer type).
-   */
-  rolePartIds: RolePartId[] | null;
   // this is implemented in Akita stores, but you must add the keys
   // https://github.com/datorama/akita/issues/61
   loading?: boolean;
@@ -56,9 +35,6 @@ const initialState: EditLayerPartState = {
   part: null,
   baseText: null,
   baseTextPart: null,
-  layers: null,
-  selectedLayer: null,
-  rolePartIds: null,
   loading: false,
   error: null,
   deletingFragment: false,

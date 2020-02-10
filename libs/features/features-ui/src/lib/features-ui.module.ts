@@ -8,6 +8,7 @@ import { CoreModule } from '@cadmus/core';
 import { MaterialModule } from '@cadmus/material';
 import { EditStateModule } from '@cadmus/features/edit-state';
 import { CurrentItemBarComponent } from './components/current-item-bar/current-item-bar.component';
+import { CurrentLayerPartBarComponent } from './components/current-layer-part-bar/current-layer-part-bar.component';
 
 @NgModule({
   imports: [
@@ -21,10 +22,12 @@ import { CurrentItemBarComponent } from './components/current-item-bar/current-i
     EditStateModule
   ],
   declarations: [
-    CurrentItemBarComponent
+    CurrentItemBarComponent,
+    CurrentLayerPartBarComponent
   ],
   exports: [
-    CurrentItemBarComponent
+    CurrentItemBarComponent,
+    CurrentLayerPartBarComponent
   ]
 })
 export class FeaturesUiModule {}

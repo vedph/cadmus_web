@@ -8,7 +8,8 @@ import {
   Item,
   Part,
   PartDefinition,
-  PartGroup
+  PartGroup,
+  LayerPartInfo
 } from '@cadmus/core';
 import { Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
@@ -171,8 +172,11 @@ export class ItemService {
   }
 
   /**
-   * Gets a list of layer parts IDs and role IDs for the specified item.
-   * This is useful to get a list of all the item's layer part IDs.
+   * Gets the information about all the layer parts in the item with
+   * the specified ID. If parameter "absent" is true, the layer parts are added
+   * also from the item's facet, even if absent from the database. This produces
+   * the full list of all the possible layer parts which could be connected
+   * to the given item.
    * Remember that you can have multiple parts of the same type in an item,
    * provided that you specify different roles for them.
    * This happens for the layer part: it is a unique type, but it differs
@@ -189,10 +193,14 @@ export class ItemService {
    * @param itemId The item's ID.
    * @returns Observable with array of RolePartId's.
    */
-  public getItemLayerPartIds(itemId: string): Observable<RolePartId[]> {
-    const url =
+  public getItemLayerInfo(itemId: string, absent: boolean):
+    Observable<LayerPartInfo[]> {
+    let url =
       `${this._apiEndpoint}${this._databaseId}/` + `item/${itemId}/layers`;
-    return this._http.get<RolePartId[]>(url).pipe(
+    if (absent) {
+      url += '?absent=true'
+    }
+    return this._http.get<LayerPartInfo[]>(url).pipe(
       retry(3),
       catchError(this._error.handleError)
     );

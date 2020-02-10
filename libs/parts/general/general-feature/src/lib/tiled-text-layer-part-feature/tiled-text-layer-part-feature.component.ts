@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
-  PartDefinition,
   TokenLocation,
   LibraryRouteService,
   ComponentCanDeactivate
 } from '@cadmus/core';
-import { RolePartId } from '@cadmus/api';
-import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   EditLayerPartQuery,
@@ -16,14 +13,9 @@ import {
   EditItemService
 } from '@cadmus/features/edit-state';
 import { DialogService } from '@cadmus/ui';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import {
   TextTileRow,
-  TiledTextPart,
-  TextTile
-} from '@cadmus/parts/general/general-ui';
-import { EditTiledTextPartQuery } from '../tiled-text-part-feature/edit-tiled-text-part.query';
-import { EditTiledTextPartService } from '../tiled-text-part-feature/edit-tiled-text-part.service';
+  TiledTextPart} from '@cadmus/parts/general/general-ui';
 import { TiledTextLayerView, TextTileLayerView } from './tiled-text-layer-view';
 
 /**
@@ -56,17 +48,12 @@ export class TiledTextLayerPartFeatureComponent
   public loading$: Observable<boolean>;
   public error$: Observable<string>;
   public baseText$: Observable<string>;
-  public layers$: Observable<PartDefinition[]>;
-  public selectedLayer$: Observable<PartDefinition>;
-  public rolePartIds$: Observable<RolePartId[]>;
   public rows$: Observable<TextTileRow[]>;
 
-  public selectedLayer: FormControl;
   public coordsInfo: string;
   public locations: TokenLocation[];
 
   constructor(
-    formBuilder: FormBuilder,
     route: ActivatedRoute,
     private _router: Router,
     private _editQuery: EditLayerPartQuery,
@@ -85,9 +72,6 @@ export class TiledTextLayerPartFeatureComponent
     if (this.roleId === 'default') {
       this.roleId = null;
     }
-
-    // form
-    this.selectedLayer = formBuilder.control(null, Validators.required);
   }
 
   public canDeactivate(): boolean {
@@ -110,9 +94,6 @@ export class TiledTextLayerPartFeatureComponent
     this.loading$ = this._editQuery.selectLoading();
     this.error$ = this._editQuery.selectError();
     this.baseText$ = this._editQuery.select(state => state.baseText);
-    this.layers$ = this._editQuery.select(state => state.layers);
-    this.selectedLayer$ = this._editQuery.select(state => state.selectedLayer);
-    this.rolePartIds$ = this._editQuery.select(state => state.rolePartIds);
 
     // when the base text changes, load all the fragments locations
     // and setup their UI state
@@ -122,45 +103,11 @@ export class TiledTextLayerPartFeatureComponent
       this.view?.setFragmentLocations(this.locations);
     });
 
-    // when the selected layer changes, re-set all the fragment locations
-    this.selectedLayer$.subscribe(_ => {
-      this.loadAllFragmentLocations();
-      this.view?.setFragmentLocations(this.locations);
-    });
-
-    // when the available layers are loaded, set the initial layer selection if any
-    this.layers$.subscribe(l => {
-      if (this.roleId) {
-        const layers = this._editQuery.getValue().layers;
-        if (layers) {
-          this.selectedLayer.setValue(
-            layers.find(d => d.roleId === this.roleId)
-          );
-        }
-      }
-    });
-
-    // when the user changes the selected layer, update the store
-    this.selectedLayer.valueChanges
-      .pipe(
-        debounceTime(200),
-        distinctUntilChanged()
-      )
-      .subscribe((layer: PartDefinition) => {
-        this._editService.selectLayer(layer);
-      });
-
+    // ensure that the container item is loaded
     this.ensureItemLoaded(this.itemId);
 
-    // load the store for the requested item's part,
-    // or create a new part and load it if adding a new one.
-    // Eager creation here is a requirement, because we are
-    // providing a fragments editor, which requires their container part.
-    if (this.partId) {
-      this._editService.load(this.itemId, this.partId);
-    } else {
-      this._editService.addAndLoad(this.itemId);
-    }
+    // load the layer part
+    this._editService.load(this.itemId, this.partId);
   }
 
   private loadAllFragmentLocations() {
@@ -261,9 +208,6 @@ export class TiledTextLayerPartFeatureComponent
   }
 
   public editFragment() {
-    if (this.selectedLayer.invalid) {
-      return;
-    }
     const lf = this.view.getCheckedLocationAndFragment();
     if (!lf || lf.fragment === -1) {
       return;
@@ -272,9 +216,6 @@ export class TiledTextLayerPartFeatureComponent
   }
 
   public addFragment() {
-    if (this.selectedLayer.invalid) {
-      return;
-    }
     const lf = this.view.getCheckedLocationAndFragment();
     if (!lf || lf.fragment > -1) {
       return;

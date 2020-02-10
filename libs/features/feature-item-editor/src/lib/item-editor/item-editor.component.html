@@ -9,13 +9,13 @@
   </mat-card-header>
   <mat-card-content *ngIf="!id || (item$ | async) as item">
     <p *ngIf="id">
-      ID: <input type="text" readonly="true" [value]="item.id" class="id">
+      ID: <input type="text" readonly="true" [value]="item.id" class="id" />
     </p>
     <p *ngIf="id">
       Last saved {{ item.timeModified | amLocal | amTimeAgo }} by
       {{ item.userId }} at
-      {{ item.timeModified | date: 'yyyy-MM-dd HH:mm:ss' }}.<br>
-      Created {{ item.timeCreated| amLocal | amTimeAgo }} by
+      {{ item.timeModified | date: 'yyyy-MM-dd HH:mm:ss' }}.<br />
+      Created {{ item.timeCreated | amLocal | amTimeAgo }} by
       {{ item.creatorId }} at
       {{ item.timeCreated | date: 'yyyy-MM-dd HH:mm:ss' }}.
     </p>
@@ -30,7 +30,6 @@
       <!-- metadata -->
       <mat-tab label="Metadata">
         <form [formGroup]="metadata" (ngSubmit)="save()">
-
           <!-- title -->
           <div>
             <mat-form-field>
@@ -251,7 +250,7 @@
                       user.roles.includes('operator')
                     "
                   >
-                    <mat-icon color="warn">clear</mat-icon>
+                    <mat-icon color="warn">delete</mat-icon>
                   </button>
                 </td>
                 <td>
@@ -270,6 +269,80 @@
             </tbody>
           </table>
         </mat-expansion-panel>
+      </mat-tab>
+
+      <mat-tab label="Layers">
+        <table *ngIf="layerPartInfos$ | async as parts">
+          <thead>
+            <th></th>
+            <th>type</th>
+            <th>role</th>
+            <th>frr.</th>
+            <th>last modified</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let part of parts">
+              <td>
+                <button
+                  *ngIf="!part.isAbsent"
+                  type="button"
+                  color="primary"
+                  mat-icon-button
+                  matTooltip="Edit this layer part"
+                  (click)="editPart(part)"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  *ngIf="part.isAbsent"
+                  type="button"
+                  mat-icon-button
+                  color="primary"
+                  matTooltip="Add this layer part"
+                  (click)="addLayerPart(part)"
+                >
+                  <mat-icon>add_circle</mat-icon>
+                </button>
+                <button
+                  *ngIf="!part.isAbsent"
+                  type="button"
+                  mat-icon-button
+                  color="warn"
+                  matTooltip="Delete this layer part"
+                  (click)="deletePart(part)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+              <td>
+                <span
+                  class="model-type"
+                  [style.background-color]="
+                    getPartColor(part.typeId, part.roleId)
+                  "
+                >
+                  {{ getTypeIdName(part.typeId) }}
+                </span>
+              </td>
+              <td>
+                {{ getRoleIdName(part.roleId) }}
+              </td>
+              <td
+                [ngClass]="{
+                  'count-n': part.fragmentCount,
+                  'count-z': !part.fragmentCount
+                }"
+              >
+                {{ part.fragmentCount }}
+              </td>
+              <td>
+                <span *ngIf="!part.isAbsent">
+                  {{ part.timeModified | amLocal | amTimeAgo }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </mat-tab>
     </mat-tab-group>
   </mat-card-content>

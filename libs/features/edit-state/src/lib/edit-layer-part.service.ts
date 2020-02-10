@@ -45,20 +45,12 @@ export class EditLayerPartService {
       layerPart: this._itemService.getPart(partId),
       baseText: this._itemService.getBaseTextPart(itemId),
       layers: this._facetService.getFacetParts(itemId, true),
-      rolePartIds: this._itemService.getItemLayerPartIds(itemId)
     }).subscribe(
       result => {
         this._store.update({
           part: result.layerPart as TextLayerPart,
           baseText: result.baseText.text,
           baseTextPart: result.baseText.part,
-          layers: result.layers.filter(l => {
-            return l.roleId && l.roleId.startsWith('fr.');
-          }),
-          selectedLayer: selectedLayerRoleId
-            ? result.layers.find(l => l.roleId === selectedLayerRoleId)
-            : null,
-          rolePartIds: result.rolePartIds,
           loading: false,
           error: null
         });
@@ -95,12 +87,6 @@ export class EditLayerPartService {
         this._store.setError('Error adding text layer part for item ' + itemId);
       }
     );
-  }
-
-  public selectLayer(layer: PartDefinition) {
-    this._store.update({
-      selectedLayer: layer
-    });
   }
 
   public deleteFragment(loc: TokenLocation) {

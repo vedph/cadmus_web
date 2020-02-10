@@ -5,28 +5,14 @@
       <mat-icon>view_headline</mat-icon>
     </div>
     <mat-card-title>Token-Based Text Layers</mat-card-title>
+    <cadmus-current-layer-part-bar></cadmus-current-layer-part-bar>
   </mat-card-header>
   <mat-card-actions *ngIf="!(loading$ | async)">
     <mat-toolbar>
-      <!-- layer selector -->
-      <mat-form-field floatLabel="never" style="font-size: 1rem;">
-        <mat-select
-          *ngIf="layers$ | async as layers"
-          placeholder="layer"
-          [formControl]="selectedLayer"
-        >
-          <mat-option *ngFor="let l of layers" [value]="l">{{
-            l.name
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <!-- buttons -->
       <button
         mat-icon-button
         type="button"
         (click)="editFragment()"
-        [disabled]="selectedLayer.invalid"
         matTooltip="Edit the selected fragment"
       >
         <mat-icon>edit</mat-icon>
@@ -36,7 +22,6 @@
         type="button"
         color="warn"
         (click)="deleteFragment()"
-        [disabled]="selectedLayer.invalid"
         matTooltip="Delete the selected fragment"
       >
         <mat-icon>delete</mat-icon>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ItemService, FlagService, FacetService, ThesaurusService } from '@cadmus/api';
 import { forkJoin } from 'rxjs';
-import { Item, FacetDefinition } from '@cadmus/core';
+import { Item, FacetDefinition, Part } from '@cadmus/core';
 import { EditItemStore } from './edit-item.store';
 
 /**
@@ -40,6 +40,7 @@ export class EditItemService {
     const facets$ = this._facetService.getFacets();
     const flags$ = this._flagService.getFlags();
     const thesaurus$ = this._thesaurusService.getThesaurus('model-types@en', true);
+    const layers$ = this._itemService.getItemLayerInfo(itemId, true);
 
     // if not a new item, include it in load
     if (itemId) {
@@ -47,7 +48,8 @@ export class EditItemService {
         item: this._itemService.getItem(itemId, true),
         facets: facets$,
         flags: flags$,
-        thesaurus: thesaurus$
+        thesaurus: thesaurus$,
+        layers: layers$
       }).subscribe(
         result => {
           this._store.setLoading(false);
@@ -64,6 +66,7 @@ export class EditItemService {
               result.item.parts,
               facetParts
             ),
+            layerPartInfos: result.layers,
             facet: result.facets.find(f => f.id === result.item.facetId),
             facets: result.facets,
             flags: result.flags,
@@ -81,7 +84,8 @@ export class EditItemService {
       forkJoin({
         facets: facets$,
         flags: flags$,
-        thesaurus: thesaurus$
+        thesaurus: thesaurus$,
+        layers: layers$
       }).subscribe(
         result => {
           this._store.setLoading(false);
@@ -103,6 +107,7 @@ export class EditItemService {
               userId: null
             },
             partGroups: [],
+            layerPartInfos: result.layers,
             facet: this.pickDefaultFacet(result.facets),
             facets: result.facets,
             flags: result.flags,
@@ -134,16 +139,8 @@ export class EditItemService {
     this._itemService.addItem(item).subscribe(
       _ => {
         this._store.setSaving(false);
-
-        // we need to update the facet's parts as the item just saved
-        // could have changed its facet
-        const itemFacet = this._store.getValue().facets.find(f => {
-          return f.id === item.facetId;
-        });
-        this._store.update({
-          item: item,
-          facet: itemFacet
-        });
+        // reload the store
+        this.load(this._store.getValue().item.id);
       },
       error => {
         console.error(error);
@@ -162,25 +159,40 @@ export class EditItemService {
     // delete from server
     this._itemService.deletePart(id).subscribe(
       _ => {
-        // once deleted, update the local store by removing the deleted part
-        const groups = this._store.getValue().partGroups;
-        for (let i = 0; i < groups.length; i++) {
-          for (let j = 0; j < groups[i].parts.length; j++) {
-            if (groups[i].parts[j].id === id) {
-              groups[i].parts.splice(j, 1);
-              i = groups.length;
-              break;
-            }
-          }
-        }
-        this._store.update({
-          partGroups: groups
-        });
+        this._store.setDeletingPart(false);
+        // reload the store
+        this.load(this._store.getValue().item.id);
       },
       error => {
         console.log(error);
         this._store.setDeletingPart(false);
         this._store.setError('Error deleting part ' + id);
+      }
+    );
+  }
+
+  public addNewLayerPart(itemId: string, typeId: string, roleId: string) {
+    const part: Part = {
+      itemId: itemId,
+      typeId: typeId,
+      roleId: roleId,
+      id: null,
+      creatorId: null,
+      userId: null,
+      timeCreated: new Date(),
+      timeModified: new Date()
+    };
+    this._store.setSaving();
+    this._itemService.addPart(part).subscribe(
+      _ => {
+        this._store.setSaving(false);
+        // reload the store
+        this.load(this._store.getValue().item.id);
+      },
+      error => {
+        console.log(error);
+        this._store.setSaving(false);
+        this._store.setError('Error adding new layer part for item ' + itemId);
       }
     );
   }

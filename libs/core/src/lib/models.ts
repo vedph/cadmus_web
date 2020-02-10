@@ -71,6 +71,18 @@ export interface Part extends HasVersion {
 }
 
 /**
+ * Essential information about a layer part.
+ */
+export interface LayerPartInfo extends HasVersion {
+  id: string;
+  itemId: string;
+  typeId: string;
+  roleId: string;
+  fragmentCount: number;
+  isAbsent: boolean;
+}
+
+/**
  * Text layer fragment. This is the minimal set of properties present in all the
  * fragments. Each fragment then adds its own properties, extending this
  * interface.
