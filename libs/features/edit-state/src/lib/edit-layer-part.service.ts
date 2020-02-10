@@ -1,16 +1,9 @@
 import { Injectable } from '@angular/core';
-import {
-  ItemService,
-  FacetService,
-  RuntimeSettingsService,
-  RS_TEXT_LAYER_TYPE_ID
-} from '@cadmus/api';
+import { ItemService, FacetService } from '@cadmus/api';
 import { EditLayerPartStore } from './edit-layer-part.store';
 import { forkJoin } from 'rxjs';
 import {
   TextLayerPart,
-  Part,
-  PartDefinition,
   TokenLocation,
   UtilService,
   Fragment
@@ -22,8 +15,7 @@ export class EditLayerPartService {
     private _store: EditLayerPartStore,
     private _itemService: ItemService,
     private _facetService: FacetService,
-    private _utilService: UtilService,
-    private _settingsService: RuntimeSettingsService
+    private _utilService: UtilService
   ) {}
 
   /**
@@ -44,7 +36,7 @@ export class EditLayerPartService {
       // TODO: eventually optimize by adding method param to load only fragments locations
       layerPart: this._itemService.getPart(partId),
       baseText: this._itemService.getBaseTextPart(itemId),
-      layers: this._facetService.getFacetParts(itemId, true),
+      layers: this._facetService.getFacetParts(itemId, true)
     }).subscribe(
       result => {
         this._store.update({
@@ -59,32 +51,6 @@ export class EditLayerPartService {
         console.error(error);
         this._store.setLoading(false);
         this._store.setError('Error loading text layer part ' + partId);
-      }
-    );
-  }
-
-  public addAndLoad(itemId: string) {
-    this._store.setLoading(true);
-
-    const part: Part = {
-      id: null, // this will be filled by server
-      itemId: itemId,
-      typeId: this._settingsService.get<string>(RS_TEXT_LAYER_TYPE_ID),
-      roleId: null,
-      timeCreated: new Date(),
-      creatorId: null,
-      userId: null, // this will be filled by server
-      timeModified: new Date()
-    };
-    this._itemService.addPart(part).subscribe(
-      result => {
-        this._store.setLoading(false);
-        this.load(itemId, result.id);
-      },
-      error => {
-        console.error(error);
-        this._store.setLoading(false);
-        this._store.setError('Error adding text layer part for item ' + itemId);
       }
     );
   }
