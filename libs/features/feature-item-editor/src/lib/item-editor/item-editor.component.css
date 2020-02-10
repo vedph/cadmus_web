@@ -1,9 +1,18 @@
 .full-width {
   width: 100%;
 }
+div.new-part {
+  margin-left: 32px;
+}
 span.model-type {
   padding: 4px;
   border-radius: 6px;
+}
+span.new-part-name {
+  font-weight: bold;
+}
+span.new-part-role {
+  color: #808080;
 }
 td.count-n {
   text-align: center;

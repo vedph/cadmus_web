@@ -13,10 +13,10 @@
     </p>
     <p *ngIf="id">
       Last saved {{ item.timeModified | amLocal | amTimeAgo }} by
-      {{ item.userId }} at
+      {{ item.userId }} on
       {{ item.timeModified | date: 'yyyy-MM-dd HH:mm:ss' }}.<br />
       Created {{ item.timeCreated | amLocal | amTimeAgo }} by
-      {{ item.creatorId }} at
+      {{ item.creatorId }} on
       {{ item.timeCreated | date: 'yyyy-MM-dd HH:mm:ss' }}.
     </p>
     <p *ngIf="error$ | async as error">
@@ -26,7 +26,7 @@
     </p>
 
     <!-- item content -->
-    <mat-tab-group [selectedIndex]="1">
+    <mat-tab-group [selectedIndex]="id? 1 : 0">
       <!-- metadata -->
       <mat-tab label="Metadata">
         <form [formGroup]="metadata" (ngSubmit)="save()">
@@ -162,46 +162,39 @@
 
       <!-- parts -->
       <mat-tab label="Parts" *ngIf="id">
-        <div style="margin-left: 32px">
+        <div class="new-part">
           <form [formGroup]="newPart">
-            <mat-form-field style="width:120px">
+            <mat-form-field>
               <mat-select
                 placeholder="part"
-                formControlName="partType"
+                formControlName="newPartType"
                 required
               >
-                <mat-option
-                  *ngFor="let p of (facet$ | async).partDefinitions"
-                  [value]="p.typeId"
-                >
-                  {{ p.name }}
+                <mat-option *ngFor="let p of newPartDefinitions" [value]="p">
+                  <span class="new-part-name">{{ p.name }}</span>
+                  <span *ngIf="p.roleId" class="new-part-role">{{
+                    p.roleId
+                  }}</span>
                 </mat-option>
               </mat-select>
               <mat-error>part type required</mat-error>
             </mat-form-field>
             &nbsp;
-            <mat-form-field style="width: 120px">
-              <input
-                matInput
-                type="text"
-                spellcheck="false"
-                formControlName="partRole"
-                placeholder="role"
-              />
-              <mat-error>part role too long</mat-error>
-            </mat-form-field>
             <button
-              mat-icon-button
+              mat-raised-button
               color="primary"
               type="button"
               [disabled]="(loading$ | async) || !newPart.valid"
               (click)="addPart()"
               matTooltip="Add a new part of the selected type"
             >
-              <mat-icon>add_circle</mat-icon>
+            <mat-icon>add_circle</mat-icon>
+            new part
             </button>
           </form>
         </div>
+
+        <mat-divider></mat-divider>
 
         <mat-expansion-panel
           *ngFor="let group of partGroups$ | async"
@@ -271,7 +264,7 @@
         </mat-expansion-panel>
       </mat-tab>
 
-      <mat-tab label="Layers">
+      <mat-tab label="Layers" *ngIf="id">
         <table *ngIf="layerPartInfos$ | async as parts">
           <thead>
             <th></th>

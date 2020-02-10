@@ -39,6 +39,7 @@ export class ItemEditorComponent implements OnInit {
   public user: User;
   // lookup data
   public facet$: Observable<FacetDefinition>;
+  public newPartDefinitions: PartDefinition[];
   public facets$: Observable<FacetDefinition[]>;
   public flags$: Observable<FlagDefinition[]>;
   public loading$: Observable<boolean>;
@@ -47,8 +48,7 @@ export class ItemEditorComponent implements OnInit {
   public error$: Observable<string>;
 
   // new part form
-  public partType: FormControl;
-  public partRole: FormControl;
+  public newPartType: FormControl;
   public newPart: FormGroup;
   // item metadata form
   public title: FormControl;
@@ -74,11 +74,9 @@ export class ItemEditorComponent implements OnInit {
       this.id = null;
     }
     // new part form
-    this.partType = formBuilder.control(null, Validators.required);
-    this.partRole = formBuilder.control(null, Validators.maxLength(100));
+    this.newPartType = formBuilder.control(null, Validators.required);
     this.newPart = formBuilder.group({
-      partType: this.partType,
-      partRole: this.partRole
+      newPartType: this.newPartType,
     });
     // item's metadata form
     this.title = formBuilder.control(null, [
@@ -126,10 +124,56 @@ export class ItemEditorComponent implements OnInit {
     // update the metadata form when item changes
     this.item$.subscribe(item => {
       this.updateMetadataForm(item);
+      this.newPartDefinitions = this.getNewPartDefinitions();
     });
 
     // load the item (if any) and its lookup
     this._editItemService.load(this.id);
+  }
+
+  private getExistingPartTypeAndRoleIds(): { typeId: string, roleId: string}[] {
+    const groups = this._query.getValue().partGroups;
+    if (!groups) {
+      return [];
+    }
+    const results = [];
+    for (let i = 0; i < groups.length; i++) {
+      for (let j = 0; j < groups[i].parts.length; j++) {
+        const part = groups[i].parts[j];
+        results.push({
+          typeId: part.typeId,
+          roleId: part.roleId
+        });
+      }
+    }
+
+    return results;
+  }
+
+  private getNewPartDefinitions(): PartDefinition[] {
+    const facet = this._query.getValue().facet;
+    if (!facet) {
+      return [];
+    }
+
+    const existingTypeRoleIds = this.getExistingPartTypeAndRoleIds();
+
+    const defs: PartDefinition[] = [];
+    for (let i = 0; i < facet.partDefinitions.length; i++) {
+      const def = facet.partDefinitions[i];
+      // exclude layer parts, as these are in the layers tab
+      if (def.roleId?.startsWith('fr.')) {
+        continue;
+      }
+      // exclude parts present in the item
+      if (existingTypeRoleIds.find(tr => {
+        return (tr.typeId === def.typeId && tr.roleId === def.roleId);
+      })) {
+        continue;
+      }
+      defs.push(def);
+    }
+    return defs;
   }
 
   private getFlags(value: number): FlagDefinition[] {
@@ -239,8 +283,8 @@ export class ItemEditorComponent implements OnInit {
       });
       return;
     }
-    let route = `/item/${this.id}/${this.partType.value}/new/`;
-    route += this.partRole.value ? this.partRole.value : 'default';
+    let route = `/item/${this.id}/${this.newPartType.value.typeId}/new/`;
+    route += this.newPartType.value.roleId ? this.newPartType.value.roleId : 'default';
     this._router.navigate([route]);
   }
 
