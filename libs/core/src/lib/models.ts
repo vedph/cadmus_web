@@ -171,6 +171,7 @@ export interface PartDefinition {
 export interface FacetDefinition {
   id: string;
   label: string;
+  colorKey: string;
   description: string;
   partDefinitions: PartDefinition[];
 }

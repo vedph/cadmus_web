@@ -416,7 +416,8 @@ import {
   EditItemService,
   EditLayerPartQuery,
   EditLayerPartService,
-  EditFragmentFeatureBase
+  EditFragmentFeatureBase,
+  AppQuery
 } from '@cadmus/features/edit-state';
 
 @Component({
@@ -429,6 +430,7 @@ export class __NAME__FragmentFeatureComponent extends EditFragmentFeatureBase
   constructor(
     router: Router,
     route: ActivatedRoute,
+    appQuery: AppQuery,
     editFrQuery: Edit__NAME__FragmentQuery,
     editFrService: Edit__NAME__FragmentService,
     editItemQuery: EditItemQuery,

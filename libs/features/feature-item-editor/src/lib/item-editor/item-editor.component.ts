@@ -20,8 +20,8 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from '@cadmus/ui';
-import { EditItemQuery, EditItemService } from '@cadmus/features/edit-state';
-import { AuthService } from '@cadmus/api';
+import { EditItemQuery, EditItemService, AppQuery } from '@cadmus/features/edit-state';
+import { AuthService, FacetService } from '@cadmus/api';
 
 /**
  * Item editor. This can edit a new or existing item's metadata and parts.
@@ -62,11 +62,13 @@ export class ItemEditorComponent implements OnInit {
     private _router: Router,
     private _route: ActivatedRoute,
     private _snackbar: MatSnackBar,
+    private _appQuery: AppQuery,
     private _query: EditItemQuery,
     private _editItemService: EditItemService,
     private _libraryRouteService: LibraryRouteService,
     private _dialogService: DialogService,
     private _authService: AuthService,
+    private _facetService: FacetService,
     formBuilder: FormBuilder
   ) {
     this.id = this._route.snapshot.params['id'];
@@ -114,8 +116,8 @@ export class ItemEditorComponent implements OnInit {
     this.partGroups$ = this._query.select(state => state.partGroups);
     this.layerPartInfos$ = this._query.select(state => state.layerPartInfos);
     this.facet$ = this._query.selectFacet();
-    this.facets$ = this._query.select(state => state.facets);
-    this.flags$ = this._query.select(state => state.flags);
+    this.facets$ = this._appQuery.selectFacets();
+    this.flags$ = this._appQuery.selectFlags();
     this.loading$ = this._query.selectLoading();
     this.saving$ = this._query.selectSaving();
     this.deletingPart$ = this._query.selectDeletingPart();
@@ -177,7 +179,7 @@ export class ItemEditorComponent implements OnInit {
   }
 
   private getFlags(value: number): FlagDefinition[] {
-    const flags = this._query.getValue().flags;
+    const flags = this._appQuery.getValue().flags;
     if (!flags) {
       return [];
     }
@@ -215,22 +217,11 @@ export class ItemEditorComponent implements OnInit {
 
   public getPartColor(typeId: string, roleId: string): string {
     const state = this._query.getValue();
-    let def: PartDefinition = null;
-    if (state) {
-      def = state.facet.partDefinitions.find(d => {
-        return d.typeId === typeId && (!roleId || roleId === d.roleId);
-      });
-      if (!def) {
-        def = state.facet.partDefinitions.find(d => {
-          return d.typeId === typeId;
-        });
-      }
-    }
-    return def ? '#' + def.colorKey : '#f0f0f0';
+    return this._facetService.getPartColor(typeId, roleId, state?.facet);
   }
 
   public getTypeIdName(typeId: string): string {
-    const state = this._query.getValue();
+    const state = this._appQuery.getValue();
     if (!state || !state.typeThesaurus) {
       return typeId;
     }

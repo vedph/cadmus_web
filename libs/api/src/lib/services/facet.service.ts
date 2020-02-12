@@ -95,4 +95,31 @@ export class FacetService {
       catchError(this._error.handleError)
     );
   }
+
+  /**
+   * Get the color of the part with the specified type and role IDs, inside
+   * the specified facet (if any).
+   *
+   * @param typeId The part's type ID.
+   * @param roleId The part's optional role ID.
+   * @param facet The facet definition including the part being requested.
+   */
+  public getPartColor(
+    typeId: string,
+    roleId: string,
+    facet: FacetDefinition
+  ): string {
+    let def: PartDefinition = null;
+    if (facet) {
+      def = facet.partDefinitions.find(d => {
+        return d.typeId === typeId && (!roleId || roleId === d.roleId);
+      });
+      if (!def) {
+        def = facet.partDefinitions.find(d => {
+          return d.typeId === typeId;
+        });
+      }
+    }
+    return def ? '#' + def.colorKey : '#f0f0f0';
+  }
 }

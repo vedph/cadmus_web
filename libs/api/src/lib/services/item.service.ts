@@ -266,7 +266,7 @@ export class ItemService {
   public groupParts(parts: Part[], partDefs: PartDefinition[]): PartGroup[] {
     // group the part definitions by their groupKey sorting by sortKey
     const groupedDefs = this.groupBy(
-      partDefs.sort((a, b) => {
+      partDefs.slice().sort((a, b) => {
         return a.sortKey.localeCompare(b.sortKey);
       }),
       'groupKey'

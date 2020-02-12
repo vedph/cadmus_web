@@ -15,6 +15,7 @@ import {
   EditFragmentServiceBase,
   EditFragmentQueryBase
 } from '@cadmus/features/edit-state';
+import { AppQuery } from './app.query';
 
 export abstract class EditFragmentFeatureBase
   implements ComponentCanDeactivate {
@@ -36,6 +37,7 @@ export abstract class EditFragmentFeatureBase
   constructor(
     private _router: Router,
     route: ActivatedRoute,
+    private _appQuery: AppQuery,
     private _editFrQuery: EditFragmentQueryBase,
     private _editFrService: EditFragmentServiceBase,
     private _editItemQuery: EditItemQuery,
@@ -115,11 +117,9 @@ export abstract class EditFragmentFeatureBase
     // /items/<id>/<part-group>/<part-typeid>/<part-id>?rid=<role-id>
     const part = this._editLayersQuery.getValue().part;
     const item = this._editItemQuery.getValue().item;
-    const facet: FacetDefinition = this._editItemQuery
-      .getValue()
-      .facets.find(f => {
-        return f.id === item.facetId;
-      });
+    const facet: FacetDefinition = this._appQuery.getValue().facets.find(f => {
+      return f.id === item.facetId;
+    });
     const partDef = facet.partDefinitions.find(d => {
       return d.typeId === part.typeId && d.roleId === d.roleId;
     });

@@ -11,6 +11,7 @@ import { DialogService } from '@cadmus/ui';
 import { FormControl, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ItemsListService } from '../services/items-list.service';
+import { AppQuery } from '@cadmus/features/edit-state';
 
 @Component({
   selector: 'cadmus-item-list',
@@ -30,6 +31,7 @@ export class ItemListComponent implements OnInit {
     private _dialogService: DialogService,
     private _router: Router,
     private _authService: AuthService,
+    private _appQuery: AppQuery,
     formBuilder: FormBuilder
   ) {
     this.pageSize = formBuilder.control(20);
@@ -133,5 +135,16 @@ export class ItemListComponent implements OnInit {
         }
         this._itemListService.delete(item.id);
       });
+  }
+
+  public getFacetColor(facetId: string): string {
+    const state = this._appQuery.getValue();
+    const facet = state.facets.find(f => {
+      return f.id === facetId;
+    });
+    if (facet?.colorKey) {
+      return '#' + facet.colorKey;
+    }
+    return 'transparent';
   }
 }

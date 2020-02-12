@@ -66,3 +66,13 @@ The hierarchical edit model is as follows:
 - error
 - deletingFragment
 - savingFragment
+
+## App State
+
+There is also an app-level state consisting of readonly data, which are loaded once when the app starts. These contain lookup data of general use, which can safely be assumed never to change during a single editing session, as they depend on the backend profile.
+
+These data are:
+
+- `facets`: the list of all the facets definitions.
+- `flags`: the list of all the flags definitions.
+- `typeThesaurus`: the optional thesaurus for model-types. This (if present) is used to display human-friendly part types names from their IDs. Otherwise, the raw IDs are displayed.

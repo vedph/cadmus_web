@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { EditItemQuery, EditLayerPartQuery } from '@cadmus/features/edit-state';
+import { EditItemQuery, EditLayerPartQuery, AppQuery } from '@cadmus/features/edit-state';
 import { TextLayerPart, PartDefinition } from '@cadmus/core';
+import { FacetService } from '@cadmus/api';
 
 @Component({
   selector: 'cadmus-current-layer-part-bar',
@@ -9,8 +10,10 @@ import { TextLayerPart, PartDefinition } from '@cadmus/core';
 })
 export class CurrentLayerPartBarComponent implements OnInit {
   constructor(
+    private _appQuery: AppQuery,
     private _itemQuery: EditItemQuery,
-    private _partQuery: EditLayerPartQuery
+    private _partQuery: EditLayerPartQuery,
+    private _facetService: FacetService
   ) {}
 
   public typeId: string;
@@ -18,7 +21,7 @@ export class CurrentLayerPartBarComponent implements OnInit {
   public color: string;
 
   private getTypeIdName(typeId: string): string {
-    const state = this._itemQuery.getValue();
+    const state = this._appQuery.getValue();
     if (!state || !state.typeThesaurus) {
       return typeId;
     }
@@ -35,18 +38,7 @@ export class CurrentLayerPartBarComponent implements OnInit {
 
   private getPartColor(typeId: string, roleId: string): string {
     const state = this._itemQuery.getValue();
-    let def: PartDefinition = null;
-    if (state) {
-      def = state.facet.partDefinitions.find(d => {
-        return d.typeId === typeId && (!roleId || roleId === d.roleId);
-      });
-      if (!def) {
-        def = state.facet.partDefinitions.find(d => {
-          return d.typeId === typeId;
-        });
-      }
-    }
-    return def ? '#' + def.colorKey : '#f0f0f0';
+    return this._facetService.getPartColor(typeId, roleId, state?.facet);
   }
 
   private updateLabels() {

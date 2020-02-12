@@ -1,4 +1,7 @@
 export * from './lib/edit-state.module';
+export * from './lib/app.query';
+export * from './lib/app.service';
+export * from './lib/app.store';
 export * from './lib/edit-item.query';
 export * from './lib/edit-item.service';
 export * from './lib/edit-item.store';

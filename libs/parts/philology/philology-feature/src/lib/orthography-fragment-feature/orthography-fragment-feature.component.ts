@@ -7,7 +7,8 @@ import {
   EditItemService,
   EditLayerPartQuery,
   EditLayerPartService,
-  EditFragmentFeatureBase
+  EditFragmentFeatureBase,
+  AppQuery
 } from '@cadmus/features/edit-state';
 import { LibraryRouteService } from '@cadmus/core';
 
@@ -21,6 +22,7 @@ export class OrthographyFragmentFeatureComponent extends EditFragmentFeatureBase
   constructor(
     router: Router,
     route: ActivatedRoute,
+    appQuery: AppQuery,
     editFrQuery: EditOrthographyFragmentQuery,
     editFrService: EditOrthographyFragmentService,
     editItemQuery: EditItemQuery,
@@ -32,6 +34,7 @@ export class OrthographyFragmentFeatureComponent extends EditFragmentFeatureBase
     super(
       router,
       route,
+      appQuery,
       editFrQuery,
       editFrService,
       editItemQuery,

@@ -10,6 +10,7 @@ import { ApiModule } from '@cadmus/api';
 import { UiModule } from '@cadmus/ui';
 import { ItemListComponent } from './item-list/item-list.component';
 import { ItemFilterComponent } from './item-filter/item-filter.component';
+import { EditStateModule } from '@cadmus/features/edit-state';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { ItemFilterComponent } from './item-filter/item-filter.component';
     // cadmus
     ApiModule,
     MaterialModule,
-    UiModule
+    UiModule,
+    EditStateModule
   ],
   declarations: [
     ItemListComponent,

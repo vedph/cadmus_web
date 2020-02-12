@@ -65,11 +65,19 @@
                   <mat-icon>delete</mat-icon>
                 </button>
               </td>
-              <td>{{ item.facetId }}</td>
+              <td>
+                <span
+                  class="model-type"
+                  [style.background-color]="getFacetColor(item.facetId)"
+                  >{{ item.facetId }}</span
+                >
+              </td>
               <td>{{ item.title }}</td>
               <td>{{ item.description }}</td>
               <td fxHide.lt-md>{{ item.userId }}</td>
-              <td fxHide.lt-md>{{ item.timeModified | amLocal | amTimeAgo }}</td>
+              <td fxHide.lt-md>
+                {{ item.timeModified | amLocal | amTimeAgo }}
+              </td>
               <td fxHide.lt-md>{{ item.creatorId }}</td>
             </tr>
           </tbody>

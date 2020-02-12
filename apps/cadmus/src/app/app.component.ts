@@ -4,6 +4,7 @@ import {
   GravatarService
 } from '@cadmus/core';
 import { AuthService } from '@cadmus/api';
+import { AppQuery, AppService } from '@cadmus/features/edit-state';
 
 @Component({
   selector: 'cadmus-root',
@@ -16,7 +17,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private _authService: AuthService,
-    private _gravatarService: GravatarService
+    private _gravatarService: GravatarService,
+    private _appService: AppService
   ) {}
 
   ngOnInit() {
@@ -27,6 +29,9 @@ export class AppComponent implements OnInit {
       this.logged = this._authService.isAuthenticated(true);
       this.user = user;
     });
+
+    // load the general app state just once
+    this._appService.load();
   }
 
   public getGravatarUrl(email: string, size = 80) {

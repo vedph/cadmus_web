@@ -7,3 +7,7 @@ th {
 td.command {
   width: 24px;
 }
+span.model-type {
+  padding: 4px;
+  border-radius: 6px;
+}

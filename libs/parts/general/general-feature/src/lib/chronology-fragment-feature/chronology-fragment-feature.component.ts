@@ -4,7 +4,8 @@ import {
   EditItemService,
   EditLayerPartQuery,
   EditLayerPartService,
-  EditFragmentFeatureBase
+  EditFragmentFeatureBase,
+  AppQuery
 } from '@cadmus/features/edit-state';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EditChronologyFragmentQuery } from './edit-chronology-fragment.query';
@@ -21,6 +22,7 @@ export class ChronologyFragmentFeatureComponent extends EditFragmentFeatureBase
   constructor(
     router: Router,
     route: ActivatedRoute,
+    appQuery: AppQuery,
     editFrQuery: EditChronologyFragmentQuery,
     editFrService: EditChronologyFragmentService,
     editItemQuery: EditItemQuery,
@@ -32,6 +34,7 @@ export class ChronologyFragmentFeatureComponent extends EditFragmentFeatureBase
     super(
       router,
       route,
+      appQuery,
       editFrQuery,
       editFrService,
       editItemQuery,

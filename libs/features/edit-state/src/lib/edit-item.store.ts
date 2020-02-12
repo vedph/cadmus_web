@@ -3,8 +3,6 @@ import {
   Item,
   PartGroup,
   FacetDefinition,
-  FlagDefinition,
-  Thesaurus,
   LayerPartInfo
 } from '@cadmus/core';
 import { Injectable } from '@angular/core';
@@ -37,20 +35,6 @@ export interface EditItemState {
    * The facet definition assigned to the item.
    */
   facet: FacetDefinition | null;
-  /**
-   * All the available facets definitions.
-   */
-  facets: FacetDefinition[] | null;
-  /**
-   * All the available flags definitions.
-   */
-  flags: FlagDefinition[] | null;
-  /**
-   * The thesaurus for model-types. This (if present) is used to display
-   * human-friendly part types names from their IDs. Otherwise, the raw
-   * IDs are displayed.
-   */
-  typeThesaurus: Thesaurus | null;
 
   dirty?: boolean;
   saving?: boolean;
@@ -64,9 +48,6 @@ const initialState: EditItemState = {
   partGroups: [],
   layerPartInfos: [],
   facet: null,
-  facets: [],
-  flags: [],
-  typeThesaurus: null,
   dirty: false,
   saving: false,
   deletingPart: false,

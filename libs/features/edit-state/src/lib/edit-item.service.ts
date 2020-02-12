@@ -3,6 +3,7 @@ import { ItemService, FlagService, FacetService, ThesaurusService } from '@cadmu
 import { forkJoin } from 'rxjs';
 import { Item, FacetDefinition, Part } from '@cadmus/core';
 import { EditItemStore } from './edit-item.store';
+import { AppQuery } from './app.query';
 
 /**
  * The service which handles the edit item store.
@@ -11,10 +12,8 @@ import { EditItemStore } from './edit-item.store';
 export class EditItemService {
   constructor(
     private _store: EditItemStore,
-    private _itemService: ItemService,
-    private _facetService: FacetService,
-    private _flagService: FlagService,
-    private _thesaurusService: ThesaurusService
+    private _appQuery: AppQuery,
+    private _itemService: ItemService
   ) {}
 
   private pickDefaultFacet(facets: FacetDefinition[]): FacetDefinition | null {
@@ -37,25 +36,20 @@ export class EditItemService {
   public load(itemId: string) {
     this._store.setLoading(true);
 
-    const facets$ = this._facetService.getFacets();
-    const flags$ = this._flagService.getFlags();
-    const thesaurus$ = this._thesaurusService.getThesaurus('model-types@en', true);
     const layers$ = this._itemService.getItemLayerInfo(itemId, true);
+    const appState = this._appQuery.getValue();
 
     // if not a new item, include it in load
     if (itemId) {
       forkJoin({
         item: this._itemService.getItem(itemId, true),
-        facets: facets$,
-        flags: flags$,
-        thesaurus: thesaurus$,
         layers: layers$
       }).subscribe(
         result => {
           this._store.setLoading(false);
           this._store.setError(null);
 
-          const itemFacet = result.facets.find(f => {
+          const itemFacet = appState.facets.find(f => {
             return f.id === result.item.facetId;
           });
           const facetParts = itemFacet? itemFacet.partDefinitions : [];
@@ -67,10 +61,7 @@ export class EditItemService {
               facetParts
             ),
             layerPartInfos: result.layers,
-            facet: result.facets.find(f => f.id === result.item.facetId),
-            facets: result.facets,
-            flags: result.flags,
-            typeThesaurus: result.thesaurus
+            facet: appState.facets.find(f => f.id === result.item.facetId),
           });
         },
         error => {
@@ -82,16 +73,11 @@ export class EditItemService {
     } else {
       // if new, just set an empty item
       forkJoin({
-        facets: facets$,
-        flags: flags$,
-        thesaurus: thesaurus$,
         layers: layers$
       }).subscribe(
         result => {
           this._store.setLoading(false);
           this._store.setError(null);
-
-          const facetParts = result.facets[0].partDefinitions;
 
           this._store.update({
             item: {
@@ -108,10 +94,7 @@ export class EditItemService {
             },
             partGroups: [],
             layerPartInfos: result.layers,
-            facet: this.pickDefaultFacet(result.facets),
-            facets: result.facets,
-            flags: result.flags,
-            typeThesaurus: result.thesaurus
+            facet: this.pickDefaultFacet(appState.facets)
           });
         },
         error => {
