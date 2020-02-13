@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  User,
-  GravatarService
-} from '@cadmus/core';
+import { User, GravatarService } from '@cadmus/core';
 import { AuthService } from '@cadmus/api';
-import { AppQuery, AppService } from '@cadmus/features/edit-state';
+import { AppService } from '@cadmus/features/edit-state';
 
 @Component({
   selector: 'cadmus-root',
@@ -28,10 +25,9 @@ export class AppComponent implements OnInit {
     this._authService.currentUser$.subscribe((user: User) => {
       this.logged = this._authService.isAuthenticated(true);
       this.user = user;
+      // load the general app state just once
+      this._appService.load();
     });
-
-    // load the general app state just once
-    this._appService.load();
   }
 
   public getGravatarUrl(email: string, size = 80) {
