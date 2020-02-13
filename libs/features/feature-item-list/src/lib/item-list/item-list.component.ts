@@ -19,6 +19,8 @@ import { AppQuery } from '@cadmus/features/edit-state';
   styleUrls: ['./item-list.component.css']
 })
 export class ItemListComponent implements OnInit {
+  private _facetColors: {[key: string]: string};
+  private _facetTips: {[key: string]: string};
   public pagination$: Observable<PaginationResponse<ItemInfo>>;
   public filter$: BehaviorSubject<ItemFilter>;
   public pageSize: FormControl;
@@ -34,6 +36,8 @@ export class ItemListComponent implements OnInit {
     private _appQuery: AppQuery,
     formBuilder: FormBuilder
   ) {
+    this._facetColors = {};
+    this._facetTips = {};
     this.pageSize = formBuilder.control(20);
   }
 
@@ -138,13 +142,46 @@ export class ItemListComponent implements OnInit {
   }
 
   public getFacetColor(facetId: string): string {
+    if (this._facetColors[facetId]) {
+      return this._facetColors[facetId];
+    }
+
     const state = this._appQuery.getValue();
     const facet = state.facets.find(f => {
       return f.id === facetId;
     });
     if (facet?.colorKey) {
-      return '#' + facet.colorKey;
+      this._facetColors[facetId] = '#' + facet.colorKey;
+    } else {
+      this._facetColors[facetId] = 'transparent';
     }
-    return 'transparent';
+    return this._facetColors[facetId];
+  }
+
+  public getFacetTip(facetId: string): string {
+    if (this._facetTips[facetId]) {
+      return this._facetTips[facetId];
+    }
+
+    const state = this._appQuery.getValue();
+    const facet = state.facets.find(f => {
+      return f.id === facetId;
+    });
+    if (!facet) {
+      this._facetTips[facetId] = facetId;
+    } else {
+      const sb: string[] = [];
+      for (let i = 0; i < facet.partDefinitions.length; i++) {
+        if (i > 0) {
+          sb.push(', ');
+        }
+        sb.push(facet.partDefinitions[i].name);
+        if (facet.partDefinitions[i].isRequired) {
+          sb.push('*');
+        }
+      }
+      this._facetTips[facetId] = sb.join('');
+    }
+    return this._facetTips[facetId];
   }
 }

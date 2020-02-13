@@ -69,13 +69,17 @@
                 <span
                   class="model-type"
                   [style.background-color]="getFacetColor(item.facetId)"
+                  matTooltip="{{ getFacetTip(item.facetId) }}"
                   >{{ item.facetId }}</span
                 >
               </td>
               <td>{{ item.title }}</td>
               <td>{{ item.description }}</td>
               <td fxHide.lt-md>{{ item.userId }}</td>
-              <td fxHide.lt-md>
+              <td
+                fxHide.lt-md
+                matTooltip="{{item.timeModified | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'}}"
+              >
                 {{ item.timeModified | amLocal | amTimeAgo }}
               </td>
               <td fxHide.lt-md>{{ item.creatorId }}</td>
