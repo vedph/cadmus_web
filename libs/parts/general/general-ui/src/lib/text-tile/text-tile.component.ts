@@ -81,7 +81,8 @@ export class TextTileComponent implements OnInit {
     // form
     this.editedText = formBuilder.control(null, [
       Validators.required,
-      Validators.maxLength(100)
+      Validators.maxLength(100),
+      Validators.pattern(/^[^\s]+$/)
     ]);
     this.form = formBuilder.group({
       editedText: this.editedText

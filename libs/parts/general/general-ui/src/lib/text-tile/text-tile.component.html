@@ -35,6 +35,13 @@
           "
           >text too long</mat-error
         >
+        <mat-error
+          *ngIf="
+            editedText.hasError('pattern') &&
+            (editedText.dirty || editedText.touched)
+          "
+          >no whitespaces allowed</mat-error
+        >
       </mat-form-field>
 
       <button
