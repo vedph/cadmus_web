@@ -4,7 +4,24 @@
     <div mat-card-avatar>
       <mat-icon>view_headline</mat-icon>
     </div>
-    <mat-card-title>Tiles-Based Text Layers</mat-card-title>
+    <mat-card-title>
+      Tiles-Based Text Layers
+      <button
+        type="button"
+        mat-icon-button
+        [ngSwitch]="breakChance$ | async"
+        (click)="refreshBreakChance()"
+      >
+        <mat-icon *ngSwitchCase="-1" matTooltip="Checking...">refresh</mat-icon>
+        <mat-icon *ngSwitchCase="0" matTooltip="Valid">check_circle</mat-icon>
+        <mat-icon *ngSwitchCase="1" matTooltip="Potentially broken" color="warn"
+          >warning</mat-icon
+        >
+        <mat-icon *ngSwitchCase="2" matTooltip="Broken" color="warn"
+          >error</mat-icon
+        >
+      </button>
+    </mat-card-title>
     <cadmus-current-layer-part-bar></cadmus-current-layer-part-bar>
   </mat-card-header>
   <mat-card-actions *ngIf="!(loading$ | async)">

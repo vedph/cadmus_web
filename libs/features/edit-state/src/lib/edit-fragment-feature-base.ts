@@ -77,11 +77,7 @@ export abstract class EditFragmentFeatureBase
 
   private ensureLayersLoaded() {
     if (!this._editLayersQuery.getValue().part) {
-      this._editLayersService.load(
-        this.itemId,
-        this.partId,
-        `${this.frTypeId}:${this.frRoleId}`
-      );
+      this._editLayersService.load(this.itemId, this.partId);
     }
   }
 

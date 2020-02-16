@@ -35,37 +35,39 @@ The hierarchical edit model is as follows:
 
 ## Edit Item
 
-- item
-- partGroups (for non-layer parts)
-- layerPartInfos
-- facet: the item's facet definition.
-- facets: all the available facets definitions.
-- flags: all the available flags definitions.
-- typeThesaurus: thesaurus for model types.
-- dirty
-- saving
-- deletingPart
-- loading
-- error
+- `item`
+- `partGroups` (for non-layer parts)
+- `layerPartInfos`
+- `facet`: the item's facet definition.
+- `facets`: all the available facets definitions.
+- `flags`: all the available flags definitions.
+- `typeThesaurus`: thesaurus for model types.
+- `dirty`
+- `saving`
+- `deletingPart`
+- `loading`
+- `error`
 
 ## Edit Part
 
-- part
-- thesauri
-- dirty
-- saving
-- loading
-- error
+- `part`
+- `thesauri`
+- `dirty`
+- `saving`
+- `loading`
+- `error`
 
 ## Edit Layer Part
 
-- part
-- baseText
-- baseTextPart
-- loading
-- error
-- deletingFragment
-- savingFragment
+- `part`
+- `baseText`
+- `baseTextPart`
+- `breakChance`: the estimated chance of broken fragments in this layer: 0=safe, 1=potentially broken, 2=broken.
+- `loading`
+- `error`
+- `deletingFragment`
+- `savingFragment`
+- `refreshingBreakChance`
 
 ## App State
 

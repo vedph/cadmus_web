@@ -23,26 +23,26 @@ export class EditLayerPartService {
    *
    * @param itemId The item ID the layer part belongs to.
    * @param partId The layer part ID.
-   * @param selectedLayerRoleId The selected layer role ID, if any.
    */
-  public load(
-    itemId: string,
-    partId: string,
-    selectedLayerRoleId: string = null
-  ) {
+  public load(itemId: string, partId: string) {
+    if (this._store.getValue().loading) {
+      return;
+    }
     this._store.setLoading(true);
 
     forkJoin({
       // TODO: eventually optimize by adding method param to load only fragments locations
       layerPart: this._itemService.getPart(partId),
       baseText: this._itemService.getBaseTextPart(itemId),
-      layers: this._facetService.getFacetParts(itemId, true)
+      layers: this._facetService.getFacetParts(itemId, true),
+      breakChance: this._itemService.getLayerPartBreakChance(partId)
     }).subscribe(
       result => {
         this._store.update({
           part: result.layerPart as TextLayerPart,
           baseText: result.baseText.text,
           baseTextPart: result.baseText.part,
+          breakChance: result.breakChance.chance,
           loading: false,
           error: null
         });
@@ -51,6 +51,29 @@ export class EditLayerPartService {
         console.error(error);
         this._store.setLoading(false);
         this._store.setError('Error loading text layer part ' + partId);
+      }
+    );
+  }
+
+  public refreshBreakChance() {
+    const store = this._store.getValue();
+    const part = store.part;
+    if (!part || store.refreshingBreakChance) {
+      return;
+    }
+    this._store.setRefreshingBreakChance(true);
+    this._itemService.getLayerPartBreakChance(part.id).subscribe(
+      result => {
+        this._store.setRefreshingBreakChance(false);
+        this._store.setBreakChance(result.chance);
+      },
+      error => {
+        console.error(error);
+        this._store.setRefreshingBreakChance(false);
+        this._store.setBreakChance(-1);
+        this._store.setError(
+          'Error refreshing break chance for text layer part ' + part.id
+        );
       }
     );
   }

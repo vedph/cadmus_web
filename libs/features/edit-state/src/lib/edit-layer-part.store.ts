@@ -23,22 +23,30 @@ export interface EditLayerPartState {
    * The base text part.
    */
   baseTextPart: Part | null;
+  /**
+   * The estimated chance of broken fragments in this layer: 0=safe,
+   * 1=potentially broken, 2=broken.
+   */
+  breakChance: number;
   // this is implemented in Akita stores, but you must add the keys
   // https://github.com/datorama/akita/issues/61
   loading?: boolean;
   error?: string;
   deletingFragment?: boolean;
   savingFragment?: boolean;
+  refreshingBreakChance?: boolean;
 }
 
 const initialState: EditLayerPartState = {
   part: null,
   baseText: null,
   baseTextPart: null,
+  breakChance: -1,
   loading: false,
   error: null,
   deletingFragment: false,
-  savingFragment: false
+  savingFragment: false,
+  refreshingBreakChance: false
 };
 
 @Injectable({ providedIn: 'root' })
@@ -54,5 +62,13 @@ export class EditLayerPartStore extends Store<EditLayerPartState> {
 
   public setSavingFragment(value = true) {
     this.update({ savingFragment: value });
+  }
+
+  public setRefreshingBreakChance(value: boolean) {
+    this.update({ refreshingBreakChance: value });
+  }
+
+  public setBreakChance(value: number) {
+    this.update({ breakChance: value });
   }
 }

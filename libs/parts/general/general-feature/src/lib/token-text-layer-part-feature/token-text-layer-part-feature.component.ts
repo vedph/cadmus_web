@@ -36,6 +36,8 @@ export class TokenTextLayerPartFeatureComponent implements OnInit,
   public loading$: Observable<boolean>;
   public error$: Observable<string>;
   public baseText$: Observable<string>;
+  public refreshingBreakChance$: Observable<boolean>;
+  public breakChance$: Observable<number>;
 
   public coordsInfo: string;
   public locations: TokenLocation[];
@@ -88,6 +90,8 @@ export class TokenTextLayerPartFeatureComponent implements OnInit,
     this.loading$ = this._editQuery.selectLoading();
     this.error$ = this._editQuery.selectError();
     this.baseText$ = this._editQuery.select(state => state.baseText);
+    this.refreshingBreakChance$ = this._editQuery.selectRefreshingBreakChance();
+    this.breakChance$ = this._editQuery.selectBreakChance();
 
     // when the base text changes, load all the fragments locations
     this.baseText$.subscribe(_ => {
@@ -123,6 +127,10 @@ export class TokenTextLayerPartFeatureComponent implements OnInit,
           this._editService.deleteFragment(loc);
         }
       });
+  }
+
+  public refreshBreakChance() {
+    this._editService.refreshBreakChance();
   }
 
   private navigateToFragmentEditor(loc: string) {

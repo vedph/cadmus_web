@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Query } from '@datorama/akita';
-import { EditLayerPartState, EditLayerPartStore } from './edit-layer-part.store';
+import {
+  EditLayerPartState,
+  EditLayerPartStore
+} from './edit-layer-part.store';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -9,11 +12,19 @@ export class EditLayerPartQuery extends Query<EditLayerPartState> {
     super(store);
   }
 
-  public getDeletingFragment(): Observable<boolean> {
+  public selectDeletingFragment(): Observable<boolean> {
     return this.select(state => state.deletingFragment);
   }
 
-  public getSavingFragment(): Observable<boolean> {
+  public selectSavingFragment(): Observable<boolean> {
     return this.select(state => state.savingFragment);
+  }
+
+  public selectRefreshingBreakChance(): Observable<boolean> {
+    return this.select(state => state.refreshingBreakChance);
+  }
+
+  public selectBreakChance(): Observable<number> {
+    return this.select(state => state.breakChance);
   }
 }

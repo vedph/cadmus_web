@@ -49,6 +49,8 @@ export class TiledTextLayerPartFeatureComponent
   public error$: Observable<string>;
   public baseText$: Observable<string>;
   public rows$: Observable<TextTileRow[]>;
+  public refreshingBreakChance$: Observable<boolean>;
+  public breakChance$: Observable<number>;
 
   public coordsInfo: string;
   public locations: TokenLocation[];
@@ -94,6 +96,8 @@ export class TiledTextLayerPartFeatureComponent
     this.loading$ = this._editQuery.selectLoading();
     this.error$ = this._editQuery.selectError();
     this.baseText$ = this._editQuery.select(state => state.baseText);
+    this.refreshingBreakChance$ = this._editQuery.selectRefreshingBreakChance();
+    this.breakChance$ = this._editQuery.selectBreakChance();
 
     // when the base text changes, load all the fragments locations
     // and setup their UI state
@@ -108,6 +112,10 @@ export class TiledTextLayerPartFeatureComponent
 
     // load the layer part
     this._editService.load(this.itemId, this.partId);
+  }
+
+  public refreshBreakChance() {
+    this._editService.refreshBreakChance();
   }
 
   private loadAllFragmentLocations() {
