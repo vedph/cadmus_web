@@ -157,22 +157,23 @@ export class ItemService {
   }
 
   /**
-   * Gets the base text (if any) of the item with the specified ID.
+   * Get the base text (if any) of the item with the specified ID.
    * @param itemId The item's ID.
    * @returns An observable of an object with a "text" property.
    */
-  public getBaseTextPart(itemId: string): Observable<{part: Part, text: string }> {
+  public getBaseTextPart(
+    itemId: string
+  ): Observable<{ part: Part; text: string }> {
     const url =
-      `${this._apiEndpoint}${this._databaseId}/` +
-      `item/${itemId}/base-text`;
-    return this._http.get<{part: Part, text: string}>(url).pipe(
+      `${this._apiEndpoint}${this._databaseId}/` + `item/${itemId}/base-text`;
+    return this._http.get<{ part: Part; text: string }>(url).pipe(
       retry(3),
       catchError(this._error.handleError)
     );
   }
 
   /**
-   * Gets the information about all the layer parts in the item with
+   * Get the information about all the layer parts in the item with
    * the specified ID. If parameter "absent" is true, the layer parts are added
    * also from the item's facet, even if absent from the database. This produces
    * the full list of all the possible layer parts which could be connected
@@ -193,12 +194,14 @@ export class ItemService {
    * @param itemId The item's ID.
    * @returns Observable with array of RolePartId's.
    */
-  public getItemLayerInfo(itemId: string, absent: boolean):
-    Observable<LayerPartInfo[]> {
+  public getItemLayerInfo(
+    itemId: string,
+    absent: boolean
+  ): Observable<LayerPartInfo[]> {
     let url =
       `${this._apiEndpoint}${this._databaseId}/` + `item/${itemId}/layers`;
     if (absent) {
-      url += '?absent=true'
+      url += '?absent=true';
     }
     return this._http.get<LayerPartInfo[]>(url).pipe(
       retry(3),
@@ -207,13 +210,30 @@ export class ItemService {
   }
 
   /**
-   * Gets the data pins of the part with the specified ID.
+   * Get the data pins of the part with the specified ID.
    * @param id The part ID.
    * @returns Observable with array of IDataPin's.
    */
   public getPartPins(id: string): Observable<RolePartId[]> {
     const url = `${this._apiEndpoint}${this._databaseId}/` + `part/${id}/pins`;
     return this._http.get<RolePartId[]>(url).pipe(
+      retry(3),
+      catchError(this._error.handleError)
+    );
+  }
+
+  /**
+   * Get the layer part break chance, a number indicating whether the layer part
+   * with the specified ID might potentially be broken because of changes in its
+   * base text.
+   * @param id The layer part's ID.
+   * @returns An object with a chance property equal to 0=not broken, 1=potentially
+   * broken, or 2=surely broken.
+   */
+  public getLayerPartBreakChance(id: string): Observable<{ chance: number }> {
+    const url =
+      `${this._apiEndpoint}${this._databaseId}/` + `part/${id}/break-chance`;
+    return this._http.get<{ chance: number }>(url).pipe(
       retry(3),
       catchError(this._error.handleError)
     );
