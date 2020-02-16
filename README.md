@@ -16,6 +16,8 @@ View dependencies: `nx dep-graph`.
 
 [Interactive Tutorial](https://nx.dev/angular/tutorial/01-create-application)
 
+Manually build Docker image: e.g. `docker build . -t naftis/fusi:cadmusweb`.
+
 ## Documentation with Compodoc
 
 - [main site](https://compodoc.app/)
