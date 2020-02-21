@@ -92,7 +92,8 @@
           "options": {
             "jestConfig": "apps/cadmus/jest.config.js",
             "tsConfig": "apps/cadmus/tsconfig.spec.json",
-            "setupFile": "apps/cadmus/src/test-setup.ts"
+            "setupFile": "apps/cadmus/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       }
@@ -145,7 +146,8 @@
           "options": {
             "jestConfig": "libs/core/jest.config.js",
             "tsConfig": "libs/core/tsconfig.spec.json",
-            "setupFile": "libs/core/src/test-setup.ts"
+            "setupFile": "libs/core/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -175,7 +177,8 @@
           "options": {
             "jestConfig": "libs/parts/philology/philology-ui/jest.config.js",
             "tsConfig": "libs/parts/philology/philology-ui/tsconfig.spec.json",
-            "setupFile": "libs/parts/philology/philology-ui/src/test-setup.ts"
+            "setupFile": "libs/parts/philology/philology-ui/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -202,7 +205,8 @@
           "options": {
             "jestConfig": "libs/material/jest.config.js",
             "tsConfig": "libs/material/tsconfig.spec.json",
-            "setupFile": "libs/material/src/test-setup.ts"
+            "setupFile": "libs/material/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -229,7 +233,8 @@
           "options": {
             "jestConfig": "libs/ui/jest.config.js",
             "tsConfig": "libs/ui/tsconfig.spec.json",
-            "setupFile": "libs/ui/src/test-setup.ts"
+            "setupFile": "libs/ui/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -259,7 +264,8 @@
           "options": {
             "jestConfig": "libs/features/feature-layer-demo/jest.config.js",
             "tsConfig": "libs/features/feature-layer-demo/tsconfig.spec.json",
-            "setupFile": "libs/features/feature-layer-demo/src/test-setup.ts"
+            "setupFile": "libs/features/feature-layer-demo/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -289,7 +295,8 @@
           "options": {
             "jestConfig": "libs/parts/general/general-ui/jest.config.js",
             "tsConfig": "libs/parts/general/general-ui/tsconfig.spec.json",
-            "setupFile": "libs/parts/general/general-ui/src/test-setup.ts"
+            "setupFile": "libs/parts/general/general-ui/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -319,7 +326,8 @@
           "options": {
             "jestConfig": "libs/features/feature-item-list/jest.config.js",
             "tsConfig": "libs/features/feature-item-list/tsconfig.spec.json",
-            "setupFile": "libs/features/feature-item-list/src/test-setup.ts"
+            "setupFile": "libs/features/feature-item-list/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -346,7 +354,8 @@
           "options": {
             "jestConfig": "libs/api/jest.config.js",
             "tsConfig": "libs/api/tsconfig.spec.json",
-            "setupFile": "libs/api/src/test-setup.ts"
+            "setupFile": "libs/api/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -373,7 +382,8 @@
           "options": {
             "jestConfig": "libs/features/feature-login/jest.config.js",
             "tsConfig": "libs/features/feature-login/tsconfig.spec.json",
-            "setupFile": "libs/features/feature-login/src/test-setup.ts"
+            "setupFile": "libs/features/feature-login/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -403,7 +413,8 @@
           "options": {
             "jestConfig": "libs/features/feature-item-editor/jest.config.js",
             "tsConfig": "libs/features/feature-item-editor/tsconfig.spec.json",
-            "setupFile": "libs/features/feature-item-editor/src/test-setup.ts"
+            "setupFile": "libs/features/feature-item-editor/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -433,7 +444,8 @@
           "options": {
             "jestConfig": "libs/parts/general/general-feature/jest.config.js",
             "tsConfig": "libs/parts/general/general-feature/tsconfig.spec.json",
-            "setupFile": "libs/parts/general/general-feature/src/test-setup.ts"
+            "setupFile": "libs/parts/general/general-feature/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -460,7 +472,8 @@
           "options": {
             "jestConfig": "libs/features/edit-state/jest.config.js",
             "tsConfig": "libs/features/edit-state/tsconfig.spec.json",
-            "setupFile": "libs/features/edit-state/src/test-setup.ts"
+            "setupFile": "libs/features/edit-state/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -487,7 +500,8 @@
           "options": {
             "jestConfig": "libs/features/features-ui/jest.config.js",
             "tsConfig": "libs/features/features-ui/tsconfig.spec.json",
-            "setupFile": "libs/features/features-ui/src/test-setup.ts"
+            "setupFile": "libs/features/features-ui/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -514,7 +528,8 @@
           "options": {
             "jestConfig": "libs/features/feature-admin/jest.config.js",
             "tsConfig": "libs/features/feature-admin/tsconfig.spec.json",
-            "setupFile": "libs/features/feature-admin/src/test-setup.ts"
+            "setupFile": "libs/features/feature-admin/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -541,7 +556,8 @@
           "options": {
             "jestConfig": "libs/features/feature-user/jest.config.js",
             "tsConfig": "libs/features/feature-user/tsconfig.spec.json",
-            "setupFile": "libs/features/feature-user/src/test-setup.ts"
+            "setupFile": "libs/features/feature-user/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -571,7 +587,8 @@
           "options": {
             "jestConfig": "libs/features/feature-reset-password/jest.config.js",
             "tsConfig": "libs/features/feature-reset-password/tsconfig.spec.json",
-            "setupFile": "libs/features/feature-reset-password/src/test-setup.ts"
+            "setupFile": "libs/features/feature-reset-password/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -601,7 +618,8 @@
           "options": {
             "jestConfig": "libs/parts/philology/philology-feature/jest.config.js",
             "tsConfig": "libs/parts/philology/philology-feature/tsconfig.spec.json",
-            "setupFile": "libs/parts/philology/philology-feature/src/test-setup.ts"
+            "setupFile": "libs/parts/philology/philology-feature/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
