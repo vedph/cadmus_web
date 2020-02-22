@@ -5,6 +5,7 @@ import {
   EditLayerPartStore
 } from './edit-layer-part.store';
 import { Observable } from 'rxjs';
+import { LayerHint } from '@cadmus/core';
 
 @Injectable({ providedIn: 'root' })
 export class EditLayerPartQuery extends Query<EditLayerPartState> {
@@ -26,5 +27,9 @@ export class EditLayerPartQuery extends Query<EditLayerPartState> {
 
   public selectBreakChance(): Observable<number> {
     return this.select(state => state.breakChance);
+  }
+
+  public selectLayerHints(): Observable<LayerHint[]> {
+    return this.select(state => state.layerHints);
   }
 }

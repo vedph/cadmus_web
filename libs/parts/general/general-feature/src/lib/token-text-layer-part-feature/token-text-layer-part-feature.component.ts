@@ -4,7 +4,8 @@ import {
   TokenLocation,
   LibraryRouteService,
   TextLayerService,
-  ComponentCanDeactivate
+  ComponentCanDeactivate,
+  LayerHint
 } from '@cadmus/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '@cadmus/ui';
@@ -38,6 +39,7 @@ export class TokenTextLayerPartFeatureComponent implements OnInit,
   public baseText$: Observable<string>;
   public refreshingBreakChance$: Observable<boolean>;
   public breakChance$: Observable<number>;
+  public layerHints$: Observable<LayerHint[]>;
 
   public coordsInfo: string;
   public locations: TokenLocation[];
@@ -92,6 +94,7 @@ export class TokenTextLayerPartFeatureComponent implements OnInit,
     this.baseText$ = this._editQuery.select(state => state.baseText);
     this.refreshingBreakChance$ = this._editQuery.selectRefreshingBreakChance();
     this.breakChance$ = this._editQuery.selectBreakChance();
+    this.layerHints$ = this._editQuery.selectLayerHints();
 
     // when the base text changes, load all the fragments locations
     this.baseText$.subscribe(_ => {
@@ -129,6 +132,11 @@ export class TokenTextLayerPartFeatureComponent implements OnInit,
       });
   }
 
+  public deleteFragmentFromHint(hint: LayerHint) {
+    const loc = TokenLocation.parse(hint.location);
+    this._editService.deleteFragment(loc);
+  }
+
   public refreshBreakChance() {
     this._editService.refreshBreakChance();
   }
@@ -163,6 +171,10 @@ export class TokenTextLayerPartFeatureComponent implements OnInit,
       this._textLayerService.getSelectedRange()
     );
     this.navigateToFragmentEditor(loc.toString());
+  }
+
+  public editFragmentFromHint(hint: LayerHint) {
+    this.navigateToFragmentEditor(hint.location);
   }
 
   public addFragment() {

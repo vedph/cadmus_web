@@ -19,6 +19,7 @@
             mat-icon-button
             matTooltip="Move this fragment to {{ targetLocation }}"
             [disabled]="!targetLocation"
+            (click)="emitRequestMove(hint)"
           >
             <mat-icon>arrow_forward</mat-icon>
           </button>
@@ -27,6 +28,7 @@
             mat-icon-button
             matTooltip="Delete this fragment"
             color="warn"
+            (click)="emitRequestDelete(hint)"
           >
             <mat-icon>delete</mat-icon>
           </button>

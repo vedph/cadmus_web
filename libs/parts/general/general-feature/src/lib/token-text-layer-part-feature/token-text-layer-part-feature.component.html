@@ -87,4 +87,15 @@
       close
     </button>
   </div>
+  <mat-expansion-panel *ngIf="layerHints$ | async as layerHints">
+    <mat-expansion-panel-header>
+      <mat-panel-title>Layer hints</mat-panel-title>
+      <mat-panel-description>{{ layerHints.length }}</mat-panel-description>
+    </mat-expansion-panel-header>
+    <cadmus-layer-hints
+      [hints]="layerHints"
+      (requestEdit)="editFragmentFromHint($event)"
+      (requestDelete)="deleteFragmentFromHint($event)"
+    ></cadmus-layer-hints>
+  </mat-expansion-panel>
 </mat-card>

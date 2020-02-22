@@ -1,5 +1,5 @@
 import { StoreConfig, Store } from '@datorama/akita';
-import { TextLayerPart, Part } from '@cadmus/core';
+import { TextLayerPart, Part, LayerHint } from '@cadmus/core';
 import { Injectable } from '@angular/core';
 
 /**
@@ -28,6 +28,11 @@ export interface EditLayerPartState {
    * 1=potentially broken, 2=broken.
    */
   breakChance: number;
+  /**
+   * The layer fragments reconciliation hints. There is one hint for each
+   * fragment in the layer.
+   */
+  layerHints: LayerHint[];
   // this is implemented in Akita stores, but you must add the keys
   // https://github.com/datorama/akita/issues/61
   loading?: boolean;
@@ -42,6 +47,7 @@ const initialState: EditLayerPartState = {
   baseText: null,
   baseTextPart: null,
   breakChance: -1,
+  layerHints: [],
   loading: false,
   error: null,
   deletingFragment: false,

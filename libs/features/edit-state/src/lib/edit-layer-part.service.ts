@@ -35,7 +35,8 @@ export class EditLayerPartService {
       layerPart: this._itemService.getPart(partId),
       baseText: this._itemService.getBaseTextPart(itemId),
       layers: this._facetService.getFacetParts(itemId, true),
-      breakChance: this._itemService.getLayerPartBreakChance(partId)
+      breakChance: this._itemService.getLayerPartBreakChance(partId),
+      layerHints: this._itemService.getLayerPartHints(partId)
     }).subscribe(
       result => {
         this._store.update({
@@ -43,6 +44,7 @@ export class EditLayerPartService {
           baseText: result.baseText.text,
           baseTextPart: result.baseText.part,
           breakChance: result.breakChance.chance,
+          layerHints: result.layerHints,
           loading: false,
           error: null
         });
@@ -55,6 +57,9 @@ export class EditLayerPartService {
     );
   }
 
+  /**
+   * Refresh the layer part break chance.
+   */
   public refreshBreakChance() {
     const store = this._store.getValue();
     const part = store.part;
@@ -78,15 +83,19 @@ export class EditLayerPartService {
     );
   }
 
+  /**
+   * Delete the fragment at the specified location.
+   *
+   * @param loc The fragment's location.
+   */
   public deleteFragment(loc: TokenLocation) {
     this._store.setDeletingFragment(true);
 
-    // find the fragment and remove it from the part
+    // find the fragment
     let part = this._store.getValue().part;
     if (!part) {
       return;
     }
-
     const i = part.fragments.findIndex(p => {
       return TokenLocation.parse(p.location).overlaps(loc);
     });
@@ -94,18 +103,21 @@ export class EditLayerPartService {
       return;
     }
 
+    // remove it from the part
     // work on a copy, as store objects are immutable
     part = this._utilService.deepCopy(part);
     part.fragments.splice(i, 1);
 
-    // update the part
+    // update the part and reload state once done
     this._itemService.addPart(part).subscribe(
       _ => {
-        this._store.update({
-          part: part,
-          deletingFragment: false,
-          error: null
-        });
+        this._store.setDeletingFragment(false);
+        this.load(part.itemId, part.id);
+        // this._store.update({
+        //   part: part,
+        //   deletingFragment: false,
+        //   error: null
+        // });
       },
       error => {
         console.error(error);
@@ -117,14 +129,21 @@ export class EditLayerPartService {
     );
   }
 
+  /**
+   * Save the specified fragment.
+   *
+   * @param fragment The fragment.
+   */
   public saveFragment(fragment: Fragment) {
     this._store.setSavingFragment();
 
+    // find the fragment
     let part = this._store.getValue().part;
     if (!part) {
       return;
     }
 
+    // add or replace it
     // work on a copy, as store objects are immutable
     part = this._utilService.deepCopy(part);
 
@@ -147,14 +166,15 @@ export class EditLayerPartService {
     // add the new fragment
     part.fragments.splice(insertAt, 0, fragment);
 
-    // update the part
+    // update the part and reload once done
     this._itemService.addPart(part).subscribe(
       _ => {
-        this._store.update({
-          part: part,
-          deletingFragment: false,
-          error: null
-        });
+        this.load(part.itemId, part.id);
+        // this._store.update({
+        //   part: part,
+        //   deletingFragment: false,
+        //   error: null
+        // });
       },
       error => {
         console.error(error);
