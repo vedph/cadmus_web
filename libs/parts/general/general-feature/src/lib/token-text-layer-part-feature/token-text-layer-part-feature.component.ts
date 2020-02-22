@@ -28,8 +28,8 @@ import {
   templateUrl: './token-text-layer-part-feature.component.html',
   styleUrls: ['./token-text-layer-part-feature.component.css']
 })
-export class TokenTextLayerPartFeatureComponent implements OnInit,
-  ComponentCanDeactivate {
+export class TokenTextLayerPartFeatureComponent
+  implements OnInit, ComponentCanDeactivate {
   public itemId: string;
   public partId: string;
   public roleId: string;
@@ -40,8 +40,10 @@ export class TokenTextLayerPartFeatureComponent implements OnInit,
   public refreshingBreakChance$: Observable<boolean>;
   public breakChance$: Observable<number>;
   public layerHints$: Observable<LayerHint[]>;
+  public patchingLayer$: Observable<boolean>;
+  public deletingFragment$: Observable<boolean>;
 
-  public coordsInfo: string;
+  public pickedLocation: string;
   public locations: TokenLocation[];
 
   constructor(
@@ -95,6 +97,8 @@ export class TokenTextLayerPartFeatureComponent implements OnInit,
     this.refreshingBreakChance$ = this._editQuery.selectRefreshingBreakChance();
     this.breakChance$ = this._editQuery.selectBreakChance();
     this.layerHints$ = this._editQuery.selectLayerHints();
+    this.patchingLayer$ = this._editQuery.selectPatchingLayers();
+    this.deletingFragment$ = this._editQuery.selectDeletingFragment();
 
     // when the base text changes, load all the fragments locations
     this.baseText$.subscribe(_ => {
@@ -185,13 +189,26 @@ export class TokenTextLayerPartFeatureComponent implements OnInit,
     this.navigateToFragmentEditor(loc.toString());
   }
 
-  public getCoordsInfo() {
-    const coords = this._textLayerService.getSelectedLocationForNew(
+  public moveFragmentFromHint(hint: LayerHint) {
+    if (!this.pickedLocation || this.pickedLocation === hint.location) {
+      return;
+    }
+    this._editService.applyLayerPatches(this.partId, [
+      `mov ${hint.location} ${this.pickedLocation}`
+    ]);
+  }
+
+  public applyLayerPatches(patches: string[]) {
+    this._editService.applyLayerPatches(this.partId, patches);
+  }
+
+  public pickLocation() {
+    const location = this._textLayerService.getSelectedLocationForNew(
       this._textLayerService.getSelectedRange(),
       this._editQuery.getValue().baseText
     );
-    if (coords) {
-      this.coordsInfo = coords.toString();
+    if (location) {
+      this.pickedLocation = location.toString();
     }
   }
 

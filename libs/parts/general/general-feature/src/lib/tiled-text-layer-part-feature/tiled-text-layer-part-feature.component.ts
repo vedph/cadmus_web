@@ -3,7 +3,8 @@ import { Observable } from 'rxjs';
 import {
   TokenLocation,
   LibraryRouteService,
-  ComponentCanDeactivate
+  ComponentCanDeactivate,
+  LayerHint
 } from '@cadmus/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -51,8 +52,11 @@ export class TiledTextLayerPartFeatureComponent
   public rows$: Observable<TextTileRow[]>;
   public refreshingBreakChance$: Observable<boolean>;
   public breakChance$: Observable<number>;
+  public layerHints$: Observable<LayerHint[]>;
+  public patchingLayer$: Observable<boolean>;
+  public deletingFragment$: Observable<boolean>;
 
-  public coordsInfo: string;
+  public pickedLocation: string;
   public locations: TokenLocation[];
 
   constructor(
@@ -98,6 +102,9 @@ export class TiledTextLayerPartFeatureComponent
     this.baseText$ = this._editQuery.select(state => state.baseText);
     this.refreshingBreakChance$ = this._editQuery.selectRefreshingBreakChance();
     this.breakChance$ = this._editQuery.selectBreakChance();
+    this.layerHints$ = this._editQuery.selectLayerHints();
+    this.patchingLayer$ = this._editQuery.selectPatchingLayers();
+    this.deletingFragment$ = this._editQuery.selectDeletingFragment();
 
     // when the base text changes, load all the fragments locations
     // and setup their UI state
@@ -190,6 +197,11 @@ export class TiledTextLayerPartFeatureComponent
       });
   }
 
+  public deleteFragmentFromHint(hint: LayerHint) {
+    const loc = TokenLocation.parse(hint.location);
+    this._editService.deleteFragment(loc);
+  }
+
   private navigateToFragmentEditor(loc: string) {
     const part = this._editQuery.getValue().part;
 
@@ -223,6 +235,19 @@ export class TiledTextLayerPartFeatureComponent
     this.navigateToFragmentEditor(this.locations[lf.fragment].toString());
   }
 
+  public editFragmentFromHint(hint: LayerHint) {
+    this.navigateToFragmentEditor(hint.location);
+  }
+
+  public moveFragmentFromHint(hint: LayerHint) {
+    if (!this.pickedLocation || this.pickedLocation === hint.location) {
+      return;
+    }
+    this._editService.applyLayerPatches(this.partId, [
+      `mov ${hint.location} ${this.pickedLocation}`
+    ]);
+  }
+
   public addFragment() {
     const lf = this.view.getCheckedLocationAndFragment();
     if (!lf || lf.fragment > -1) {
@@ -231,12 +256,12 @@ export class TiledTextLayerPartFeatureComponent
     this.navigateToFragmentEditor(lf.location.toString());
   }
 
-  public getCoordsInfo() {
+  public pickLocation() {
     const lf = this.view.getCheckedLocationAndFragment();
     if (!lf) {
       return;
     }
-    this.coordsInfo = (lf.fragment === -1
+    this.pickedLocation = (lf.fragment === -1
       ? lf.location
       : this.locations[lf.fragment]
     ).toString();
@@ -244,7 +269,11 @@ export class TiledTextLayerPartFeatureComponent
 
   public clearTileChecks() {
     this.view.setAllTilesViewState({checked: false});
-    this.coordsInfo = null;
+    this.pickedLocation = null;
+  }
+
+  public applyLayerPatches(patches: string[]) {
+    this._editService.applyLayerPatches(this.partId, patches);
   }
 
   public close() {

@@ -46,8 +46,8 @@
       <button
         mat-icon-button
         type="button"
-        (click)="getCoordsInfo()"
-        matTooltip="Get the text coordinates of the selection for a new fragment"
+        (click)="pickLocation()"
+        matTooltip="Pick the selection location for a new fragment"
       >
         <mat-icon>info</mat-icon>
       </button>
@@ -60,7 +60,7 @@
       >
         <mat-icon>add_circle</mat-icon>
       </button>
-      <span>{{ coordsInfo }}</span>
+      <span>{{ pickedLocation }}</span>
     </mat-toolbar>
   </mat-card-actions>
   <mat-card-content fxLayout="row">
@@ -94,8 +94,16 @@
     </mat-expansion-panel-header>
     <cadmus-layer-hints
       [hints]="layerHints"
+      [disabled]="
+        (loading$ | async) ||
+        (patchingLayer$ | async) ||
+        (deletingFragment$ | async)
+      "
+      [targetLocation]="pickedLocation"
       (requestEdit)="editFragmentFromHint($event)"
       (requestDelete)="deleteFragmentFromHint($event)"
+      (requestMove)="moveFragmentFromHint($event)"
+      (requestPatch)="applyLayerPatches($event)"
     ></cadmus-layer-hints>
   </mat-expansion-panel>
 </mat-card>

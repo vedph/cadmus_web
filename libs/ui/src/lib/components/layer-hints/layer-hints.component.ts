@@ -31,6 +31,8 @@ export class LayerHintsComponent implements OnInit {
 
   @Input()
   public targetLocation: string;
+  @Input()
+  public disabled: boolean;
   @Output()
   public requestEdit: EventEmitter<LayerHint>;
   @Output()

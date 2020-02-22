@@ -83,6 +83,22 @@ export class EditLayerPartService {
     );
   }
 
+  public applyLayerPatches(partId: string, patches: string[]) {
+    this._store.setPatchingLayer(true);
+
+    this._itemService.applyLayerPatches(partId, patches)
+      .subscribe(part => {
+        this._store.setPatchingLayer(false);
+        this.load(part.itemId, partId);
+      }, error => {
+        console.error(error);
+        this._store.setPatchingLayer(false);
+        this._store.setError(
+          'Error patching text layer part ' + partId
+        );
+      });
+  }
+
   /**
    * Delete the fragment at the specified location.
    *

@@ -40,6 +40,7 @@ export interface EditLayerPartState {
   deletingFragment?: boolean;
   savingFragment?: boolean;
   refreshingBreakChance?: boolean;
+  patchingLayer?: boolean;
 }
 
 const initialState: EditLayerPartState = {
@@ -52,7 +53,8 @@ const initialState: EditLayerPartState = {
   error: null,
   deletingFragment: false,
   savingFragment: false,
-  refreshingBreakChance: false
+  refreshingBreakChance: false,
+  patchingLayer: false
 };
 
 @Injectable({ providedIn: 'root' })
@@ -70,11 +72,15 @@ export class EditLayerPartStore extends Store<EditLayerPartState> {
     this.update({ savingFragment: value });
   }
 
-  public setRefreshingBreakChance(value: boolean) {
+  public setRefreshingBreakChance(value = true) {
     this.update({ refreshingBreakChance: value });
   }
 
   public setBreakChance(value: number) {
     this.update({ breakChance: value });
+  }
+
+  public setPatchingLayer(value = true) {
+    this.update({ patchingLayer: value });
   }
 }

@@ -32,4 +32,8 @@ export class EditLayerPartQuery extends Query<EditLayerPartState> {
   public selectLayerHints(): Observable<LayerHint[]> {
     return this.select(state => state.layerHints);
   }
+
+  public selectPatchingLayers(): Observable<boolean> {
+    return this.select(state => state.patchingLayer);
+  }
 }
