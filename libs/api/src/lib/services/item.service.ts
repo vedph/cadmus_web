@@ -9,7 +9,8 @@ import {
   Part,
   PartDefinition,
   PartGroup,
-  LayerPartInfo
+  LayerPartInfo,
+  LayerHint
 } from '@cadmus/core';
 import { Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
@@ -237,6 +238,34 @@ export class ItemService {
       retry(3),
       catchError(this._error.handleError)
     );
+  }
+
+  /**
+   * Get the layer part reconciliation hints, one for each fragment.
+   * @param id The layer part's ID.
+   * @returns A list of layer hints, one per fragment.
+   */
+  public getLayerPartHints(id: string): Observable<LayerHint[]> {
+    const url =
+      `${this._apiEndpoint}${this._databaseId}/` + `part/${id}/layer-hints`;
+    return this._http.get<LayerHint[]>(url).pipe(
+      retry(3),
+      catchError(this._error.handleError)
+    );
+  }
+
+  /**
+   * Apply a set of patches to the specified layer part.
+   *
+   * @param id The layer part ID.
+   * @param patches The array of patch instructions.
+   */
+  public applyLayerPatches(id: string, patches: string[]): Observable<Part> {
+    const url =
+      `${this._apiEndpoint}${this._databaseId}/` + `part/${id}/layer-patches`;
+    return this._http
+      .post<Part>(url, { patches: patches })
+      .pipe(catchError(this._error.handleError));
   }
 
   /**

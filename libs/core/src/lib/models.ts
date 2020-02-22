@@ -121,6 +121,17 @@ export interface TextCoords {
 }
 
 /**
+ * Layer reconciliation hint for a single fragment.
+ */
+export interface LayerHint {
+  location: string;
+  editOperation: string;
+  patchOperation?: string;
+  impactLevel: number;
+  description?: string;
+}
+
+/**
  * A single entry in a thesaurus.
  */
 export interface ThesaurusEntry {
