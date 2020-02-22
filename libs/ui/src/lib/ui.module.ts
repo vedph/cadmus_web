@@ -19,6 +19,7 @@ import { DatationEditorComponent } from './components/datation-editor/datation-e
 import { HistoricalDateEditorComponent } from './components/historical-date-editor/historical-date-editor.component';
 import { PasswordStrengthBarComponent } from './components/password-strength-bar/password-strength-bar.component';
 import { RouterModule } from '@angular/router';
+import { LayerHintsComponent } from './components/layer-hints/layer-hints.component';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { RouterModule } from '@angular/router';
     ErrorListComponent,
     HistoricalDateEditorComponent,
     JsonEditorResourcesComponent,
+    LayerHintsComponent,
     LoginComponent,
     PasswordStrengthBarComponent,
     SafeHtmlPipe
@@ -52,6 +54,7 @@ import { RouterModule } from '@angular/router';
     ErrorListComponent,
     HistoricalDateEditorComponent,
     JsonEditorResourcesComponent,
+    LayerHintsComponent,
     LoginComponent,
     PasswordStrengthBarComponent,
     SafeHtmlPipe

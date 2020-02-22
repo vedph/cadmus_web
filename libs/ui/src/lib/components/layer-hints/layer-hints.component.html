@@ -1,0 +1,51 @@
+<form *ngIf="hints" [formGroup]="form" (submit)="emitRequestPatch()">
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>location</th>
+        <th>description</th>
+        <th>patch</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let hint of hints; let i = index">
+        <td>
+          <button type="button" mat-icon-button matTooltip="Edit this fragment">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            matTooltip="Move this fragment to {{ targetLocation }}"
+            [disabled]="!targetLocation"
+          >
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            matTooltip="Delete this fragment"
+            color="warn"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+        <td>{{ hint.location }}</td>
+        <td>{{ hint.description }}</td>
+        <td>
+          <mat-checkbox
+            *ngIf="hint.patchOperation"
+            matTooltip="Apply this patch"
+            [value]="i + 1"
+          >
+            {{ hint.patchOperation }}
+          </mat-checkbox>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button type="submit" mat-raised-button [disabled]="form.invalid">
+    apply patches
+  </button>
+</form>
