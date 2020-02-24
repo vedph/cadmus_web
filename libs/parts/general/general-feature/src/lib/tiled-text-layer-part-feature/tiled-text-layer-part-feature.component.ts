@@ -18,6 +18,7 @@ import {
   TextTileRow,
   TiledTextPart} from '@cadmus/parts/general/general-ui';
 import { TiledTextLayerView, TextTileLayerView } from './tiled-text-layer-view';
+import { AuthService } from '@cadmus/api';
 
 /**
  * Tiled text layer part editor.
@@ -58,6 +59,7 @@ export class TiledTextLayerPartFeatureComponent
 
   public pickedLocation: string;
   public locations: TokenLocation[];
+  public userLevel: number;
 
   constructor(
     route: ActivatedRoute,
@@ -67,7 +69,8 @@ export class TiledTextLayerPartFeatureComponent
     private _editItemQuery: EditItemQuery,
     private _editItemService: EditItemService,
     private _libraryRouteService: LibraryRouteService,
-    private _dialogService: DialogService
+    private _dialogService: DialogService,
+    authService: AuthService
   ) {
     this.itemId = route.snapshot.params['iid'];
     this.partId = route.snapshot.params['pid'];
@@ -78,6 +81,7 @@ export class TiledTextLayerPartFeatureComponent
     if (this.roleId === 'default') {
       this.roleId = null;
     }
+    this.userLevel = authService.getCurrentUserLevel();
   }
 
   public canDeactivate(): boolean {

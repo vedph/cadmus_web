@@ -15,6 +15,7 @@ import {
   EditItemQuery,
   EditItemService
 } from '@cadmus/features/edit-state';
+import { AuthService } from '@cadmus/api';
 
 /**
  * Token-based text layer part feature editor. This is a special type of editor,
@@ -45,6 +46,7 @@ export class TokenTextLayerPartFeatureComponent
 
   public pickedLocation: string;
   public locations: TokenLocation[];
+  public userLevel: number;
 
   constructor(
     route: ActivatedRoute,
@@ -55,7 +57,8 @@ export class TokenTextLayerPartFeatureComponent
     private _editItemQuery: EditItemQuery,
     private _editItemService: EditItemService,
     private _libraryRouteService: LibraryRouteService,
-    private _dialogService: DialogService
+    private _dialogService: DialogService,
+    authService: AuthService
   ) {
     this.itemId = route.snapshot.params['iid'];
     this.partId = route.snapshot.params['pid'];
@@ -66,6 +69,7 @@ export class TokenTextLayerPartFeatureComponent
     if (this.roleId === 'default') {
       this.roleId = null;
     }
+    this.userLevel = authService.getCurrentUserLevel();
   }
 
   public canDeactivate(): boolean {

@@ -132,6 +132,7 @@
         (patchingLayer$ | async) ||
         (deletingFragment$ | async)
       "
+      [readonly]="userLevel < 2"
       [targetLocation]="pickedLocation"
       (requestEdit)="editFragmentFromHint($event)"
       (requestDelete)="deleteFragmentFromHint($event)"
