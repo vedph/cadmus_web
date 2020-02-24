@@ -37,6 +37,7 @@ export class ItemEditorComponent implements OnInit {
   public partGroups$: Observable<PartGroup[]>;
   public layerPartInfos$: Observable<LayerPartInfo[]>;
   public user: User;
+  public userLevel: number;
   // lookup data
   public facet$: Observable<FacetDefinition>;
   public newPartDefinitions: PartDefinition[];
@@ -104,12 +105,14 @@ export class ItemEditorComponent implements OnInit {
       facet: this.facet,
       flags: this.flags
     });
+    this.userLevel = 0;
   }
 
   ngOnInit() {
-    this.user = this._authService.currentUserValue;
+    // this.user = this._authService.currentUserValue;
     this._authService.currentUser$.subscribe((user: User) => {
       this.user = user;
+      this.userLevel = this._authService.getCurrentUserLevel();
     });
 
     this.item$ = this._query.selectItem();

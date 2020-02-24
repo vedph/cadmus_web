@@ -26,7 +26,7 @@
     </p>
 
     <!-- item content -->
-    <mat-tab-group [selectedIndex]="id? 1 : 0">
+    <mat-tab-group [selectedIndex]="id ? 1 : 0">
       <!-- metadata -->
       <mat-tab label="Metadata">
         <form [formGroup]="metadata" (ngSubmit)="save()">
@@ -146,7 +146,9 @@
               type="submit"
               mat-raised-button
               color="primary"
-              [disabled]="(saving$ | async) || (loading$ | async)"
+              [disabled]="
+                userLevel < 2 || (saving$ | async) || (loading$ | async)
+              "
               matTooltip="Save metadata"
               *ngIf="
                 user.roles.includes('admin') ||
@@ -184,12 +186,12 @@
               mat-raised-button
               color="primary"
               type="button"
-              [disabled]="(loading$ | async) || !newPart.valid"
+              [disabled]="userLevel < 2 || (loading$ | async) || !newPart.valid"
               (click)="addPart()"
               matTooltip="Add a new part of the selected type"
             >
-            <mat-icon>add_circle</mat-icon>
-            new part
+              <mat-icon>add_circle</mat-icon>
+              new part
             </button>
           </form>
         </div>
@@ -235,7 +237,11 @@
                     mat-icon-button
                     type="button"
                     matTooltip="Delete this part"
-                    [disabled]="(loading$ | async) || (deletingPart$ | async)"
+                    [disabled]="
+                      userLevel < 2 ||
+                      (loading$ | async) ||
+                      (deletingPart$ | async)
+                    "
                     (click)="deletePart(part)"
                     *ngIf="
                       user.roles.includes('admin') ||
@@ -292,6 +298,7 @@
                   mat-icon-button
                   color="primary"
                   matTooltip="Add this layer part"
+                  [disabled]="userLevel < 2"
                   (click)="addLayerPart(part)"
                 >
                   <mat-icon>add_circle</mat-icon>
@@ -302,6 +309,7 @@
                   mat-icon-button
                   color="warn"
                   matTooltip="Delete this layer part"
+                  [disabled]="userLevel < 2"
                   (click)="deletePart(part)"
                 >
                   <mat-icon>delete</mat-icon>
