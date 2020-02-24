@@ -1,0 +1,52 @@
+version: '3.7'
+
+services:
+  # MongoDB
+  cadmus-mongo:
+    image: mongo
+    container_name: cadmus-mongo
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    command: mongod --logpath=/dev/null # --quiet
+    ports:
+      - 27017:27017
+    networks:
+      - cadmus-network
+
+  cadmus-api:
+    image: vedph2020/cadmus_api:cadmusapi
+    ports:
+      # https://stackoverflow.com/questions/48669548/why-does-aspnet-core-start-on-port-80-from-within-docker
+      - 60304:80
+    depends_on:
+      - cadmus-mongo
+    # wait for mongo before starting: https://github.com/vishnubob/wait-for-it
+    command: ["./wait-for-it.sh", "cadmus-mongo:27017", "--", "dotnet", "CadmusApi.dll"]
+    environment:
+      # for Windows use : as separator, for non Windows use __
+      # (see https://github.com/aspnet/Configuration/issues/469)
+      - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-mongo:27017/{0}
+      - MESSAGING__APIROOTURL=http://cadmusapi.azurewebsites.net
+      - MESSAGING__APPROOTURL=http://cadmusapi.com/
+      - MESSAGING__SUPPORTEMAIL=support@cadmus.com
+      - SENDGRID__ISENABLED=true
+      - SENDGRID__SENDEREMAIL=info@cadmus.com
+      - SENDGRID__SENDERNAME=cadmus
+      - SENDGRID__APIKEY=todo
+      - SERILOG__CONNECTIONSTRING=mongodb://cadmus-mongo:27017/cadmus-logs
+      - STOCKUSERS__0__PASSWORD=P4ss-W0rd!
+    networks:
+      - cadmus-network
+
+  cadmus-web:
+    image: vedph2020/cadmus_web:cadmusweb
+    ports:
+      - 4200:4200
+    depends_on: cadmus-api
+    networks:
+      - cadmus-network
+
+networks:
+  cadmus-network:
+    driver: bridge
