@@ -26,7 +26,9 @@ export class AppComponent implements OnInit {
       this.logged = this._authService.isAuthenticated(true);
       this.user = user;
       // load the general app state just once
-      this._appService.load();
+      if (user) {
+        this._appService.load();
+      }
     });
   }
 
