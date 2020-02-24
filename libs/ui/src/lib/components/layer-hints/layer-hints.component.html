@@ -10,7 +10,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let hint of hints; let i = index">
-        <td>
+        <td *ngIf="!readonly">
           <button
             type="button"
             mat-icon-button
@@ -57,7 +57,11 @@
     </tbody>
   </table>
   <div *ngIf="targetLocation">move target: {{ targetLocation }}</div>
-  <button type="submit" mat-raised-button [disabled]="disabled || form.invalid">
+  <button
+    type="submit"
+    mat-raised-button
+    [disabled]="readonly || disabled || form.invalid"
+  >
     apply patches
   </button>
 </form>

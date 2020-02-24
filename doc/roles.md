@@ -7,7 +7,7 @@ Cadmus provides 4 user roles:
 3. `operator`: operator.
 4. `visitor`: visitor.
 
-Each of the upper roles has all the authorizations of the lower roles. The editing operations according to these roles are listed below, with the minimum role number required.
+Each of the upper roles has all the authorizations of the lower roles. The editing operations according to these roles are listed below, with the minimum role required.
 
 - register user: `admin`
 - resend confirmation email: `visitor`
