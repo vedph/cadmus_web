@@ -25,6 +25,7 @@ export class ItemListComponent implements OnInit {
   public filter$: BehaviorSubject<ItemFilter>;
   public pageSize: FormControl;
   public user: User;
+  public userLevel: number;
 
   constructor(
     @Inject(ITEMS_PAGINATOR) public paginator: PaginatorPlugin<ItemsState>,
@@ -60,9 +61,9 @@ export class ItemListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user = this._authService.currentUserValue;
     this._authService.currentUser$.subscribe((user: User) => {
       this.user = user;
+      this.userLevel = this._authService.getCurrentUserLevel();
     });
 
     // filter

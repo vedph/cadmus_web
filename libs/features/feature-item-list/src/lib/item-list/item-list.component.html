@@ -55,7 +55,7 @@
                   user.roles.includes('admin') || user.roles.includes('editor')
                 "
               >
-                <button
+                <button *ngIf="userLevel > 2"
                   mat-icon-button
                   type="button"
                   matTooltip="Delete {{ item.title }}"
@@ -106,7 +106,7 @@
       user.roles.includes('operator')
     "
   >
-    <button
+    <button *ngIf="userLevel > 1"
       type="button"
       color="primary"
       mat-raised-button

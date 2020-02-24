@@ -1,11 +1,13 @@
 # User Roles
 
-Cadmus provides 4 user roles:
+Cadmus provides 4 user roles for authenticated users:
 
-1. `admin`: administrator.
-2. `editor`: editor.
-3. `operator`: operator.
-4. `visitor`: visitor.
+1. `admin`: administrator (level 4).
+2. `editor`: editor (level 3).
+3. `operator`: operator (level 2).
+4. `visitor`: visitor (level 1).
+
+Unauthenticated users have level 0.
 
 Each of the upper roles has all the authorizations of the lower roles. The editing operations according to these roles are listed below, with the minimum role required.
 
