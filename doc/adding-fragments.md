@@ -179,7 +179,7 @@ Sample HTML template:
     <mat-card-actions>
       <cadmus-close-save-buttons
         [form]="form"
-        [noSave]="isVisitor"
+        [noSave]="userLevel < 2"
         (closeRequest)="close()"
       ></cadmus-close-save-buttons>
     </mat-card-actions>

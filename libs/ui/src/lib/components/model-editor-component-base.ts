@@ -96,27 +96,24 @@ export abstract class ModelEditorComponentBase<T> {
   public user: User;
 
   /**
-   * True if the current user is only a visitor.
+   * The user authorization level (0-4).
    */
-  public isVisitor: boolean;
+  public userLevel: number;
 
-  constructor(authService: AuthService) {
+  constructor(private _authService: AuthService) {
     this.jsonChange = new EventEmitter<string>();
     this.editorClose = new EventEmitter<any>();
     this.dirtyChange = new EventEmitter<boolean>();
 
-    this.updateUserProperties(authService.currentUserValue);
-    authService.currentUser$.subscribe((user: User) => {
+    // this.updateUserProperties(_authService.currentUserValue);
+    _authService.currentUser$.subscribe((user: User) => {
       this.updateUserProperties(user);
     });
   }
 
   private updateUserProperties(user: User) {
     this.user = user;
-    this.isVisitor =
-      !this.user ||
-      this.user.roles.length === 0 ||
-      (this.user.roles.length === 1 && this.user.roles[0] === 'visitor');
+    this.userLevel = this._authService.getCurrentUserLevel();
   }
 
   /**
