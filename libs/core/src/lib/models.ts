@@ -68,6 +68,7 @@ export interface Part extends HasVersion {
   itemId: string;
   typeId: string;
   roleId: string;
+  thesaurusScope?: string;
 }
 
 /**
