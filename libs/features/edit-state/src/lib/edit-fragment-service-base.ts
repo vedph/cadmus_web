@@ -35,9 +35,14 @@ export abstract class EditFragmentServiceBase {
     this.store.setLoading(true);
 
     if (thesauriIds) {
+      // remove trailing ! from IDs if any
+      const unscopedIds = thesauriIds.map(id => {
+        return this._thesaurusService.getScopedId(id, null);
+      });
+
       forkJoin({
         part: this._itemService.getPart(partId),
-        thesauri: this._thesaurusService.getThesauri(thesauriIds)
+        thesauri: this._thesaurusService.getThesauri(unscopedIds)
       }).subscribe(result => {
         const layerPart = result.part as TextLayerPart;
         const fr = layerPart.fragments.find(f => f.location === loc);
@@ -53,7 +58,7 @@ export abstract class EditFragmentServiceBase {
         }
         // if the loaded layer part has a thesaurus scope, reload the thesauri
         if (result.part.thesaurusScope) {
-          const scopedIds: string[] = thesauriIds.map(id => {
+          const scopedIds = thesauriIds.map(id => {
             return this._thesaurusService.getScopedId(
               id,
               result.part.thesaurusScope

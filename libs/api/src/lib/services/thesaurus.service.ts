@@ -72,12 +72,24 @@ export class ThesaurusService {
    * and the specified scope ID. This just suffixes the thesaurus ID with
    * the scope ID prefixed by a dot, before the language ID. For instance,
    * a thesaurus ID "witnesses@en" with a scope ID "lucr" would become
-   * "witnesses.lucr@en".
+   * "witnesses.lucr@en". If the thesaurus ID starts with an exclamation mark,
+   * which means that it must not be scoped, this function will return it
+   * without the leading mark.
    *
    * @param id The thesaurus ID.
-   * @param scopeId The scope ID.
+   * @param scopeId The scope ID, or null when you just want to strip off
+   * the leading exclamation mark if any.
    */
   public getScopedId(id: string, scopeId: string): string {
+    // an ID starting with ! should not be scoped
+    if (id.startsWith('!')) {
+      return id.substr(1);
+    }
+    // just ret the ID if we were just requested to strip the initial !
+    if (!scopeId) {
+      return id;
+    }
+
     const i = id.lastIndexOf('@');
     if (i === -1) {
       return id + '.' + scopeId;

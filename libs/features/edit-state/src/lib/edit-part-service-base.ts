@@ -21,9 +21,14 @@ export abstract class EditPartServiceBase {
     this.store.setLoading(true);
 
     if (thesauriIds) {
+      // remove trailing ! from IDs if any
+      const unscopedIds = thesauriIds.map(id => {
+        return this.thesaurusService.getScopedId(id, null);
+      });
+
       forkJoin({
         part: this.itemService.getPart(partId),
-        thesauri: this.thesaurusService.getThesauri(thesauriIds)
+        thesauri: this.thesaurusService.getThesauri(unscopedIds)
       }).subscribe(result => {
         this.store.setLoading(false);
         this.store.update({
