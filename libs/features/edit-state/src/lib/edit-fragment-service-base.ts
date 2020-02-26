@@ -51,6 +51,30 @@ export abstract class EditFragmentServiceBase {
             error: null
           });
         }
+        // if the loaded layer part has a thesaurus scope, reload the thesauri
+        if (result.part.thesaurusScope) {
+          const scopedIds: string[] = thesauriIds.map(id => {
+            return this._thesaurusService.getScopedId(
+              id,
+              result.part.thesaurusScope
+            );
+          });
+          this.store.setLoading(true);
+          this._thesaurusService.getThesauri(thesauriIds).subscribe(
+            thesauri => {
+              this.store.update({
+                thesauri: thesauri
+              });
+            },
+            error => {
+              console.error(error);
+              this.store.setLoading(false);
+              this.store.setError(
+                'Error loading thesauri ' + scopedIds.join(', ')
+              );
+            }
+          );
+        } // scoped
       });
     } else {
       this._itemService.getPart(partId).subscribe(

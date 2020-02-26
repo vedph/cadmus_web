@@ -66,4 +66,22 @@ export class ThesaurusService {
       catchError(this._error.handleError)
     );
   }
+
+  /**
+   * Get the thesaurus scoped ID from the corresponding non-scoped thesaurus ID
+   * and the specified scope ID. This just suffixes the thesaurus ID with
+   * the scope ID prefixed by a dot, before the language ID. For instance,
+   * a thesaurus ID "witnesses@en" with a scope ID "lucr" would become
+   * "witnesses.lucr@en".
+   *
+   * @param id The thesaurus ID.
+   * @param scopeId The scope ID.
+   */
+  public getScopedId(id: string, scopeId: string): string {
+    const i = id.lastIndexOf('@');
+    if (i === -1) {
+      return id + '.' + scopeId;
+    }
+    return id.substr(0, i) + '.' + scopeId + id.substr(i);
+  }
 }
