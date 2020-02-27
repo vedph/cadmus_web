@@ -13,83 +13,105 @@
     </mat-card-header>
 
     <mat-card-content>
-      <div>
-        <mat-form-field>
-          <mat-select placeholder="type" formControlName="type">
-            <mat-option [value]="0">replacement</mat-option>
-            <mat-option [value]="1">addition before</mat-option>
-            <mat-option [value]="2">addition after</mat-option>
-            <mat-option [value]="3">note</mat-option>
-          </mat-select>
-          <mat-error
-            *ngIf="type.hasError('required') && (type.touched || type.dirty)"
-            >select type</mat-error
-          >
-        </mat-form-field>
-      </div>
+      <mat-tab-group [(selectedIndex)]="currentTabIndex">
+        <!-- fragment editor -->
+        <mat-tab label="Fragment">
+          <!-- tag -->
+          <div>
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                placeholder="tag"
+                formControlName="tag"
+              />
+              <mat-error
+                *ngIf="tag.hasError('maxLength') && (tag.dirty || tag.touched)"
+                >too long</mat-error
+              >
+            </mat-form-field>
+          </div>
 
-      <div>
-        <mat-form-field>
-          <input
-            matInput
-            type="text"
-            spellcheck="false"
-            placeholder="value"
-            formControlName="value"
-          />
-          <mat-error
-            *ngIf="
-              value.hasError('maxLength') && (value.dirty || value.touched)
-            "
-            >value too long</mat-error
-          >
-        </mat-form-field>
-      </div>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>type</th>
+                <th>value/note</th>
+                <th>group</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let entry of fragment?.entries;
+                  let i = index;
+                  let first = first;
+                  let last = last
+                "
+              >
+                <td>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    matTooltip="Edit entry"
+                    color="primary"
+                    (click)="editEntry(entry)"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    matTooltip="Move entry up"
+                    [disabled]="first"
+                    (click)="moveEntryUp(i)"
+                  >
+                    <mat-icon>arrow_upward</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    matTooltip="Move entry down"
+                    [disabled]="last"
+                    (click)="moveEntryDown(i)"
+                  >
+                    <mat-icon>arrow_downward</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    matTooltip="Remove this entry"
+                    color="warn"
+                    (click)="removeEntry(i)"
+                  >
+                    <mat-icon>remove_circle</mat-icon>
+                  </button>
+                </td>
+                <td>
+                  {{ getEntryTypeDsc(entry.type) }}
+                </td>
+                <td>
+                  <span *ngIf="entry.type === 3">{{ entry.note }}</span>
+                  <span *ngIf="entry.type !== 3" [class.lem]="entry.isAccepted"
+                    >{{ entry.value }}</span
+                  >
+                </td>
+                <td>{{ entry.groupId }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-tab>
 
-      <div>
-        <mat-checkbox formControlName="accepted">accepted</mat-checkbox>
-      </div>
-
-      <div>
-        <mat-form-field>
-          <input
-            matInput
-            type="text"
-            spellcheck="false"
-            placeholder="author(s) separated by ;"
-            formControlName="authors"
-          />
-          <mat-error
-            *ngIf="
-              authors.hasError('required') && (authors.dirty || authors.touched)
-            "
-            >author(s) required</mat-error
-          >
-          <mat-error
-            *ngIf="
-              authors.hasError('maxLength') &&
-              (authors.dirty || authors.touched)
-            "
-            >author(s) too long</mat-error
-          >
-        </mat-form-field>
-      </div>
-
-      <div>
-        <mat-form-field style="width: 90%">
-          <textarea
-            matInput
-            type="text"
-            spellcheck="false"
-            placeholder="notes"
-            formControlName="note"
-          ></textarea>
-          <mat-error
-            *ngIf="note.hasError('maxLength') && (note.dirty || note.touched)"
-            >note too long</mat-error
-          >
-        </mat-form-field>
-      </div>
+        <!-- entry editor -->
+        <mat-tab label="Entry" *ngIf="editedEntry">
+          <cadmus-apparatus-entry
+            [entry]="editedEntry"
+            (save)="onEntrySave($event)"
+            (editorClose)="onEntryClose()"
+          ></cadmus-apparatus-entry>
+        </mat-tab>
+      </mat-tab-group>
     </mat-card-content>
 
     <mat-card-actions>

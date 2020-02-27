@@ -1,9 +1,9 @@
 import { Fragment } from '@cadmus/core';
 
 /**
- * Type of lemma's variant in ApparatusFragment.
+ * Type of apparatus entry in an apparatus fragment.
  */
-export enum LemmaVariantType {
+export enum ApparatusEntryType {
   // variant should replace lemma
   replacement = 0,
 
@@ -18,14 +18,34 @@ export enum LemmaVariantType {
 }
 
 /**
+ * An optionally annotated value used in an apparatus entry.
+ */
+export interface ApparatusAnnotatedValue {
+  value: string;
+  note?: string;
+}
+
+/**
+ * A single entry in an apparatus fragment.
+ */
+export interface ApparatusEntry {
+  type: ApparatusEntryType;
+  tag?: string;
+  value?: string;
+  normValue?: string;
+  isAccepted?: boolean;
+  groupId?: string;
+  witnesses?: ApparatusAnnotatedValue[];
+  authors?: ApparatusAnnotatedValue[];
+  note?: string;
+}
+
+/**
  * The apparatus layer fragment server model.
  */
 export interface ApparatusFragment extends Fragment {
-  type: LemmaVariantType;
-  value?: string;
-  isAccepted?: boolean;
-  authors: string[];
-  note?: string;
+  tag?: string;
+  entries: ApparatusEntry[];
 }
 
 export const APPARATUS_FRAGMENT_TYPEID = 'fr.net.fusisoft.apparatus';
@@ -38,8 +58,7 @@ export const APPARATUS_FRAGMENT_SCHEMA = {
     APPARATUS_FRAGMENT_TYPEID +
     '.json',
   type: 'object',
-  title: 'ApparatusFragment',
-  required: ['location', 'type', 'authors'],
+  required: ['location', 'entries'],
   properties: {
     location: {
       $id: '#/properties/location',
@@ -49,23 +68,90 @@ export const APPARATUS_FRAGMENT_SCHEMA = {
       $id: '#/properties/baseText',
       type: 'string'
     },
-    type: {
+    tag: {
+      $id: '#/properties/tag',
       type: 'string'
     },
-    value: {
-      type: 'string'
-    },
-    isAccepted: {
-      type: 'boolean'
-    },
-    authors: {
+    entries: {
+      $id: '#/properties/entries',
       type: 'array',
       items: {
-        type: 'string'
+        $id: '#/properties/entries/items',
+        type: 'object',
+        required: ['type'],
+        properties: {
+          type: {
+            $id: '#/properties/entries/items/properties/type',
+            type: 'integer'
+          },
+          tag: {
+            $id: '#/properties/entries/items/properties/tag',
+            type: 'string'
+          },
+          value: {
+            $id: '#/properties/entries/items/properties/value',
+            type: 'string'
+          },
+          normValue: {
+            $id: '#/properties/entries/items/properties/normValue',
+            type: 'string'
+          },
+          isAccepted: {
+            $id: '#/properties/entries/items/properties/isAccepted',
+            type: 'boolean'
+          },
+          groupId: {
+            $id: '#/properties/entries/items/properties/groupId',
+            type: 'string'
+          },
+          witnesses: {
+            $id: '#/properties/entries/items/properties/witnesses',
+            type: 'array',
+            items: {
+              $id: '#/properties/entries/items/properties/witnesses/items',
+              type: 'object',
+              required: ['value'],
+              properties: {
+                value: {
+                  $id:
+                    '#/properties/entries/items/properties/witnesses/items/properties/value',
+                  type: 'string'
+                },
+                note: {
+                  $id:
+                    '#/properties/entries/items/properties/witnesses/items/properties/note',
+                  type: 'string'
+                }
+              }
+            }
+          },
+          authors: {
+            $id: '#/properties/entries/items/properties/authors',
+            type: 'array',
+            items: {
+              $id: '#/properties/entries/items/properties/authors/items',
+              type: 'object',
+              required: ['value'],
+              properties: {
+                value: {
+                  $id:
+                    '#/properties/entries/items/properties/authors/items/properties/value',
+                  type: 'string'
+                },
+                note: {
+                  $id:
+                    '#/properties/entries/items/properties/authors/items/properties/note',
+                  type: 'string'
+                }
+              }
+            }
+          },
+          note: {
+            $id: '#/properties/entries/items/properties/note',
+            type: 'string'
+          }
+        }
       }
-    },
-    note: {
-      type: ['string', 'null']
     }
   }
 };

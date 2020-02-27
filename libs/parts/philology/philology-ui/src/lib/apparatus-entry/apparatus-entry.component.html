@@ -1,0 +1,259 @@
+<form [formGroup]="form" (submit)="submit()">
+  <!-- type -->
+  <div>
+    <mat-form-field>
+      <mat-select placeholder="type" formControlName="type">
+        <mat-option [value]="0">replacement</mat-option>
+        <mat-option [value]="1">addition before</mat-option>
+        <mat-option [value]="2">addition after</mat-option>
+        <mat-option [value]="3">note</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="type.hasError('required') && (type.dirty || type.touched)"
+      ></mat-error>
+    </mat-form-field>
+  </div>
+
+  <!-- value -->
+  <div>
+    <mat-form-field>
+      <input matInput type="text" formControlName="value" placeholder="value" />
+      <mat-error
+        *ngIf="value.hasError('maxLength') && (value.dirty || value.touched)"
+        >too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- normValue -->
+  <div>
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        formControlName="normValue"
+        placeholder="normalized value"
+      />
+      <mat-error
+        *ngIf="
+          normValue.hasError('maxLength') &&
+          (normValue.dirty || normValue.touched)
+        "
+        >too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- tag -->
+  <div>
+    <mat-form-field>
+      <input matInput type="text" formControlName="tag" placeholder="tag" />
+      <mat-error *ngIf="tag.hasError('maxLength') && (tag.dirty || tag.touched)"
+        >too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- groupId -->
+  <div>
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        formControlName="groupId"
+        placeholder="group ID"
+      />
+      <mat-error
+        *ngIf="
+          groupId.hasError('maxLength') && (groupId.dirty || groupId.touched)
+        "
+        >too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- note -->
+  <div>
+    <textarea matInput formControlName="note" placeholder="note"></textarea>
+    <mat-error
+      *ngIf="note.hasError('maxLength') && (note.dirty || note.touched)"
+      >too long</mat-error
+    >
+  </div>
+
+  <!-- witnesses -->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>witnesses</mat-panel-title>
+      <mat-panel-description>{{
+        entry.witnesses?.length
+      }}</mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div formArrayName="witnesses">
+      <div
+        *ngFor="
+          let item of witnesses.controls;
+          let i = index;
+          let first = first;
+          let last = last
+        "
+      >
+        <div [formGroupName]="i">
+          {{ i + 1 }}.
+          <button
+            mat-icon-button
+            type="button"
+            matTooltip="Move this witness up"
+            [disabled]="first"
+            (click)="moveWitnessUp(i)"
+          >
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            type="button"
+            matTooltip="Move this witness down"
+            [disabled]="last"
+            (click)="moveWitnessDown(i)"
+          >
+            <mat-icon>arrow_downward</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            type="button"
+            matTooltip="Remove this witness"
+            color="warn"
+            (click)="removeWitness(i)"
+          >
+            <mat-icon>remove_circle</mat-icon>
+          </button>
+          <!-- value -->
+          <mat-form-field>
+            <input matInput formControlName="value" placeholder="value" />
+            <mat-error
+              *ngIf="
+                value.hasError('required') && (value.dirty || value.touched)
+              "
+              >enter a value</mat-error
+            >
+            <mat-error
+              *ngIf="
+                value.hasError('maxLength') && (value.dirty || value.touched)
+              "
+              >too long</mat-error
+            >
+          </mat-form-field>
+          &nbsp;
+          <!-- note -->
+          <mat-form-field>
+            <input matInput formControlName="note" placeholder="note" />
+            <mat-error
+              *ngIf="note.hasError('maxLength') && (note.dirty || note.touched)"
+              >too long</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+
+  <!-- authors -->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>authors</mat-panel-title>
+      <mat-panel-description>{{ entry.authors?.length }}</mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div formArrayName="authors">
+      <div
+        *ngFor="
+          let item of authors.controls;
+          let i = index;
+          let first = first;
+          let last = last
+        "
+      >
+        <div [formGroupName]="i">
+          {{ i + 1 }}.
+          <button
+            mat-icon-button
+            type="button"
+            matTooltip="Move this author up"
+            [disabled]="first"
+            (click)="moveAuthorUp(i)"
+          >
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            type="button"
+            matTooltip="Move this author down"
+            [disabled]="last"
+            (click)="moveAuthorDown(i)"
+          >
+            <mat-icon>arrow_downward</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            type="button"
+            matTooltip="Remove this author"
+            color="warn"
+            (click)="removeAuthor(i)"
+          >
+            <mat-icon>remove_circle</mat-icon>
+          </button>
+          <!-- value -->
+          <mat-form-field>
+            <input matInput formControlName="value" placeholder="value" />
+            <mat-error
+              *ngIf="
+                value.hasError('required') && (value.dirty || value.touched)
+              "
+              >enter a value</mat-error
+            >
+            <mat-error
+              *ngIf="
+                value.hasError('maxLength') && (value.dirty || value.touched)
+              "
+              >too long</mat-error
+            >
+          </mat-form-field>
+          &nbsp;
+          <!-- note -->
+          <mat-form-field>
+            <input matInput formControlName="note" placeholder="note" />
+            <mat-error
+              *ngIf="note.hasError('maxLength') && (note.dirty || note.touched)"
+              >too long</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+
+  <!-- buttons -->
+  <div>
+    <button
+      type="button"
+      mat-raised-button
+      color="warn"
+      matTooltip="Close entry"
+      (click)="cancel()"
+    >
+      <mat-icon>cancel</mat-icon>
+      close
+    </button>
+    <button
+      type="submit"
+      [disabled]="form.invalid || form.pristine"
+      mat-raised-button
+      color="primary"
+      matTooltip="Save entry"
+    >
+      <mat-icon>check_circle</mat-icon>
+      save
+    </button>
+  </div>
+</form>

@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ApparatusFragment } from '../..';
 import { AuthService } from '@cadmus/api';
-import { ModelEditorComponentBase } from '@cadmus/ui';
-import { LemmaVariantType } from '../apparatus-fragment';
+import { ModelEditorComponentBase, DialogService } from '@cadmus/ui';
+import { ApparatusEntryType, ApparatusEntry } from '../apparatus-fragment';
 import {
   FormControl,
   FormBuilder,
-  Validators
+  Validators,
+  FormGroup
 } from '@angular/forms';
 
 @Component({
@@ -18,27 +19,27 @@ export class ApparatusFragmentComponent
   extends ModelEditorComponentBase<ApparatusFragment>
   implements OnInit {
   public fragment: ApparatusFragment;
-  public type: FormControl;
-  public accepted: FormControl;
-  public value: FormControl;
-  public authors: FormControl;
-  public note: FormControl;
+  public editedEntry: ApparatusEntry;
+  public currentTabIndex: number;
 
-  constructor(authService: AuthService, formBuilder: FormBuilder) {
+  public tag: FormControl;
+  public entryCount: FormControl;
+  public form: FormGroup;
+
+  constructor(
+    authService: AuthService,
+    formBuilder: FormBuilder,
+    private _dialogService: DialogService
+  ) {
     super(authService);
     // form
-    this.type = formBuilder.control(0, Validators.required);
-    this.accepted = formBuilder.control(false);
-    this.value = formBuilder.control(null, Validators.maxLength(500));
-    this.authors = formBuilder.control(null, [Validators.required, Validators.maxLength(500)]);
-    this.note = formBuilder.control(null, Validators.maxLength(1000));
+    this.tag = formBuilder.control(null, Validators.maxLength(50));
+    this.entryCount = formBuilder.control(0, Validators.min(1));
     this.form = formBuilder.group({
-      type: this.type,
-      accepted: this.accepted,
-      value: this.value,
-      authors: this.authors,
-      note: this.note
+      tag: this.tag,
+      entryCount: this.entryCount
     });
+    this.currentTabIndex = 0;
   }
 
   ngOnInit() {
@@ -50,11 +51,8 @@ export class ApparatusFragmentComponent
       this.form.reset();
       return;
     }
-    this.type.setValue(model.type);
-    this.accepted.setValue(model.isAccepted);
-    this.value.setValue(model.value);
-    this.authors.setValue(model.authors ? model.authors.join('; ') : null);
-    this.note.setValue(model.note);
+    this.tag.setValue(model.tag);
+    this.entryCount.setValue(model.entries.length);
     this.form.markAsPristine();
   }
 
@@ -68,19 +66,78 @@ export class ApparatusFragmentComponent
     if (!fr) {
       fr = {
         location: this.fragment ? this.fragment.location : null,
-        type: LemmaVariantType.replacement,
-        authors: []
+        entries: []
       };
     }
-    fr.type = this.type.value;
-    fr.isAccepted = this.accepted.value;
-    fr.value = this.trimIfAny(this.value.value, true);
-    fr.authors = (this.authors.value ? this.authors.value.split(';') : [])
-      .map((s: string) => s.trim())
-      .filter((s: string) => {
-        return s.length > 0;
-      });
-    fr.note = this.trimIfAny(this.note.value);
+    fr.tag = this.tag.value;
+    fr.entries = this.fragment.entries;
     return fr;
+  }
+
+  public getEntryTypeDsc(type: number): string {
+    switch (type) {
+      case 1: return 'add-b';
+      case 2: return 'add-a';
+      case 3: return 'note';
+      default: return 'rep';
+    }
+  }
+
+  public addEntry() {
+    const entry = { type: ApparatusEntryType.replacement };
+    this.fragment.entries.push(entry);
+    this.entryCount.setValue(this.fragment.entries.length);
+    this.editEntry(entry);
+  }
+
+  public editEntry(entry: ApparatusEntry) {
+    this.editedEntry = entry;
+    this.currentTabIndex = 1;
+  }
+
+  public onEntrySave(entry: ApparatusEntry) {
+    const i = this.fragment.entries.indexOf(this.editedEntry);
+    this.fragment.entries.splice(i, 1, entry);
+    this.currentTabIndex = 0;
+    this.editedEntry = null;
+    this.form.markAsDirty();
+  }
+
+  public onEntryClose() {
+    this.currentTabIndex = 0;
+    this.editedEntry = null;
+  }
+
+  public removeEntry(index: number) {
+    this._dialogService
+      .confirm('Confirm Deletion', 'Delete entry?')
+      .subscribe(result => {
+        if (!result) {
+          return;
+        }
+        this.fragment.entries.splice(index, 1);
+        this.entryCount.setValue(this.fragment.entries.length);
+        this.form.markAsDirty();
+      });
+  }
+
+  public moveEntryUp(index: number) {
+    if (index < 1) {
+      return;
+    }
+    const entry = this.fragment.entries[index];
+    this.fragment.entries.splice(index, 1);
+    this.fragment.entries.splice(index - 1, 0, entry);
+    this.form.markAsDirty();
+  }
+
+  public moveEntryDown(index: number) {
+    if (index + 1 >= this.fragment.entries.length) {
+      return;
+    }
+    const item = this.fragment.entries[index];
+    this.fragment.entries.splice(index, 1);
+    this.fragment.entries.splice(index + 1, 0, item);
+    this.form.markAsDirty();
   }
 }

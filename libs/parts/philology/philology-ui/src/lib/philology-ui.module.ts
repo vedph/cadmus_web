@@ -15,6 +15,7 @@ import { ApparatusFragmentComponent } from './apparatus-fragment/apparatus-fragm
 import { ApparatusFragmentDemoComponent } from './apparatus-fragment-demo/apparatus-fragment-demo.component';
 import { WitnessesFragmentComponent } from './witnesses-fragment/witnesses-fragment.component';
 import { WitnessesFragmentDemoComponent } from './witnesses-fragment-demo/witnesses-fragment-demo.component';
+import { ApparatusEntryComponent } from './apparatus-entry/apparatus-entry.component';
 
 @NgModule({
   imports: [
@@ -29,15 +30,17 @@ import { WitnessesFragmentDemoComponent } from './witnesses-fragment-demo/witnes
     UiModule
   ],
   declarations: [
+    ApparatusEntryComponent,
     ApparatusFragmentComponent,
     ApparatusFragmentDemoComponent,
     MspOperationComponent,
     OrthographyFragmentComponent,
     OrthographyFragmentDemoComponent,
     WitnessesFragmentComponent,
-    WitnessesFragmentDemoComponent
+    WitnessesFragmentDemoComponent,
   ],
   exports: [
+    ApparatusEntryComponent,
     ApparatusFragmentComponent,
     ApparatusFragmentDemoComponent,
     MspOperationComponent,
