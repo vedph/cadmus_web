@@ -7,6 +7,7 @@ import {
   FormBuilder,
   Validators
 } from '@angular/forms';
+import { Thesaurus } from '@cadmus/core';
 
 /**
  * Single apparatus entry editor dumb component.
@@ -30,6 +31,13 @@ export class ApparatusEntryComponent implements OnInit {
     this._entry = value;
     this.updateForm();
   }
+
+  @Input()
+  public tagThesaurus: Thesaurus | null;
+  @Input()
+  public witnessThesaurus: Thesaurus | null;
+  @Input()
+  public authorThesaurus: Thesaurus | null;
 
   @Output()
   public editorClose: EventEmitter<any>;

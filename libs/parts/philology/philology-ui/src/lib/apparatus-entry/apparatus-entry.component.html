@@ -50,7 +50,17 @@
   </div>
 
   <!-- tag -->
-  <div>
+  <div *ngIf="tagThesaurus">
+    <mat-form-field>
+      <mat-select formControlName="tag" placeholder="tag">
+        <mat-option [value]="null">(none)</mat-option>
+        <mat-option *ngFor="let e of tagThesaurus.entries" [value]="e.id">
+          {{ e.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div *ngIf="!tagThesaurus">
     <mat-form-field>
       <input matInput type="text" formControlName="tag" placeholder="tag" />
       <mat-error *ngIf="tag.hasError('maxLength') && (tag.dirty || tag.touched)"
@@ -135,18 +145,29 @@
           </button>
           <!-- value -->
           <mat-form-field>
-            <input matInput formControlName="value" placeholder="value" />
+            <ng-container *ngIf="witnessThesaurus">
+              <mat-select formControlName="value" placeholder="value">
+                <mat-option
+                  *ngFor="let e of witnessThesaurus.entries"
+                  [value]="e.id"
+                  >{{ e.value }}</mat-option
+                >
+              </mat-select>
+            </ng-container>
+            <ng-container *ngIf="!witnessThesaurus">
+              <input matInput formControlName="value" placeholder="value" />
+              <mat-error
+                *ngIf="
+                  value.hasError('maxLength') && (value.dirty || value.touched)
+                "
+                >too long</mat-error
+              >
+            </ng-container>
             <mat-error
               *ngIf="
                 value.hasError('required') && (value.dirty || value.touched)
               "
               >enter a value</mat-error
-            >
-            <mat-error
-              *ngIf="
-                value.hasError('maxLength') && (value.dirty || value.touched)
-              "
-              >too long</mat-error
             >
           </mat-form-field>
           &nbsp;
@@ -161,6 +182,15 @@
         </div>
       </div>
     </div>
+    <button
+      type="button"
+      mat-icon-button
+      color="primary"
+      matTooltip="Add a new witness"
+      (click)="addWitness()"
+    >
+      <mat-icon>add_circle</mat-icon>
+    </button>
   </mat-expansion-panel>
 
   <!-- authors -->
@@ -210,18 +240,29 @@
           </button>
           <!-- value -->
           <mat-form-field>
-            <input matInput formControlName="value" placeholder="value" />
+            <ng-container *ngIf="authorThesaurus">
+              <mat-select formControlName="value" placeholder="value">
+                <mat-option
+                  *ngFor="let e of authorThesaurus.entries"
+                  [value]="e.id"
+                  >{{ e.value }}</mat-option
+                >
+              </mat-select>
+            </ng-container>
+            <ng-container *ngIf="!authorThesaurus">
+              <input matInput formControlName="value" placeholder="value" />
+              <mat-error
+                *ngIf="
+                  value.hasError('maxLength') && (value.dirty || value.touched)
+                "
+                >too long</mat-error
+              >
+            </ng-container>
             <mat-error
               *ngIf="
                 value.hasError('required') && (value.dirty || value.touched)
               "
               >enter a value</mat-error
-            >
-            <mat-error
-              *ngIf="
-                value.hasError('maxLength') && (value.dirty || value.touched)
-              "
-              >too long</mat-error
             >
           </mat-form-field>
           &nbsp;
@@ -236,6 +277,15 @@
         </div>
       </div>
     </div>
+    <button
+      type="button"
+      mat-icon-button
+      color="primary"
+      matTooltip="Add a new author"
+      (click)="addAuthor()"
+    >
+      <mat-icon>add_circle</mat-icon>
+    </button>
   </mat-expansion-panel>
 
   <!-- buttons -->
