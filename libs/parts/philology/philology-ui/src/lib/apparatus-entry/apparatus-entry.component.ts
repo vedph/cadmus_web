@@ -39,6 +39,7 @@ export class ApparatusEntryComponent implements OnInit {
   public type: FormControl;
   public value: FormControl;
   public normValue: FormControl;
+  public accepted: FormControl;
   public tag: FormControl;
   public groupId: FormControl;
   public note: FormControl;
@@ -55,6 +56,7 @@ export class ApparatusEntryComponent implements OnInit {
     // TODO: add conditional validation according to type
     this.value = _formBuilder.control(null, Validators.maxLength(300));
     this.normValue = _formBuilder.control(null, Validators.maxLength(300));
+    this.accepted = _formBuilder.control(false);
     this.tag = _formBuilder.control(null, Validators.maxLength(50));
     this.groupId = _formBuilder.control(null, Validators.maxLength(50));
     this.note = _formBuilder.control(null, Validators.maxLength(1000));
@@ -64,6 +66,7 @@ export class ApparatusEntryComponent implements OnInit {
       type: this.type,
       value: this.value,
       normValue: this.normValue,
+      accepted: this.accepted,
       tag: this.tag,
       groupId: this.groupId,
       note: this.note,
@@ -82,6 +85,7 @@ export class ApparatusEntryComponent implements OnInit {
     this.type.setValue(this._entry.type);
     this.value.setValue(this._entry.value);
     this.normValue.setValue(this._entry.normValue);
+    this.accepted.setValue(this._entry.isAccepted === true);
     this.tag.setValue(this._entry.tag);
     this.groupId.setValue(this._entry.groupId);
     this.note.setValue(this._entry.note);
@@ -99,12 +103,14 @@ export class ApparatusEntryComponent implements OnInit {
         this.addAuthor(this._entry.authors[i]);
       }
     }
+    this.form.markAsPristine();
   }
 
   private updateEntry() {
     this._entry.type = this.type.value;
     this._entry.value = this.value.value?.trim();
     this._entry.normValue = this.normValue.value?.trim();
+    this._entry.isAccepted = this.accepted.value === true;
     this._entry.tag = this.tag.value?.trim();
     this._entry.groupId = this.groupId.value?.trim();
     this._entry.note = this.note.value?.trim();
@@ -137,18 +143,22 @@ export class ApparatusEntryComponent implements OnInit {
 
   public addWitness(witness?: ApparatusAnnotatedValue) {
     this.witnesses.push(this.getAnnotatedValueGroup(witness));
+    this.form.markAsDirty();
   }
 
   public addAuthor(author?: ApparatusAnnotatedValue) {
     this.authors.push(this.getAnnotatedValueGroup(author));
+    this.form.markAsDirty();
   }
 
   public removeWitness(index: number) {
     this.witnesses.removeAt(index);
+    this.form.markAsDirty();
   }
 
   public removeAuthor(index: number) {
     this.authors.removeAt(index);
+    this.form.markAsDirty();
   }
 
   public moveWitnessUp(index: number) {
@@ -158,6 +168,7 @@ export class ApparatusEntryComponent implements OnInit {
     const grp = this.witnesses.controls[index];
     this.witnesses.removeAt(index);
     this.witnesses.insert(index - 1, grp);
+    this.form.markAsDirty();
   }
 
   public moveAuthorUp(index: number) {
@@ -167,6 +178,7 @@ export class ApparatusEntryComponent implements OnInit {
     const grp = this.authors.controls[index];
     this.authors.removeAt(index);
     this.authors.insert(index - 1, grp);
+    this.form.markAsDirty();
   }
 
   public moveWitnessDown(index: number) {
@@ -176,6 +188,7 @@ export class ApparatusEntryComponent implements OnInit {
     const item = this.witnesses.controls[index];
     this.witnesses.removeAt(index);
     this.witnesses.insert(index + 1, item);
+    this.form.markAsDirty();
   }
 
   public moveAuthorDown(index: number) {
@@ -185,6 +198,7 @@ export class ApparatusEntryComponent implements OnInit {
     const item = this.authors.controls[index];
     this.authors.removeAt(index);
     this.authors.insert(index + 1, item);
+    this.form.markAsDirty();
   }
 
   public cancel() {

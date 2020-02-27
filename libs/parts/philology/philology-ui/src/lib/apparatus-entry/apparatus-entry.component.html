@@ -44,6 +44,11 @@
     </mat-form-field>
   </div>
 
+  <!-- accepted -->
+  <div>
+    <mat-checkbox formControlName="accepted">accepted</mat-checkbox>
+  </div>
+
   <!-- tag -->
   <div>
     <mat-form-field>
@@ -237,23 +242,21 @@
   <div>
     <button
       type="button"
-      mat-raised-button
+      mat-icon-button
       color="warn"
       matTooltip="Close entry"
       (click)="cancel()"
     >
       <mat-icon>cancel</mat-icon>
-      close
     </button>
     <button
       type="submit"
       [disabled]="form.invalid || form.pristine"
-      mat-raised-button
+      mat-icon-button
       color="primary"
       matTooltip="Save entry"
     >
       <mat-icon>check_circle</mat-icon>
-      save
     </button>
   </div>
 </form>
