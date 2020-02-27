@@ -1,5 +1,5 @@
 import { StoreConfig, Store } from '@datorama/akita';
-import { TextLayerPart, Part, LayerHint } from '@cadmus/core';
+import { TextLayerPart, Part, LayerHint, ThesauriSet } from '@cadmus/core';
 import { Injectable } from '@angular/core';
 
 /**
@@ -35,6 +35,7 @@ export interface EditLayerPartState {
   layerHints: LayerHint[];
   // this is implemented in Akita stores, but you must add the keys
   // https://github.com/datorama/akita/issues/61
+  thesauri: ThesauriSet,
   loading?: boolean;
   error?: string;
   deletingFragment?: boolean;
@@ -49,6 +50,7 @@ const initialState: EditLayerPartState = {
   baseTextPart: null,
   breakChance: -1,
   layerHints: [],
+  thesauri: {},
   loading: false,
   error: null,
   deletingFragment: false,

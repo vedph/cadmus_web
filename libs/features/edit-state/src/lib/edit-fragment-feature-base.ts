@@ -75,9 +75,9 @@ export abstract class EditFragmentFeatureBase
     }
   }
 
-  private ensureLayersLoaded() {
+  private ensureLayersLoaded(thesauriIds: string[]) {
     if (!this._editLayersQuery.getValue().part) {
-      this._editLayersService.load(this.itemId, this.partId);
+      this._editLayersService.load(this.itemId, this.partId, thesauriIds);
     }
   }
 
@@ -90,7 +90,7 @@ export abstract class EditFragmentFeatureBase
     // load item if required
     this.ensureItemLoaded(this.itemId);
     // load layers if required
-    this.ensureLayersLoaded();
+    this.ensureLayersLoaded(thesauriIds);
     // load fragment
     this._editFrService.load(this.partId, this.loc, thesauriIds);
   }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ItemService, FacetService } from '@cadmus/api';
+import { ItemService, FacetService, ThesaurusService } from '@cadmus/api';
 import { EditLayerPartStore } from './edit-layer-part.store';
 import { forkJoin } from 'rxjs';
 import {
@@ -15,7 +15,8 @@ export class EditLayerPartService {
     private _store: EditLayerPartStore,
     private _itemService: ItemService,
     private _facetService: FacetService,
-    private _utilService: UtilService
+    private _utilService: UtilService,
+    private _thesaurusService: ThesaurusService
   ) {}
 
   /**
@@ -23,38 +24,102 @@ export class EditLayerPartService {
    *
    * @param itemId The item ID the layer part belongs to.
    * @param partId The layer part ID.
+   * @param thesauriIds The optional thesauri IDs to load.
    */
-  public load(itemId: string, partId: string) {
+  public load(
+    itemId: string,
+    partId: string,
+    thesauriIds: string[] | null = null
+  ) {
     if (this._store.getValue().loading) {
       return;
     }
     this._store.setLoading(true);
 
-    forkJoin({
-      // TODO: eventually optimize by adding method param to load only fragments locations
-      layerPart: this._itemService.getPart(partId),
-      baseText: this._itemService.getBaseTextPart(itemId),
-      layers: this._facetService.getFacetParts(itemId, true),
-      breakChance: this._itemService.getLayerPartBreakChance(partId),
-      layerHints: this._itemService.getLayerPartHints(partId)
-    }).subscribe(
-      result => {
-        this._store.update({
-          part: result.layerPart as TextLayerPart,
-          baseText: result.baseText.text,
-          baseTextPart: result.baseText.part,
-          breakChance: result.breakChance.chance,
-          layerHints: result.layerHints,
-          loading: false,
-          error: null
-        });
-      },
-      error => {
-        console.error(error);
-        this._store.setLoading(false);
-        this._store.setError('Error loading text layer part ' + partId);
-      }
-    );
+    if (thesauriIds) {
+      // remove trailing ! from IDs if any
+      const unscopedIds = thesauriIds.map(id => {
+        return this._thesaurusService.getScopedId(id, null);
+      });
+
+      forkJoin({
+        // TODO: eventually optimize by adding method param to load only fragments locations
+        layerPart: this._itemService.getPart(partId),
+        baseText: this._itemService.getBaseTextPart(itemId),
+        layers: this._facetService.getFacetParts(itemId, true),
+        breakChance: this._itemService.getLayerPartBreakChance(partId),
+        layerHints: this._itemService.getLayerPartHints(partId),
+        thesauri: this._thesaurusService.getThesauri(unscopedIds)
+      }).subscribe(
+        result => {
+          this._store.update({
+            part: result.layerPart as TextLayerPart,
+            baseText: result.baseText.text,
+            baseTextPart: result.baseText.part,
+            breakChance: result.breakChance.chance,
+            layerHints: result.layerHints,
+            thesauri: result.thesauri,
+            loading: false,
+            error: null
+          });
+          // if the loaded part has a thesaurus scope, reload the thesauri
+          if (result.layerPart.thesaurusScope) {
+            const scopedIds: string[] = thesauriIds.map(id => {
+              return this._thesaurusService.getScopedId(
+                id,
+                result.layerPart.thesaurusScope
+              );
+            });
+            this._store.setLoading(true);
+            this._thesaurusService.getThesauri(thesauriIds).subscribe(
+              thesauri => {
+                this._store.update({
+                  thesauri: thesauri
+                });
+              },
+              error => {
+                console.error(error);
+                this._store.setLoading(false);
+                this._store.setError(
+                  'Error loading thesauri ' + scopedIds.join(', ')
+                );
+              }
+            );
+          } // scoped
+        },
+        error => {
+          console.error(error);
+          this._store.setLoading(false);
+          this._store.setError('Error loading text layer part ' + partId);
+        }
+      );
+    } else {
+      forkJoin({
+        // TODO: eventually optimize by adding method param to load only fragments locations
+        layerPart: this._itemService.getPart(partId),
+        baseText: this._itemService.getBaseTextPart(itemId),
+        layers: this._facetService.getFacetParts(itemId, true),
+        breakChance: this._itemService.getLayerPartBreakChance(partId),
+        layerHints: this._itemService.getLayerPartHints(partId)
+      }).subscribe(
+        result => {
+          this._store.update({
+            part: result.layerPart as TextLayerPart,
+            baseText: result.baseText.text,
+            baseTextPart: result.baseText.part,
+            breakChance: result.breakChance.chance,
+            layerHints: result.layerHints,
+            loading: false,
+            error: null
+          });
+        },
+        error => {
+          console.error(error);
+          this._store.setLoading(false);
+          this._store.setError('Error loading text layer part ' + partId);
+        }
+      );
+    }
   }
 
   /**
@@ -86,17 +151,17 @@ export class EditLayerPartService {
   public applyLayerPatches(partId: string, patches: string[]) {
     this._store.setPatchingLayer(true);
 
-    this._itemService.applyLayerPatches(partId, patches)
-      .subscribe(part => {
+    this._itemService.applyLayerPatches(partId, patches).subscribe(
+      part => {
         this._store.setPatchingLayer(false);
         this.load(part.itemId, partId);
-      }, error => {
+      },
+      error => {
         console.error(error);
         this._store.setPatchingLayer(false);
-        this._store.setError(
-          'Error patching text layer part ' + partId
-        );
-      });
+        this._store.setError('Error patching text layer part ' + partId);
+      }
+    );
   }
 
   /**
