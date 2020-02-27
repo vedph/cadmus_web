@@ -9,6 +9,7 @@ import {
   Validators,
   FormGroup
 } from '@angular/forms';
+import { Thesaurus } from '@cadmus/core';
 
 @Component({
   selector: 'cadmus-apparatus-fragment',
@@ -25,6 +26,10 @@ export class ApparatusFragmentComponent
   public tag: FormControl;
   public entryCount: FormControl;
   public form: FormGroup;
+
+  public tagThesaurus: Thesaurus;
+  public witnessThesaurus: Thesaurus;
+  public authorThesaurus: Thesaurus;
 
   constructor(
     authService: AuthService,
@@ -46,13 +51,26 @@ export class ApparatusFragmentComponent
     this.initEditor();
   }
 
+  private getThesaurus(key: string) {
+    if (this.thesauri && this.thesauri[key]) {
+      return this.thesauri[key];
+    }
+    return null;
+  }
+
+  protected onThesauriSet() {
+    this.tagThesaurus = this.getThesaurus('apparatus-tags');
+    this.witnessThesaurus = this.getThesaurus('apparatus-witnesses');
+    this.authorThesaurus = this.getThesaurus('apparatus-authors');
+  }
+
   private updateForm(model: ApparatusFragment) {
     if (!model) {
       this.form.reset();
       return;
     }
     this.tag.setValue(model.tag);
-    this.entryCount.setValue(model.entries.length);
+    this.entryCount.setValue(model.entries?.length || 0);
     this.form.markAsPristine();
   }
 
