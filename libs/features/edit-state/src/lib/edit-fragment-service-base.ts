@@ -65,7 +65,7 @@ export abstract class EditFragmentServiceBase {
             );
           });
           this.store.setLoading(true);
-          this._thesaurusService.getThesauri(thesauriIds).subscribe(
+          this._thesaurusService.getThesauri(scopedIds).subscribe(
             thesauri => {
               this.store.update({
                 thesauri: thesauri

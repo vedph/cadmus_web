@@ -71,7 +71,7 @@ export class EditLayerPartService {
               );
             });
             this._store.setLoading(true);
-            this._thesaurusService.getThesauri(thesauriIds).subscribe(
+            this._thesaurusService.getThesauri(scopedIds).subscribe(
               thesauri => {
                 this._store.update({
                   thesauri: thesauri

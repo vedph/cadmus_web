@@ -54,13 +54,13 @@ export class ThesaurusService {
   /**
    * Get the requested thesauri in a batch.
    * @param ids The IDs of the requested thesauri.
-   * @returns An object where each key is the thesaurus ID with value
+   * @returns An object where each key is the purged thesaurus ID with value
    * equal to the thesaurus model.
    */
   public getThesauri(ids: string[]): Observable<ThesauriSet> {
     const url =
       `${this._apiEndpoint}${this._databaseId}` +
-      `/thesauri-set/${encodeURIComponent(ids.join(','))}`;
+      `/thesauri-set/${encodeURIComponent(ids.join(','))}?purgeIds=true`;
     return this._http.get<ThesauriSet>(url).pipe(
       retry(3),
       catchError(this._error.handleError)
@@ -95,5 +95,28 @@ export class ThesaurusService {
       return id + '.' + scopeId;
     }
     return id.substr(0, i) + '.' + scopeId + id.substr(i);
+  }
+
+  /**
+   * Get the unscoped thesaurus ID from the specified ID, also stripping
+   * any language suffix off and any leading "!". For instance, an ID like
+   * "apparatus-witnesses.verg-eclo@en" becomes "apparatus-witnesses".
+   *
+   * @param id The thesaurus ID.
+   */
+  public getUnscopedId(id: string): string {
+    if (id.startsWith('!')) {
+      id = id.substr(1);
+    }
+    let i = id.lastIndexOf('.');
+    if (i > 0) {
+      id = id.substr(0, i);
+    }
+
+    i = id.lastIndexOf('@');
+    if (i > -1) {
+      id = id.substr(0, i);
+    }
+    return id;
   }
 }
