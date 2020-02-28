@@ -22,6 +22,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from '@cadmus/ui';
 import { EditItemQuery, EditItemService, AppQuery } from '@cadmus/features/edit-state';
 import { AuthService, FacetService } from '@cadmus/api';
+import { PartScopeSetRequest } from '../parts-scope-editor/parts-scope-editor.component';
 
 /**
  * Item editor. This can edit a new or existing item's metadata and parts.
@@ -339,5 +340,9 @@ export class ItemEditorComponent implements OnInit {
           part.roleId
         );
       });
+  }
+
+  public setPartsScope(request: PartScopeSetRequest) {
+    this._editItemService.setPartThesaurusScope(request.ids, request.scope);
   }
 }

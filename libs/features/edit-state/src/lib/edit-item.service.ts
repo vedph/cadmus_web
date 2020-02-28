@@ -52,7 +52,7 @@ export class EditItemService {
           const itemFacet = appState.facets.find(f => {
             return f.id === result.item.facetId;
           });
-          const facetParts = itemFacet? itemFacet.partDefinitions : [];
+          const facetParts = itemFacet ? itemFacet.partDefinitions : [];
 
           this._store.update({
             item: result.item,
@@ -62,7 +62,7 @@ export class EditItemService {
               facetParts
             ),
             layerPartInfos: result.layers,
-            facet: appState.facets.find(f => f.id === result.item.facetId),
+            facet: appState.facets.find(f => f.id === result.item.facetId)
           });
         },
         error => {
@@ -179,6 +179,22 @@ export class EditItemService {
         console.log(error);
         this._store.setSaving(false);
         this._store.setError('Error adding new layer part for item ' + itemId);
+      }
+    );
+  }
+
+  public setPartThesaurusScope(ids: string[], scope: string) {
+    this._store.setSaving();
+    this._itemService.setPartThesaurusScope(ids, scope).subscribe(
+      _ => {
+        this._store.setSaving(false);
+        // reload the store
+        this.load(this._store.getValue().item.id);
+      },
+      error => {
+        console.log(error);
+        this._store.setSaving(false);
+        this._store.setError('Error setting item\'s parts scope');
       }
     );
   }

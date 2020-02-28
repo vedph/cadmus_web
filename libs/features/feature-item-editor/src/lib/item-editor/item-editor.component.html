@@ -360,7 +360,11 @@
       </mat-tab>
 
       <mat-tab label="Th-Scopes" *ngIf="parts$ | async as parts">
-        <cadmus-parts-scope-editor [parts]="parts"></cadmus-parts-scope-editor>
+        <cadmus-parts-scope-editor
+          [parts]="parts"
+          [readonly]="userLevel < 2 || (saving$ | async) || (loading$ | async)"
+          (setScopeRequest)="setPartsScope($event)"
+        ></cadmus-parts-scope-editor>
       </mat-tab>
     </mat-tab-group>
   </mat-card-content>

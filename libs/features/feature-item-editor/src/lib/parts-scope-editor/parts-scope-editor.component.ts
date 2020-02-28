@@ -38,6 +38,9 @@ export class PartsScopeEditorComponent implements OnInit {
     this.updateForm();
   }
 
+  @Input()
+  public readonly: boolean;
+
   @Output()
   public setScopeRequest: EventEmitter<PartScopeSetRequest>;
 

@@ -5,6 +5,7 @@
         <th style="min-width: 32px;"></th>
         <th>type</th>
         <th>role</th>
+        <th>scope</th>
         <th>modified</th>
         <th>user</th>
       </tr>
@@ -15,6 +16,7 @@
         *ngFor="let ctl of checks.controls; let i = index"
       >
         <td>
+          &nbsp;
           <mat-checkbox [formControlName]="i"></mat-checkbox>
         </td>
         <td>
@@ -27,6 +29,7 @@
           >
         </td>
         <td>{{ getRoleIdName(parts[i].roleId) }}</td>
+        <td>{{ parts[i].thesaurusScope }}</td>
         <td>{{ parts[i].timeModified | amLocal | amTimeAgo }}</td>
         <td>{{ parts[i].userId }}</td>
       </tr>
@@ -49,7 +52,7 @@
     mat-raised-button
     color="primary"
     type="submit"
-    [disabled]="form.invalid"
+    [disabled]="form.invalid || readonly"
     matTooltip="Assign the scope to the checked parts"
   >
     assign
