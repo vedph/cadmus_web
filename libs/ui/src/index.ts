@@ -7,5 +7,6 @@ export * from './lib/components/login/login.component';
 export * from './lib/components/model-editor-component-base';
 export * from './lib/pipes/safe-html.pipe';
 export * from './lib/services/dialog.service';
+export * from './lib/validators/custom-validators';
 export * from './lib/validators/json-schema-validators';
 export * from './lib/validators/json-validators';

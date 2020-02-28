@@ -1,0 +1,57 @@
+<form [formGroup]="form" (submit)="submit()">
+  <table id="parts">
+    <thead>
+      <tr>
+        <th style="min-width: 32px;"></th>
+        <th>type</th>
+        <th>role</th>
+        <th>modified</th>
+        <th>user</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        formArrayName="checks"
+        *ngFor="let ctl of checks.controls; let i = index"
+      >
+        <td>
+          <mat-checkbox [formControlName]="i"></mat-checkbox>
+        </td>
+        <td>
+          <span
+            class="model-type"
+            [style.background-color]="
+              getPartColor(parts[i].typeId, parts[i].roleId)
+            "
+            >{{ getTypeIdName(parts[i].typeId) }}</span
+          >
+        </td>
+        <td>{{ getRoleIdName(parts[i].roleId) }}</td>
+        <td>{{ parts[i].timeModified | amLocal | amTimeAgo }}</td>
+        <td>{{ parts[i].userId }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="scope" formControlName="scope" />
+      <mat-error
+        *ngIf="scope.hasError('maxLength') && (scope.dirty || scope.touched)"
+        >too long</mat-error
+      >
+      <mat-error
+        *ngIf="scope.hasError('pattern') && (scope.dirty || scope.touched)"
+        >invalid scope</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="form.invalid"
+    matTooltip="Assign the scope to the checked parts"
+  >
+    assign
+  </button>
+</form>

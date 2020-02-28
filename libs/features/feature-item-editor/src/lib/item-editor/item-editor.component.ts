@@ -34,6 +34,7 @@ import { AuthService, FacetService } from '@cadmus/api';
 export class ItemEditorComponent implements OnInit {
   public id: string;
   public item$: Observable<Item>;
+  public parts$: Observable<Part[]>;
   public partGroups$: Observable<PartGroup[]>;
   public layerPartInfos$: Observable<LayerPartInfo[]>;
   public user: User;
@@ -119,6 +120,7 @@ export class ItemEditorComponent implements OnInit {
     });
 
     this.item$ = this._query.selectItem();
+    this.parts$ = this._query.selectParts();
     this.partGroups$ = this._query.select(state => state.partGroups);
     this.layerPartInfos$ = this._query.select(state => state.layerPartInfos);
     this.facet$ = this._query.selectFacet();

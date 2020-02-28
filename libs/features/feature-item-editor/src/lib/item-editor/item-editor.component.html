@@ -358,6 +358,10 @@
           </tbody>
         </table>
       </mat-tab>
+
+      <mat-tab label="Th-Scopes" *ngIf="parts$ | async as parts">
+        <cadmus-parts-scope-editor [parts]="parts"></cadmus-parts-scope-editor>
+      </mat-tab>
     </mat-tab-group>
   </mat-card-content>
 </mat-card>
