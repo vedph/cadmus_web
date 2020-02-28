@@ -21,6 +21,7 @@ export class ItemFilterComponent implements OnInit {
   public title: FormControl;
   public description: FormControl;
   public facet: FormControl;
+  public group: FormControl;
   public flags: FormControl;
   public minModified: FormControl;
   public maxModified: FormControl;
@@ -36,6 +37,7 @@ export class ItemFilterComponent implements OnInit {
     this.title = formBuilder.control(null);
     this.description = formBuilder.control(null);
     this.facet = formBuilder.control(null);
+    this.group = formBuilder.control(null);
     this.flags = formBuilder.control(null);
     this.minModified = formBuilder.control(null);
     this.maxModified = formBuilder.control(null);
@@ -45,6 +47,7 @@ export class ItemFilterComponent implements OnInit {
       title: this.title,
       description: this.description,
       facet: this.facet,
+      group: this.group,
       flags: this.flags,
       minModified: this.minModified,
       maxModified: this.maxModified,
@@ -69,6 +72,7 @@ export class ItemFilterComponent implements OnInit {
     this.title.setValue(filter.title);
     this.description.setValue(filter.description);
     this.facet.setValue(filter.facetId);
+    this.group.setValue(filter.groupId);
     this.flags.setValue(filter.flags);
     this.minModified.setValue(filter.minModified);
     this.maxModified.setValue(filter.maxModified);
@@ -82,6 +86,7 @@ export class ItemFilterComponent implements OnInit {
       title: this.title.value,
       description: this.description.value,
       facetId: this.facet.value ? this.facet.value.id : null,
+      groupId: this.group.value,
       flags: 0, // this.getFlagsValue(),
       userId: this.user.value ? this.user.value.userName : null,
       minModified: this.minModified.value ? this.minModified.value : null,

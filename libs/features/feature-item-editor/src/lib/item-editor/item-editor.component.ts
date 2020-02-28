@@ -56,6 +56,7 @@ export class ItemEditorComponent implements OnInit {
   public sortKey: FormControl;
   public description: FormControl;
   public facet: FormControl;
+  public group: FormControl;
   public flags: FormControl;
   public metadata: FormGroup;
 
@@ -96,6 +97,7 @@ export class ItemEditorComponent implements OnInit {
       Validators.maxLength(1000)
     ]);
     this.facet = formBuilder.control(null, Validators.required);
+    this.group = formBuilder.control(null, Validators.maxLength(100));
     this.flags = formBuilder.control([]);
 
     this.metadata = formBuilder.group({
@@ -103,6 +105,7 @@ export class ItemEditorComponent implements OnInit {
       sortKey: this.sortKey,
       description: this.description,
       facet: this.facet,
+      group: this.group,
       flags: this.flags
     });
     this.userLevel = 0;
@@ -213,6 +216,7 @@ export class ItemEditorComponent implements OnInit {
       this.sortKey.setValue(item.sortKey);
       this.description.setValue(item.description);
       this.facet.setValue(item.facetId);
+      this.group.setValue(item.groupId);
       this.flags.setValue(this.getFlags(item.flags));
       this.metadata.markAsPristine();
     }
@@ -253,6 +257,7 @@ export class ItemEditorComponent implements OnInit {
     item.sortKey = this.sortKey.value;
     item.description = this.tryTrim(this.description.value);
     item.facetId = this.tryTrim(this.facet.value);
+    item.groupId = this.tryTrim(this.group.value);
 
     // flags
     const set: FlagDefinition[] = this.flags.value;

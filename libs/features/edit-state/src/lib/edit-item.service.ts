@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ItemService, FlagService, FacetService, ThesaurusService } from '@cadmus/api';
+import { ItemService } from '@cadmus/api';
 import { forkJoin } from 'rxjs';
 import { Item, FacetDefinition, Part } from '@cadmus/core';
 import { EditItemStore } from './edit-item.store';
@@ -86,6 +86,7 @@ export class EditItemService {
               title: null,
               description: null,
               facetId: null,
+              groupId: null,
               sortKey: null,
               flags: 0,
               timeCreated: new Date(),

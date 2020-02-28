@@ -126,6 +126,19 @@
             </mat-form-field>
           </div>
 
+          <!-- group -->
+          <div>
+            <mat-form-field>
+              <input matInput formControlName="group" placeholder="group ID" />
+              <mat-error
+                *ngIf="
+                  group.hasError('maxLength') && (group.dirty || group.touched)
+                "
+                >too long</mat-error
+              >
+            </mat-form-field>
+          </div>
+
           <!-- flags -->
           <div *ngIf="flags$ | async as flags">
             <mat-form-field style="width:400px">

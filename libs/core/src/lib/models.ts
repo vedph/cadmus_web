@@ -27,6 +27,7 @@ export interface Item extends HasVersion {
   title: string;
   description: string;
   facetId: string;
+  groupId: string;
   sortKey: string;
   flags: number;
   parts?: Part[];
@@ -41,6 +42,7 @@ export interface ItemFilter {
   title?: string;
   description?: string;
   facetId?: string;
+  groupId?: string;
   flags?: number;
   minModified?: Date;
   maxModified?: Date;
@@ -55,6 +57,7 @@ export interface ItemInfo extends HasVersion {
   title: string;
   description: string;
   facetId: string;
+  groupId: string;
   sortKey: string;
   flags: number;
 }

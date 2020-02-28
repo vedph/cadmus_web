@@ -36,6 +36,17 @@
       </mat-form-field>
     </div>
 
+    <div>
+      <mat-form-field>
+        <input
+          type="text"
+          matInput
+          placeholder="group ID"
+          formControlName="group"
+        />
+      </mat-form-field>
+    </div>
+
     <!-- flags -->
     <div *ngIf="lookup.flags && lookup.flags.length > 0">
       <mat-form-field>

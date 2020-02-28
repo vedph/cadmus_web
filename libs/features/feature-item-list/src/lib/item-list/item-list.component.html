@@ -32,6 +32,7 @@
             <th>facet</th>
             <th>title</th>
             <th>description</th>
+            <th fxHide.lt-md>group</th>
             <th fxHide.lt-md>user</th>
             <th fxHide.lt-md>last saved</th>
             <th fxHide.lt-md>creator</th>
@@ -75,6 +76,7 @@
               </td>
               <td>{{ item.title }}</td>
               <td>{{ item.description }}</td>
+              <td fxHide.lt-md>{{ item.groupId }}</td>
               <td fxHide.lt-md>{{ item.userId }}</td>
               <td
                 fxHide.lt-md
