@@ -56,6 +56,7 @@ export class EditItemService {
 
           this._store.update({
             item: result.item,
+            parts: result.item.parts,
             partGroups: this._itemService.groupParts(
               result.item.parts,
               facetParts
@@ -92,6 +93,7 @@ export class EditItemService {
               timeModified: new Date(),
               userId: null
             },
+            parts: [],
             partGroups: [],
             layerPartInfos: result.layers,
             facet: this.pickDefaultFacet(appState.facets)

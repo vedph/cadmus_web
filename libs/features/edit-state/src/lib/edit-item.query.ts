@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Query } from '@datorama/akita';
 import { EditItemStore, EditItemState } from './edit-item.store';
 import { Observable } from 'rxjs';
-import { LibraryRouteService, FacetDefinition, Item } from '@cadmus/core';
+import { LibraryRouteService, FacetDefinition, Item, Part } from '@cadmus/core';
 
 /**
  * The query facade to the edit item store.
@@ -18,6 +18,10 @@ export class EditItemQuery extends Query<EditItemState> {
 
   public selectItem(): Observable<Item> {
     return this.select(state => state.item);
+  }
+
+  public selectParts(): Observable<Part[]> {
+    return this.select(state => state.parts);
   }
 
   public selectFacet(): Observable<FacetDefinition> {

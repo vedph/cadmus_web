@@ -36,8 +36,9 @@ The hierarchical edit model is as follows:
 ## Edit Item
 
 - `item`
-- `partGroups` (for non-layer parts)
-- `layerPartInfos`
+- `parts`: the raw list of item's parts.
+- `partGroups`: the non-layer parts, grouped.
+- `layerPartInfos`: layer parts (either existing and not existing).
 - `facet`: the item's facet definition.
 - `facets`: all the available facets definitions.
 - `flags`: all the available flags definitions.

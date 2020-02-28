@@ -3,7 +3,8 @@ import {
   Item,
   PartGroup,
   FacetDefinition,
-  LayerPartInfo
+  LayerPartInfo,
+  Part
 } from '@cadmus/core';
 import { Injectable } from '@angular/core';
 
@@ -22,6 +23,10 @@ export interface EditItemState {
    * The item being edited.
    */
   item: Item | null;
+  /**
+   * The raw list of item's parts.
+   */
+  parts: Part[] | null;
   /**
    * The item's parts, grouped.
    */
@@ -45,6 +50,7 @@ export interface EditItemState {
 
 const initialState: EditItemState = {
   item: null,
+  parts: [],
   partGroups: [],
   layerPartInfos: [],
   facet: null,
