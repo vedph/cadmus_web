@@ -303,6 +303,45 @@ export class ItemService {
   }
 
   /**
+   * Set the flags value for all the specified items.
+   *
+   * @param ids The item IDs.
+   * @param flags The flags value to be set.
+   */
+  public setItemFlags(ids: string[], flags: number): Observable<any> {
+    const url = `${this._apiEndpoint}${this._databaseId}/items/flags`;
+    return this._http
+      .post<any>(url, { ids, flags })
+      .pipe(catchError(this._error.handleError));
+  }
+
+  /**
+   * Set the group ID value for all the specified items.
+   *
+   * @param ids The item IDs.
+   * @param groupId The group ID value to be set.
+   */
+  public setItemGroupId(ids: string[], groupId: string): Observable<any> {
+    const url = `${this._apiEndpoint}${this._databaseId}/items/groupid`;
+    return this._http
+      .post<any>(url, { ids, groupId })
+      .pipe(catchError(this._error.handleError));
+  }
+
+  /**
+   * Set the thesaurus scope for all the specified parts.
+   *
+   * @param ids The part IDs.
+   * @param scope The scope to be set.
+   */
+  public setPartThesaurusScope(ids: string[], scope: string): Observable<any> {
+    const url = `${this._apiEndpoint}${this._databaseId}/parts/thesscope`;
+    return this._http
+      .post<any>(url, { ids, scope })
+      .pipe(catchError(this._error.handleError));
+  }
+
+  /**
    * Group the specified item's parts according to the specified part
    * definitions. This is used to list item's parts in editing it.
    * Each part is grouped under a specific group according to its groupKey,
