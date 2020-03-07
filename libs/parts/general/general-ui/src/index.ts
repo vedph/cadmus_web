@@ -11,6 +11,7 @@ export * from './lib/comment-fragment-demo/comment-fragment-demo.component';
 export * from './lib/historical-date-part';
 export * from './lib/historical-date-part/historical-date-part.component';
 export * from './lib/historical-date-part-demo/historical-date-part-demo.component';
+export * from './lib/index-keywords-part';
 export * from './lib/keywords-part';
 export * from './lib/keywords-part/keywords-part.component';
 export * from './lib/keywords-part-demo/keywords-part-demo.component';
