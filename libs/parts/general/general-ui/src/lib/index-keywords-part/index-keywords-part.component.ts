@@ -7,7 +7,7 @@ import {
   IndexKeyword,
   INDEX_KEYWORDS_PART_TYPEID
 } from '../index-keywords-part';
-import { ThesaurusEntry, Thesaurus } from '@cadmus/core';
+import { Thesaurus } from '@cadmus/core';
 
 /**
  * Index keywords part editor.
@@ -170,5 +170,16 @@ export class IndexKeywordsPartComponent
   public editKeyword(keyword: IndexKeyword) {
     this.editedKeyword = keyword;
     this.tabIndex = 1;
+  }
+
+  public onKeywordClose() {
+    this.tabIndex = 0;
+    this.editedKeyword = null;
+  }
+
+  public onKeywordSave(keyword: IndexKeyword) {
+    this.tabIndex = 0;
+    this.addKeyword(keyword);
+    this.editedKeyword = null;
   }
 }

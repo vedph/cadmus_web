@@ -20,14 +20,14 @@ import { KeywordsPartComponent } from './keywords-part/keywords-part.component';
 import { KeywordsPartDemoComponent } from './keywords-part-demo/keywords-part-demo.component';
 import { HistoricalDatePartComponent } from './historical-date-part/historical-date-part.component';
 import { HistoricalDatePartDemoComponent } from './historical-date-part-demo/historical-date-part-demo.component';
+import { IndexKeywordComponent } from './index-keyword/index-keyword.component';
+import { IndexKeywordsPartComponent } from './index-keywords-part/index-keywords-part.component';
 import { ChronologyFragmentComponent } from './chronology-fragment/chronology-fragment.component';
 import { ChronologyFragmentDemoComponent } from './chronology-fragment-demo/chronology-fragment-demo.component';
 import { TiledTextPartComponent } from './tiled-text-part/tiled-text-part.component';
 import { TextTileComponent } from './text-tile/text-tile.component';
 import { TiledTextPartDemoComponent } from './tiled-text-part-demo/tiled-text-part-demo.component';
 import { TiledDataComponent } from './tiled-data/tiled-data.component';
-import { IndexKeywordsPartComponent } from './index-keywords-part/index-keywords-part.component';
-import { IndexKeywordComponent } from './index-keyword/index-keyword.component';
 
 @NgModule({
   imports: [
@@ -50,6 +50,7 @@ import { IndexKeywordComponent } from './index-keyword/index-keyword.component';
     CommentFragmentDemoComponent,
     HistoricalDatePartComponent,
     HistoricalDatePartDemoComponent,
+    IndexKeywordComponent,
     IndexKeywordsPartComponent,
     KeywordsPartComponent,
     KeywordsPartDemoComponent,
@@ -72,6 +73,7 @@ import { IndexKeywordComponent } from './index-keyword/index-keyword.component';
     CommentFragmentDemoComponent,
     HistoricalDatePartComponent,
     HistoricalDatePartDemoComponent,
+    IndexKeywordComponent,
     IndexKeywordsPartComponent,
     KeywordsPartComponent,
     KeywordsPartDemoComponent,

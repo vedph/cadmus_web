@@ -1,5 +1,141 @@
 <form [formGroup]="form" (submit)="submit()">
-  <div>
+  <!-- index ID -->
+  <div *ngIf="indexIdThesaurus">
+    <mat-form-field>
+      <mat-select formControlName="indexId" placeholder="index ID">
+        <mat-option [value]="''">(default)</mat-option>
+        <mat-option *ngFor="let e of indexIdThesaurus.entries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          indexId.hasError('required') && (indexId.dirty || indexId.touched)
+        "
+        >index ID required</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div *ngIf="!indexIdThesaurus">
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        formControlName="indexId"
+        placeholder="index ID"
+      />
+      <mat-error
+        *ngIf="
+          indexId.hasError('required') && (indexId.dirty || indexId.touched)
+        "
+        >index ID required</mat-error
+      >
+      <mat-error
+        *ngIf="
+          indexId.hasError('maxLength') && (indexId.dirty || indexId.touched)
+        "
+        >index ID too long</mat-error
+      >
+      <mat-error
+        *ngIf="
+          indexId.hasError('pattern') && (indexId.dirty || indexId.touched)
+        "
+        >invalid index ID</mat-error
+      >
+    </mat-form-field>
+  </div>
 
+  <!-- language -->
+  <div *ngIf="langThesaurus">
+    <mat-form-field>
+      <mat-select formControlName="language" placeholder="language">
+        <mat-option *ngFor="let e of langThesaurus.entries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          language.hasError('required') && (language.dirty || language.touched)
+        "
+        >language required</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="!langThesaurus">
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        placeholder="language"
+        formControlName="language"
+      />
+      <mat-error
+        *ngIf="
+          language.hasError('required') && (language.dirty || language.touched)
+        "
+        >language required</mat-error
+      >
+      <mat-error
+        *ngIf="
+          language.hasError('pattern') && (language.dirty || language.touched)
+        "
+        >invalid language</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- value -->
+  <div>
+    <mat-form-field>
+      <input matInput type="text" placeholder="value" formControlName="value" />
+      <mat-error
+        *ngIf="value.hasError('maxLength') && (value.dirty || value.touched)"
+        >value too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- note -->
+  <div>
+    <mat-form-field>
+      <input matInput type="text" placeholder="note" formControlName="note" />
+      <mat-error
+        *ngIf="note.hasError('maxLength') && (note.dirty || note.touched)"
+        >note too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- tag -->
+  <div>
+    <mat-form-field>
+      <input matInput type="text" placeholder="tag" formControlName="tag" />
+      <mat-error *ngIf="tag.hasError('maxLength') && (tag.dirty || tag.touched)"
+        >tag too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- buttons -->
+  <div>
+    <button
+      type="button"
+      mat-icon-button
+      color="warn"
+      matTooltip="Close keyword"
+      (click)="cancel()"
+    >
+      <mat-icon>cancel</mat-icon>
+    </button>
+    <button
+      type="submit"
+      [disabled]="form.invalid || form.pristine"
+      mat-icon-button
+      color="primary"
+      matTooltip="Save keyword"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
   </div>
 </form>

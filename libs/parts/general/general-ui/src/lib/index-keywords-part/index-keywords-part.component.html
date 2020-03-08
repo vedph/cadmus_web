@@ -1,1 +1,82 @@
-<p>index-keywords-part works!</p>
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title
+        [matBadge]="keywords?.value?.length"
+        matBadgeOverlap="false"
+        >Index Keywords Part</mat-card-title
+      >
+    </mat-card-header>
+    <mat-card-content>
+      <mat-tab-group [(selectedIndex)]="tabIndex">
+        <mat-tab label="List">
+          <table *ngIf="keywords.valid">
+            <thead>
+              <tr>
+                <th></th>
+                <th>index</th>
+                <th>lang.</th>
+                <th>keyword</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let k of keywords.value">
+                <td>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    matTooltip="Edit this keyword"
+                    (click)="editKeyword(k)"
+                  >
+                    <mat-icon color="primary">edit</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    matTooltip="Delete this keyword"
+                    (click)="deleteKeyword(k)"
+                  >
+                    <mat-icon color="warn">remove_circle</mat-icon>
+                  </button>
+                </td>
+                <td>{{ k.indexId }}</td>
+                <td>{{ k.language }}</td>
+                <td>{{ k.value }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div>
+            <button
+              type="button"
+              mat-icon-button
+              matTooltip="Add a new keyword"
+              (click)="addNewKeyword()"
+            >
+              <mat-icon>plus_circle</mat-icon>
+            </button>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Keyword" *ngIf="editedKeyword">
+          <cadmus-index-keyword
+            [keyword]="editedKeyword"
+            [indexIdThesaurus]="indexIdThesaurus"
+            [langThesaurus]="langThesaurus"
+            (editorClose)="onKeywordClose()"
+            (save)="onKeywordSave($event)"
+          ></cadmus-index-keyword>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="userLevel < 2"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>
