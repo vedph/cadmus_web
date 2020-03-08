@@ -49,6 +49,7 @@ import { IndexKeywordsPartComponent } from './index-keywords-part/index-keywords
     CommentFragmentDemoComponent,
     HistoricalDatePartComponent,
     HistoricalDatePartDemoComponent,
+    IndexKeywordsPartComponent,
     KeywordsPartComponent,
     KeywordsPartDemoComponent,
     NotePartComponent,
@@ -58,8 +59,7 @@ import { IndexKeywordsPartComponent } from './index-keywords-part/index-keywords
     TiledTextPartDemoComponent,
     TokenTextPartComponent,
     TokenTextPartDemoComponent,
-    TiledDataComponent,
-    IndexKeywordsPartComponent
+    TiledDataComponent
   ],
   exports: [
     CategoriesPartComponent,
@@ -70,6 +70,7 @@ import { IndexKeywordsPartComponent } from './index-keywords-part/index-keywords
     CommentFragmentDemoComponent,
     HistoricalDatePartComponent,
     HistoricalDatePartDemoComponent,
+    IndexKeywordsPartComponent,
     KeywordsPartComponent,
     KeywordsPartDemoComponent,
     NotePartComponent,

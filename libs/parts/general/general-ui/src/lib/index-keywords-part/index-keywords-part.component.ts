@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ModelEditorComponentBase } from '@cadmus/ui';
 import { AuthService } from '@cadmus/api';
 import { FormBuilder, FormArray, Validators } from '@angular/forms';
-import { IndexKeywordsPart, IndexKeyword, INDEX_KEYWORDS_PART_TYPEID } from '../index-keywords-part';
+import {
+  IndexKeywordsPart,
+  IndexKeyword,
+  INDEX_KEYWORDS_PART_TYPEID
+} from '../index-keywords-part';
 import { ThesaurusEntry } from '@cadmus/core';
 
 /**
@@ -18,6 +22,8 @@ export class IndexKeywordsPartComponent
   extends ModelEditorComponentBase<IndexKeywordsPart>
   implements OnInit {
   public keywords: FormArray;
+  public editedKeyword: IndexKeyword;
+  public tabIndex: number;
   // thesaurus
   public indexIdEntries: ThesaurusEntry[];
   public langEntries: ThesaurusEntry[];
@@ -29,6 +35,7 @@ export class IndexKeywordsPartComponent
     this.form = formBuilder.group({
       keywords: this.keywords
     });
+    this.tabIndex = 0;
   }
 
   ngOnInit() {
@@ -117,12 +124,12 @@ export class IndexKeywordsPartComponent
     return part;
   }
 
-  public addKeyword(keyword: IndexKeyword) {
+  private addKeyword(keyword: IndexKeyword): boolean {
     let i = 0;
     while (i < this.keywords.value.length) {
       const n = this.compareKeywords(keyword, this.keywords.value[i]);
       if (n === 0) {
-        return;
+        return false;
       }
       if (n <= 0) {
         const ck = Object.assign([], this.keywords.value);
@@ -139,6 +146,18 @@ export class IndexKeywordsPartComponent
       this.keywords.markAsDirty();
       this.keywords.setValue(ck);
     }
+    return true;
+  }
+
+  public addNewKeyword() {
+    const keyword: IndexKeyword = {
+      indexId: this.indexIdEntries ? this.indexIdEntries[0].id : null,
+      language: this.langEntries ? this.langEntries[0].id : 'eng',
+      value: ''
+    };
+    if (this.addKeyword(keyword)) {
+      this.editKeyword(keyword);
+    }
   }
 
   public deleteKeyword(keyword: IndexKeyword) {
@@ -146,5 +165,10 @@ export class IndexKeywordsPartComponent
     ck.splice(this.keywords.value.indexOf(keyword), 1);
     this.keywords.markAsDirty();
     this.keywords.setValue(ck);
+  }
+
+  public editKeyword(keyword: IndexKeyword) {
+    this.editedKeyword = keyword;
+    this.tabIndex = 1;
   }
 }
