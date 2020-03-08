@@ -88,7 +88,13 @@
   <!-- value -->
   <div>
     <mat-form-field>
-      <input matInput type="text" placeholder="value" formControlName="value" />
+      <input
+        matInput
+        type="text"
+        placeholder="value"
+        formControlName="value"
+        autofocus
+      />
       <mat-error
         *ngIf="value.hasError('maxLength') && (value.dirty || value.touched)"
         >value too long</mat-error

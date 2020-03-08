@@ -13,7 +13,8 @@ import {
   KEYWORDS_PART_TYPEID,
   TOKEN_TEXT_PART_TYPEID,
   HISTORICAL_DATE_PART_TYPEID,
-  TILED_TEXT_PART_TYPEID
+  TILED_TEXT_PART_TYPEID,
+  INDEX_KEYWORDS_PART_TYPEID
 } from '@cadmus/parts/general/general-ui';
 import { EditStateModule } from '@cadmus/features/edit-state';
 
@@ -29,6 +30,7 @@ import {
 import { KeywordsPartFeatureComponent } from './keywords-part-feature/keywords-part-feature.component';
 import { ChronologyFragmentFeatureComponent } from './chronology-fragment-feature/chronology-fragment-feature.component';
 import { HistoricalDatePartFeatureComponent } from './historical-date-part-feature/historical-date-part-feature.component';
+import { IndexKeywordsPartFeatureComponent } from './index-keywords-part-feature/index-keywords-part-feature.component';
 import { TokenTextLayerPartFeatureComponent } from './token-text-layer-part-feature/token-text-layer-part-feature.component';
 import { TiledTextPartFeatureComponent } from './tiled-text-part-feature/tiled-text-part-feature.component';
 import { TiledTextLayerPartFeatureComponent } from './tiled-text-layer-part-feature/tiled-text-layer-part-feature.component';
@@ -55,6 +57,12 @@ import { TiledTextLayerPartFeatureComponent } from './tiled-text-layer-part-feat
         path: `${KEYWORDS_PART_TYPEID}/:pid`,
         pathMatch: 'full',
         component: KeywordsPartFeatureComponent,
+        canDeactivate: [PendingChangesGuard]
+      },
+      {
+        path: `${INDEX_KEYWORDS_PART_TYPEID}/:pid`,
+        pathMatch: 'full',
+        component: IndexKeywordsPartFeatureComponent,
         canDeactivate: [PendingChangesGuard]
       },
       {
@@ -113,18 +121,20 @@ import { TiledTextLayerPartFeatureComponent } from './tiled-text-layer-part-feat
     ChronologyFragmentFeatureComponent,
     CommentFragmentFeatureComponent,
     HistoricalDatePartFeatureComponent,
+    IndexKeywordsPartFeatureComponent,
     KeywordsPartFeatureComponent,
     NotePartFeatureComponent,
     TiledTextLayerPartFeatureComponent,
     TiledTextPartFeatureComponent,
     TokenTextLayerPartFeatureComponent,
-    TokenTextPartFeatureComponent,
+    TokenTextPartFeatureComponent
   ],
   exports: [
     CategoriesPartFeatureComponent,
     ChronologyFragmentFeatureComponent,
     CommentFragmentFeatureComponent,
     HistoricalDatePartFeatureComponent,
+    IndexKeywordsPartFeatureComponent,
     KeywordsPartFeatureComponent,
     NotePartFeatureComponent,
     TiledTextLayerPartFeatureComponent,
