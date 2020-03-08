@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModelEditorComponentBase } from '@cadmus/ui';
 import { AuthService } from '@cadmus/api';
-import { FormBuilder, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
 import {
   IndexKeywordsPart,
   IndexKeyword,
@@ -21,19 +21,22 @@ import { Thesaurus } from '@cadmus/core';
 export class IndexKeywordsPartComponent
   extends ModelEditorComponentBase<IndexKeywordsPart>
   implements OnInit {
-  public keywords: FormArray;
+  public keywords: IndexKeyword[];
   public editedKeyword: IndexKeyword;
   public tabIndex: number;
   // thesaurus
   public indexIdThesaurus: Thesaurus | null;
   public langThesaurus: Thesaurus | null;
+  // form
+  public keywordCount: FormControl;
 
   constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
     // form
-    this.keywords = formBuilder.array([], Validators.required);
+    this.keywords = [];
+    this.keywordCount = formBuilder.control(0, Validators.min(1));
     this.form = formBuilder.group({
-      keywords: this.keywords
+      keywordCount: this.keywordCount
     });
     this.tabIndex = 0;
   }
@@ -97,7 +100,7 @@ export class IndexKeywordsPartComponent
 
     const ck = Object.assign([], model.keywords);
     ck.sort(this.compareKeywords);
-    this.keywords.setValue(ck);
+    this.keywords = ck;
     this.form.markAsPristine();
   }
 
@@ -120,32 +123,33 @@ export class IndexKeywordsPartComponent
         keywords: []
       };
     }
-    part.keywords = [...this.keywords.value];
+    part.keywords = [...this.keywords];
     return part;
   }
 
   private addKeyword(keyword: IndexKeyword): boolean {
     let i = 0;
-    while (i < this.keywords.value.length) {
-      const n = this.compareKeywords(keyword, this.keywords.value[i]);
+    while (i < this.keywords.length) {
+      const n = this.compareKeywords(keyword, this.keywords[i]);
       if (n === 0) {
         return false;
       }
       if (n <= 0) {
-        const ck = Object.assign([], this.keywords.value);
+        const ck = Object.assign([], this.keywords);
         ck.splice(i, 0, keyword);
-        this.keywords.markAsDirty();
-        this.keywords.setValue(ck);
+        this.form.markAsDirty();
+        this.keywords = ck;
         break;
       }
       i++;
     }
-    if (i === this.keywords.value.length) {
-      const ck = Object.assign([], this.keywords.value);
+    if (i === this.keywords.length) {
+      const ck = Object.assign([], this.keywords);
       ck.push(keyword);
-      this.keywords.markAsDirty();
-      this.keywords.setValue(ck);
+      this.form.markAsDirty();
+      this.keywords = ck;
     }
+    this.keywordCount.setValue(this.keywords.length);
     return true;
   }
 
@@ -161,10 +165,11 @@ export class IndexKeywordsPartComponent
   }
 
   public deleteKeyword(keyword: IndexKeyword) {
-    const ck = Object.assign([], this.keywords.value);
-    ck.splice(this.keywords.value.indexOf(keyword), 1);
-    this.keywords.markAsDirty();
-    this.keywords.setValue(ck);
+    const ck = Object.assign([], this.keywords);
+    ck.splice(this.keywords.indexOf(keyword), 1);
+    this.form.markAsDirty();
+    this.keywords = ck;
+    this.keywordCount.setValue(this.keywords.length);
   }
 
   public editKeyword(keyword: IndexKeyword) {

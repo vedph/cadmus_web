@@ -93,6 +93,75 @@ From the visual view you can then save, and go back to the JSON code view. You c
 }
 ```
 
+## Part/Index Keywords
+
+```json
+{
+  "itemId": "4a26ad5c-0a82-4a21-b1d7-15cddbb1bfd1",
+  "id": "1bf411d8-54ad-4f4c-bde6-2fc78226ebd5",
+  "typeId": "net.fusisoft.index-keywords",
+  "roleId": "",
+  "timeModified": "2019-11-29T16:48:49.694Z",
+  "userId": "zeus",
+  "keywords": [
+    { "indexId": "colors", "language": "eng", "value": "red" },
+    { "indexId": "colors", "language": "ita", "value": "rosso" },
+    { "indexId": "shapes", "language": "eng", "value": "circle" },
+    { "indexId": "shapes", "language": "eng", "value": "square" },
+    { "indexId": "shapes", "language": "eng", "value": "triangle" }
+  ]
+}
+```
+
+```json
+{
+  "keyword-indexes": {
+    "id": "keyword-indexes@en",
+    "entries": [
+      { "id": "colors", "value": "colors" },
+      { "id": "shapes", "value": "shapes" }
+    ]
+  },
+  "languages": {
+    "id": "languages@en",
+    "entries": [
+      {
+        "id": "eng",
+        "value": "English"
+      },
+      {
+        "id": "fre",
+        "value": "French"
+      },
+      {
+        "id": "deu",
+        "value": "German"
+      },
+      {
+        "id": "grc",
+        "value": "Ancient Greek"
+      },
+      {
+        "id": "gre",
+        "value": "Modern Greek"
+      },
+      {
+        "id": "ita",
+        "value": "Italian"
+      },
+      {
+        "id": "lat",
+        "value": "Latin"
+      },
+      {
+        "id": "spa",
+        "value": "Spanish"
+      }
+    ]
+  }
+}
+```
+
 ## Part/Note
 
 ```json
@@ -360,9 +429,7 @@ The thesaurus is optional. When not set, the editor allows free text for the tag
   "location": "1.2",
   "baseText": "bixit",
   "standard": "vixit",
-  "operations": [
-    "\"b\"@1x1=\"v\""
-  ]
+  "operations": ["\"b\"@1x1=\"v\""]
 }
 ```
 

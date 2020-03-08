@@ -30,15 +30,16 @@ import {
   AdminGuardService,
   AuthGuardService
 } from '@cadmus/api';
-import { FeatureTokenTextPartDemoComponent } from './demo/feature-token-text-part-demo/feature-token-text-part-demo.component';
-import { FeatureCommentFragmentDemoComponent } from './demo/feature-comment-fragment-demo/feature-comment-fragment-demo.component';
-import { FeatureCategoriesPartDemoComponent } from './demo/feature-categories-part-demo/feature-categories-part-demo.component';
-import { FeatureKeywordsPartDemoComponent } from './demo/feature-keywords-part-demo/feature-keywords-part-demo.component';
-import { FeatureHistoricalDatePartDemoComponent } from './demo/feature-historical-date-part-demo/feature-historical-date-part-demo.component';
-import { FeatureChronologyFragmentDemoComponent } from './demo/feature-chronology-fragment-demo/feature-chronology-fragment-demo.component';
 import { FeatureApparatusFragmentDemoComponent } from './demo/feature-apparatus-fragment-demo/feature-apparatus-fragment-demo.component';
-import { FeatureWitnessesFragmentDemoComponent } from './demo/feature-witnesses-fragment-demo/feature-witnesses-fragment-demo.component';
+import { FeatureCategoriesPartDemoComponent } from './demo/feature-categories-part-demo/feature-categories-part-demo.component';
+import { FeatureCommentFragmentDemoComponent } from './demo/feature-comment-fragment-demo/feature-comment-fragment-demo.component';
+import { FeatureChronologyFragmentDemoComponent } from './demo/feature-chronology-fragment-demo/feature-chronology-fragment-demo.component';
+import { FeatureHistoricalDatePartDemoComponent } from './demo/feature-historical-date-part-demo/feature-historical-date-part-demo.component';
+import { FeatureIndexKeywordsPartDemoComponent } from './demo/feature-index-keywords-part-demo/feature-index-keywords-part-demo.component';
+import { FeatureKeywordsPartDemoComponent } from './demo/feature-keywords-part-demo/feature-keywords-part-demo.component';
 import { FeatureTiledTextPartDemoComponent } from './demo/feature-tiled-text-part-demo/feature-tiled-text-part-demo.component';
+import { FeatureTokenTextPartDemoComponent } from './demo/feature-token-text-part-demo/feature-token-text-part-demo.component';
+import { FeatureWitnessesFragmentDemoComponent } from './demo/feature-witnesses-fragment-demo/feature-witnesses-fragment-demo.component';
 
 @NgModule({
   declarations: [
@@ -49,12 +50,14 @@ import { FeatureTiledTextPartDemoComponent } from './demo/feature-tiled-text-par
     FeatureChronologyFragmentDemoComponent,
     FeatureCommentFragmentDemoComponent,
     FeatureHistoricalDatePartDemoComponent,
+    FeatureIndexKeywordsPartDemoComponent,
     FeatureKeywordsPartDemoComponent,
     FeatureNotePartDemoComponent,
     FeatureOrthographyFragmentDemoComponent,
     FeatureTokenTextPartDemoComponent,
     FeatureWitnessesFragmentDemoComponent,
-    FeatureTiledTextPartDemoComponent
+    FeatureTiledTextPartDemoComponent,
+    FeatureIndexKeywordsPartDemoComponent
   ],
   imports: [
     BrowserModule,
@@ -81,6 +84,11 @@ import { FeatureTiledTextPartDemoComponent } from './demo/feature-tiled-text-par
         {
           path: 'demo/keywords-part',
           component: FeatureKeywordsPartDemoComponent,
+          pathMatch: 'full'
+        },
+        {
+          path: 'demo/index-keywords-part',
+          component: FeatureIndexKeywordsPartDemoComponent,
           pathMatch: 'full'
         },
         {

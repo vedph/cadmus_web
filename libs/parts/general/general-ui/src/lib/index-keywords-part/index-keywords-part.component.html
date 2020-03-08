@@ -5,7 +5,7 @@
         <mat-icon>picture_in_picture</mat-icon>
       </div>
       <mat-card-title
-        [matBadge]="keywords?.value?.length"
+        [matBadge]="keywords?.length"
         matBadgeOverlap="false"
         >Index Keywords Part</mat-card-title
       >
@@ -13,7 +13,7 @@
     <mat-card-content>
       <mat-tab-group [(selectedIndex)]="tabIndex">
         <mat-tab label="List">
-          <table *ngIf="keywords.valid">
+          <table *ngIf="keywords?.length > 0">
             <thead>
               <tr>
                 <th></th>
@@ -23,7 +23,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let k of keywords.value">
+              <tr *ngFor="let k of keywords">
                 <td>
                   <button
                     mat-icon-button
@@ -55,7 +55,7 @@
               matTooltip="Add a new keyword"
               (click)="addNewKeyword()"
             >
-              <mat-icon>plus_circle</mat-icon>
+              <mat-icon>add_circle</mat-icon>
             </button>
           </div>
         </mat-tab>
