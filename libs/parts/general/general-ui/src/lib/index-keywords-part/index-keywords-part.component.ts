@@ -7,7 +7,7 @@ import {
   IndexKeyword,
   INDEX_KEYWORDS_PART_TYPEID
 } from '../index-keywords-part';
-import { ThesaurusEntry } from '@cadmus/core';
+import { ThesaurusEntry, Thesaurus } from '@cadmus/core';
 
 /**
  * Index keywords part editor.
@@ -25,8 +25,8 @@ export class IndexKeywordsPartComponent
   public editedKeyword: IndexKeyword;
   public tabIndex: number;
   // thesaurus
-  public indexIdEntries: ThesaurusEntry[];
-  public langEntries: ThesaurusEntry[];
+  public indexIdThesaurus: Thesaurus | null;
+  public langThesaurus: Thesaurus | null;
 
   constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
@@ -45,15 +45,15 @@ export class IndexKeywordsPartComponent
   protected onThesauriSet() {
     let key = 'languages';
     if (this.thesauri && this.thesauri[key]) {
-      this.langEntries = this.thesauri[key].entries;
+      this.langThesaurus = this.thesauri[key];
     } else {
-      this.langEntries = null;
+      this.langThesaurus = null;
     }
     key = 'keyword-indexes';
     if (this.thesauri && this.thesauri[key]) {
-      this.indexIdEntries = this.thesauri[key].entries;
+      this.indexIdThesaurus = this.thesauri[key];
     } else {
-      this.indexIdEntries = null;
+      this.indexIdThesaurus = null;
     }
   }
 
@@ -151,8 +151,8 @@ export class IndexKeywordsPartComponent
 
   public addNewKeyword() {
     const keyword: IndexKeyword = {
-      indexId: this.indexIdEntries ? this.indexIdEntries[0].id : null,
-      language: this.langEntries ? this.langEntries[0].id : 'eng',
+      indexId: this.indexIdThesaurus ? this.indexIdThesaurus.entries[0].id : null,
+      language: this.langThesaurus ? this.langThesaurus[0].id : 'eng',
       value: ''
     };
     if (this.addKeyword(keyword)) {
