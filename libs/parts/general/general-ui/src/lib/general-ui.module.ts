@@ -26,6 +26,7 @@ import { TiledTextPartComponent } from './tiled-text-part/tiled-text-part.compon
 import { TextTileComponent } from './text-tile/text-tile.component';
 import { TiledTextPartDemoComponent } from './tiled-text-part-demo/tiled-text-part-demo.component';
 import { TiledDataComponent } from './tiled-data/tiled-data.component';
+import { IndexKeywordsPartComponent } from './index-keywords-part/index-keywords-part.component';
 
 @NgModule({
   imports: [
@@ -57,7 +58,8 @@ import { TiledDataComponent } from './tiled-data/tiled-data.component';
     TiledTextPartDemoComponent,
     TokenTextPartComponent,
     TokenTextPartDemoComponent,
-    TiledDataComponent
+    TiledDataComponent,
+    IndexKeywordsPartComponent
   ],
   exports: [
     CategoriesPartComponent,
