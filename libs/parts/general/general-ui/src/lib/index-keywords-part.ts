@@ -1,11 +1,12 @@
-import { Keyword } from './keywords-part';
 import { Part } from '@cadmus/core';
 
 /**
  * Index keyword.
  */
-export interface IndexKeyword extends Keyword {
-  indexId: string;
+export interface IndexKeyword {
+  indexId?: string;
+  language?: string;
+  value: string;
   note?: string;
   tag?: string;
 }

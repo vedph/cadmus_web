@@ -8,12 +8,6 @@
           e.value
         }}</mat-option>
       </mat-select>
-      <mat-error
-        *ngIf="
-          indexId.hasError('required') && (indexId.dirty || indexId.touched)
-        "
-        >index ID required</mat-error
-      >
     </mat-form-field>
   </div>
   <div *ngIf="!indexIdThesaurus">
@@ -24,12 +18,6 @@
         formControlName="indexId"
         placeholder="index ID"
       />
-      <mat-error
-        *ngIf="
-          indexId.hasError('required') && (indexId.dirty || indexId.touched)
-        "
-        >index ID required</mat-error
-      >
       <mat-error
         *ngIf="
           indexId.hasError('maxLength') && (indexId.dirty || indexId.touched)
@@ -49,16 +37,11 @@
   <div *ngIf="langThesaurus">
     <mat-form-field>
       <mat-select formControlName="language" placeholder="language">
+        <mat-option [value]="null">(n/a)</mat-option>
         <mat-option *ngFor="let e of langThesaurus.entries" [value]="e.id">{{
           e.value
         }}</mat-option>
       </mat-select>
-      <mat-error
-        *ngIf="
-          language.hasError('required') && (language.dirty || language.touched)
-        "
-        >language required</mat-error
-      >
     </mat-form-field>
   </div>
 
@@ -70,12 +53,6 @@
         placeholder="language"
         formControlName="language"
       />
-      <mat-error
-        *ngIf="
-          language.hasError('required') && (language.dirty || language.touched)
-        "
-        >language required</mat-error
-      >
       <mat-error
         *ngIf="
           language.hasError('pattern') && (language.dirty || language.touched)

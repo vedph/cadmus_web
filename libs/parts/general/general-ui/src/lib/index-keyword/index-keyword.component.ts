@@ -48,12 +48,10 @@ export class IndexKeywordComponent implements OnInit {
     this.save = new EventEmitter<IndexKeyword>();
     // form
     this.indexId = formBuilder.control(null, [
-      Validators.required,
       Validators.maxLength(50),
       Validators.pattern(/^[-.a-zA-Z0-9_]{0,50}$/)
     ]);
     this.language = formBuilder.control(null, [
-      Validators.required,
       Validators.pattern(/^[a-z]{3}$/)
     ]);
     this.value = formBuilder.control(null, [
