@@ -86,15 +86,15 @@ export const APPARATUS_FRAGMENT_SCHEMA = {
           },
           tag: {
             $id: '#/properties/entries/items/properties/tag',
-            type: 'string'
+            type: ['string', 'null']
           },
           value: {
             $id: '#/properties/entries/items/properties/value',
-            type: 'string'
+            type: ['string', 'null']
           },
           normValue: {
             $id: '#/properties/entries/items/properties/normValue',
-            type: 'string'
+            type: ['string', 'null']
           },
           isAccepted: {
             $id: '#/properties/entries/items/properties/isAccepted',
@@ -102,7 +102,7 @@ export const APPARATUS_FRAGMENT_SCHEMA = {
           },
           groupId: {
             $id: '#/properties/entries/items/properties/groupId',
-            type: 'string'
+            type: ['string', 'null']
           },
           witnesses: {
             $id: '#/properties/entries/items/properties/witnesses',
@@ -120,7 +120,7 @@ export const APPARATUS_FRAGMENT_SCHEMA = {
                 note: {
                   $id:
                     '#/properties/entries/items/properties/witnesses/items/properties/note',
-                  type: 'string'
+                  type: ['string', 'null']
                 }
               }
             }
@@ -141,14 +141,14 @@ export const APPARATUS_FRAGMENT_SCHEMA = {
                 note: {
                   $id:
                     '#/properties/entries/items/properties/authors/items/properties/note',
-                  type: 'string'
+                  type: ['string', 'null']
                 }
               }
             }
           },
           note: {
             $id: '#/properties/entries/items/properties/note',
-            type: 'string'
+            type: ['string', 'null']
           }
         }
       }

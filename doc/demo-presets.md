@@ -182,7 +182,7 @@ The thesaurus is optional. When not set, the editor allows free text for the tag
 ```json
 {
   "note-tags": {
-    "id": "colors",
+    "id": "note-tags@it",
     "language": "ita",
     "entries": [
       { "id": "red", "value": "rosso" },
@@ -361,6 +361,444 @@ No thesaurus is required for this part.
 ```
 
 No thesaurus is required for this part.
+
+## Fragment/Apparatus
+
+```json
+{
+  "location": "3.1",
+  "tag": "d001",
+  "entries": [
+    {
+      "type": 0,
+      "value": "siluestrem",
+      "normValue": "SILVESTREM",
+      "isAccepted": true,
+      "witnesses": [{ "value": "lw1-16" }, { "value": "lw1-21" }],
+      "authors": []
+    },
+    {
+      "type": 0,
+      "value": "agrestem",
+      "normValue": "AGRESTEM",
+      "isAccepted": false,
+      "witnesses": [],
+      "authors": [
+        { "value": "lb1-50", "note": "9, 4, 85" },
+        { "value": "lb1-25", "note": "SI 244" }
+      ]
+    }
+  ]
+}
+```
+
+```json
+{
+  "apparatus-tags": {
+    "id": "apparatus-tags@en",
+    "entries": [
+      {
+        "id": "margin",
+        "value": "margin"
+      }
+    ]
+  },
+  "apparatus-witnesses": {
+    "id": "apparatus-witnesses.verg-eclo@en",
+    "entries": [
+      {
+        "id": "lw1-1",
+        "value": "Bernensis 172 (ecl. 1-Aen. 5)"
+      },
+      {
+        "id": "lw1-2",
+        "value": "correctores vel variae lectiones..."
+      },
+      {
+        "id": "lw1-3",
+        "value": "Bernensis 165, olim Turonensis [MO B. 10, saec. IX 1/4]"
+      },
+      {
+        "id": "lw1-4",
+        "value": "correctores vel variae lectiones..."
+      },
+      {
+        "id": "lw1-5",
+        "value": "Bernensis 184  [MO B.13: saec. IX-X]"
+      },
+      {
+        "id": "lw1-6",
+        "value": "correctores vel variae lectiones..."
+      },
+      {
+        "id": "lw1-7",
+        "value": "Bernensis 255 + 239, in Gallia... [MO B. 14, saec. IX 2/3]"
+      },
+      {
+        "id": "lw1-8",
+        "value": "Bernensis 167, origine Autissi... (desunt Aen. 12.452-579;...)"
+      },
+      {
+        "id": "lw1-9",
+        "value": "Oxoniensis Bodl. Auct. F. 2... [MO B. 155, saec. IX¹]"
+      },
+      {
+        "id": "lw1-10",
+        "value": "Valentianensis 407 (389)"
+      },
+      {
+        "id": "lw1-11",
+        "value": "Mediceus Laurentianus Latinus Plut... [CLA III 296]"
+      },
+      {
+        "id": "lw1-12",
+        "value": "Turcius Rufius Apronianus Asterius,..."
+      },
+      {
+        "id": "lw1-13",
+        "value": "corrector saec. V"
+      },
+      {
+        "id": "lw1-14",
+        "value": "Neapolitanus Vind. lat. 6,... [MO B. 151, saec X¹]"
+      },
+      {
+        "id": "lw1-15",
+        "value": "Ausonensis, Archivo Capitular Vic... [MO C. 272, saec. XI¹]"
+      },
+      {
+        "id": "lw1-16",
+        "value": "Vaticanus Palatinus lat. 1631,... [CLA I 99]"
+      },
+      {
+        "id": "lw1-17",
+        "value": "corrector Vaticani Palatini lat... (saec. V-VI)"
+      },
+      {
+        "id": "lw1-18",
+        "value": "corrector Vaticani Palatini lat... (saec. V-VI)"
+      },
+      {
+        "id": "lw1-19",
+        "value": "Parisinus lat. 7926  [MO B. 171, saec. IX 2/4]"
+      },
+      {
+        "id": "lw1-20",
+        "value": "codices quidam recentiores vel..."
+      },
+      {
+        "id": "lw1-21",
+        "value": "Vaticanus lat. 3867, dictus... [CLA I 19]"
+      },
+      {
+        "id": "lw1-22",
+        "value": "corrector Vaticani Latini 3867"
+      },
+      {
+        "id": "lw1-23",
+        "value": "corrector saec. VI ex."
+      },
+      {
+        "id": "lw1-24",
+        "value": "Parisinus lat. 13043, olim... [MO B.192: saec. IX 2/3]"
+      },
+      {
+        "id": "lw1-25",
+        "value": "Vaticanus lat. 1570, olim... [MO B. 256, saec. IX/X]"
+      },
+      {
+        "id": "lw1-26",
+        "value": "Veronensis XL 38, saec. V ex... (Codices Latini Antiquiores, ed. E...)"
+      },
+      {
+        "id": "lw1-27",
+        "value": "Guelferbytanus Gudianus lat... [MO B. 281, saec. IX]"
+      },
+      {
+        "id": "lw1-28",
+        "value": "Corrector Guelferbytani Gudiani..."
+      },
+      {
+        "id": "lw1-29",
+        "value": "Corrector Guelferbytani Gudiani..."
+      },
+      {
+        "id": "lw1-30",
+        "value": "Papyrus Strasb. Latinus 2 [Pack³n..."
+      },
+      {
+        "id": "lw1-31",
+        "value": "consensus codicum saeculi noni vel..."
+      }
+    ]
+  },
+  "apparatus-authors": {
+    "id": "apparatus-authors.verg-eclo@en",
+    "entries": [
+      {
+        "id": "lb1-1",
+        "value": "Aldhelmus (saec. VII)"
+      },
+      {
+        "id": "lb1-2",
+        "value": "Anthologia latina (codex Salmasianus saec. VIII)"
+      },
+      {
+        "id": "lb1-3",
+        "value": "Ars anonyma bernensis = GLK... (1870)"
+      },
+      {
+        "id": "lb1-4",
+        "value": "Arusianus Messius (saec. IV ex.)"
+      },
+      {
+        "id": "lb1-5",
+        "value": "Audax gramm."
+      },
+      {
+        "id": "lb1-6",
+        "value": "Beda Presbyterus (VII saec.)"
+      },
+      {
+        "id": "lb1-7",
+        "value": "Brevis expositio Vergilii..."
+      },
+      {
+        "id": "lb1-8",
+        "value": "Caper gramm., pp. 92-112."
+      },
+      {
+        "id": "lb1-9",
+        "value": "Flavius Magnus Aurelius Cassio... (saec. VI)"
+      },
+      {
+        "id": "lb1-10",
+        "value": "Flavius Sosipater Charisius (saec. IV ex.)"
+      },
+      {
+        "id": "lb1-11",
+        "value": "Ciris"
+      },
+      {
+        "id": "lb1-12",
+        "value": "Cledonius (saec. V)"
+      },
+      {
+        "id": "lb1-13",
+        "value": "Colum."
+      },
+      {
+        "id": "lb1-14",
+        "value": "Commentum einsidlense in Donati... (minorem et maiorem)"
+      },
+      {
+        "id": "lb1-15",
+        "value": "Marci Annaei Lucani commenta..."
+      },
+      {
+        "id": "lb1-16",
+        "value": "Consentius (saec. V)"
+      },
+      {
+        "id": "lb1-17",
+        "value": "Const. or. s.c., pp. 149-192."
+      },
+      {
+        "id": "lb1-18",
+        "value": "Diom. gramm., pp. 299-529."
+      },
+      {
+        "id": "lb1-19",
+        "value": "Aelius Donatus grammaticus (saec. IV)"
+      },
+      {
+        "id": "lb1-20",
+        "value": "Dositheus (post Donatum)"
+      },
+      {
+        "id": "lb1-21",
+        "value": "De dubiis nominibus liber (post Isidorum)"
+      },
+      {
+        "id": "lb1-22",
+        "value": "Sergii qui feruntur explanationem... (libri II)"
+      },
+      {
+        "id": "lb1-23",
+        "value": "Fabius Planciades Fulgentius (saec. V ex. vel VI in.)"
+      },
+      {
+        "id": "lb1-24",
+        "value": "Aulus Gellius (saec. II)"
+      },
+      {
+        "id": "lb1-25",
+        "value": "Glossarium Ansileubi , saec..."
+      },
+      {
+        "id": "lb1-26",
+        "value": "Excerpta ex Grilli commento in... (saec.IV-V)"
+      },
+      {
+        "id": "lb1-27",
+        "value": "Hier. in Ier."
+      },
+      {
+        "id": "lb1-28",
+        "value": "Isidorus episcopus Hispalensis (saec. VI-VII)"
+      },
+      {
+        "id": "lb1-29",
+        "value": "Iulius Rufinianus (saec. IV)"
+      },
+      {
+        "id": "lb1-30",
+        "value": "L. Caelius Firmianus Lactantiu... (saec. III med.)"
+      },
+      {
+        "id": "lb1-31",
+        "value": "Macrobius Ambrosius Theodosius (saec. V)"
+      },
+      {
+        "id": "lb1-32",
+        "value": "Macrobius Ambrosius Theodosius (saec. V in.)"
+      },
+      {
+        "id": "lb1-33",
+        "value": "Flavius Mallius Theodorus (saec. IV-V)"
+      },
+      {
+        "id": "lb1-34",
+        "value": "Gaius Marius Victorinus (saec. IV)"
+      },
+      {
+        "id": "lb1-35",
+        "value": "Maximus (Maximinus?)"
+      },
+      {
+        "id": "lb1-36",
+        "value": "Nonius Marcellus (saec. IV)"
+      },
+      {
+        "id": "lb1-37",
+        "value": "E. Dummler, L. Traube, K..."
+      },
+      {
+        "id": "lb1-38",
+        "value": "Petron."
+      },
+      {
+        "id": "lb1-39",
+        "value": "Philarg. Verg."
+      },
+      {
+        "id": "lb1-40",
+        "value": "Pompeius (saec. V-VI)"
+      },
+      {
+        "id": "lb1-41",
+        "value": "Pomponius Porphyrio (saec. III)"
+      },
+      {
+        "id": "lb1-42",
+        "value": "Priscianus Caesariensis (saec. V-VI)"
+      },
+      {
+        "id": "lb1-43",
+        "value": "Prob. cath. gramm., pp. 3-43."
+      },
+      {
+        "id": "lb1-44",
+        "value": "Marcus Valerius Probus (saec. I-II, cum additamentis saec...)"
+      },
+      {
+        "id": "lb1-45",
+        "value": "Marcus Valerius Probus (saec. I-II, cum additamentis saec...)"
+      },
+      {
+        "id": "lb1-46",
+        "value": "Probi qui dicitur Commentarius in... (cf. etiam M. Gioseffi, Studi sul...)"
+      },
+      {
+        "id": "lb1-47",
+        "value": "Asper cui ascribuntur artes... (saec. VI?)"
+      },
+      {
+        "id": "lb1-48",
+        "value": "Iulius Rufinianus (non ante saec. IV)"
+      },
+      {
+        "id": "lb1-49",
+        "value": "Ps. Iul. Ruf. schem. lex."
+      },
+      {
+        "id": "lb1-50",
+        "value": "M. Fabius Quintilianus (saec. I)"
+      },
+      {
+        "id": "lb1-51",
+        "value": "Marius Plotius Sacerdos (saec. III)"
+      },
+      {
+        "id": "lb1-52",
+        "value": "Acronis quae dicuntur scholia in..."
+      },
+      {
+        "id": "lb1-53",
+        "value": "Scholia in Iuvenalem vetustiora,..."
+      },
+      {
+        "id": "lb1-54",
+        "value": "Lactantius Placidus (saec. V-VI)"
+      },
+      {
+        "id": "lb1-55",
+        "value": "Scholia in Terentium Bembina. Cod..."
+      },
+      {
+        "id": "lb1-56",
+        "value": "Scholia Bernensia ad Vergili..."
+      },
+      {
+        "id": "lb1-57",
+        "value": "Scholia in Vergili Bucolica quae..."
+      },
+      {
+        "id": "lb1-58",
+        "value": "Scholia in Vergilium quae cod... (ed. H. Hagen, Lipsiae 1902)"
+      },
+      {
+        "id": "lb1-59",
+        "value": "Sergius (non ante Servius)"
+      },
+      {
+        "id": "lb1-60",
+        "value": "Servius (saec. V in.)"
+      },
+      {
+        "id": "lb1-61",
+        "value": "Scholia Serviana inserta,..."
+      },
+      {
+        "id": "lb1-62",
+        "value": "Tituli Pompeiani (C.I.L. IV cum supplementis)"
+      },
+      {
+        "id": "lb1-63",
+        "value": "Terentianus Maurus (saec. II-III)"
+      },
+      {
+        "id": "lb1-64",
+        "value": "Victorinus (Marius?)"
+      },
+      {
+        "id": "lb1-65",
+        "value": "Incerti de ultimis syllabis liber... (1864)"
+      }
+    ]
+  }
+}
+```
 
 ## Fragment/Comment
 

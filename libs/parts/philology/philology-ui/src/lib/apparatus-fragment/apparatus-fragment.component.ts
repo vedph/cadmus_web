@@ -11,6 +11,10 @@ import {
 } from '@angular/forms';
 import { Thesaurus } from '@cadmus/core';
 
+/**
+ * Critical apparatus fragment.
+ * Thesauri: apparatus-tags, apparatus-witnesses, apparatus-authors.
+ */
 @Component({
   selector: 'cadmus-apparatus-fragment',
   templateUrl: './apparatus-fragment.component.html',
