@@ -1,16 +1,15 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { ErrorService, Thesaurus, ThesauriSet } from '@cadmus/core';
+import { ErrorService, Thesaurus, ThesauriSet, EnvService } from '@cadmus/core';
 
 @Injectable({ providedIn: 'root' })
 export class ThesaurusService {
   constructor(
     private _http: HttpClient,
     private _error: ErrorService,
-    @Inject('apiEndpoint') private _apiEndpoint: string,
-    @Inject('databaseId') private _databaseId: string
+    private _env: EnvService
   ) {}
 
   /**
@@ -18,7 +17,7 @@ export class ThesaurusService {
    * @returns Observable<string> Array of IDs.
    */
   public getThesaurusIds(): Observable<string[]> {
-    const url = `${this._apiEndpoint}${this._databaseId}/thesauri`;
+    const url = `${this._env.apiUrl}${this._env.databaseId}/thesauri`;
     return this._http.get<string[]>(url).pipe(
       retry(3),
       catchError(this._error.handleError)
@@ -41,7 +40,7 @@ export class ThesaurusService {
       httpParams = httpParams.set('emptyIfNotFound', true.toString());
     }
     const url =
-      `${this._apiEndpoint}${this._databaseId}` +
+      `${this._env.apiUrl}${this._env.databaseId}` +
       `/thesauri/${encodeURIComponent(id)}`;
     return this._http.get<Thesaurus>(url, {
       params: httpParams
@@ -59,7 +58,7 @@ export class ThesaurusService {
    */
   public getThesauri(ids: string[]): Observable<ThesauriSet> {
     const url =
-      `${this._apiEndpoint}${this._databaseId}` +
+      `${this._env.apiUrl}${this._env.databaseId}` +
       `/thesauri-set/${encodeURIComponent(ids.join(','))}?purgeIds=true`;
     return this._http.get<ThesauriSet>(url).pipe(
       retry(3),

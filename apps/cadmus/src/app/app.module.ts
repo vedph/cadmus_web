@@ -225,14 +225,14 @@ import { FeatureWitnessesFragmentDemoComponent } from './demo/feature-witnesses-
     EnvServiceProvider,
     // config
     // https://github.com/nrwl/nx/issues/208#issuecomment-384102058
-    {
-      provide: 'apiEndpoint',
-      useValue: config.apiEndpoint
-    },
-    {
-      provide: 'databaseId',
-      useValue: config.databaseId
-    },
+    // {
+    //   provide: 'apiEndpoint',
+    //   useValue: config.apiEndpoint
+    // },
+    // {
+    //   provide: 'databaseId',
+    //   useValue: config.databaseId
+    // },
     // HTTP interceptor
     // https://medium.com/@ryanchenkie_40935/angular-authentication-using-the-http-client-and-http-interceptors-2f9d1540eb8
     {

@@ -1,6 +1,6 @@
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -8,7 +8,8 @@ import {
   User,
   LocalStorageService,
   LoginResult,
-  RegistrationModel
+  RegistrationModel,
+  EnvService
 } from '@cadmus/core';
 
 // https://github.com/cornflourblue/angular-7-registration-login-example-cli/blob/master/src/app/_services/authentication.service.ts
@@ -40,7 +41,7 @@ export class AuthService {
   constructor(
     private _http: HttpClient,
     private _localStorage: LocalStorageService,
-    @Inject('apiEndpoint') private _apiEndpoint: string
+    private _env: EnvService
   ) {
     this._currentUserSubject = new BehaviorSubject<User>(
       _localStorage.retrieve<User>(STORAGE_AUTH_USER_KEY, true)
@@ -56,7 +57,7 @@ export class AuthService {
   public login(name: string, password: string): Observable<User> {
     return this._http
       .post<any>(
-        this._apiEndpoint + `auth/login`,
+        this._env.apiUrl + `auth/login`,
         {
           Username: name,
           Password: password
@@ -114,7 +115,7 @@ export class AuthService {
         'Content-Type': 'application/json'
       })
     };
-    return this._http.get(this._apiEndpoint + 'auth/logout', options);
+    return this._http.get(this._env.apiUrl + 'auth/logout', options);
   }
 
   /**
@@ -204,7 +205,7 @@ export class AuthService {
       })
     };
     return this._http.get(
-      this._apiEndpoint + 'accounts/emailexists/' + encodeURIComponent(email),
+      this._env.apiUrl + 'accounts/emailexists/' + encodeURIComponent(email),
       options
     );
   }
@@ -223,7 +224,7 @@ export class AuthService {
       })
     };
     return this._http.get(
-      this._apiEndpoint + 'accounts/nameexists/' + encodeURIComponent(name),
+      this._env.apiUrl + 'accounts/nameexists/' + encodeURIComponent(name),
       options
     );
   }
@@ -239,7 +240,7 @@ export class AuthService {
       })
     };
     return this._http.post(
-      this._apiEndpoint + 'accounts/register',
+      this._env.apiUrl + 'accounts/register',
       registration,
       options
     );
@@ -256,7 +257,7 @@ export class AuthService {
       })
     };
     return this._http.get(
-      this._apiEndpoint + 'accounts/resendconfirm/' + encodeURIComponent(email),
+      this._env.apiUrl + 'accounts/resendconfirm/' + encodeURIComponent(email),
       options
     );
   }
@@ -272,7 +273,7 @@ export class AuthService {
     oldPassword: string,
     newPassword: string
   ): Observable<object> {
-    return this._http.post(this._apiEndpoint + 'accounts/changepassword', {
+    return this._http.post(this._env.apiUrl + 'accounts/changepassword', {
       email,
       oldPassword,
       newPassword
@@ -285,7 +286,7 @@ export class AuthService {
    */
   public requestPasswordReset(email: string): Observable<object> {
     return this._http.post(
-      this._apiEndpoint + 'accounts/resetpassword/request',
+      this._env.apiUrl + 'accounts/resetpassword/request',
       { email }
     );
   }

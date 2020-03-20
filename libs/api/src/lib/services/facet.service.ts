@@ -1,16 +1,15 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { ErrorService, FacetDefinition, PartDefinition } from '@cadmus/core';
+import { ErrorService, FacetDefinition, PartDefinition, EnvService } from '@cadmus/core';
 
 @Injectable({ providedIn: 'root' })
 export class FacetService {
   constructor(
     private _http: HttpClient,
     private _error: ErrorService,
-    @Inject('apiEndpoint') private _apiEndpoint: string,
-    @Inject('databaseId') private _databaseId: string
+    private _env: EnvService
   ) {}
 
   /**
@@ -18,7 +17,7 @@ export class FacetService {
    * @returns Observable with facets array.
    */
   public getFacets(): Observable<FacetDefinition[]> {
-    const url = `${this._apiEndpoint}${this._databaseId}/facets`;
+    const url = `${this._env.apiUrl}${this._env.databaseId}/facets`;
 
     return this._http.get<FacetDefinition[]>(url).pipe(
       retry(3),
@@ -32,7 +31,7 @@ export class FacetService {
    * @param id The facet's ID.
    */
   public getFacet(id: string): Observable<FacetDefinition> {
-    const url = `${this._apiEndpoint}${this._databaseId}/facets/${id}`;
+    const url = `${this._env.apiUrl}${this._env.databaseId}/facets/${id}`;
 
     return this._http.get<FacetDefinition>(url).pipe(
       retry(3),
@@ -46,7 +45,7 @@ export class FacetService {
    * @param itemId The item's ID.
    */
   public getFacetFromItemId(itemId: string): Observable<FacetDefinition> {
-    const url = `${this._apiEndpoint}${this._databaseId}/facets/items/${itemId}`;
+    const url = `${this._env.apiUrl}${this._env.databaseId}/facets/items/${itemId}`;
 
     return this._http.get<FacetDefinition>(url).pipe(
       retry(3),
@@ -71,8 +70,8 @@ export class FacetService {
     noRoles = false
   ): Observable<PartDefinition[]> {
     let url = idIsItem
-      ? `${this._apiEndpoint}${this._databaseId}/item-facets/${id}/parts`
-      : `${this._apiEndpoint}${this._databaseId}/facets/${id}/parts`;
+      ? `${this._env.apiUrl}${this._env.databaseId}/item-facets/${id}/parts`
+      : `${this._env.apiUrl}${this._env.databaseId}/facets/${id}/parts`;
     if (noRoles) {
       url += '?noRoles=true';
     }
@@ -88,7 +87,7 @@ export class FacetService {
    * @returns Observable of an object with property typeId=result or null.
    */
   public getTextLayerPartTypeId(): Observable<{ typeId: string }> {
-    const url = `${this._apiEndpoint}${this._databaseId}/facets/layer-type-id`;
+    const url = `${this._env.apiUrl}${this._env.databaseId}/facets/layer-type-id`;
 
     return this._http.get<{ typeId: string }>(url).pipe(
       retry(3),

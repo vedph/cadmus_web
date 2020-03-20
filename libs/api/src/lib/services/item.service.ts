@@ -10,7 +10,8 @@ import {
   PartDefinition,
   PartGroup,
   LayerPartInfo,
-  LayerHint
+  LayerHint,
+  EnvService
 } from '@cadmus/core';
 import { Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
@@ -25,8 +26,7 @@ export class ItemService {
   constructor(
     private _http: HttpClient,
     private _error: ErrorService,
-    @Inject('apiEndpoint') private _apiEndpoint: string,
-    @Inject('databaseId') private _databaseId: string
+    private _env: EnvService
   ) {}
 
   /**
@@ -69,7 +69,7 @@ export class ItemService {
 
     return this._http
       .get<DataPage<ItemInfo>>(
-        `${this._apiEndpoint}${this._databaseId}/items`,
+        `${this._env.apiUrl}${this._env.databaseId}/items`,
         {
           params: httpParams
         }
@@ -87,7 +87,7 @@ export class ItemService {
    * @returns Observable with paged result.
    */
   public getItem(id: string, parts: boolean): Observable<Item> {
-    let url = `${this._apiEndpoint}${this._databaseId}/item/${id}`;
+    let url = `${this._env.apiUrl}${this._env.databaseId}/item/${id}`;
     if (parts) {
       url += '?parts=true';
     }
@@ -100,7 +100,7 @@ export class ItemService {
    * @returns Observable with result.
    */
   public deleteItem(id: string): Observable<Object> {
-    const url = `${this._apiEndpoint}${this._databaseId}/item/${id}`;
+    const url = `${this._env.apiUrl}${this._env.databaseId}/item/${id}`;
     return this._http.delete(url).pipe(catchError(this._error.handleError));
   }
 
@@ -110,7 +110,7 @@ export class ItemService {
    * @returns Observable with result.
    */
   public addItem(item: Item): Observable<Item> {
-    const url = `${this._apiEndpoint}${this._databaseId}/items`;
+    const url = `${this._env.apiUrl}${this._env.databaseId}/items`;
     return this._http
       .post<Item>(url, item)
       .pipe(catchError(this._error.handleError));
@@ -122,7 +122,7 @@ export class ItemService {
    * @returns Observable with result.
    */
   public getPart(id: string): Observable<Part> {
-    const url = `${this._apiEndpoint}${this._databaseId}/part/${id}`;
+    const url = `${this._env.apiUrl}${this._env.databaseId}/part/${id}`;
     return this._http.get<Part>(url).pipe(
       retry(3),
       catchError(this._error.handleError)
@@ -149,7 +149,7 @@ export class ItemService {
       role = 'default';
     }
     const url =
-      `${this._apiEndpoint}${this._databaseId}/` +
+      `${this._env.apiUrl}${this._env.databaseId}/` +
       `item/${itemId}/part/${type}/${role}`;
     return this._http.get<Part>(url).pipe(
       retry(3),
@@ -166,7 +166,7 @@ export class ItemService {
     itemId: string
   ): Observable<{ part: Part; text: string }> {
     const url =
-      `${this._apiEndpoint}${this._databaseId}/` + `item/${itemId}/base-text`;
+      `${this._env.apiUrl}${this._env.databaseId}/` + `item/${itemId}/base-text`;
     return this._http.get<{ part: Part; text: string }>(url).pipe(
       retry(3),
       catchError(this._error.handleError)
@@ -200,7 +200,7 @@ export class ItemService {
     absent: boolean
   ): Observable<LayerPartInfo[]> {
     let url =
-      `${this._apiEndpoint}${this._databaseId}/` + `item/${itemId}/layers`;
+      `${this._env.apiUrl}${this._env.databaseId}/` + `item/${itemId}/layers`;
     if (absent) {
       url += '?absent=true';
     }
@@ -216,7 +216,7 @@ export class ItemService {
    * @returns Observable with array of IDataPin's.
    */
   public getPartPins(id: string): Observable<RolePartId[]> {
-    const url = `${this._apiEndpoint}${this._databaseId}/` + `part/${id}/pins`;
+    const url = `${this._env.apiUrl}${this._env.databaseId}/` + `part/${id}/pins`;
     return this._http.get<RolePartId[]>(url).pipe(
       retry(3),
       catchError(this._error.handleError)
@@ -233,7 +233,7 @@ export class ItemService {
    */
   public getLayerPartBreakChance(id: string): Observable<{ chance: number }> {
     const url =
-      `${this._apiEndpoint}${this._databaseId}/` + `part/${id}/break-chance`;
+      `${this._env.apiUrl}${this._env.databaseId}/` + `part/${id}/break-chance`;
     return this._http.get<{ chance: number }>(url).pipe(
       retry(3),
       catchError(this._error.handleError)
@@ -247,7 +247,7 @@ export class ItemService {
    */
   public getLayerPartHints(id: string): Observable<LayerHint[]> {
     const url =
-      `${this._apiEndpoint}${this._databaseId}/` + `part/${id}/layer-hints`;
+      `${this._env.apiUrl}${this._env.databaseId}/` + `part/${id}/layer-hints`;
     return this._http.get<LayerHint[]>(url).pipe(
       retry(3),
       catchError(this._error.handleError)
@@ -262,7 +262,7 @@ export class ItemService {
    */
   public applyLayerPatches(id: string, patches: string[]): Observable<Part> {
     const url =
-      `${this._apiEndpoint}${this._databaseId}/` + `part/${id}/layer-patches`;
+      `${this._env.apiUrl}${this._env.databaseId}/` + `part/${id}/layer-patches`;
     return this._http
       .post<Part>(url, { patches: patches })
       .pipe(catchError(this._error.handleError));
@@ -274,7 +274,7 @@ export class ItemService {
    * @returns Observable with result.
    */
   public deletePart(id: string): Observable<Object> {
-    const url = `${this._apiEndpoint}${this._databaseId}/part/${id}`;
+    const url = `${this._env.apiUrl}${this._env.databaseId}/part/${id}`;
     return this._http.delete(url).pipe(catchError(this._error.handleError));
   }
 
@@ -284,7 +284,7 @@ export class ItemService {
    * @returns The part observable.
    */
   public addPart(part: Part): Observable<Part> {
-    const url = `${this._apiEndpoint}${this._databaseId}/parts`;
+    const url = `${this._env.apiUrl}${this._env.databaseId}/parts`;
     return this._http
       .post<Part>(url, { raw: JSON.stringify(part) })
       .pipe(catchError(this._error.handleError));
@@ -296,7 +296,7 @@ export class ItemService {
    * @returns Observable with result.
    */
   public addPartJson(json: string): Observable<Object> {
-    const url = `${this._apiEndpoint}${this._databaseId}/parts`;
+    const url = `${this._env.apiUrl}${this._env.databaseId}/parts`;
     return this._http
       .post(url, { raw: json })
       .pipe(catchError(this._error.handleError));
@@ -309,7 +309,7 @@ export class ItemService {
    * @param flags The flags value to be set.
    */
   public setItemFlags(ids: string[], flags: number): Observable<any> {
-    const url = `${this._apiEndpoint}${this._databaseId}/items/flags`;
+    const url = `${this._env.apiUrl}${this._env.databaseId}/items/flags`;
     return this._http
       .post<any>(url, { ids, flags })
       .pipe(catchError(this._error.handleError));
@@ -322,7 +322,7 @@ export class ItemService {
    * @param groupId The group ID value to be set.
    */
   public setItemGroupId(ids: string[], groupId: string): Observable<any> {
-    const url = `${this._apiEndpoint}${this._databaseId}/items/groupid`;
+    const url = `${this._env.apiUrl}${this._env.databaseId}/items/groupid`;
     return this._http
       .post<any>(url, { ids, groupId })
       .pipe(catchError(this._error.handleError));
@@ -335,7 +335,7 @@ export class ItemService {
    * @param scope The scope to be set.
    */
   public setPartThesaurusScope(ids: string[], scope: string): Observable<any> {
-    const url = `${this._apiEndpoint}${this._databaseId}/parts/thesscope`;
+    const url = `${this._env.apiUrl}${this._env.databaseId}/parts/thesscope`;
     return this._http
       .post<any>(url, { ids, scope })
       .pipe(catchError(this._error.handleError));

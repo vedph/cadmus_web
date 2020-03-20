@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ItemsLookupStore } from '../state/items-lookup.store';
 import { FlagService, FacetService, UserService } from '@cadmus/api';
 import { DataPage, UserInfo } from '@cadmus/core';
@@ -9,8 +9,7 @@ export class ItemsLookupService {
     private _facetService: FacetService,
     private _flagService: FlagService,
     private _userService: UserService,
-    private _store: ItemsLookupStore,
-    @Inject('databaseId') private _databaseId: string
+    private _store: ItemsLookupStore
   ) {}
 
   private loadFacets() {
