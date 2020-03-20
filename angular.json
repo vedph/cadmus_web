@@ -20,6 +20,7 @@
             "assets": [
               "apps/cadmus/src/favicon.ico",
               "apps/cadmus/src/assets",
+              "apps/cadmus/src/env.js",
               {
                 "glob": "**/*",
                 "input": "node_modules/ngx-monaco-editor/assets/monaco",

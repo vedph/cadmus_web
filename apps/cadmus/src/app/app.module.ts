@@ -17,7 +17,7 @@ import { MarkdownModule } from 'ngx-markdown';
 // Akita
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 
-import { CoreModule, PendingChangesGuard } from '@cadmus/core';
+import { CoreModule, PendingChangesGuard, EnvServiceProvider } from '@cadmus/core';
 import { UiModule } from '@cadmus/ui';
 import { GeneralUiModule } from '@cadmus/parts/general/general-ui';
 import { PhilologyUiModule } from '@cadmus/parts/philology/philology-ui';
@@ -222,6 +222,7 @@ import { FeatureWitnessesFragmentDemoComponent } from './demo/feature-witnesses-
     UiModule
   ],
   providers: [
+    EnvServiceProvider,
     // config
     // https://github.com/nrwl/nx/issues/208#issuecomment-384102058
     {
