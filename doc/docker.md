@@ -22,6 +22,16 @@ These credentials are found in the `appsettings.json` configuration file of the 
 
 When you want to stop the service, break from it in the console and to clean up enter `sudo docker-compose down`.
 
+## Building a Docker Image
+
+The Docker Hub is configured to automatically build on push. Should you need to manually build an image:
+
+1. build the app: `ng build --prod`. You can eventually customize the `env.js` parameters in the `dist` output folder.
+
+2. issue this command: `docker build . -t vedph2020/cadmus_web:latest`.
+
+3. if you want to publish the image in the Hub, login (`docker login --username vedph`) and push the image (`docker push vedph2020/cadmus_web:latest`).
+
 ## Consuming a Docker Image
 
 ### Windows - Setup Docker
