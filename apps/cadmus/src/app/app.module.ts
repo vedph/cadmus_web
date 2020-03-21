@@ -5,7 +5,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { config } from '../environments/environment';
 import { AppComponent } from './app.component';
 
 // flex
