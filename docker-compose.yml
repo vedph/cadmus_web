@@ -42,7 +42,7 @@ services:
   cadmus-web:
     image: vedph2020/cadmus_web:latest
     ports:
-      - 4200:4200
+      - 4200:80
     depends_on:
       - cadmus-api
     networks:
