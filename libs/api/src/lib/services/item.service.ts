@@ -48,6 +48,9 @@ export class ItemService {
     if (filter.facetId) {
       httpParams = httpParams.set('facetId', filter.facetId);
     }
+    if (filter.groupId) {
+      httpParams = httpParams.set('groupId', filter.groupId);
+    }
     if (filter.flags) {
       httpParams = httpParams.set('flags', filter.flags.toString());
     }

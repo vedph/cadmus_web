@@ -89,7 +89,12 @@
 
   <!-- note -->
   <div>
-    <textarea matInput formControlName="note" placeholder="note"></textarea>
+    <textarea
+      matInput
+      formControlName="note"
+      placeholder="note"
+      spellcheck="false"
+    ></textarea>
     <mat-error
       *ngIf="note.hasError('maxLength') && (note.dirty || note.touched)"
       >too long</mat-error
