@@ -1,0 +1,10 @@
+<div>
+  <span
+    class="badge-flag"
+    *ngFor="let def of badgeFlags"
+    [style.color]="'#' + def.colorKey"
+    [matTooltip]="def.label"
+  >
+    &#x25cf;
+  </span>
+</div>

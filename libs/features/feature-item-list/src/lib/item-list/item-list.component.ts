@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { PaginationResponse, PaginatorPlugin } from '@datorama/akita';
-import { ItemInfo, DataPage, ItemFilter, User } from '@cadmus/core';
+import { ItemInfo, DataPage, ItemFilter, User, FlagDefinition } from '@cadmus/core';
 import { ITEMS_PAGINATOR } from '../services/items-paginator';
 import { map, switchMap, tap, startWith } from 'rxjs/operators';
 import { ItemsState } from '../state/items.store';
@@ -21,8 +21,10 @@ import { AppQuery } from '@cadmus/features/edit-state';
 export class ItemListComponent implements OnInit {
   private _facetColors: {[key: string]: string};
   private _facetTips: {[key: string]: string};
+
   public pagination$: Observable<PaginationResponse<ItemInfo>>;
   public filter$: BehaviorSubject<ItemFilter>;
+  public flagDefinitions$: Observable<FlagDefinition[]>;
   public pageSize: FormControl;
   public user: User;
   public userLevel: number;
@@ -65,6 +67,8 @@ export class ItemListComponent implements OnInit {
       this.user = user;
       this.userLevel = this._authService.getCurrentUserLevel();
     });
+
+    this.flagDefinitions$ = this._appQuery.selectFlags();
 
     // filter
     const initialPageSize = 20;

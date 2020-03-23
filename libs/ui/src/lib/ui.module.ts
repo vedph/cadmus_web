@@ -20,6 +20,7 @@ import { HistoricalDateEditorComponent } from './components/historical-date-edit
 import { PasswordStrengthBarComponent } from './components/password-strength-bar/password-strength-bar.component';
 import { RouterModule } from '@angular/router';
 import { LayerHintsComponent } from './components/layer-hints/layer-hints.component';
+import { FlagsBadgeComponent } from './components/flags-badge/flags-badge.component';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { LayerHintsComponent } from './components/layer-hints/layer-hints.compon
     DatationEditorComponent,
     DecoratedTokenTextComponent,
     ErrorListComponent,
+    FlagsBadgeComponent,
     HistoricalDateEditorComponent,
     JsonEditorResourcesComponent,
     LayerHintsComponent,
@@ -52,6 +54,7 @@ import { LayerHintsComponent } from './components/layer-hints/layer-hints.compon
     DatationEditorComponent,
     DecoratedTokenTextComponent,
     ErrorListComponent,
+    FlagsBadgeComponent,
     HistoricalDateEditorComponent,
     JsonEditorResourcesComponent,
     LayerHintsComponent,
