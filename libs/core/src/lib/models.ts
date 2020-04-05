@@ -174,7 +174,6 @@ export interface PartDefinition {
   colorKey: string;
   groupKey: string;
   sortKey: string;
-  editorKey: string;
 }
 
 /**
@@ -199,6 +198,27 @@ export interface FlagDefinition {
   label: string;
   description: string;
   colorKey: string;
+}
+
+/**
+ * The group key for a part type. This is used in EditorKeys objects
+ * to map a specific part ID with all its fragment IDs into group key(s).
+ * The part ID is used alone with normal parts; for layer parts, it is
+ * used in conjunction with 1 or more fragment type IDs, each mapped to
+ * a corresponding editor key.
+ */
+export interface PartGroupKey {
+  part: string;
+  fragments?: { [key: string]: string };
+}
+
+/**
+ * Part type IDs to editor keys mappings. This contains a set of component
+ * type IDs (parts and parts + fragments) mapped to editor keys, which are
+ * used to build their routes in the UI.
+ */
+export interface PartEditorKeys {
+  [key: string]: PartGroupKey;
 }
 
 /**

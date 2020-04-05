@@ -120,11 +120,12 @@ export abstract class EditFragmentFeatureBase
       return d.typeId === part.typeId && d.roleId === d.roleId;
     });
 
-    const { partKey, frKey } = this._libraryRouteService.decomposeEditorKey(
-      partDef.editorKey
+    const editorKey = this._libraryRouteService.getEditorKeyFromPartType(
+      part.typeId,
+      part.roleId
     );
 
-    const url = `/items/${this.itemId}/${partKey}/${part.typeId}/${this.partId}`;
+    const url = `/items/${this.itemId}/${editorKey.partKey}/${part.typeId}/${this.partId}`;
     this._router.navigate([url], {
       queryParams: {
         rid: this.frTypeId

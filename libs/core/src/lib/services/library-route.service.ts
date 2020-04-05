@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
-import { PartDefinition } from '../models';
+import { Injectable, Inject } from '@angular/core';
+import { PartDefinition, PartEditorKeys } from '../models';
 
 /**
  * Library route service.
  * This service is used to build routes to part and fragment editors,
  * which are hosted in an open list of library modules in the Cadmus
  * application.
- * This architecture allows lazy-loading part and fragments editors
+ * This architecture allows lazy-loading part- and fragment-editors
  * only when they are required.
  * Each part type with its dumb UI editor component is located in a
- * library named after the name of the group the part belongs to. For
+ * library, named after the name of the group the part belongs to. For
  * instance, the model and dumb UI editor component for a part belonging
  * to the "general" group are located in the "parts/general/general-ui"
  * library.
@@ -23,7 +23,9 @@ import { PartDefinition } from '../models';
   providedIn: 'root'
 })
 export class LibraryRouteService {
-  constructor() {}
+  constructor(
+    @Inject('partEditorKeys') private _partEditorKeys: PartEditorKeys
+  ) {}
 
   /**
    * Strip the eventual fragment-role ID from the specified part's role ID.
@@ -76,6 +78,7 @@ export class LibraryRouteService {
   /**
    * Find among the specified parts definitions the one matching the specified
    * type ID, and eventually role ID when specified.
+   *
    * @param partDefs The parts definitions.
    * @param typeId The type ID.
    * @param roleId The role ID or null.
@@ -110,37 +113,32 @@ export class LibraryRouteService {
    * Get the library editor key from the specified part type, looking up
    * the specified parts definitions.
    *
-   * @param partDefs The parts definitions.
    * @param typeId The part's type ID.
    * @param roleId The part's role ID.
-   * @param fragment True to return the fragment's editor key rather than
-   * the part's editor key, when the editor key is composite (in this case,
-   * there are two values separated by space where 1=part and 2=fragment key,
-   * unless they are equal).
    */
   public getEditorKeyFromPartType(
-    partDefs: PartDefinition[],
     typeId: string,
-    roleId: string = null,
-    fragment = false
-  ): string {
-    if (!partDefs) {
-      return 'default';
+    roleId: string = null
+  ): { partKey: string; frKey?: string } {
+    // find the part type ID
+    const partGroupKey = this._partEditorKeys[typeId];
+    if (!partGroupKey) {
+      return {
+        partKey: 'default'
+      };
     }
 
-    // find the matching definition
-    const def = this.findPartDefinition(partDefs, typeId, roleId);
-    if (!def || !def.editorKey) {
-      return 'default';
+    // additionally find the role ID if specified
+    if (roleId) {
+      const reqRoleId = this.stripFragmentRoleId(roleId);
+      return {
+        partKey: partGroupKey.part,
+        frKey: partGroupKey.fragments[reqRoleId]
+      };
     }
-
-    // if dealing with a composite key, return the requested portion of it
-    const i = def.editorKey.indexOf(' ');
-    if (i > -1) {
-      return fragment? def.editorKey.substr(i + 1) : def.editorKey.substr(0, i);
-    }
-    // else just return it as a whole
-    return def.editorKey;
+    return {
+      partKey: partGroupKey.part
+    };
   }
 
   /**
@@ -149,7 +147,7 @@ export class LibraryRouteService {
    *
    * @param key The editor key to decompose.
    */
-  public decomposeEditorKey(key: string): { partKey: string, frKey: string } {
+  public decomposeEditorKey(key: string): { partKey: string; frKey: string } {
     const i = key.indexOf(' ');
     if (i > -1) {
       return {
@@ -192,10 +190,10 @@ export class LibraryRouteService {
     typeId: string
   ): string {
     let route: string;
-    const editorKey = this.getEditorKeyFromPartType(partDefs, typeId);
+    const editorKey = this.getEditorKeyFromPartType(typeId);
 
     // /items/<id>/<part-group>/<part-typeid>/<part-id>?rid=<role-id>
-    route = `/items/${itemId}/${editorKey}/${typeId}/${partId}`;
+    route = `/items/${itemId}/${editorKey.partKey}/${typeId}/${partId}`;
     return route;
   }
 
@@ -221,10 +219,10 @@ export class LibraryRouteService {
     loc: string
   ): { route: string; rid: string | null } {
     let route: string;
-    const editorKey = this.getEditorKeyFromPartType(partDefs, typeId, roleId, true);
+    const editorKey = this.getEditorKeyFromPartType(typeId, roleId);
     const { frTypeId, frRoleId } = this.getFragmentTypeAndRole(roleId);
 
-    route = `/items/${itemId}/${editorKey}/fragment/${partId}/${frTypeId}/${loc}`;
+    route = `/items/${itemId}/${editorKey.frKey}/fragment/${partId}/${frTypeId}/${loc}`;
     return {
       route: route,
       rid: frRoleId

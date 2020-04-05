@@ -39,6 +39,7 @@ import { FeatureKeywordsPartDemoComponent } from './demo/feature-keywords-part-d
 import { FeatureTiledTextPartDemoComponent } from './demo/feature-tiled-text-part-demo/feature-tiled-text-part-demo.component';
 import { FeatureTokenTextPartDemoComponent } from './demo/feature-token-text-part-demo/feature-token-text-part-demo.component';
 import { FeatureWitnessesFragmentDemoComponent } from './demo/feature-witnesses-fragment-demo/feature-witnesses-fragment-demo.component';
+import { PART_EDITOR_KEYS } from './part-editor-keys';
 
 @NgModule({
   declarations: [
@@ -222,16 +223,13 @@ import { FeatureWitnessesFragmentDemoComponent } from './demo/feature-witnesses-
   ],
   providers: [
     EnvServiceProvider,
-    // config
+    // parts and fragments type IDs to editor group keys mappings
     // https://github.com/nrwl/nx/issues/208#issuecomment-384102058
-    // {
-    //   provide: 'apiEndpoint',
-    //   useValue: config.apiEndpoint
-    // },
-    // {
-    //   provide: 'databaseId',
-    //   useValue: config.databaseId
-    // },
+    // inject like: @Inject('partEditorKeys') partEditorKeys: PartEditorKeys
+    {
+      provide: 'partEditorKeys',
+      useValue: PART_EDITOR_KEYS
+    },
     // HTTP interceptor
     // https://medium.com/@ryanchenkie_40935/angular-authentication-using-the-http-client-and-http-interceptors-2f9d1540eb8
     {

@@ -52,10 +52,7 @@ export class EditItemQuery extends Query<EditItemState> {
     if (!facet) {
       return 'default';
     }
-    return this._libraryRouteService.getEditorKeyFromPartType(
-      facet.partDefinitions,
-      typeId,
-      roleId
-    );
+    return this._libraryRouteService.getEditorKeyFromPartType(typeId, roleId)
+      .partKey;
   }
 }

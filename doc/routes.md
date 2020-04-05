@@ -10,26 +10,34 @@ The editing-related routes are:
 
 - `/items/<id>/<part-group>/fragment/<part-id>/<fr-typeid>/<loc>?rid=<role-id>`: single part's fragment editor. Role ID is optional.
 
-Note that the part-editing routes always have a `part-group` key. This comes from the `editorKey` property of each part's definition; if such a property is not defined (but in practice this should never happen), it defaults to `default`.
+Note that the part-editing routes always have a `part-group` key. This comes from the app's `PART_EDITOR_KEYS` constant object. This contains a property for each part type ID, whose value is an object with these properties:
 
-For layer parts, the `editorKey` can be a composite value, with 2 different values separated by space. In this case, the first value is the *part* editor key, and the second value is the *fragment* editor key. Should these be equal, you can just use a single, non composite value for both.
+- `part`: the part editor group key.
+- `fragments`: optional, having a property for each fragment type ID, whose value is the fragment editor group key.
 
-For instance, consider this part definition in a data profile:
+For instance, the categories part in this constant object has a property like this:
 
-```json
-{
-  "typeId": "net.fusisoft.token-text-layer",
-  "roleId": "fr.net.fusisoft.apparatus",
-  "name": "apparatus",
-  "description": "Critical apparatus.",
-  "colorKey": "D4E0A4",
-  "groupKey": "text",
-  "sortKey": "text-apparatus",
-  "editorKey": "general philology"
-},
+```ts
+[CATEGORIES_PART_TYPEID]: {
+  part: 'general'
+}
 ```
 
-Here, the editor key is composite, because the text layer part editor is in the `general` library, while the apparatus fragment editor is in the `philology` module.
+This means that the property named after the categories part type ID has an editor key value of `general`. For a layer part, we have several fragment type IDs properties:
+
+```ts
+[TOKEN_TEXT_LAYER_PART_TYPEID]: {
+  part: 'general',
+  fragments: {
+    [COMMENT_FRAGMENT_TYPEID]: 'general',
+    [APPARATUS_FRAGMENT_TYPEID]: 'philology',
+    [ORTHOGRAPHY_FRAGMENT_TYPEID]: 'philology',
+    [WITNESSES_FRAGMENT_TYPEID]: 'philology'
+  }
+}
+```
+
+Here the property named after the token text layer part type ID has an editor key value of `general`, while according to the fragment type ID it has an editor key value of `general` or `philology`.
 
 Grouping parts is a requirement because we want to be able to *lazily* load our part-related modules. For instance, all our generic parts are under the same `generic` group key, and their code is found in the corresponding, lazy-loaded module. When editing an item's part, the frontend looks at the part definitions, searching for the first one matching the part's type ID; then, it uses the corresponding part's group key to build the edit URL.
 
