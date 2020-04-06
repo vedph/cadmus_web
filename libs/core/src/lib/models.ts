@@ -60,6 +60,7 @@ export interface ItemInfo extends HasVersion {
   groupId: string;
   sortKey: string;
   flags: number;
+  payload?: any;
 }
 
 /**
