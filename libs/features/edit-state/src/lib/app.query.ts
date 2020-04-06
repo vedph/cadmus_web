@@ -21,4 +21,8 @@ export class AppQuery extends Query<AppState> {
   public selectTypeThesaurus(): Observable<Thesaurus> {
     return this.select(state => state.typeThesaurus);
   }
+
+  public selectItemBrowserThesaurus(): Observable<Thesaurus> {
+    return this.select(state => state.itemBrowserThesaurus);
+  }
 }

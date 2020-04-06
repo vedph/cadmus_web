@@ -17,15 +17,14 @@ export class AppService {
 
     const facets$ = this._facetService.getFacets();
     const flags$ = this._flagService.getFlags();
-    const thesaurus$ = this._thesaurusService.getThesaurus(
-      'model-types@en',
-      true
+    const thesauri$ = this._thesaurusService.getThesauri(
+      ['model-types@en', 'item-browsers@en']
     );
 
     forkJoin({
       facets: facets$,
       flags: flags$,
-      thesaurus: thesaurus$
+      thesauri: thesauri$
     }).subscribe(
       result => {
         this._store.setLoading(false);
@@ -34,7 +33,8 @@ export class AppService {
         this._store.update({
           facets: result.facets,
           flags: result.flags,
-          typeThesaurus: result.thesaurus
+          typeThesaurus: result.thesauri['model-types'],
+          itemBrowserThesaurus: result.thesauri['item-browsers']
         });
       },
       error => {

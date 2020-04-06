@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { User, GravatarService } from '@cadmus/core';
+import { User, GravatarService, Thesaurus } from '@cadmus/core';
 import { AuthService } from '@cadmus/api';
-import { AppService } from '@cadmus/features/edit-state';
+import { AppService, AppQuery } from '@cadmus/features/edit-state';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cadmus-root',
@@ -11,12 +12,16 @@ import { AppService } from '@cadmus/features/edit-state';
 export class AppComponent implements OnInit {
   public user: User;
   public logged: boolean;
+  public itemBrowserThesaurus$: Observable<Thesaurus>;
 
   constructor(
     private _authService: AuthService,
     private _gravatarService: GravatarService,
-    private _appService: AppService
-  ) {}
+    private _appService: AppService,
+    appQuery: AppQuery
+  ) {
+    this.itemBrowserThesaurus$ = appQuery.selectItemBrowserThesaurus();
+  }
 
   ngOnInit() {
     this.user = this._authService.currentUserValue;

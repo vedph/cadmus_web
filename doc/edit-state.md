@@ -81,3 +81,4 @@ These data are:
 - `facets`: the list of all the facets definitions.
 - `flags`: the list of all the flags definitions.
 - `typeThesaurus`: the optional thesaurus for model-types. This (if present) is used to display human-friendly part types names from their IDs. Otherwise, the raw IDs are displayed.
+- `itemBrowserThesaurus`: the optional thesaurus for items browsers. This (if present) is used to display the items browsers menu, using each thesaurus entry ID as part of the target route, and its value as the menu's label.

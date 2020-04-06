@@ -5,9 +5,24 @@
     /></span>
     <a mat-button routerLink="/home">Cadmus</a>
 
-    <a mat-button routerLink="/items" *ngIf="logged">Items</a>
+    <ng-container *ngIf="itemBrowserThesaurus$ | async as thes">
+      <mat-menu #itemMenu>
+        <a mat-button routerLink="/items" *ngIf="logged">Items</a>
+        <a
+          mat-menu-item
+          *ngFor="let entry of thes.entries"
+          [routerLink]="'item-browser/' + entry.id"
+          >{{ entry.value }}</a
+        >
+      </mat-menu>
+    </ng-container>
+    <ng-container *ngIf="!(itemBrowserThesaurus$ | async)">
+      <a mat-button routerLink="/items" *ngIf="logged">Items</a>
+    </ng-container>
 
-    <button mat-button [matMenuTriggerFor]="demoMenu" *ngIf="logged">Demo</button>
+    <button mat-button [matMenuTriggerFor]="demoMenu" *ngIf="logged">
+      Demo
+    </button>
     <mat-menu #demoMenu>
       <a mat-menu-item [matMenuTriggerFor]="partsMenu">Parts</a>
       <a mat-menu-item [matMenuTriggerFor]="fragmentsMenu">Fragments</a>

@@ -20,7 +20,12 @@ export interface AppState {
    * human-friendly part types names from their IDs. Otherwise, the raw
    * IDs are displayed.
    */
-  typeThesaurus: Thesaurus | null;
+  typeThesaurus?: Thesaurus;
+  /**
+   * The items browsers thesaurus. This (if present) is used to display
+   * the items browsers menu.
+   */
+  itemBrowserThesaurus?: Thesaurus;
 
   loading?: boolean;
   error?: string;
@@ -29,7 +34,8 @@ export interface AppState {
 const initialState: AppState = {
   facets: [],
   flags: [],
-  typeThesaurus: null
+  typeThesaurus: null,
+  itemBrowserThesaurus: null
 };
 
 @Injectable({ providedIn: 'root' })
