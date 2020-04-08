@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User, GravatarService, Thesaurus } from '@cadmus/core';
+import { User, GravatarService, Thesaurus, ThesaurusEntry } from '@cadmus/core';
 import { AuthService } from '@cadmus/api';
 import { AppService, AppQuery } from '@cadmus/features/edit-state';
 import { Observable } from 'rxjs';
@@ -12,16 +12,14 @@ import { Observable } from 'rxjs';
 export class AppComponent implements OnInit {
   public user: User;
   public logged: boolean;
-  public itemBrowserThesaurus$: Observable<Thesaurus>;
+  public itemBrowsers: ThesaurusEntry[];
 
   constructor(
     private _authService: AuthService,
     private _gravatarService: GravatarService,
     private _appService: AppService,
-    appQuery: AppQuery
-  ) {
-    this.itemBrowserThesaurus$ = appQuery.selectItemBrowserThesaurus();
-  }
+    private _appQuery: AppQuery
+  ) {}
 
   ngOnInit() {
     this.user = this._authService.currentUserValue;
@@ -35,6 +33,12 @@ export class AppComponent implements OnInit {
         this._appService.load();
       }
     });
+
+    this._appQuery
+      .selectItemBrowserThesaurus()
+      .subscribe((thesaurus: Thesaurus) => {
+        this.itemBrowsers = thesaurus? thesaurus.entries : null;
+      });
   }
 
   public getGravatarUrl(email: string, size = 80) {
