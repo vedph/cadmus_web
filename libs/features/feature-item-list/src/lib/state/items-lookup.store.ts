@@ -1,5 +1,5 @@
 import { StoreConfig, Store } from '@datorama/akita';
-import { FacetDefinition, FlagDefinition, UserInfo } from '@cadmus/core';
+import { FacetDefinition, FlagDefinition } from '@cadmus/core';
 import { Injectable } from '@angular/core';
 
 export interface LookupUser {

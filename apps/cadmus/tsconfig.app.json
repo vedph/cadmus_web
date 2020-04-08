@@ -22,7 +22,9 @@
 
     "../../libs/features/feature-reset-password/src/index.ts",
 
-    "../../libs/parts/philology/philology-feature/src/index.ts"
+    "../../libs/parts/philology/philology-feature/src/index.ts",
+
+    "../../libs/browsers/hierarchy/src/index.ts"
   ],
   "exclude": ["src/test-setup.ts", "**/*.spec.ts"]
 }

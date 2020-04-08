@@ -65,6 +65,9 @@
     },
     "parts-philology-philology-feature": {
       "tags": []
+    },
+    "browsers-hierarchy": {
+      "tags": []
     }
   }
 }

@@ -1,0 +1,9 @@
+tr:nth-child(odd) {
+  background-color: #eaeaea;
+}
+th {
+  text-align: left;
+}
+td.command {
+  width: 24px;
+}

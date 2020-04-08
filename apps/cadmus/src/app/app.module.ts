@@ -16,7 +16,11 @@ import { MarkdownModule } from 'ngx-markdown';
 // Akita
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 
-import { CoreModule, PendingChangesGuard, EnvServiceProvider } from '@cadmus/core';
+import {
+  CoreModule,
+  PendingChangesGuard,
+  EnvServiceProvider
+} from '@cadmus/core';
 import { UiModule } from '@cadmus/ui';
 import { GeneralUiModule } from '@cadmus/parts/general/general-ui';
 import { PhilologyUiModule } from '@cadmus/parts/philology/philology-ui';
@@ -197,6 +201,13 @@ import { PART_EDITOR_KEYS } from './part-editor-keys';
           loadChildren: () =>
             import('@cadmus/features/feature-reset-password').then(
               module => module.FeatureResetPasswordModule
+            )
+        },
+        {
+          path: 'item-browser/hierarchy',
+          loadChildren: () =>
+            import('@cadmus/browsers/hierarchy').then(
+              module => module.HierarchyModule
             )
         },
         { path: '**', component: HomeComponent }

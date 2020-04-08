@@ -625,6 +625,34 @@
         }
       },
       "schematics": {}
+    },
+    "browsers-hierarchy": {
+      "projectType": "library",
+      "root": "libs/browsers/hierarchy",
+      "sourceRoot": "libs/browsers/hierarchy/src",
+      "prefix": "cadmus",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/browsers/hierarchy/tsconfig.lib.json",
+              "libs/browsers/hierarchy/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/browsers/hierarchy/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/browsers/hierarchy/jest.config.js",
+            "tsConfig": "libs/browsers/hierarchy/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/browsers/hierarchy/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {}
     }
   },
   "cli": {
