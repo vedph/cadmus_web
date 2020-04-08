@@ -44,6 +44,7 @@ import { FeatureTiledTextPartDemoComponent } from './demo/feature-tiled-text-par
 import { FeatureTokenTextPartDemoComponent } from './demo/feature-token-text-part-demo/feature-token-text-part-demo.component';
 import { FeatureWitnessesFragmentDemoComponent } from './demo/feature-witnesses-fragment-demo/feature-witnesses-fragment-demo.component';
 import { PART_EDITOR_KEYS } from './part-editor-keys';
+import { HIERARCHY_ITEM_BROWSER_TYPEID } from 'libs/browsers/hierarchy/src/lib/state/hierarchy-item-browser.store';
 
 @NgModule({
   declarations: [
@@ -204,7 +205,7 @@ import { PART_EDITOR_KEYS } from './part-editor-keys';
             )
         },
         {
-          path: 'item-browser/hierarchy',
+          path: 'item-browser/' + HIERARCHY_ITEM_BROWSER_TYPEID,
           loadChildren: () =>
             import('@cadmus/browsers/hierarchy').then(
               module => module.HierarchyModule

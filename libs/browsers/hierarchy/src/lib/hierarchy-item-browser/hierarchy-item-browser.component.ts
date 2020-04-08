@@ -42,8 +42,8 @@ export class HierarchyItemBrowserComponent implements OnInit {
     // tree control with its children loader function
     this.treeControl = new NestedTreeControl<TreeNode>((node: TreeNode) => {
       // if the parent node is a pager, do nothing
-      if (node.pager) {
-        return;
+      if (!node || node.pager) {
+        return null;
       }
       // if the item node already has children, just return them
       const itemNode = node as ItemTreeNode;
@@ -64,6 +64,11 @@ export class HierarchyItemBrowserComponent implements OnInit {
   ngOnInit(): void {
     // by default, load the root node for a null tag
     this._storeService.load(null, TAGS_THESAURUS_ID);
+
+    // when root changes, update data source
+    this.root$.subscribe(root => {
+      this.treeDataSource.data = [root];
+    });
 
     // when tag changes, reload all
     this.tag.valueChanges.subscribe(_ => {

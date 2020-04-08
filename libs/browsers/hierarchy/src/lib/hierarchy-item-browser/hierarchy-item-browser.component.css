@@ -1,9 +1,17 @@
-tr:nth-child(odd) {
-  background-color: #eaeaea;
+.tree-invisible {
+  display: none;
 }
-th {
-  text-align: left;
+
+.tree ul,
+.tree li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
 }
-td.command {
-  width: 24px;
+.tree-node {
+  display: block;
+}
+
+.tree-node .tree-node {
+  padding-left: 40px;
 }

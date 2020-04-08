@@ -3,7 +3,7 @@ import { ItemInfo, Thesaurus } from '@cadmus/core';
 import { Injectable } from '@angular/core';
 
 export const HIERARCHY_ITEM_BROWSER_TYPEID =
-  'net.fusisoft.item-browser.hierarchy';
+  'net.fusisoft.item-browser.mongo.hierarchy';
 
 export interface HierarchyItemBrowserPayload {
   y: number;
