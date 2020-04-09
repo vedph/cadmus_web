@@ -248,6 +248,7 @@ export class HierarchyItemBrowserService {
     pageSize: number,
     parentNode: ItemTreeNode
   ): Observable<TreeNode[]> {
+    console.log('loadChildNodes for: ' + parentNode.label)
     this._store.setLoading(true);
 
     const nodes$ = this._itemBrowserService

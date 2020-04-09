@@ -22,6 +22,7 @@ const TAGS_THESAURUS_ID = 'hierarchy-item-browser-tags';
 export class HierarchyItemBrowserComponent implements OnInit {
   public root$: Observable<ItemTreeNode>;
   public tags$: Observable<Thesaurus>;
+  public loading: boolean;
   public treeControl: NestedTreeControl<TreeNode>;
   public treeDataSource: MatTreeNestedDataSource<TreeNode>;
 
@@ -33,6 +34,8 @@ export class HierarchyItemBrowserComponent implements OnInit {
     storeQuery: HierarchyItemBrowserQuery,
     private _storeService: HierarchyItemBrowserService
   ) {
+    this.loading = false;
+
     // form
     this.tag = formBuider.control(null);
     this.filters = formBuider.group({
@@ -57,6 +60,9 @@ export class HierarchyItemBrowserComponent implements OnInit {
 
     this.treeDataSource = new MatTreeNestedDataSource();
 
+    storeQuery.selectLoading().subscribe(b => {
+      this.loading = b? true : false;
+    });
     this.root$ = storeQuery.selectRoot();
     this.tags$ = storeQuery.selectTags();
   }
