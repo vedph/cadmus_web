@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ItemTreeNode, TreeNode } from '../state/hierarchy-item-browser.store';
+import { ItemTreeNode, TreeNode, PagerTreeNode } from '../state/hierarchy-item-browser.store';
 import { HierarchyItemBrowserService } from '../state/hierarchy-item-browser.service';
 import { Observable } from 'rxjs';
 import { Thesaurus } from '@cadmus/core';
@@ -28,8 +28,6 @@ export class HierarchyItemBrowserComponent implements OnInit {
 
   public tag: FormControl;
   public filters: FormGroup;
-
-  public currentNode: TreeNode;
 
   constructor(
     formBuider: FormBuilder,
@@ -65,18 +63,16 @@ export class HierarchyItemBrowserComponent implements OnInit {
 
     // when tag changes, change it in the data source
     this.tag.valueChanges.subscribe(_ => {
-      this.currentNode = null;
       this.treeDataSource.tag = this.tag.value ? this.tag.value : null;
     });
   }
 
   public onTreeNodeClick(node: TreeNode) {
-    this.currentNode = node;
-    if (node.pager) {
-      // TODO: prev/next page
-    } else {
-      // TODO: navigate to item editor
-    }
+    // TODO: navigate to item editor
+  }
+
+  public onPagerNodeClick(node: TreeNode) {
+    this.treeDataSource.applyPager(node as PagerTreeNode);
   }
 
   public hasChildren = (index: number, node: TreeNode) => {
@@ -86,5 +82,13 @@ export class HierarchyItemBrowserComponent implements OnInit {
     return true;
     // const itemNode = node as ItemTreeNode;
     // return itemNode.children && itemNode.children.length > 0;
+  };
+
+  public isPrevPager = (index: number, node: TreeNode) => {
+    return node && node.pager === -1;
+  };
+
+  public isNextPager = (index: number, node: TreeNode) => {
+    return node && node.pager === 1;
   };
 }

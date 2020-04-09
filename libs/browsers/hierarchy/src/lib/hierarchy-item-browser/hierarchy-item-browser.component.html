@@ -45,6 +45,38 @@
           </a>
         </mat-tree-node>
 
+        <!-- pager nodes -->
+        <mat-tree-node
+          *matTreeNodeDef="let node; when: isPrevPager"
+          matTreeNodePadding
+        >
+          <!-- use a disabled button to provide padding for tree leaf -->
+          <button mat-icon-button disabled></button>
+          <a
+            mat-icon-button
+            (click)="onPagerNodeClick(node)"
+            [disabled]="node.pageNumber > 1"
+            matTooltip="Previous page"
+          >
+            <mat-icon>expand-less</mat-icon>
+          </a>
+        </mat-tree-node>
+        <mat-tree-node
+          *matTreeNodeDef="let node; when: isNextPager"
+          matTreeNodePadding
+        >
+          <!-- use a disabled button to provide padding for tree leaf -->
+          <button mat-icon-button disabled></button>
+          <a
+            mat-icon-button
+            (click)="onPagerNodeClick(node)"
+            [disabled]="node.pageNumber < node.pageCount"
+            matTooltip="Next page"
+          >
+            <mat-icon>expand-more</mat-icon>
+          </a>
+        </mat-tree-node>
+
         <!-- expandable nodes -->
         <mat-tree-node
           *matTreeNodeDef="let node; when: hasChildren"
@@ -52,7 +84,7 @@
         >
           <button
             mat-icon-button
-            [attr.aria-label]="'toggle ' + node.label"
+            [attr.aria-label]="'Toggle ' + node.label"
             matTreeNodeToggle
           >
             <mat-icon class="mat-icon-rtl-mirror">

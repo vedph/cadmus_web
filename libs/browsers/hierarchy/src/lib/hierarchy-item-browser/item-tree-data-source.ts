@@ -238,7 +238,7 @@ export class ItemTreeDataSource {
    */
   public toggleNode(node: TreeNode, expand: boolean) {
     if (node.pager) {
-      // TODO: handle paging
+      // should not happen
       return;
     }
 
@@ -267,15 +267,43 @@ export class ItemTreeDataSource {
 
     this.loadChildNodes(this._tag, 1, this._pageSize, itemNode).subscribe(
       (nodes: TreeNode[]) => {
-        // TODO: determine if timeout is required
-        // setTimeout(() => {
-          // insert children nodes after their parent
-          itemNode.children = nodes;
-          this.data.splice(index + 1, 0, ...nodes);
-          // notify the change
-          this.data$.next(this.data);
-          node.loading = false;
-        // }, 500);
+        // insert children nodes after their parent
+        itemNode.children = nodes;
+        this.data.splice(index + 1, 0, ...nodes);
+        // notify the change
+        this.data$.next(this.data);
+        node.loading = false;
+      },
+      error => {
+        console.error('Error loading items page: ' + error);
+        node.loading = false;
+      }
+    );
+  }
+
+  public applyPager(node: PagerTreeNode) {
+    // check for page boundaries
+    if (!node.parent
+        || (node.pager === -1 && node.pageNumber < 2)
+        || (node.pager === 1 && node.pageNumber + 1 >= node.pageCount)) {
+          return;
+        }
+    const reqPageNumber = node.pager === -1
+      ? node.pageNumber - 1
+      : node.pageNumber + 1;
+
+    // expand: load children
+    const parent = node.parent;
+    parent.loading = true;
+
+    this.loadChildNodes(this._tag, reqPageNumber, this._pageSize, parent)
+      .subscribe((nodes: TreeNode[]) => {
+        // insert children nodes after their parent
+        parent.children = nodes;
+        this.data.splice(this.data.indexOf(parent) + 1, 0, ...nodes);
+        // notify the change
+        this.data$.next(this.data);
+        node.loading = false;
       },
       error => {
         console.error('Error loading items page: ' + error);
