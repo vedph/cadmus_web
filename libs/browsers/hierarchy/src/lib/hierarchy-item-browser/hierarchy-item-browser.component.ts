@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ItemTreeNode, TreeNode, PagerTreeNode } from '../state/hierarchy-item-browser.store';
+import {
+  ItemTreeNode,
+  TreeNode,
+  PagerTreeNode
+} from '../state/hierarchy-item-browser.store';
 import { HierarchyItemBrowserService } from '../state/hierarchy-item-browser.service';
 import { Observable } from 'rxjs';
 import { Thesaurus } from '@cadmus/core';
@@ -7,6 +11,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { ItemTreeDataSource } from './item-tree-data-source';
 import { ItemBrowserService } from '@cadmus/api';
+import { Router } from '@angular/router';
 
 const TAGS_THESAURUS_ID = 'hierarchy-item-browser-tags';
 
@@ -31,6 +36,7 @@ export class HierarchyItemBrowserComponent implements OnInit {
 
   constructor(
     formBuider: FormBuilder,
+    private _router: Router,
     private _itemBrowserService: ItemBrowserService,
     private _storeService: HierarchyItemBrowserService
   ) {
@@ -68,7 +74,10 @@ export class HierarchyItemBrowserComponent implements OnInit {
   }
 
   public onTreeNodeClick(node: TreeNode) {
-    // TODO: navigate to item editor
+    if (!node.pager) {
+      const itemNode = node as ItemTreeNode;
+      this._router.navigate(['/items', itemNode.id]);
+    }
   }
 
   public onPagerNodeClick(node: TreeNode) {

@@ -209,7 +209,8 @@ import { HIERARCHY_ITEM_BROWSER_TYPEID } from 'libs/browsers/hierarchy/src/lib/s
           loadChildren: () =>
             import('@cadmus/browsers/hierarchy').then(
               module => module.HierarchyModule
-            )
+            ),
+            canActivate: [AuthGuardService]
         },
         { path: '**', component: HomeComponent }
       ],
