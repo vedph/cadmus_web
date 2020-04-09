@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { QueryEntity } from '@datorama/akita';
 import {
   HierarchyItemBrowserState,
-  HierarchyItemBrowserStore,
-  TreeNode
+  HierarchyItemBrowserStore
 } from './hierarchy-item-browser.store';
 import { Observable } from 'rxjs';
 import { Thesaurus } from '@cadmus/core';
@@ -14,10 +13,6 @@ export class HierarchyItemBrowserQuery extends QueryEntity<
 > {
   constructor(protected store: HierarchyItemBrowserStore) {
     super(store);
-  }
-
-  public selectNodes(): Observable<TreeNode[]> {
-    return this.select(state => state.nodes);
   }
 
   public selectTags(): Observable<Thesaurus> {

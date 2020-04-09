@@ -93,7 +93,11 @@
               }}
             </mat-icon>
           </button>
-          <a mat-button (click)="onTreeNodeClick(node)">
+          <a
+            mat-button
+            (click)="onTreeNodeClick(node)"
+            matTooltip="{{ node.description }}"
+          >
             {{ node.label }}
           </a>
           <mat-progress-bar

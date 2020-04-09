@@ -12,6 +12,7 @@ import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { ItemTreeDataSource } from './item-tree-data-source';
 import { ItemBrowserService } from '@cadmus/api';
 import { Router } from '@angular/router';
+import { HierarchyItemBrowserQuery } from '../state/hierarchy-item-browser.query';
 
 const TAGS_THESAURUS_ID = 'hierarchy-item-browser-tags';
 
@@ -38,7 +39,8 @@ export class HierarchyItemBrowserComponent implements OnInit {
     formBuider: FormBuilder,
     private _router: Router,
     private _itemBrowserService: ItemBrowserService,
-    private _storeService: HierarchyItemBrowserService
+    private _storeService: HierarchyItemBrowserService,
+    private _storeQuery: HierarchyItemBrowserQuery
   ) {
     this.loading = false;
 
@@ -59,10 +61,12 @@ export class HierarchyItemBrowserComponent implements OnInit {
       this._itemBrowserService
     );
 
-    // TODO query tags from store
+    this.tags$ = this._storeQuery.selectTags();
   }
 
   ngOnInit(): void {
+    this._storeService.loadTags(TAGS_THESAURUS_ID);
+
     // by default, load the root node(s) for a null tag
     // this._storeService.load(null, TAGS_THESAURUS_ID);
     this.treeDataSource.reset();
