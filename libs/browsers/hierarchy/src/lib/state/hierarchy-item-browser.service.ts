@@ -4,7 +4,6 @@ import {
   HierarchyItemBrowserStore,
   HIERARCHY_ITEM_BROWSER_TYPEID,
   ItemTreeNode,
-  HierarchyItemBrowserPayload,
   TreeNode,
   PagerTreeNode
 } from './hierarchy-item-browser.store';
@@ -20,26 +19,14 @@ export class HierarchyItemBrowserService {
     private _thesaurusService: ThesaurusService
   ) {}
 
-  private createRootNode(page: DataPage<ItemInfo>): ItemTreeNode {
-    if (!page.total) {
-      return null;
-    }
-    const item = page.items[0];
-
+  private itemToNode(
+    item: ItemInfo,
+    pageNumber: number,
+    parent: ItemTreeNode
+  ): ItemTreeNode {
     return {
-      id: item.id,
-      label: item.title,
-      parent: null,
-      children: null,
-      facetId: item.facetId,
-      flags: item.flags,
-      description: item.description,
-      payload: item.payload as HierarchyItemBrowserPayload
-    };
-  }
-
-  private createNode(item: ItemInfo, parent: ItemTreeNode): ItemTreeNode {
-    return {
+      level: parent ? parent.level + 1 : 0,
+      pageNumber: pageNumber,
       id: item.id,
       label: item.title,
       parent: parent,
@@ -49,17 +36,6 @@ export class HierarchyItemBrowserService {
       description: item.description,
       payload: item.payload
     };
-  }
-
-  private getRootNode(node: ItemTreeNode): ItemTreeNode | null {
-    if (!node.parent) {
-      return node;
-    }
-    let n = node.parent;
-    while (n && n.parent) {
-      n = n.parent;
-    }
-    return n;
   }
 
   private pageToNodes(
@@ -85,7 +61,7 @@ export class HierarchyItemBrowserService {
       // items
       nodes.push(
         page.items.map(i => {
-          return this.createNode(i, parentNode);
+          return this.itemToNode(i, page.pageNumber, parentNode);
         })
       );
 
@@ -99,14 +75,14 @@ export class HierarchyItemBrowserService {
     } else {
       // just 1 page
       return page.items.map(i => {
-        return this.createNode(i, parentNode);
+        return this.itemToNode(i, page.pageNumber, parentNode);
       });
     }
   }
 
   /**
-   * Load the root node of the hierarchy and the tags thesaurus if any.
-   * The root node is requested to the server via a 1-item-sized page
+   * Load the root node(s) of the hierarchy and the tags thesaurus if any.
+   * The root node(s) is requested to the server via a 0-item-sized page
    * with a null parent item ID and the specified tag.
    *
    * @param tag The optional tag to be matched in items hierarchy parts.
@@ -114,18 +90,18 @@ export class HierarchyItemBrowserService {
    */
   public load(tag: string, tagThesaurusId: string) {
     this._store.setLoading(true);
-
+/*
     const page$ = this._itemBrowserService.getItems(
       HIERARCHY_ITEM_BROWSER_TYPEID,
       1,
-      1,
+      0,
       {
         tag: tag,
         parentId: null
       }
     );
 
-    // load both thesaurus and root node if required
+    // load both thesaurus and root nodes if required
     if (tagThesaurusId) {
       forkJoin({
         tags: this._thesaurusService.getThesaurus(tagThesaurusId, true),
@@ -133,7 +109,9 @@ export class HierarchyItemBrowserService {
       }).subscribe(
         result => {
           this._store.setLoading(false);
-          this._store.setRoot(this.createRootNode(result.page));
+          this._store.setNodes(
+            result.page.items.map(item => this.itemToNode(item, null))
+          );
           this._store.setTags(result.tags.entries.length ? result.tags : null);
         },
         error => {
@@ -145,10 +123,12 @@ export class HierarchyItemBrowserService {
     } else {
       // else just load the root node
       page$.subscribe(
-        result => {
+        page => {
           this._store.setLoading(false);
           this._store.setError(null);
-          this._store.setRoot(this.createRootNode(result));
+          this._store.setNodes(
+            page.items.map(item => this.itemToNode(item, null))
+          );
         },
         error => {
           console.error(error);
@@ -157,77 +137,29 @@ export class HierarchyItemBrowserService {
         }
       );
     }
+    */
   }
 
-  private copyChildrenWithReplace(
-    source: TreeNode,
-    target: ItemTreeNode,
-    sourceParent: ItemTreeNode,
+  private replaceChildren(
+    nodes: TreeNode[],
+    parentNode: ItemTreeNode,
     newChildren: TreeNode[]
-  ) {
-    // pager nodes have no children
-    if (!source || source.pager) {
-      return;
+  ): TreeNode[] {
+    const childLevel = parentNode.level + 1;
+    let start = 0;
+    while (start < nodes.length && nodes[start].level !== childLevel) {
+      start++;
     }
-
-    const itemSource = source as ItemTreeNode;
-    target.children = [];
-
-    // replace children if required
-    if (itemSource === sourceParent) {
-      for (let i = 0; i < newChildren.length; i++) {
-        const newChild = newChildren[i];
-        if (!newChild.pager) {
-          const newItemChild = newChild as ItemTreeNode;
-          newItemChild.parent = target;
-        }
-        target.children.push(newChild);
-      }
-      return;
+    if (start === nodes.length) {
+      return nodes;
     }
-    // nope if no children
-    if (!itemSource.children || itemSource.children.length === 0) {
-      return;
+    let end = start + 1;
+    while (end < nodes.length && nodes[end].level === childLevel) {
+      end++;
     }
-    // for each source-child
-    for (let i = 0; i < itemSource.children.length; i++) {
-      const oldChild = itemSource.children[i];
-      // clone and add it to target
-      const newChild = Object.assign({}, oldChild);
-      if (!newChild.pager) {
-        const newItemChild = newChild as ItemTreeNode;
-        newItemChild.parent = target;
-      }
-      target.children.push(newChild);
-
-      // copy its children if not a pager
-      if (!newChild.pager) {
-        this.copyChildrenWithReplace(
-          oldChild,
-          newChild as ItemTreeNode,
-          sourceParent,
-          newChildren
-        );
-      }
-    }
-  }
-
-  /**
-   * Set children nodes for the specified parent node, creating a new tree
-   * and returning it. This is required to replace the whole root node in
-   * the store.
-   *
-   * @param parent The parent node whose children must be set.
-   * @param children The children nodes to be set.
-   */
-  private setChildrenInNewTree(
-    parent: ItemTreeNode,
-    children: TreeNode[]
-  ): ItemTreeNode {
-    const oldRoot = this.getRootNode(parent);
-    const newRoot = Object.assign({}, oldRoot);
-    this.copyChildrenWithReplace(oldRoot, newRoot, parent, children);
-    return newRoot;
+    const copy = nodes.slice();
+    copy.splice(start, end - start, ...newChildren);
+    return copy;
   }
 
   /**
@@ -248,7 +180,7 @@ export class HierarchyItemBrowserService {
     pageSize: number,
     parentNode: ItemTreeNode
   ): Observable<TreeNode[]> {
-    console.log('loadChildNodes for: ' + parentNode.label)
+    console.log('loadChildNodes for: ' + parentNode.label);
     this._store.setLoading(true);
 
     const nodes$ = this._itemBrowserService
@@ -265,15 +197,12 @@ export class HierarchyItemBrowserService {
     nodes$.subscribe(
       nodes => {
         this._store.setLoading(false);
-
-        let newRoot: ItemTreeNode;
-        // empty
-        if (!nodes.length) {
-          newRoot = this.setChildrenInNewTree(parentNode, []);
-        } else {
-          newRoot = this.setChildrenInNewTree(parentNode, nodes);
-        }
-        this._store.setRoot(newRoot);
+        const newNodes = this.replaceChildren(
+          this._store.getValue().nodes,
+          parentNode,
+          nodes
+        );
+        this._store.setNodes(newNodes);
       },
       error => {
         console.error(error);

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemTreeNode, TreeNode } from '../state/hierarchy-item-browser.store';
 import { HierarchyItemBrowserService } from '../state/hierarchy-item-browser.service';
-import { HierarchyItemBrowserQuery } from '../state/hierarchy-item-browser.query';
 import { Observable } from 'rxjs';
 import { Thesaurus } from '@cadmus/core';
-import { NestedTreeControl } from '@angular/cdk/tree';
-import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { FlatTreeControl } from '@angular/cdk/tree';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { ItemTreeDataSource } from './item-tree-data-source';
+import { ItemBrowserService } from '@cadmus/api';
 
 const TAGS_THESAURUS_ID = 'hierarchy-item-browser-tags';
 
@@ -20,18 +20,20 @@ const TAGS_THESAURUS_ID = 'hierarchy-item-browser-tags';
   styleUrls: ['./hierarchy-item-browser.component.css']
 })
 export class HierarchyItemBrowserComponent implements OnInit {
-  public root$: Observable<ItemTreeNode>;
+  public nodes$: Observable<TreeNode[]>;
   public tags$: Observable<Thesaurus>;
   public loading: boolean;
-  public treeControl: NestedTreeControl<TreeNode>;
-  public treeDataSource: MatTreeNestedDataSource<TreeNode>;
+  public treeControl: FlatTreeControl<TreeNode>;
+  public treeDataSource: ItemTreeDataSource;
 
   public tag: FormControl;
   public filters: FormGroup;
 
+  public currentNode: TreeNode;
+
   constructor(
     formBuider: FormBuilder,
-    storeQuery: HierarchyItemBrowserQuery,
+    private _itemBrowserService: ItemBrowserService,
     private _storeService: HierarchyItemBrowserService
   ) {
     this.loading = false;
@@ -43,47 +45,33 @@ export class HierarchyItemBrowserComponent implements OnInit {
     });
 
     // tree control with its children loader function
-    this.treeControl = new NestedTreeControl<TreeNode>((node: TreeNode) => {
-      // if the parent node is a pager, do nothing
-      if (!node || node.pager) {
-        return null;
-      }
-      // if the item node already has children, just return them
-      const itemNode = node as ItemTreeNode;
-      if (itemNode.children) {
-        return itemNode.children;
-      }
-      // else load them into the store and return the observable
-      // used for loading, so that the UI is happy, too
-      return this._storeService.loadChildNodes(this.tag.value, 1, 20, itemNode);
-    });
+    this.treeControl = new FlatTreeControl<TreeNode>(
+      node => node?.level || 0,
+      node => node && !node.pager && !(node as ItemTreeNode).children
+    );
 
-    this.treeDataSource = new MatTreeNestedDataSource();
+    this.treeDataSource = new ItemTreeDataSource(
+      this.treeControl,
+      this._itemBrowserService
+    );
 
-    storeQuery.selectLoading().subscribe(b => {
-      this.loading = b? true : false;
-    });
-    this.root$ = storeQuery.selectRoot();
-    this.tags$ = storeQuery.selectTags();
+    // TODO query tags from store
   }
 
   ngOnInit(): void {
-    // by default, load the root node for a null tag
-    this._storeService.load(null, TAGS_THESAURUS_ID);
+    // by default, load the root node(s) for a null tag
+    // this._storeService.load(null, TAGS_THESAURUS_ID);
+    this.treeDataSource.reset();
 
-    // when root changes, update data source
-    this.root$.subscribe(root => {
-      this.treeDataSource.data = [root];
-    });
-
-    // when tag changes, reload all
+    // when tag changes, change it in the data source
     this.tag.valueChanges.subscribe(_ => {
-      const tagFilter = this.tag.value ? this.tag.value : null;
-      this._storeService.load(tagFilter, TAGS_THESAURUS_ID);
+      this.currentNode = null;
+      this.treeDataSource.tag = this.tag.value ? this.tag.value : null;
     });
   }
 
   public onTreeNodeClick(node: TreeNode) {
+    this.currentNode = node;
     if (node.pager) {
       // TODO: prev/next page
     } else {
@@ -95,7 +83,8 @@ export class HierarchyItemBrowserComponent implements OnInit {
     if (!node || node.pager) {
       return false;
     }
-    const itemNode = node as ItemTreeNode;
-    return itemNode.children && itemNode.children.length > 0;
+    return true;
+    // const itemNode = node as ItemTreeNode;
+    // return itemNode.children && itemNode.children.length > 0;
   };
 }

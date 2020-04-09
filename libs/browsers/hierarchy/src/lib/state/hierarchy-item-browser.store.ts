@@ -16,17 +16,29 @@ export interface HierarchyItemBrowserPayload {
  */
 export interface TreeNode {
   /**
-   * This property tells whether the node is a "left" pager (-1),
-   * a "right" pager (+1), or an item node (falsy).
+   * The 0-based depth level.
+   */
+  level: number;
+  /**
+   * The parent item node.
+   */
+  parent: ItemTreeNode;
+  /**
+   * The number of the page this node belongs to.
+   */
+  pageNumber: number;
+  /**
+   * This property tells whether the node is a "prev" pager (-1),
+   * a "next" pager (+1), or an item node (falsy).
    */
   pager?: number;
+  loading?: boolean;
 }
 
 /**
  * A pager node, used to add paging controls inside a tree.
  */
 export interface PagerTreeNode extends TreeNode {
-  pageNumber: number;
   pageCount: number;
   total: number;
 }
@@ -37,7 +49,6 @@ export interface PagerTreeNode extends TreeNode {
 export interface ItemTreeNode extends TreeNode {
   id: string;
   label: string;
-  parent: ItemTreeNode;
   children?: TreeNode[];
   facetId: string;
   flags: number;
@@ -47,14 +58,14 @@ export interface ItemTreeNode extends TreeNode {
 
 export interface HierarchyItemBrowserState
   extends EntityState<ItemInfo, string> {
-  root: ItemTreeNode | null;
+  nodes: TreeNode[];
   tags?: Thesaurus;
   loading?: boolean;
   error?: string;
 }
 
 const initialState: HierarchyItemBrowserState = {
-  root: null,
+  nodes: [],
   tags: null,
   loading: false,
   error: null
@@ -70,12 +81,12 @@ export class HierarchyItemBrowserStore extends EntityStore<
   }
 
   /**
-   * Set the root node.
+   * Set the nodes.
    *
-   * @param value The root node.
+   * @param value The nodes.
    */
-  public setRoot(value: ItemTreeNode | null): void {
-    this.update({ root: value });
+  public setNodes(value: TreeNode[]): void {
+    this.update({ nodes: value });
   }
 
   /**

@@ -3,7 +3,7 @@ import { QueryEntity } from '@datorama/akita';
 import {
   HierarchyItemBrowserState,
   HierarchyItemBrowserStore,
-  ItemTreeNode
+  TreeNode
 } from './hierarchy-item-browser.store';
 import { Observable } from 'rxjs';
 import { Thesaurus } from '@cadmus/core';
@@ -16,8 +16,8 @@ export class HierarchyItemBrowserQuery extends QueryEntity<
     super(store);
   }
 
-  public selectRoot(): Observable<ItemTreeNode> {
-    return this.select(state => state.root);
+  public selectNodes(): Observable<TreeNode[]> {
+    return this.select(state => state.nodes);
   }
 
   public selectTags(): Observable<Thesaurus> {
