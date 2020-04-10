@@ -53,7 +53,7 @@ export class HierarchyItemBrowserComponent implements OnInit {
     // tree control with its children loader function
     this.treeControl = new FlatTreeControl<TreeNode>(
       node => node?.level || 0,
-      node => node && !node.pager && !(node as ItemTreeNode).children
+      node => node && !node.pager
     );
 
     this.treeDataSource = new ItemTreeDataSource(

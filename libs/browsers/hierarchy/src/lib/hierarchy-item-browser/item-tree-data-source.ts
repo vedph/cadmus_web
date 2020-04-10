@@ -317,11 +317,10 @@ export class ItemTreeDataSource {
       this._tag,
       reqPageNumber,
       this._pageSize,
-      parent
+      parent as ItemTreeNode
     ).subscribe(
       (nodes: TreeNode[]) => {
         // insert children nodes after their parent
-        parent.children = nodes;
         this.data.splice(this.data.indexOf(parent) + 1, 0, ...nodes);
         // notify the change
         this.data$.next(this.data);
