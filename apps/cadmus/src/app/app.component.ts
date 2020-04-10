@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { User, GravatarService, Thesaurus, ThesaurusEntry } from '@cadmus/core';
 import { AuthService } from '@cadmus/api';
 import { AppService, AppQuery } from '@cadmus/features/edit-state';
@@ -15,6 +15,8 @@ export class AppComponent implements OnInit {
   public itemBrowsers: ThesaurusEntry[];
 
   constructor(
+    @Inject('itemBrowserKeys')
+    private _itemBrowserKeys: { [key: string]: string },
     private _authService: AuthService,
     private _gravatarService: GravatarService,
     private _appService: AppService,
@@ -37,8 +39,12 @@ export class AppComponent implements OnInit {
     this._appQuery
       .selectItemBrowserThesaurus()
       .subscribe((thesaurus: Thesaurus) => {
-        this.itemBrowsers = thesaurus? thesaurus.entries : null;
+        this.itemBrowsers = thesaurus ? thesaurus.entries : null;
       });
+  }
+
+  public getItemBrowserRoute(id: string): string {
+    return this._itemBrowserKeys[id] || id;
   }
 
   public getGravatarUrl(email: string, size = 80) {

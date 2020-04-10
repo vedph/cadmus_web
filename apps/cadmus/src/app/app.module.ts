@@ -44,6 +44,7 @@ import { FeatureTiledTextPartDemoComponent } from './demo/feature-tiled-text-par
 import { FeatureTokenTextPartDemoComponent } from './demo/feature-token-text-part-demo/feature-token-text-part-demo.component';
 import { FeatureWitnessesFragmentDemoComponent } from './demo/feature-witnesses-fragment-demo/feature-witnesses-fragment-demo.component';
 import { PART_EDITOR_KEYS } from './part-editor-keys';
+import { ITEM_BROWSER_KEYS } from './item-browser-keys';
 
 @NgModule({
   declarations: [
@@ -204,7 +205,7 @@ import { PART_EDITOR_KEYS } from './part-editor-keys';
             )
         },
         {
-          path: 'item-browser/net.fusisoft.item-browser.mongo.hierarchy',
+          path: 'item-browser/hierarchy',
           loadChildren: () =>
             import('@cadmus/browsers/hierarchy').then(
               module => module.HierarchyModule
@@ -241,6 +242,12 @@ import { PART_EDITOR_KEYS } from './part-editor-keys';
     {
       provide: 'partEditorKeys',
       useValue: PART_EDITOR_KEYS
+    },
+    // item browsers IDs to editor keys mappings
+    // inject like: @Inject('itemBrowserKeys') itemBrowserKeys: { [key: string]: string }
+    {
+      provide: 'itemBrowserKeys',
+      useValue: ITEM_BROWSER_KEYS
     },
     // HTTP interceptor
     // https://medium.com/@ryanchenkie_40935/angular-authentication-using-the-http-client-and-http-interceptors-2f9d1540eb8

@@ -17,7 +17,7 @@
       <a
         mat-menu-item
         *ngFor="let entry of itemBrowsers"
-        [routerLink]="'item-browser/' + entry.id"
+        [routerLink]="'item-browser/' + getItemBrowserRoute(entry.id)"
         >{{ entry.value }}</a
       >
     </mat-menu>
