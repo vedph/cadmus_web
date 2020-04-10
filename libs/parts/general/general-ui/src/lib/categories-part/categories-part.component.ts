@@ -6,6 +6,7 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { of } from 'rxjs';
 import { AuthService } from '@cadmus/api';
+import { sep } from 'path';
 
 interface TreeNode {
   id: string;
@@ -92,15 +93,23 @@ export class CategoriesPartComponent
   private addNode(pair: Pair<string>, separator: string, root: TreeNode) {
     const components = pair.value.split(separator);
 
-    // walk tree up to the last existing component
+    // walk the tree up to the last existing component
     let i = 0;
     let node = root;
+    const idParts: string[] = [];
+
+    // for each component:
     while (i < components.length) {
+      idParts.push(components[i]);
+
+      // stop walking when the node has no more children
       if (!node.children) {
         break;
       }
+      // find target among children
+      const targetId = idParts.join(separator);
       const existing = node.children.find(c => {
-        return c.id === components[i];
+        return c.id === targetId;
       });
       if (existing) {
         node = existing;
@@ -118,7 +127,7 @@ export class CategoriesPartComponent
       const isLast = i + 1 === components.length;
       const child: TreeNode = {
         label: isLast ? pair.id : components[i],
-        id: isLast ? pair.value : null,
+        id: isLast ? pair.value : idParts.join(separator),
         children: []
       };
       node.children.push(child);
