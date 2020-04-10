@@ -116,11 +116,9 @@ export class ItemTreeDataSource {
   ): ItemTreeNode {
     return {
       level: parent ? parent.level + 1 : 0,
-      parent: parent,
       pageNumber: pageNumber,
       id: item.id,
       label: item.title,
-      children: null,
       facetId: item.facetId,
       flags: item.flags,
       description: item.description,
@@ -256,7 +254,6 @@ export class ItemTreeDataSource {
         return;
       }
       this.data.splice(bounds.start, bounds.end - bounds.start);
-      itemNode.children = null;
       // notify the change
       this.data$.next(this.data);
       return;
@@ -268,9 +265,9 @@ export class ItemTreeDataSource {
     this.loadChildNodes(this._tag, 1, this._pageSize, itemNode).subscribe(
       (nodes: TreeNode[]) => {
         // insert children nodes after their parent
-        itemNode.children = nodes || [];
-        if (itemNode.children.length) {
-          this.data.splice(index + 1, 0, ...itemNode.children);
+        nodes = nodes || [];
+        if (nodes.length) {
+          this.data.splice(index + 1, 0, ...nodes);
           // notify the change
           this.data$.next(this.data);
         }
@@ -283,6 +280,18 @@ export class ItemTreeDataSource {
     );
   }
 
+  private getParentNode(node: TreeNode) {
+    if (!node.level) {
+      return null;
+    }
+    let i = this.data.indexOf(node);
+    const parentLevel = node.level - 1;
+    while (i > -1 && this.data[i].level !== parentLevel) {
+      i--;
+    }
+    return i === -1 ? null : this.data[i];
+  }
+
   /**
    * Apply the function of the specified pager node, switching to the page
    * defined by it.
@@ -292,7 +301,6 @@ export class ItemTreeDataSource {
   public applyPager(node: PagerTreeNode) {
     // check for page boundaries
     if (
-      !node.parent ||
       (node.pager === -1 && node.pageNumber < 2) ||
       (node.pager === 1 && node.pageNumber + 1 >= node.pageCount)
     ) {
@@ -302,7 +310,7 @@ export class ItemTreeDataSource {
       node.pager === -1 ? node.pageNumber - 1 : node.pageNumber + 1;
 
     // expand: load children
-    const parent = node.parent;
+    const parent = this.getParentNode(node);
     parent.loading = true;
 
     this.loadChildNodes(

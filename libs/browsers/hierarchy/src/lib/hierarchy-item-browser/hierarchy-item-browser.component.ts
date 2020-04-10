@@ -70,7 +70,7 @@ export class HierarchyItemBrowserComponent implements OnInit {
     // retrieve the nodes from the store, or just start with root node(s)
     const storedNodes = this._storeQuery.getValue().nodes;
     if (storedNodes?.length > 0) {
-      this.treeDataSource.data = storedNodes;
+      this.treeDataSource.data = JSON.parse(JSON.stringify(storedNodes));
     } else {
       this.treeDataSource.reset();
     }

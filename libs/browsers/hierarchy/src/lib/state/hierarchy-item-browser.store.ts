@@ -20,10 +20,6 @@ export interface TreeNode {
    */
   level: number;
   /**
-   * The parent item node.
-   */
-  parent: ItemTreeNode;
-  /**
    * The number of the page this node belongs to.
    */
   pageNumber: number;
@@ -49,7 +45,6 @@ export interface PagerTreeNode extends TreeNode {
 export interface ItemTreeNode extends TreeNode {
   id: string;
   label: string;
-  children?: TreeNode[];
   facetId: string;
   flags: number;
   description: string;

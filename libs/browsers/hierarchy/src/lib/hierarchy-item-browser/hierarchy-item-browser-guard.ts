@@ -24,9 +24,7 @@ export class HierarchyItemBrowserCanDeactivateGuard
     }
     // store nodes before leaving
     const data: TreeNode[] = component.getData();
-    this._storeService.setNodes(
-      data?.length > 0 ? data : null
-    );
+    this._storeService.setNodes(data?.length > 0 ? data : null);
     return true;
   }
 }
