@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ThesaurusService } from '@cadmus/api';
-import { HierarchyItemBrowserStore } from './hierarchy-item-browser.store';
+import { HierarchyItemBrowserStore, TreeNode } from './hierarchy-item-browser.store';
 
 @Injectable({ providedIn: 'root' })
 export class HierarchyItemBrowserService {
@@ -8,6 +8,15 @@ export class HierarchyItemBrowserService {
     private _store: HierarchyItemBrowserStore,
     private _thesaurusService: ThesaurusService
   ) {}
+
+  /**
+   * Set the nodes in the store.
+   *
+   * @param nodes The nodes.
+   */
+  public setNodes(nodes: TreeNode[] | null) {
+    this._store.setNodes(nodes);
+  }
 
   /**
    * Load the tags thesaurus.

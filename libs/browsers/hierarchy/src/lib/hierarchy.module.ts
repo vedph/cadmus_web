@@ -8,6 +8,7 @@ import { GeneralUiModule } from '@cadmus/parts/general/general-ui';
 import { EditStateModule } from '@cadmus/features/edit-state';
 import { HierarchyItemBrowserComponent } from './hierarchy-item-browser/hierarchy-item-browser.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HierarchyItemBrowserCanDeactivateGuard } from './hierarchy-item-browser/hierarchy-item-browser-guard';
 
 @NgModule({
   imports: [
@@ -21,14 +22,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     GeneralUiModule,
     EditStateModule,
     RouterModule.forChild([
-      { path: '', pathMatch: 'full', component: HierarchyItemBrowserComponent }
+      {
+        path: '',
+        pathMatch: 'full',
+        component: HierarchyItemBrowserComponent,
+        canDeactivate: [HierarchyItemBrowserCanDeactivateGuard]
+      }
     ])
   ],
-  declarations: [
-    HierarchyItemBrowserComponent
-  ],
-  exports: [
-    HierarchyItemBrowserComponent
-  ]
+  declarations: [HierarchyItemBrowserComponent],
+  exports: [HierarchyItemBrowserComponent]
 })
 export class HierarchyModule {}

@@ -71,6 +71,13 @@ const initialState: HierarchyItemBrowserState = {
   error: null
 };
 
+/**
+ * Store for HierarchyItemBrowserComponent. This is used only to store the
+ * thesaurus tags for lookup in filtering; data displayed in the tree are
+ * managed by the ItemTreeDataSource. When leaving that page, these data
+ * are saved in the store to be retrieved later, when coming back to the same
+ * page.
+ */
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: HIERARCHY_ITEM_BROWSER_TYPEID })
 export class HierarchyItemBrowserStore extends EntityStore<
@@ -81,7 +88,8 @@ export class HierarchyItemBrowserStore extends EntityStore<
   }
 
   /**
-   * Set the nodes.
+   * Set the nodes so that they can be retrieved later when coming back
+   * to the browser's page.
    *
    * @param value The nodes.
    */

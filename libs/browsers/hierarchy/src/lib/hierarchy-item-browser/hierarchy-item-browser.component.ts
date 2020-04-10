@@ -67,14 +67,22 @@ export class HierarchyItemBrowserComponent implements OnInit {
   ngOnInit(): void {
     this._storeService.loadTags(TAGS_THESAURUS_ID);
 
-    // by default, load the root node(s) for a null tag
-    // this._storeService.load(null, TAGS_THESAURUS_ID);
-    this.treeDataSource.reset();
+    // retrieve the nodes from the store, or just start with root node(s)
+    const storedNodes = this._storeQuery.getValue().nodes;
+    if (storedNodes?.length > 0) {
+      this.treeDataSource.data = storedNodes;
+    } else {
+      this.treeDataSource.reset();
+    }
 
     // when tag changes, change it in the data source
     this.tag.valueChanges.subscribe(_ => {
       this.treeDataSource.tag = this.tag.value ? this.tag.value : null;
     });
+  }
+
+  public getData(): TreeNode[] {
+    return this.treeDataSource.data;
   }
 
   public onTreeNodeClick(node: TreeNode) {
