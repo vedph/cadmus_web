@@ -6,7 +6,6 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { of } from 'rxjs';
 import { AuthService } from '@cadmus/api';
-import { sep } from 'path';
 
 interface TreeNode {
   id: string;
@@ -118,7 +117,8 @@ export class CategoriesPartComponent
         break;
       }
     }
-    // node is now the last existing component, use it as the ancestor
+
+    // node is now the last existing component; use it as the ancestor
     // for all the remaining components (starting from i)
     while (i < components.length) {
       if (!node.children) {
