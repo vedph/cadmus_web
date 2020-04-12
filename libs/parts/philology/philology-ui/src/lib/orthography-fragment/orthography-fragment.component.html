@@ -39,37 +39,37 @@
         <span *ngIf="fragment?.baseText" class="base-text">{{
           fragment.baseText
         }}</span>
+        <mat-toolbar>
+          <button
+            type="button"
+            color="primary"
+            mat-icon-button
+            matTooltip="Add a new operation"
+            (click)="addOperation()"
+          >
+            <mat-icon>add_circle</mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            matTooltip="Automatically set operations from differences"
+            [disabled]="!standard.value || !fragment?.baseText"
+            (click)="autoAddOperations()"
+          >
+            <mat-icon>queue</mat-icon>
+          </button>
+          <button
+            type="button"
+            color="warn"
+            mat-icon-button
+            matTooltip="Delete all the operations"
+            [disabled]="operations?.length === 0"
+            (click)="clearOperations()"
+          >
+            <mat-icon>delete_sweep</mat-icon>
+          </button>
+        </mat-toolbar>
         <div formArrayName="operations">
-          <div>
-            <button
-              type="button"
-              color="primary"
-              mat-icon-button
-              matTooltip="Add a new operation"
-              (click)="addOperation()"
-            >
-              <mat-icon>add_circle</mat-icon>
-            </button>
-            <button
-              type="button"
-              mat-icon-button
-              matTooltip="Automatically set operations from differences"
-              [disabled]="!standard.value || !fragment?.baseText"
-              (click)="autoAddOperations()"
-            >
-              <mat-icon>post_add</mat-icon>
-            </button>
-            <button
-              type="button"
-              color="warn"
-              mat-icon-button
-              matTooltip="Delete all the operations"
-              [disabled]="operations?.length === 0"
-              (click)="clearOperations()"
-            >
-              <mat-icon>delete_sweep</mat-icon>
-            </button>
-          </div>
           <ol
             *ngFor="
               let item of operations.controls;
