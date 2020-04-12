@@ -171,14 +171,14 @@ export class TiledDataComponent implements OnInit {
     return data;
   }
 
-  public deleteDatum(key: string) {
+  public deleteDatum(key: DataKey) {
     this._dialogService
-    .confirm('Confirm Deletion', `Delete datum #"${key}"?`)
+    .confirm('Confirm Deletion', `Delete datum #"${key.value}"?`)
     .subscribe((ok: boolean) => {
       if (!ok) {
         return;
       }
-      delete this._data[key];
+      delete this._data[key.value];
       this.updateForm();
     });
   }
