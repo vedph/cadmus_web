@@ -126,16 +126,16 @@ export class ApparatusEntryComponent implements OnInit {
     this._entry.witnesses = [];
     for (let i = 0; i < this.witnesses.length; i++) {
       this._entry.witnesses.push({
-        value: this.witnesses.controls[i].value?.trim(),
-        note: this.witnesses.controls[i].value,
+        value: this.witnesses.value[i].value?.trim(),
+        note: this.witnesses.value[i].note
       });
     }
 
     this._entry.authors = [];
     for (let i = 0; i < this.authors.length; i++) {
       this._entry.authors.push({
-        value: this.authors.controls[i].value?.trim(),
-        note: this.authors.controls[i].value,
+        value: this.authors.value[i].value?.trim(),
+        note: this.authors.value[i].note
       });
     }
   }

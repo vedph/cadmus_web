@@ -23,6 +23,8 @@ import { Thesaurus } from '@cadmus/core';
 export class ApparatusFragmentComponent
   extends ModelEditorComponentBase<ApparatusFragment>
   implements OnInit {
+  private _newEditedEntry: boolean;
+
   public fragment: ApparatusFragment;
   public editedEntry: ApparatusEntry;
   public currentTabIndex: number;
@@ -109,6 +111,7 @@ export class ApparatusFragmentComponent
     const entry = { type: ApparatusEntryType.replacement };
     this.fragment.entries.push(entry);
     this.entryCount.setValue(this.fragment.entries.length);
+    this._newEditedEntry = true;
     this.editEntry(entry);
   }
 
@@ -118,6 +121,7 @@ export class ApparatusFragmentComponent
   }
 
   public onEntrySave(entry: ApparatusEntry) {
+    this._newEditedEntry = false;
     const i = this.fragment.entries.indexOf(this.editedEntry);
     this.fragment.entries.splice(i, 1, entry);
     this.currentTabIndex = 0;
@@ -126,6 +130,11 @@ export class ApparatusFragmentComponent
   }
 
   public onEntryClose() {
+    if (this._newEditedEntry) {
+      const index = this.fragment.entries.indexOf(this.editedEntry);
+      this.fragment.entries.splice(index, 1);
+      this.entryCount.setValue(this.fragment.entries.length);
+    }
     this.currentTabIndex = 0;
     this.editedEntry = null;
   }
