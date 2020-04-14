@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { ItemService } from './item.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { EnvServiceProvider } from '@cadmus/core';
 
 describe('ItemService', () => {
   beforeEach(() =>
@@ -9,8 +10,7 @@ describe('ItemService', () => {
       imports: [HttpClientModule],
       providers: [
         HttpClient,
-        { provide: 'apiEndpoint', useValue: 'none' },
-        { provide: 'databaseId', useValue: 'cadmus' }
+        EnvServiceProvider
       ]
     })
   );
