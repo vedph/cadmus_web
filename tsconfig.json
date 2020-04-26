@@ -57,8 +57,9 @@
       "@cadmus/parts/philology/philology-feature": [
         "libs/parts/philology/philology-feature/src/index.ts"
       ],
-      "@cadmus/browsers/hierarchy": [
-        "libs/browsers/hierarchy/src/index.ts"
+      "@cadmus/browsers/hierarchy": ["libs/browsers/hierarchy/src/index.ts"],
+      "@cadmus/features/feature-item-search": [
+        "libs/features/feature-item-search/src/index.ts"
       ]
     }
   },

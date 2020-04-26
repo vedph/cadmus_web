@@ -25,6 +25,8 @@
       <a mat-button routerLink="/items">Items</a>
     </ng-container>
 
+    <a mat-button routerLink="/search" *ngIf="logged">Search</a>
+
     <button mat-button [matMenuTriggerFor]="demoMenu" *ngIf="logged">
       Demo
     </button>

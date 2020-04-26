@@ -210,7 +210,15 @@ import { ITEM_BROWSER_KEYS } from './item-browser-keys';
             import('@cadmus/browsers/hierarchy').then(
               module => module.HierarchyModule
             ),
-            canActivate: [AuthGuardService]
+          canActivate: [AuthGuardService]
+        },
+        {
+          path: 'search',
+          loadChildren: () =>
+            import('@cadmus/features/feature-item-search').then(
+              module => module.FeatureItemSearchModule
+            ),
+          canActivate: [AuthGuardService]
         },
         { path: '**', component: HomeComponent }
       ],
