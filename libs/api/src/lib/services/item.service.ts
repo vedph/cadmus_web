@@ -11,7 +11,8 @@ import {
   PartGroup,
   LayerPartInfo,
   LayerHint,
-  EnvService
+  EnvService,
+  ErrorWrapper
 } from '@cadmus/core';
 import { Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
@@ -77,10 +78,38 @@ export class ItemService {
           params: httpParams
         }
       )
-      .pipe(
-        retry(3),
-        catchError(this._error.handleError)
-      );
+      .pipe(retry(3), catchError(this._error.handleError));
+  }
+
+  /**
+   * Search the items using the specified query.
+   *
+   * @param query The query text.
+   * @param pageNumber The page number.
+   * @param pageSize The page size.
+   */
+  public searchItems(
+    query: string,
+    pageNumber: number,
+    pageSize: number
+  ): Observable<ErrorWrapper<DataPage<ItemInfo>>> {
+    let httpParams = new HttpParams();
+    httpParams = httpParams.set('pageNumber', pageNumber.toString());
+    httpParams = httpParams.set('pageSize', pageSize.toString());
+
+    return this._http
+      .post<ErrorWrapper<DataPage<ItemInfo>>>(
+        `${this._env.apiUrl}${this._env.databaseId}/search`,
+        {
+          query: query,
+          pageNumber: pageNumber,
+          pageSize: pageSize
+        },
+        {
+          params: httpParams
+        }
+      )
+      .pipe(retry(3), catchError(this._error.handleError));
   }
 
   /**
@@ -126,10 +155,9 @@ export class ItemService {
    */
   public getPart(id: string): Observable<Part> {
     const url = `${this._env.apiUrl}${this._env.databaseId}/part/${id}`;
-    return this._http.get<Part>(url).pipe(
-      retry(3),
-      catchError(this._error.handleError)
-    );
+    return this._http
+      .get<Part>(url)
+      .pipe(retry(3), catchError(this._error.handleError));
   }
 
   /**
@@ -154,10 +182,9 @@ export class ItemService {
     const url =
       `${this._env.apiUrl}${this._env.databaseId}/` +
       `item/${itemId}/part/${type}/${role}`;
-    return this._http.get<Part>(url).pipe(
-      retry(3),
-      catchError(this._error.handleError)
-    );
+    return this._http
+      .get<Part>(url)
+      .pipe(retry(3), catchError(this._error.handleError));
   }
 
   /**
@@ -169,11 +196,11 @@ export class ItemService {
     itemId: string
   ): Observable<{ part: Part; text: string }> {
     const url =
-      `${this._env.apiUrl}${this._env.databaseId}/` + `item/${itemId}/base-text`;
-    return this._http.get<{ part: Part; text: string }>(url).pipe(
-      retry(3),
-      catchError(this._error.handleError)
-    );
+      `${this._env.apiUrl}${this._env.databaseId}/` +
+      `item/${itemId}/base-text`;
+    return this._http
+      .get<{ part: Part; text: string }>(url)
+      .pipe(retry(3), catchError(this._error.handleError));
   }
 
   /**
@@ -207,10 +234,9 @@ export class ItemService {
     if (absent) {
       url += '?absent=true';
     }
-    return this._http.get<LayerPartInfo[]>(url).pipe(
-      retry(3),
-      catchError(this._error.handleError)
-    );
+    return this._http
+      .get<LayerPartInfo[]>(url)
+      .pipe(retry(3), catchError(this._error.handleError));
   }
 
   /**
@@ -219,11 +245,11 @@ export class ItemService {
    * @returns Observable with array of IDataPin's.
    */
   public getPartPins(id: string): Observable<RolePartId[]> {
-    const url = `${this._env.apiUrl}${this._env.databaseId}/` + `part/${id}/pins`;
-    return this._http.get<RolePartId[]>(url).pipe(
-      retry(3),
-      catchError(this._error.handleError)
-    );
+    const url =
+      `${this._env.apiUrl}${this._env.databaseId}/` + `part/${id}/pins`;
+    return this._http
+      .get<RolePartId[]>(url)
+      .pipe(retry(3), catchError(this._error.handleError));
   }
 
   /**
@@ -237,10 +263,9 @@ export class ItemService {
   public getLayerPartBreakChance(id: string): Observable<{ chance: number }> {
     const url =
       `${this._env.apiUrl}${this._env.databaseId}/` + `part/${id}/break-chance`;
-    return this._http.get<{ chance: number }>(url).pipe(
-      retry(3),
-      catchError(this._error.handleError)
-    );
+    return this._http
+      .get<{ chance: number }>(url)
+      .pipe(retry(3), catchError(this._error.handleError));
   }
 
   /**
@@ -251,10 +276,9 @@ export class ItemService {
   public getLayerPartHints(id: string): Observable<LayerHint[]> {
     const url =
       `${this._env.apiUrl}${this._env.databaseId}/` + `part/${id}/layer-hints`;
-    return this._http.get<LayerHint[]>(url).pipe(
-      retry(3),
-      catchError(this._error.handleError)
-    );
+    return this._http
+      .get<LayerHint[]>(url)
+      .pipe(retry(3), catchError(this._error.handleError));
   }
 
   /**
@@ -265,7 +289,8 @@ export class ItemService {
    */
   public applyLayerPatches(id: string, patches: string[]): Observable<Part> {
     const url =
-      `${this._env.apiUrl}${this._env.databaseId}/` + `part/${id}/layer-patches`;
+      `${this._env.apiUrl}${this._env.databaseId}/` +
+      `part/${id}/layer-patches`;
     return this._http
       .post<Part>(url, { patches: patches })
       .pipe(catchError(this._error.handleError));

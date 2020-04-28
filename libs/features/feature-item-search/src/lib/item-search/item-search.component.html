@@ -4,15 +4,112 @@
       Item Search
     </mat-card-title>
   </mat-card-header>
-  <mat-card-content>
+  <mat-card-content fxLayout="row">
     <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="8px">
       <!-- query -->
-      <div fxFlex="0 0 auto">
-        <cadmus-item-query></cadmus-item-query>
+      <div fxFlex="0 0 30%">
+        <cadmus-item-query
+          (querySubmit)="submitQuery($event)"
+        ></cadmus-item-query>
       </div>
       <!-- list -->
-      <div fxFill fxLayout="column">
-        TODO
+      <div
+        *ngIf="paginator.isLoading$ | async"
+        fxFlex="1 1 100%"
+        fxLayoutAlign="center center"
+      >
+        <mat-spinner [diameter]="48" [strokeWidth]="4"></mat-spinner>
+      </div>
+      <div fxFlex fxFill *ngIf="pagination$ | async as pagination" fxLayout="column">
+        <div fxFlex *ngIf="error">{{ error }}</div>
+        <table fxFlex *ngIf="pagination.data.length">
+          <thead>
+            <th></th>
+            <th
+              *ngIf="
+                user.roles.includes('admin') || user.roles.includes('editor')
+              "
+            ></th>
+            <th>facet</th>
+            <th>flags</th>
+            <th>title</th>
+            <th>description</th>
+            <th fxHide.lt-md>group</th>
+            <th fxHide.lt-md>user</th>
+            <th fxHide.lt-md>last saved</th>
+            <th fxHide.lt-md>creator</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of pagination.data">
+              <td class="command">
+                <button
+                  mat-icon-button
+                  type="button"
+                  matTooltip="Edit {{ item.title }}"
+                  color="primary"
+                  (click)="editItem(item)"
+                >
+                  <mat-icon>mode_edit</mat-icon>
+                </button>
+              </td>
+              <td
+                class="command"
+                *ngIf="
+                  user.roles.includes('admin') || user.roles.includes('editor')
+                "
+              >
+                <button
+                  *ngIf="userLevel > 2"
+                  mat-icon-button
+                  type="button"
+                  matTooltip="Delete {{ item.title }}"
+                  color="warn"
+                  (click)="deleteItem(item)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+              <td>
+                <span
+                  class="model-type"
+                  [style.background-color]="getFacetColor(item.facetId)"
+                  matTooltip="{{ getFacetTip(item.facetId) }}"
+                  >{{ item.facetId }}</span
+                >
+              </td>
+              <td>
+                <cadmus-flags-badge
+                  [flags]="item.flags"
+                  [flagDefinitions]="flagDefinitions$ | async"
+                ></cadmus-flags-badge>
+              </td>
+              <td>{{ item.title }}</td>
+              <td>{{ item.description }}</td>
+              <td fxHide.lt-md>{{ item.groupId }}</td>
+              <td fxHide.lt-md>{{ item.userId }}</td>
+              <td
+                fxHide.lt-md
+                matTooltip="{{
+                  item.timeModified | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'
+                }}"
+              >
+                {{ item.timeModified | amLocal | amTimeAgo }}
+              </td>
+              <td fxHide.lt-md>{{ item.creatorId }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <mat-paginator
+          *ngIf="pagination.data.length"
+          fxFlex="0 0 auto"
+          fxFlexAlign="start"
+          [length]="pagination.total"
+          [pageSize]="pageSize?.value"
+          [pageSizeOptions]="[20, 50, 75, 100]"
+          [pageIndex]="pagination.currentPage - 1"
+          [showFirstLastButtons]="true"
+          (page)="pageChanged($event)"
+        ></mat-paginator>
       </div>
     </div>
   </mat-card-content>

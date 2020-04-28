@@ -1,4 +1,8 @@
 .query-help {
+  min-width: 200px;
   max-height: 400px;
   overflow-y: scroll;
+}
+.query-help code {
+  color:chocolate;
 }

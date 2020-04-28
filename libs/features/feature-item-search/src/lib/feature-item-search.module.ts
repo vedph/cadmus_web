@@ -8,6 +8,7 @@ import { MomentModule } from 'ngx-moment';
 import { MaterialModule } from '@cadmus/material';
 import { ApiModule } from '@cadmus/api';
 import { UiModule } from '@cadmus/ui';
+import { EditStateModule } from '@cadmus/features/edit-state';
 
 import { ItemQueryComponent } from './item-query/item-query.component';
 import { ItemSearchComponent } from './item-search/item-search.component';
@@ -24,7 +25,8 @@ import { ItemSearchComponent } from './item-search/item-search.component';
     // cadmus
     ApiModule,
     MaterialModule,
-    UiModule
+    UiModule,
+    EditStateModule
   ],
   declarations: [ItemQueryComponent, ItemSearchComponent],
   exports: [ItemQueryComponent, ItemSearchComponent]
