@@ -9,6 +9,7 @@
       <!-- query -->
       <div fxFlex="0 0 30%">
         <cadmus-item-query
+          [lastQueries]="lastQueries"
           (querySubmit)="submitQuery($event)"
         ></cadmus-item-query>
       </div>

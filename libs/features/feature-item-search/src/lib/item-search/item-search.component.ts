@@ -36,6 +36,7 @@ export class ItemSearchComponent implements OnInit {
   public user: User;
   public userLevel: number;
   public error?: string;
+  public lastQueries: string[];
 
   constructor(
     @Inject(ITEMS_SEARCH_PAGINATOR)
@@ -52,6 +53,7 @@ export class ItemSearchComponent implements OnInit {
     this._facetColors = {};
     this._facetTips = {};
     this.pageSize = formBuilder.control(20);
+    this.lastQueries = [];
   }
 
   private getRequest(
@@ -140,6 +142,9 @@ export class ItemSearchComponent implements OnInit {
   public submitQuery(query: string) {
     if (!query) {
       return;
+    }
+    if (!this.lastQueries.includes(query)) {
+      this.lastQueries.splice(0, 0, query);
     }
     this._itemSearchService.updateQuery(query);
   }

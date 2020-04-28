@@ -3,6 +3,13 @@
   max-height: 400px;
   overflow-y: scroll;
 }
+.query-help h4 {
+  font-weight: bold;
+  border-bottom: 1px solid silver;
+}
 .query-help code {
   color:chocolate;
+}
+.full-width {
+  width: 100%;
 }

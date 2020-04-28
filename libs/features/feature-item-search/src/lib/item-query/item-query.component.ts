@@ -47,13 +47,7 @@ export class ItemQueryComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.history.valueChanges.subscribe(_ => {
-      if (this.history.value) {
-        this.setQuery(this.history.value);
-      }
-    });
-  }
+  ngOnInit(): void {}
 
   public setQuery(query: string) {
     this.query.setValue(query);

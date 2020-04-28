@@ -2,39 +2,48 @@
   <mat-card-content>
     <form [formGroup]="form" (submit)="submitQuery()">
       <div>
-        <mat-form-field>
-          <textarea
-            matInput
-            placeholder="query"
-            rows="3"
-            formControlName="query"
-            spellcheck="false"
-            cdkTextareaAutosize
-            cdkAutosizeMinRows="2"
-            cdkAutosizeMaxRows="4"
-          ></textarea>
+        <textarea
+          autofocus
+          matInput
+          placeholder="query"
+          rows="3"
+          formControlName="query"
+          spellcheck="false"
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="2"
+          cdkAutosizeMaxRows="4"
+        ></textarea>
+        <button
+          type="submit"
+          color="primary"
+          mat-raised-button
+          matTooltip="Search items"
+          [disabled]="disabled || form.invalid"
+        >
+          <mat-icon>search</mat-icon>
+          search
+        </button>
+      </div>
+      <br />
+      <div *ngIf="lastQueries?.length">
+        <mat-form-field class="full-width">
+          <mat-select formControlName="history" placeholder="history">
+            <mat-option *ngFor="let q of lastQueries" [value]="q">
+              {{ q }}
+            </mat-option>
+          </mat-select>
+          <button matSuffix
+            type="button"
+            mat-icon-button
+            matTooltip="Copy to query"
+            [disabled]="!history.value"
+            (click)="setQuery(history.value)"
+          >
+            <mat-icon>check_circle</mat-icon>
+          </button>
         </mat-form-field>
       </div>
-      <button
-        type="submit"
-        color="primary"
-        mat-raised-button
-        matTooltip="Search items"
-        [disabled]="disabled || form.invalid"
-      >
-        <mat-icon>search</mat-icon>
-        search
-      </button>
-      <mat-select
-        formControlName="history"
-        placeholder="history"
-        *ngIf="lastQueries?.length"
-      >
-        <mat-option *ngFor="let q of lastQueries">
-          {{ q }}
-        </mat-option>
-      </mat-select>
-      <hr />
+      <br>
       <mat-expansion-panel [expanded]="false">
         <mat-expansion-panel-header>
           <mat-panel-title>Quick Reference</mat-panel-title>
