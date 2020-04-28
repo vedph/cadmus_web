@@ -1,4 +1,13 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+  ElementRef,
+  AfterViewInit
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -11,12 +20,15 @@ import {
   templateUrl: './item-query.component.html',
   styleUrls: ['./item-query.component.css']
 })
-export class ItemQueryComponent implements OnInit {
+export class ItemQueryComponent implements OnInit, AfterViewInit {
   private _lastQueries: string[];
 
   public form: FormGroup;
   public query: FormControl;
   public history: FormControl;
+
+  @ViewChild('queryctl', { static: false })
+  public queryElement?: ElementRef<HTMLElement>;
 
   /**
    * Emitted when the query is submitted.
@@ -49,8 +61,21 @@ export class ItemQueryComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  private focusQuery() {
+    if (this.queryElement) {
+      setTimeout(() => {
+        this.queryElement.nativeElement.focus();
+      }, 500);
+    }
+  }
+
+  ngAfterViewInit(): void {
+    this.focusQuery();
+  }
+
   public setQuery(query: string) {
     this.query.setValue(query);
+    this.focusQuery();
   }
 
   public submitQuery() {
