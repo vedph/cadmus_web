@@ -12,6 +12,7 @@
           cdkTextareaAutosize
           cdkAutosizeMinRows="2"
           cdkAutosizeMaxRows="4"
+          (keydown.enter)="submitQuery();false"
         ></textarea>
         <button
           type="submit"
