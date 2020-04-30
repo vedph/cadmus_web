@@ -8,6 +8,8 @@ import { MomentModule } from 'ngx-moment';
 import { MaterialModule } from '@cadmus/material';
 import { ApiModule } from '@cadmus/api';
 import { UiModule } from '@cadmus/ui';
+import { ThesaurusListComponent } from './thesaurus-list/thesaurus-list.component';
+import { ThesaurusFilterComponent } from './thesaurus-filter/thesaurus-filter.component';
 
 @NgModule({
   imports: [
@@ -15,13 +17,15 @@ import { UiModule } from '@cadmus/ui';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild([
-      /* {path: '', pathMatch: 'full', component: InsertYourComponentHere} */
+      { path: '', pathMatch: 'full', component: ThesaurusListComponent }
     ]),
     MomentModule,
     // cadmus
     ApiModule,
     MaterialModule,
-    UiModule,
-  ]
+    UiModule
+  ],
+  declarations: [ThesaurusListComponent, ThesaurusFilterComponent],
+  exports: [ThesaurusListComponent]
 })
 export class FeatureThesaurusListModule {}

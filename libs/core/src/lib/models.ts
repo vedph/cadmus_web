@@ -172,6 +172,17 @@ export interface ThesauriSet {
 }
 
 /**
+ * Filter for thesauri.
+ */
+export interface ThesaurusFilter {
+  pageNumber: number;
+  pageSize: number;
+  id?: string;
+  isAlias?: boolean;
+  language?: string;
+}
+
+/**
  * Part definition in a facet.
  */
 export interface PartDefinition {

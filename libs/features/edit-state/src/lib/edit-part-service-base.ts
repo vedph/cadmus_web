@@ -28,7 +28,7 @@ export abstract class EditPartServiceBase {
 
       forkJoin({
         part: this.itemService.getPart(partId),
-        thesauri: this.thesaurusService.getThesauri(unscopedIds)
+        thesauri: this.thesaurusService.getThesauriSet(unscopedIds)
       }).subscribe(result => {
         this.store.setLoading(false);
         this.store.update({
@@ -44,7 +44,7 @@ export abstract class EditPartServiceBase {
             );
           });
           this.store.setLoading(true);
-          this.thesaurusService.getThesauri(thesauriIds).subscribe(
+          this.thesaurusService.getThesauriSet(thesauriIds).subscribe(
             thesauri => {
               this.store.update({
                 thesauri: thesauri

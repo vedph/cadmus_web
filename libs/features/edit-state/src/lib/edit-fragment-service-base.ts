@@ -42,7 +42,7 @@ export abstract class EditFragmentServiceBase {
 
       forkJoin({
         part: this._itemService.getPart(partId),
-        thesauri: this._thesaurusService.getThesauri(unscopedIds)
+        thesauri: this._thesaurusService.getThesauriSet(unscopedIds)
       }).subscribe(result => {
         const layerPart = result.part as TextLayerPart;
         const fr = layerPart.fragments.find(f => f.location === loc);
@@ -65,7 +65,7 @@ export abstract class EditFragmentServiceBase {
             );
           });
           this.store.setLoading(true);
-          this._thesaurusService.getThesauri(scopedIds).subscribe(
+          this._thesaurusService.getThesauriSet(scopedIds).subscribe(
             thesauri => {
               this.store.update({
                 thesauri: thesauri

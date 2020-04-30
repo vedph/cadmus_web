@@ -49,7 +49,7 @@ export class EditLayerPartService {
         layers: this._facetService.getFacetParts(itemId, true),
         breakChance: this._itemService.getLayerPartBreakChance(partId),
         layerHints: this._itemService.getLayerPartHints(partId),
-        thesauri: this._thesaurusService.getThesauri(unscopedIds)
+        thesauri: this._thesaurusService.getThesauriSet(unscopedIds)
       }).subscribe(
         result => {
           this._store.update({
@@ -71,7 +71,7 @@ export class EditLayerPartService {
               );
             });
             this._store.setLoading(true);
-            this._thesaurusService.getThesauri(scopedIds).subscribe(
+            this._thesaurusService.getThesauriSet(scopedIds).subscribe(
               thesauri => {
                 this._store.update({
                   thesauri: thesauri

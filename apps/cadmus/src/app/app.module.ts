@@ -182,6 +182,13 @@ import { ITEM_BROWSER_KEYS } from './item-browser-keys';
           canActivate: [AuthGuardService]
         },
         {
+          path: 'thesauri',
+          loadChildren: () =>
+            import('@cadmus/features/feature-thesaurus-list').then(
+              module => module.FeatureThesaurusListModule
+            )
+        },
+        {
           path: 'admin',
           loadChildren: () =>
             import('@cadmus/features/feature-admin').then(
@@ -220,14 +227,7 @@ import { ITEM_BROWSER_KEYS } from './item-browser-keys';
             ),
           canActivate: [AuthGuardService]
         },
-        { path: '**', component: HomeComponent },
-        {
-          path: 'feature-thesaurus-list',
-          loadChildren: () =>
-            import('@cadmus/features/feature-thesaurus-list').then(
-              module => module.FeatureThesaurusListModule
-            )
-        }
+        { path: '**', component: HomeComponent }
       ],
       {
         initialNavigation: 'enabled',

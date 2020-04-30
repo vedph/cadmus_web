@@ -1,0 +1,52 @@
+<form role="form" [formGroup]="form" (submit)="apply()">
+  <!-- id -->
+  <div>
+    <mat-form-field>
+      <input matInput formControlName="id" maxlength="100" placeholder="ID" />
+    </mat-form-field>
+  </div>
+
+  <!-- language -->
+  <div>
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="language"
+        maxlength="2"
+        placeholder="language"
+      />
+    </mat-form-field>
+  </div>
+
+  <!-- alias -->
+  <div>
+    <mat-form-field>
+      <mat-select formControlName="alias" placeholder="alias">
+        <mat-option [value]="null">(any)</mat-option>
+        <mat-option [value]="true">alias</mat-option>
+        <mat-option [value]="false">not an alias</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="4px">
+    <button
+      type="button"
+      mat-mini-fab
+      (click)="reset()"
+      color="warn"
+      matTooltip="Reset all the filters"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button
+      type="submit"
+      mat-mini-fab
+      color="primary"
+      [disabled]="form.invalid"
+      matTooltip="Apply filters"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>

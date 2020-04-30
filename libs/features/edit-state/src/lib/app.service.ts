@@ -17,7 +17,7 @@ export class AppService {
 
     const facets$ = this._facetService.getFacets();
     const flags$ = this._flagService.getFlags();
-    const thesauri$ = this._thesaurusService.getThesauri(
+    const thesauri$ = this._thesaurusService.getThesauriSet(
       ['model-types@en', 'item-browsers@en']
     );
 

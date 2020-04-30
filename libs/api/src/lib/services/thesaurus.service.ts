@@ -2,7 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { ErrorService, Thesaurus, ThesauriSet, EnvService } from '@cadmus/core';
+import {
+  ErrorService,
+  Thesaurus,
+  ThesauriSet,
+  EnvService,
+  ThesaurusFilter,
+  DataPage
+} from '@cadmus/core';
 
 @Injectable({ providedIn: 'root' })
 export class ThesaurusService {
@@ -54,12 +61,42 @@ export class ThesaurusService {
    * @returns An object where each key is the purged thesaurus ID with value
    * equal to the thesaurus model.
    */
-  public getThesauri(ids: string[]): Observable<ThesauriSet> {
+  public getThesauriSet(ids: string[]): Observable<ThesauriSet> {
     const url =
       `${this._env.apiUrl}${this._env.databaseId}` +
       `/thesauri-set/${encodeURIComponent(ids.join(','))}?purgeIds=true`;
     return this._http
       .get<ThesauriSet>(url)
+      .pipe(retry(3), catchError(this._error.handleError));
+  }
+
+  /**
+   * Get a page of thesauri.
+   *
+   * @param filter The filter.
+   */
+  public getThesauri(filter: ThesaurusFilter): Observable<DataPage<Thesaurus>> {
+    let httpParams = new HttpParams();
+    httpParams = httpParams.set('pageNumber', filter.pageNumber.toString());
+    httpParams = httpParams.set('pageSize', filter.pageSize.toString());
+    if (filter.id) {
+      httpParams = httpParams.set('id', filter.id);
+    }
+    if (filter.language) {
+      httpParams = httpParams.set('language', filter.language);
+    }
+    if (filter.isAlias === false || filter.isAlias === true) {
+      httpParams = httpParams.set(
+        'isAlias',
+        filter.isAlias === true ? 'true' : 'false'
+      );
+    }
+
+    const url = `${this._env.apiUrl}${this._env.databaseId}` + `/thesauri`;
+    return this._http
+      .get<DataPage<Thesaurus>>(url, {
+        params: httpParams
+      })
       .pipe(retry(3), catchError(this._error.handleError));
   }
 
