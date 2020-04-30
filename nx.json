@@ -74,6 +74,9 @@
     },
     "features-feature-thesaurus-list": {
       "tags": []
+    },
+    "features-feature-thesaurus-editor": {
+      "tags": []
     }
   },
   "tasksRunnerOptions": {

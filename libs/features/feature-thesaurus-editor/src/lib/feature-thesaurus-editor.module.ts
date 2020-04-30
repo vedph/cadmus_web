@@ -6,8 +6,8 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '@cadmus/material';
 import { ApiModule } from '@cadmus/api';
 import { UiModule } from '@cadmus/ui';
-import { ThesaurusListComponent } from './thesaurus-list/thesaurus-list.component';
-import { ThesaurusFilterComponent } from './thesaurus-filter/thesaurus-filter.component';
+import { EditStateModule } from '@cadmus/features/edit-state';
+import { ThesaurusEditorComponent } from './thesaurus-editor/thesaurus-editor.component';
 
 @NgModule({
   imports: [
@@ -15,14 +15,15 @@ import { ThesaurusFilterComponent } from './thesaurus-filter/thesaurus-filter.co
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild([
-      { path: '', pathMatch: 'full', component: ThesaurusListComponent }
+      { path: '', pathMatch: 'full', component: ThesaurusEditorComponent }
     ]),
     // cadmus
     ApiModule,
     MaterialModule,
-    UiModule
+    UiModule,
+    EditStateModule
   ],
-  declarations: [ThesaurusListComponent, ThesaurusFilterComponent],
-  exports: [ThesaurusListComponent]
+  declarations: [ThesaurusEditorComponent],
+  exports: [ThesaurusEditorComponent]
 })
-export class FeatureThesaurusListModule {}
+export class FeatureThesaurusEditorModule {}

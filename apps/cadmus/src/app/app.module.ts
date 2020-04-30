@@ -31,7 +31,8 @@ import { FeatureOrthographyFragmentDemoComponent } from './demo/feature-orthogra
 import {
   AuthInterceptor,
   AdminGuardService,
-  AuthGuardService
+  AuthGuardService,
+  EditorGuardService
 } from '@cadmus/api';
 import { FeatureApparatusFragmentDemoComponent } from './demo/feature-apparatus-fragment-demo/feature-apparatus-fragment-demo.component';
 import { FeatureCategoriesPartDemoComponent } from './demo/feature-categories-part-demo/feature-categories-part-demo.component';
@@ -186,7 +187,16 @@ import { ITEM_BROWSER_KEYS } from './item-browser-keys';
           loadChildren: () =>
             import('@cadmus/features/feature-thesaurus-list').then(
               module => module.FeatureThesaurusListModule
-            )
+            ),
+          canActivate: [EditorGuardService]
+        },
+        {
+          path: 'thesauri/:id',
+          loadChildren: () =>
+            import('@cadmus/features/feature-thesaurus-editor').then(
+              module => module.FeatureThesaurusEditorModule
+            ),
+          canActivate: [EditorGuardService]
         },
         {
           path: 'admin',

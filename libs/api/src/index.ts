@@ -2,6 +2,7 @@ export * from './lib/api.module';
 export * from './lib/services/account.service';
 export * from './lib/services/admin-guard.service';
 export * from './lib/services/auth-guard.service';
+export * from './lib/services/editor-guard.service';
 export * from './lib/services/auth.interceptor';
 export * from './lib/services/auth.service';
 export * from './lib/services/facet.service';

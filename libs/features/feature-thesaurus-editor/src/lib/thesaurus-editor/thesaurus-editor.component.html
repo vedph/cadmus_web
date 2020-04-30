@@ -1,0 +1,174 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Thesaurus</h2>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <h3>{{ editId.value || '(new)' }}</h3>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="form" (submit)="save()">
+      <div>
+        <mat-form-field appearance="fill">
+          <input
+            matInput
+            type="text"
+            placeholder="ID"
+            formControlName="editId"
+            spellcheck="false"
+          />
+          <mat-error
+            *ngIf="
+              editId.hasError('required') && (editId.dirty || editId.touched)
+            "
+            >enter an ID</mat-error
+          >
+          <mat-error
+            *ngIf="
+              editId.hasError('max-length') && (editId.dirty || editId.touched)
+            "
+            >too long</mat-error
+          >
+          <mat-error
+            *ngIf="
+              editId.hasError('pattern') && (editId.dirty || editId.touched)
+            "
+            >invalid ID</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <!-- entries -->
+      <div formArrayName="entries">
+        <div *ngIf="!entries.length">
+          <br />
+          <button
+            type="button"
+            mat-raised-button
+            color="primary"
+            (click)="addEntry()"
+          >
+            add item
+          </button>
+        </div>
+        <div
+          *ngFor="
+            let item of entries.controls;
+            let i = index;
+            let first = first;
+            let last = last
+          "
+        >
+          <!-- child form -->
+          <div [formGroupName]="i">
+            <!-- child actions -->
+            {{ i + 1 }}.
+            <button
+              mat-icon-button
+              type="button"
+              matTooltip="Remove this entry"
+              color="warn"
+              (click)="removeEntry(i)"
+            >
+              <mat-icon>remove_circle</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              type="button"
+              matTooltip="Add entry below"
+              color="primary"
+              (click)="addEntryBelow(i)"
+            >
+              <mat-icon>add_circle</mat-icon>
+            </button>
+            <button
+            [disabled]="first"
+              mat-icon-button
+              type="button"
+              matTooltip="Move entry up"
+              (click)="moveEntryUp(i)"
+            >
+              <mat-icon>arrow_upward</mat-icon>
+            </button>
+            <button
+              [disabled]="last"
+              mat-icon-button
+              type="button"
+              matTooltip="Move entry down"
+              (click)="moveEntryDown(i)"
+            >
+              <mat-icon>arrow_downward</mat-icon>
+            </button>
+            <!-- child controls -->
+            <!-- id -->
+            <mat-form-field>
+              <input
+                matInput
+                maxlength="100"
+                formControlName="id"
+                placeholder="entry ID"
+                autofocus
+              />
+              <mat-error
+                *ngIf="entries.controls[i].get('id').hasError('required')"
+                >enter an entry ID</mat-error
+              >
+              <mat-error
+                *ngIf="entries.controls[i].get('id').hasError('max-length')"
+                >too long</mat-error
+              >
+              <mat-error
+                *ngIf="entries.controls[i].get('id').hasError('pattern')"
+                >invalid entry ID</mat-error
+              >
+            </mat-form-field>
+            <!-- value -->
+            <mat-form-field>
+              <input
+                matInput
+                maxlength="200"
+                formControlName="value"
+                placeholder="value"
+              />
+              <mat-error
+                *ngIf="entries.controls[i].get('value').hasError('required')"
+                >enter an entry value</mat-error
+              >
+              <mat-error
+                *ngIf="entries.controls[i].get('value').hasError('max-length')"
+                >too long</mat-error
+              >
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <!-- buttons -->
+      <div>
+        <button
+          type="button"
+          mat-raised-button
+          color="warn"
+          matTooltip="Close this editor"
+          (click)="cancel()"
+        >
+          <mat-icon>cancel</mat-icon>
+          close
+        </button>
+        &nbsp;
+        <button
+          *ngIf="userLevel > 2"
+          type="submit"
+          [disabled]="form.invalid || form.pristine"
+          mat-raised-button
+          color="primary"
+          matTooltip="Save thesaurus"
+        >
+          <mat-icon>check_circle</mat-icon>
+          save
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

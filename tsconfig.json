@@ -63,6 +63,9 @@
       ],
       "@cadmus/features/feature-thesaurus-list": [
         "libs/features/feature-thesaurus-list/src/index.ts"
+      ],
+      "@cadmus/features/feature-thesaurus-editor": [
+        "libs/features/feature-thesaurus-editor/src/index.ts"
       ]
     }
   },

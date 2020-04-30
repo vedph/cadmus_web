@@ -16,3 +16,6 @@ export * from './lib/edit-part.store';
 export * from './lib/edit-layer-part.query';
 export * from './lib/edit-layer-part.service';
 export * from './lib/edit-layer-part.store';
+export * from './lib/edit-thesaurus.query';
+export * from './lib/edit-thesaurus.service';
+export * from './lib/edit-thesaurus.store';

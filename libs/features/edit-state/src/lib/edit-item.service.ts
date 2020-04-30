@@ -33,7 +33,7 @@ export class EditItemService {
    * Load the item with the specified ID (if any; the ID can be null for
    * a new item), and all the required lookup data into the item store.
    */
-  public load(itemId: string) {
+  public load(itemId: string | null) {
     this._store.setLoading(true);
 
     const layers$ = this._itemService.getItemLayerInfo(itemId, true);

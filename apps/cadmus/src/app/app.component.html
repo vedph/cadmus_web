@@ -27,7 +27,14 @@
 
     <a mat-button routerLink="/search" *ngIf="logged">Search</a>
 
-    <a mat-button routerLink="/thesauri" *ngIf="logged">Thesauri</a>
+    <a
+      mat-button
+      routerLink="/thesauri"
+      *ngIf="
+        user && (user.roles.includes('admin') || user.roles.includes('editor'))
+      "
+      >Thesauri</a
+    >
 
     <button mat-button [matMenuTriggerFor]="demoMenu" *ngIf="logged">
       Demo
