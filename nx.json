@@ -71,6 +71,9 @@
     },
     "features-feature-item-search": {
       "tags": []
+    },
+    "features-feature-thesaurus-list": {
+      "tags": []
     }
   },
   "tasksRunnerOptions": {

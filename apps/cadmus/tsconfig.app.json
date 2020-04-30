@@ -26,7 +26,9 @@
 
     "../../libs/browsers/hierarchy/src/index.ts",
 
-    "../../libs/features/feature-item-search/src/index.ts"
+    "../../libs/features/feature-item-search/src/index.ts",
+
+    "../../libs/features/feature-thesaurus-list/src/index.ts"
   ],
   "exclude": ["src/test-setup.ts", "**/*.spec.ts"]
 }

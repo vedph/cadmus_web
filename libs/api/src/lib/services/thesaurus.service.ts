@@ -17,7 +17,7 @@ export class ThesaurusService {
    * @returns Observable<string> Array of IDs.
    */
   public getThesaurusIds(): Observable<string[]> {
-    const url = `${this._env.apiUrl}${this._env.databaseId}/thesauri`;
+    const url = `${this._env.apiUrl}${this._env.databaseId}/thesauri-ids`;
     return this._http
       .get<string[]>(url)
       .pipe(retry(3), catchError(this._error.handleError));

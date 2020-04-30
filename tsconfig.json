@@ -60,6 +60,9 @@
       "@cadmus/browsers/hierarchy": ["libs/browsers/hierarchy/src/index.ts"],
       "@cadmus/features/feature-item-search": [
         "libs/features/feature-item-search/src/index.ts"
+      ],
+      "@cadmus/features/feature-thesaurus-list": [
+        "libs/features/feature-thesaurus-list/src/index.ts"
       ]
     }
   },
