@@ -18,10 +18,9 @@ export class ThesaurusService {
    */
   public getThesaurusIds(): Observable<string[]> {
     const url = `${this._env.apiUrl}${this._env.databaseId}/thesauri`;
-    return this._http.get<string[]>(url).pipe(
-      retry(3),
-      catchError(this._error.handleError)
-    );
+    return this._http
+      .get<string[]>(url)
+      .pipe(retry(3), catchError(this._error.handleError));
   }
 
   /**
@@ -42,12 +41,11 @@ export class ThesaurusService {
     const url =
       `${this._env.apiUrl}${this._env.databaseId}` +
       `/thesauri/${encodeURIComponent(id)}`;
-    return this._http.get<Thesaurus>(url, {
-      params: httpParams
-    }).pipe(
-      retry(3),
-      catchError(this._error.handleError)
-    );
+    return this._http
+      .get<Thesaurus>(url, {
+        params: httpParams
+      })
+      .pipe(retry(3), catchError(this._error.handleError));
   }
 
   /**
@@ -60,10 +58,34 @@ export class ThesaurusService {
     const url =
       `${this._env.apiUrl}${this._env.databaseId}` +
       `/thesauri-set/${encodeURIComponent(ids.join(','))}?purgeIds=true`;
-    return this._http.get<ThesauriSet>(url).pipe(
-      retry(3),
-      catchError(this._error.handleError)
-    );
+    return this._http
+      .get<ThesauriSet>(url)
+      .pipe(retry(3), catchError(this._error.handleError));
+  }
+
+  /**
+   * Add or update the specified thesaurus.
+   *
+   * @param thesaurus The thesaurus.
+   */
+  public addThesaurus(thesaurus: Thesaurus): Observable<any> {
+    const url = `${this._env.apiUrl}${this._env.databaseId}` + `/thesauri`;
+    return this._http
+      .post(url, thesaurus)
+      .pipe(retry(3), catchError(this._error.handleError));
+  }
+
+  /**
+   * Delete the specified thesaurus.
+   *
+   * @param id The thesaurus ID.
+   */
+  public deleteThesaurus(id: string): Observable<any> {
+    const url =
+      `${this._env.apiUrl}${this._env.databaseId}` + `/thesauri/${id}`;
+    return this._http
+      .delete<Thesaurus>(url)
+      .pipe(retry(3), catchError(this._error.handleError));
   }
 
   /**
