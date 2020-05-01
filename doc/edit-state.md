@@ -72,6 +72,14 @@ The hierarchical edit model is as follows:
 - `refreshingBreakChance`
 - `patchingLayer`
 
+## Edit Thesaurus
+
+- `thesaurus`
+- `dirty`
+- `saving`
+- `loading`
+- `error`
+
 ## App State
 
 There is also an app-level state consisting of readonly data, which are loaded once when the app starts. These contain lookup data of general use, which can safely be assumed never to change during a single editing session, as they depend on the backend profile.
