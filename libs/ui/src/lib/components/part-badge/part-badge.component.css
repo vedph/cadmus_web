@@ -1,0 +1,9 @@
+span#part-badge {
+  padding: 4px;
+  border-radius: 6px;
+}
+span#role-badge {
+  padding: 4px;
+  border-radius: 6px;
+  border-color: silver;
+}

@@ -335,17 +335,18 @@
                 </button>
               </td>
               <td>
-                <span
-                  class="model-type"
-                  [style.background-color]="
-                    getPartColor(part.typeId, part.roleId)
-                  "
-                >
-                  {{ getTypeIdName(part.typeId) }}
-                </span>
+                <cadmus-part-badge
+                  [partTypeIds]="part"
+                  [facetDefinition]="facet$ | async"
+                  [badgeType]="1"
+                ></cadmus-part-badge>
               </td>
               <td>
-                {{ getRoleIdName(part.roleId) }}
+                <cadmus-part-badge
+                [partTypeIds]="part"
+                [facetDefinition]="facet$ | async"
+                [badgeType]="2"
+              ></cadmus-part-badge>
               </td>
               <td
                 [ngClass]="{

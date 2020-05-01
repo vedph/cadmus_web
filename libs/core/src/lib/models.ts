@@ -72,25 +72,29 @@ export interface ItemInfo extends HasVersion {
 }
 
 /**
+ * Part type and role IDs.
+ */
+export interface PartTypeIds {
+  typeId: string;
+  roleId: string;
+}
+
+/**
  * Part. This is the minimal set of properties present in all the
  * parts. Each part then adds its own properties, extending this interface.
  */
-export interface Part extends HasVersion {
+export interface Part extends HasVersion, PartTypeIds {
   id: string;
   itemId: string;
-  typeId: string;
-  roleId: string;
   thesaurusScope?: string;
 }
 
 /**
  * Essential information about a layer part.
  */
-export interface LayerPartInfo extends HasVersion {
+export interface LayerPartInfo extends HasVersion, PartTypeIds {
   id: string;
   itemId: string;
-  typeId: string;
-  roleId: string;
   fragmentCount: number;
   isAbsent: boolean;
 }
@@ -185,9 +189,7 @@ export interface ThesaurusFilter {
 /**
  * Part definition in a facet.
  */
-export interface PartDefinition {
-  typeId: string;
-  roleId: string;
+export interface PartDefinition extends PartTypeIds {
   name: string;
   description: string;
   isRequired: boolean;

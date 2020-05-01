@@ -1,8 +1,5 @@
 <div *ngIf="missingDefinitions.length">
-  <h3>
-    <mat-icon color="warn">warning</mat-icon>&nbsp;
-    Missing Parts
-  </h3>
+  <h3><mat-icon color="warn">warning</mat-icon>&nbsp; Missing Parts</h3>
   <table>
     <tbody>
       <tr *ngFor="let def of missingDefinitions">
@@ -12,7 +9,10 @@
           </button>
         </td>
         <td matTooltip="def.description">
-          {{ def.name }}
+          <cadmus-part-badge
+            [partTypeIds]="def"
+            [facetDefinition]="def"
+          ></cadmus-part-badge>
         </td>
       </tr>
     </tbody>

@@ -22,6 +22,7 @@ import { RouterModule } from '@angular/router';
 import { LayerHintsComponent } from './components/layer-hints/layer-hints.component';
 import { FlagsBadgeComponent } from './components/flags-badge/flags-badge.component';
 import { FacetBadgeComponent } from './components/facet-badge/facet-badge.component';
+import { PartBadgeComponent } from './components/part-badge/part-badge.component';
 
 @NgModule({
   imports: [
@@ -47,6 +48,7 @@ import { FacetBadgeComponent } from './components/facet-badge/facet-badge.compon
     JsonEditorResourcesComponent,
     LayerHintsComponent,
     LoginComponent,
+    PartBadgeComponent,
     PasswordStrengthBarComponent,
     SafeHtmlPipe
   ],
@@ -62,6 +64,7 @@ import { FacetBadgeComponent } from './components/facet-badge/facet-badge.compon
     JsonEditorResourcesComponent,
     LayerHintsComponent,
     LoginComponent,
+    PartBadgeComponent,
     PasswordStrengthBarComponent,
     SafeHtmlPipe
   ],

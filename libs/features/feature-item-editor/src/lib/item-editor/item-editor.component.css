@@ -4,10 +4,6 @@
 div.new-part {
   margin-left: 32px;
 }
-span.model-type {
-  padding: 4px;
-  border-radius: 6px;
-}
 span.new-part-name {
   font-weight: bold;
 }
