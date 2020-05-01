@@ -225,10 +225,10 @@ export class ItemEditorComponent implements OnInit {
     }
   }
 
-  public getPartColor(typeId: string, roleId: string): string {
-    const state = this._query.getValue();
-    return this._facetService.getPartColor(typeId, roleId, state?.facet);
-  }
+  // public getPartColor(typeId: string, roleId: string): string {
+  //   const state = this._query.getValue();
+  //   return this._facetService.getPartColor(typeId, roleId, state?.facet);
+  // }
 
   public getTypeIdName(typeId: string): string {
     const state = this._appQuery.getValue();
