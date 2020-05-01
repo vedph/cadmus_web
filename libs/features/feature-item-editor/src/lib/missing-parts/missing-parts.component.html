@@ -1,0 +1,20 @@
+<div *ngIf="missingDefinitions.length">
+  <h3>
+    <mat-icon color="warn">warning</mat-icon>&nbsp;
+    Missing Parts
+  </h3>
+  <table>
+    <tbody>
+      <tr *ngFor="let def of missingDefinitions">
+        <td>
+          <button type="button" mat-icon-button matTooltip="Add this part">
+            <mat-icon>add_circle</mat-icon>
+          </button>
+        </td>
+        <td matTooltip="def.description">
+          {{ def.name }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

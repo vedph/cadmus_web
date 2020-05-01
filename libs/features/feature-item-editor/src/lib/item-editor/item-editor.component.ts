@@ -275,8 +275,8 @@ export class ItemEditorComponent implements OnInit {
     this._editItemService.save(item);
   }
 
-  public addPart() {
-    if (this.newPart.valid) {
+  public addPart(def?: PartDefinition) {
+    if (!def && this.newPart.valid) {
       return;
     }
     if (!this.id) {
@@ -285,8 +285,11 @@ export class ItemEditorComponent implements OnInit {
       });
       return;
     }
-    let route = `/item/${this.id}/${this.newPartType.value.typeId}/new/`;
-    route += this.newPartType.value.roleId ? this.newPartType.value.roleId : 'default';
+    const typeId = def? def.typeId : this.newPartType.value.typeId;
+    const roleId = def? def.roleId : this.newPartType.value.roleId;
+
+    let route = `/item/${this.id}/${typeId}/new/`;
+    route += roleId ? roleId : 'default';
     this._router.navigate([route]);
   }
 

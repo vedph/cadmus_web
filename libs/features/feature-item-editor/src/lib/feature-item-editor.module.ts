@@ -12,6 +12,7 @@ import { UiModule } from '@cadmus/ui';
 import { EditStateModule } from '@cadmus/features/edit-state';
 import { ItemEditorComponent } from './item-editor/item-editor.component';
 import { PartsScopeEditorComponent } from './parts-scope-editor/parts-scope-editor.component';
+import { MissingPartsComponent } from './missing-parts/missing-parts.component';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { PartsScopeEditorComponent } from './parts-scope-editor/parts-scope-edit
   ],
   declarations: [
     ItemEditorComponent,
+    MissingPartsComponent,
     PartsScopeEditorComponent
   ],
   exports: [

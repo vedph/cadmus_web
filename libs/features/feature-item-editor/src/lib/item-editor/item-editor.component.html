@@ -281,6 +281,12 @@
             </tbody>
           </table>
         </mat-expansion-panel>
+
+        <cadmus-missing-parts
+          [partDefinitions]="(facet$ | async)?.partDefinitions"
+          [parts]="parts$ | async"
+          (addRequest)="addPart($event)"
+        ></cadmus-missing-parts>
       </mat-tab>
 
       <mat-tab label="Layers" *ngIf="id">
