@@ -21,6 +21,7 @@ import { PasswordStrengthBarComponent } from './components/password-strength-bar
 import { RouterModule } from '@angular/router';
 import { LayerHintsComponent } from './components/layer-hints/layer-hints.component';
 import { FlagsBadgeComponent } from './components/flags-badge/flags-badge.component';
+import { FacetBadgeComponent } from './components/facet-badge/facet-badge.component';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { FlagsBadgeComponent } from './components/flags-badge/flags-badge.compon
     DatationEditorComponent,
     DecoratedTokenTextComponent,
     ErrorListComponent,
+    FacetBadgeComponent,
     FlagsBadgeComponent,
     HistoricalDateEditorComponent,
     JsonEditorResourcesComponent,
@@ -54,6 +56,7 @@ import { FlagsBadgeComponent } from './components/flags-badge/flags-badge.compon
     DatationEditorComponent,
     DecoratedTokenTextComponent,
     ErrorListComponent,
+    FacetBadgeComponent,
     FlagsBadgeComponent,
     HistoricalDateEditorComponent,
     JsonEditorResourcesComponent,
