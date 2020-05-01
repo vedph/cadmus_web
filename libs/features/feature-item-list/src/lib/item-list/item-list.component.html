@@ -69,12 +69,10 @@
                 </button>
               </td>
               <td>
-                <span
-                  class="model-type"
-                  [style.background-color]="getFacetColor(item.facetId)"
-                  matTooltip="{{ getFacetTip(item.facetId) }}"
-                  >{{ item.facetId }}</span
-                >
+                <cadmus-facet-badge
+                  [facetId]="item.facetId"
+                  [facetDefinitions]="facetDefinitions$ | async"
+                ></cadmus-facet-badge>
               </td>
               <td>
                 <cadmus-flags-badge

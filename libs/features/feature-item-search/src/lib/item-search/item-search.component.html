@@ -21,7 +21,12 @@
       >
         <mat-spinner [diameter]="48" [strokeWidth]="4"></mat-spinner>
       </div>
-      <div fxFlex fxFill *ngIf="pagination$ | async as pagination" fxLayout="column">
+      <div
+        fxFlex
+        fxFill
+        *ngIf="pagination$ | async as pagination"
+        fxLayout="column"
+      >
         <div fxFlex *ngIf="error">{{ error }}</div>
         <table fxFlex *ngIf="pagination.data.length">
           <thead>
@@ -71,12 +76,10 @@
                 </button>
               </td>
               <td>
-                <span
-                  class="model-type"
-                  [style.background-color]="getFacetColor(item.facetId)"
-                  matTooltip="{{ getFacetTip(item.facetId) }}"
-                  >{{ item.facetId }}</span
-                >
+                <cadmus-facet-badge
+                  [facetId]="item.facetId"
+                  [facetDefinitions]="facetDefinitions$ | async"
+                ></cadmus-facet-badge>
               </td>
               <td>
                 <cadmus-flags-badge

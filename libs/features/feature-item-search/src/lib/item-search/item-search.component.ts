@@ -6,7 +6,8 @@ import {
   User,
   DataPage,
   ErrorWrapper,
-  FlagDefinition
+  FlagDefinition,
+  FacetDefinition
 } from '@cadmus/core';
 import { FormControl, FormBuilder } from '@angular/forms';
 import { DialogService } from '@cadmus/ui';
@@ -26,12 +27,10 @@ import { AppQuery } from '@cadmus/features/edit-state';
   styleUrls: ['./item-search.component.css']
 })
 export class ItemSearchComponent implements OnInit {
-  private _facetColors: { [key: string]: string };
-  private _facetTips: { [key: string]: string };
-
   public pagination$: Observable<PaginationResponse<ItemInfo>>;
   public query$: Observable<string>;
   public flagDefinitions$: Observable<FlagDefinition[]>;
+  public facetDefinitions$: Observable<FacetDefinition[]>;
   public pageSize: FormControl;
   public user: User;
   public userLevel: number;
@@ -50,8 +49,6 @@ export class ItemSearchComponent implements OnInit {
     private _appQuery: AppQuery,
     formBuilder: FormBuilder
   ) {
-    this._facetColors = {};
-    this._facetTips = {};
     this.pageSize = formBuilder.control(20);
     this.lastQueries = [];
   }
@@ -95,6 +92,7 @@ export class ItemSearchComponent implements OnInit {
     });
 
     this.flagDefinitions$ = this._appQuery.selectFlags();
+    this.facetDefinitions$ = this._appQuery.selectFacets();
 
     const initialPageSize = 20;
     this.query$ = this._itemsSearchQuery.selectQuery();
@@ -166,49 +164,5 @@ export class ItemSearchComponent implements OnInit {
         }
         this._itemSearchService.delete(item.id);
       });
-  }
-
-  public getFacetColor(facetId: string): string {
-    if (this._facetColors[facetId]) {
-      return this._facetColors[facetId];
-    }
-
-    const state = this._appQuery.getValue();
-    const facet = state.facets.find(f => {
-      return f.id === facetId;
-    });
-    if (facet?.colorKey) {
-      this._facetColors[facetId] = '#' + facet.colorKey;
-    } else {
-      this._facetColors[facetId] = 'transparent';
-    }
-    return this._facetColors[facetId];
-  }
-
-  public getFacetTip(facetId: string): string {
-    if (this._facetTips[facetId]) {
-      return this._facetTips[facetId];
-    }
-
-    const state = this._appQuery.getValue();
-    const facet = state.facets.find(f => {
-      return f.id === facetId;
-    });
-    if (!facet) {
-      this._facetTips[facetId] = facetId;
-    } else {
-      const sb: string[] = [];
-      for (let i = 0; i < facet.partDefinitions.length; i++) {
-        if (i > 0) {
-          sb.push(', ');
-        }
-        sb.push(facet.partDefinitions[i].name);
-        if (facet.partDefinitions[i].isRequired) {
-          sb.push('*');
-        }
-      }
-      this._facetTips[facetId] = sb.join('');
-    }
-    return this._facetTips[facetId];
   }
 }

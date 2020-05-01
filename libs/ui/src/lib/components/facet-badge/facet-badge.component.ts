@@ -39,6 +39,8 @@ export class FacetBadgeComponent implements OnInit {
   }
   public set facetDefinitions(value: FacetDefinition[]) {
     this._facetDefinitions = value;
+    this._facetColors = {};
+    this._facetTips = {};
     this.updateBadge();
   }
 
@@ -53,6 +55,9 @@ export class FacetBadgeComponent implements OnInit {
   private getFacetColor(facetId: string): string {
     if (this._facetColors[facetId]) {
       return this._facetColors[facetId];
+    }
+    if (!this._facetDefinitions) {
+      return 'transparent';
     }
 
     const facet = this._facetDefinitions.find(f => {
@@ -69,6 +74,10 @@ export class FacetBadgeComponent implements OnInit {
   private getFacetTip(facetId: string): string {
     if (this._facetTips[facetId]) {
       return this._facetTips[facetId];
+    }
+
+    if (!this.facetDefinitions) {
+      return null;
     }
 
     const facet = this.facetDefinitions.find(f => {

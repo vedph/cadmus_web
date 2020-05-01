@@ -1,7 +1,14 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { PaginationResponse, PaginatorPlugin } from '@datorama/akita';
-import { ItemInfo, DataPage, ItemFilter, User, FlagDefinition } from '@cadmus/core';
+import {
+  ItemInfo,
+  DataPage,
+  ItemFilter,
+  User,
+  FlagDefinition,
+  FacetDefinition
+} from '@cadmus/core';
 import { ITEMS_PAGINATOR } from '../services/items-paginator';
 import { map, switchMap, tap, startWith } from 'rxjs/operators';
 import { ItemsState } from '../state/items.store';
@@ -19,12 +26,10 @@ import { AppQuery } from '@cadmus/features/edit-state';
   styleUrls: ['./item-list.component.css']
 })
 export class ItemListComponent implements OnInit {
-  private _facetColors: {[key: string]: string};
-  private _facetTips: {[key: string]: string};
-
   public pagination$: Observable<PaginationResponse<ItemInfo>>;
   public filter$: BehaviorSubject<ItemFilter>;
   public flagDefinitions$: Observable<FlagDefinition[]>;
+  public facetDefinitions$: Observable<FacetDefinition[]>;
   public pageSize: FormControl;
   public user: User;
   public userLevel: number;
@@ -39,8 +44,6 @@ export class ItemListComponent implements OnInit {
     private _appQuery: AppQuery,
     formBuilder: FormBuilder
   ) {
-    this._facetColors = {};
-    this._facetTips = {};
     this.pageSize = formBuilder.control(20);
   }
 
@@ -69,6 +72,7 @@ export class ItemListComponent implements OnInit {
     });
 
     this.flagDefinitions$ = this._appQuery.selectFlags();
+    this.facetDefinitions$ = this._appQuery.selectFacets();
 
     // filter
     const initialPageSize = 20;
@@ -144,49 +148,5 @@ export class ItemListComponent implements OnInit {
         }
         this._itemListService.delete(item.id);
       });
-  }
-
-  public getFacetColor(facetId: string): string {
-    if (this._facetColors[facetId]) {
-      return this._facetColors[facetId];
-    }
-
-    const state = this._appQuery.getValue();
-    const facet = state.facets.find(f => {
-      return f.id === facetId;
-    });
-    if (facet?.colorKey) {
-      this._facetColors[facetId] = '#' + facet.colorKey;
-    } else {
-      this._facetColors[facetId] = 'transparent';
-    }
-    return this._facetColors[facetId];
-  }
-
-  public getFacetTip(facetId: string): string {
-    if (this._facetTips[facetId]) {
-      return this._facetTips[facetId];
-    }
-
-    const state = this._appQuery.getValue();
-    const facet = state.facets.find(f => {
-      return f.id === facetId;
-    });
-    if (!facet) {
-      this._facetTips[facetId] = facetId;
-    } else {
-      const sb: string[] = [];
-      for (let i = 0; i < facet.partDefinitions.length; i++) {
-        if (i > 0) {
-          sb.push(', ');
-        }
-        sb.push(facet.partDefinitions[i].name);
-        if (facet.partDefinitions[i].isRequired) {
-          sb.push('*');
-        }
-      }
-      this._facetTips[facetId] = sb.join('');
-    }
-    return this._facetTips[facetId];
   }
 }
