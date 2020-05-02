@@ -356,6 +356,15 @@
                 >
                   <mat-icon>delete</mat-icon>
                 </button>
+                <button
+                  *ngIf="!part.isAbsent"
+                  mat-icon-button
+                  type="button"
+                  matTooltip="Copy this part ID"
+                  [cdkCopyToClipboard]="part.id"
+                >
+                  <mat-icon>assignment</mat-icon>
+                </button>
               </td>
               <td>
                 <cadmus-part-badge
