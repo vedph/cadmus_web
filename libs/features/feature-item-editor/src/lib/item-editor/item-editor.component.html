@@ -9,7 +9,16 @@
   </mat-card-header>
   <mat-card-content *ngIf="!id || (item$ | async) as item">
     <p *ngIf="id">
-      ID: <input type="text" readonly="true" [value]="item.id" class="id" />
+      ID:
+      <input
+        [cdkCopyToClipboard]="item.id"
+        type="text"
+        readonly="true"
+        spellcheck="false"
+        matTooltip="Click to copy"
+        [value]="item.id"
+        class="id"
+      />
     </p>
     <p *ngIf="id">
       Last saved {{ item.timeModified | amLocal | amTimeAgo }} by
@@ -225,7 +234,7 @@
           <table>
             <thead>
               <tr>
-                <th style="width:85px"></th>
+                <th style="width:124px"></th>
                 <th>type</th>
                 <th>role</th>
                 <th>modified</th>
@@ -239,6 +248,7 @@
                   <button
                     mat-icon-button
                     type="button"
+                    color="primary"
                     matTooltip="Edit this part"
                     [disabled]="(loading$ | async) || (deletingPart$ | async)"
                     (click)="editPart(part)"
@@ -263,6 +273,15 @@
                     "
                   >
                     <mat-icon color="warn">delete</mat-icon>
+                  </button>
+                  <!-- copy -->
+                  <button
+                    mat-icon-button
+                    type="button"
+                    matTooltip="Copy this part ID"
+                    [cdkCopyToClipboard]="part.id"
+                  >
+                    <mat-icon>assignment</mat-icon>
                   </button>
                 </td>
                 <td>

@@ -21,5 +21,5 @@ td.count-z {
 input.id {
   font-family: 'Courier New', Courier, monospace;
   color: gray;
-  width: 22em;
+  min-width: 22em;
 }

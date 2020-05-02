@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ClipboardModule  } from '@angular/cdk/clipboard';
 
 import { MomentModule } from 'ngx-moment';
 
@@ -22,6 +23,7 @@ import { MissingPartsComponent } from './missing-parts/missing-parts.component';
     RouterModule.forChild([
       { path: '', pathMatch: 'full', component: ItemEditorComponent }
     ]),
+    ClipboardModule,
     MomentModule,
     // cadmus
     CoreModule,
@@ -35,8 +37,6 @@ import { MissingPartsComponent } from './missing-parts/missing-parts.component';
     MissingPartsComponent,
     PartsScopeEditorComponent
   ],
-  exports: [
-    ItemEditorComponent
-  ]
+  exports: [ItemEditorComponent]
 })
 export class FeatureItemEditorModule {}
