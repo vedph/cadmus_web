@@ -12,7 +12,8 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
 /**
  * Bibliography part editor.
- * Thesauri: languages, bibliography-typeIds (optional).
+ * Thesauri: languages, bibliography-types (optional),
+ * bibliography-author-roles (optional).
  */
 @Component({
   selector: 'cadmus-bibliography-part',
@@ -28,8 +29,9 @@ export class BibliographyPartComponent
   public editedEntry: BibEntry;
   public currentTabIndex: number;
 
-  public typeIdThesaurus: Thesaurus;
+  public typeThesaurus: Thesaurus;
   public langThesaurus: Thesaurus;
+  public roleThesaurus: Thesaurus;
 
   public entryCount: FormControl;
 
@@ -59,11 +61,18 @@ export class BibliographyPartComponent
       this.langThesaurus = null;
     }
 
-    const bibKey = 'bibliography-typeIds';
-    if (this.thesauri && this.thesauri[bibKey]) {
-      this.typeIdThesaurus = this.thesauri[bibKey];
+    const typeKey = 'bibliography-types';
+    if (this.thesauri && this.thesauri[typeKey]) {
+      this.typeThesaurus = this.thesauri[typeKey];
     } else {
-      this.typeIdThesaurus = null;
+      this.typeThesaurus = null;
+    }
+
+    const roleKey = 'bibliography-author-roles';
+    if (this.thesauri && this.thesauri[roleKey]) {
+      this.roleThesaurus = this.thesauri[roleKey];
+    } else {
+      this.roleThesaurus = null;
     }
   }
 
@@ -102,7 +111,7 @@ export class BibliographyPartComponent
 
   public addEntry() {
     const entry: BibEntry = {
-      typeId: this.typeIdThesaurus?.entries[0].id,
+      typeId: this.typeThesaurus?.entries[0].id,
       title: null,
       language: this.langThesaurus?.entries[0].id
     };
