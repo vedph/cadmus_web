@@ -133,7 +133,7 @@
     <h3>Rendition</h3>
   </mat-card-header>
   <mat-card-content>
-    <div [innerHtml]="result | safeHtml" id="result" #resultElem></div>
+    <div [innerHtml]="result | safeHtml: 'html'" id="result" #resultElem></div>
     <hr />
     <div>
       <code>{{ result }}</code>
