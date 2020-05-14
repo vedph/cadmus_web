@@ -12,6 +12,7 @@ import { NotePartComponent } from './note-part/note-part.component';
 import { NotePartDemoComponent } from './note-part-demo/note-part-demo.component';
 import { TokenTextPartComponent } from './token-text-part/token-text-part.component';
 import { TokenTextPartDemoComponent } from './token-text-part-demo/token-text-part-demo.component';
+import { BibliographyPartComponent } from './bibliography-part/bibliography-part.component';
 import { CommentFragmentComponent } from './comment-fragment/comment-fragment.component';
 import { CommentFragmentDemoComponent } from './comment-fragment-demo/comment-fragment-demo.component';
 import { CategoriesPartComponent } from './categories-part/categories-part.component';
@@ -43,6 +44,7 @@ import { IndexKeywordsPartDemoComponent } from './index-keywords-part-demo/index
     UiModule
   ],
   declarations: [
+    BibliographyPartComponent,
     CategoriesPartComponent,
     CategoriesPartDemoComponent,
     ChronologyFragmentComponent,
@@ -64,9 +66,11 @@ import { IndexKeywordsPartDemoComponent } from './index-keywords-part-demo/index
     TokenTextPartComponent,
     TokenTextPartDemoComponent,
     TiledDataComponent,
-    IndexKeywordComponent
+    IndexKeywordComponent,
+    BibliographyPartComponent
   ],
   exports: [
+    BibliographyPartComponent,
     CategoriesPartComponent,
     CategoriesPartDemoComponent,
     ChronologyFragmentComponent,

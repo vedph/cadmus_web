@@ -1,13 +1,13 @@
 import { Part } from '@cadmus/core';
 import { Keyword } from './keywords-part';
 
-interface BibAuthor {
+export interface BibAuthor {
   firstName?: string;
   lastName: string;
   roleId?: string;
 }
 
-interface BibEntry {
+export interface BibEntry {
   typeId: string;
   authors?: BibAuthor[];
   title: string;
@@ -17,7 +17,7 @@ interface BibEntry {
   edition?: number;
   number?: number;
   publisher?: string;
-  yearPub: number;
+  yearPub?: number;
   placePub?: string;
   location?: string;
   accessDate?: Date;
@@ -28,7 +28,7 @@ interface BibEntry {
 }
 
 /**
- * The Bibliography part model.
+ * The bibliography part model.
  */
 export interface BibliographyPart extends Part {
   entries: BibEntry[];
