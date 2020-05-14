@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {
   BibliographyPart,
   BibEntry,
-  BIBLIOGRAPHY_PART_TYPEID
+  BIBLIOGRAPHY_PART_TYPEID,
+  BibAuthor
 } from '../bibliography-part';
 import { ModelEditorComponentBase, DialogService } from '@cadmus/ui';
 import { Thesaurus } from '@cadmus/core';
@@ -166,5 +167,20 @@ export class BibliographyPartComponent
     this.part.entries.splice(index, 1);
     this.part.entries.splice(index + 1, 0, item);
     this.form.markAsDirty();
+  }
+
+  public getAuthors(authors: BibAuthor[]): string {
+    const sb: string[] = [];
+    for (let i = 0; i < authors?.length || 0; i++) {
+      sb.push(authors[i].lastName);
+      if (authors[i].firstName) {
+        sb.push(', ');
+        sb.push(authors[i].firstName);
+      }
+      if (authors[i].roleId) {
+        sb.push(` (${authors[i].roleId})`);
+      }
+    }
+    return sb.join('; ');
   }
 }

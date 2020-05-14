@@ -1,1 +1,90 @@
-<p>bibliography-part works!</p>
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>Bibliography Part</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-tab-group [(selectedIndex)]="currentTabIndex">
+        <!-- bibliography editor -->
+        <mat-tab label="Bibliography">
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>type</th>
+                <th>author(s)</th>
+                <th>title</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let entry of part.entries;
+                  let i = index;
+                  let first = first;
+                  let last = last
+                "
+              >
+                <td>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    matTooltip="Edit entry"
+                    color="primary"
+                    (click)="editEntry(entry)"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    matTooltip="Move entry up"
+                    [disabled]="first"
+                    (click)="moveEntryUp(i)"
+                  >
+                    <mat-icon>arrow_upward</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    matTooltip="Move entry down"
+                    [disabled]="last"
+                    (click)="moveEntryDown(i)"
+                  >
+                    <mat-icon>arrow_downward</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    matTooltip="Remove this entry"
+                    color="warn"
+                    (click)="removeEntry(i)"
+                  >
+                    <mat-icon>remove_circle</mat-icon>
+                  </button>
+                </td>
+                <td>{{entry.typeId}}</td>
+                <td>{{getAuthors(entry.authors)}}</td>
+                <td>{{entry.title}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-tab>
+        <!-- entry editor -->
+        <mat-tab label="Entry">
+          TODO: your template here...
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="userLevel < 2"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>
