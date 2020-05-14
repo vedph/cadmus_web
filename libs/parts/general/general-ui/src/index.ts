@@ -1,4 +1,5 @@
 export * from './lib/general-ui.module';
+export * from './lib/bibliography-part';
 export * from './lib/categories-part';
 export * from './lib/categories-part/categories-part.component';
 export * from './lib/categories-part-demo/categories-part-demo.component';
