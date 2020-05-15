@@ -83,7 +83,14 @@
         </mat-tab>
         <!-- entry editor -->
         <mat-tab label="Entry" *ngIf="editedEntry">
-          TODO: your template here...
+          <cadmus-bibliography-entry
+            [entry]="editedEntry"
+            [langThesaurus]="langThesaurus"
+            [typeThesaurus]="typeThesaurus"
+            [roleThesaurus]="roleThesaurus"
+            (editorClose)="onEntryClose()"
+            (entryChange)="onEntrySave($event)"
+          ></cadmus-bibliography-entry>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

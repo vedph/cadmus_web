@@ -1,107 +1,119 @@
-<div formArrayName="authorsCtl">
-  <div *ngIf="!authorsCtl.length">
-    <br />
-    <button
-      type="button"
-      mat-raised-button
-      color="primary"
-      (click)="addAuthor()"
+<form [formGroup]="form">
+  <div formArrayName="authorsCtl">
+    <div *ngIf="!authorsCtl.length">
+      <button
+        type="button"
+        mat-raised-button
+        (click)="addAuthor()"
+        matTooltip="Add a new author"
+      >
+        add author
+      </button>
+    </div>
+    <div
+      *ngFor="
+        let item of authorsCtl.controls;
+        let i = index;
+        let first = first;
+        let last = last
+      "
     >
-      add item
-    </button>
-  </div>
-  <div
-    *ngFor="
-      let item of authorsCtl.controls;
-      let i = index;
-      let first = first;
-      let last = last
-    "
-  >
-    <!-- child form -->
-    <div [formGroupName]="i">
-      <!-- child actions -->
-      {{ i + 1 }}.
-      <button
-        mat-icon-button
-        type="button"
-        matTooltip="Remove this author"
-        color="warn"
-        (click)="removeAuthor(i)"
-      >
-        <mat-icon>remove_circle</mat-icon>
-      </button>
-      <button
-        mat-icon-button
-        type="button"
-        matTooltip="Add author below"
-        color="primary"
-        (click)="addAuthorBelow(i)"
-      >
-        <mat-icon>add_circle</mat-icon>
-      </button>
-      <button
-        [disabled]="first"
-        mat-icon-button
-        type="button"
-        matTooltip="Move author up"
-        (click)="moveAuthorUp(i)"
-      >
-        <mat-icon>arrow_upward</mat-icon>
-      </button>
-      <button
-        [disabled]="last"
-        mat-icon-button
-        type="button"
-        matTooltip="Move author down"
-        (click)="moveAuthorDown(i)"
-      >
-        <mat-icon>arrow_downward</mat-icon>
-      </button>
-      <!-- child controls -->
-      <!-- last -->
-      <mat-form-field>
-        <input
-          matInput
-          formControlName="lastName"
-          placeholder="last name"
-          autofocus
-        />
-        <mat-error
-          *ngIf="
-            authorsCtl.controls[i].get('lastName').hasError('required') &&
-            (authorsCtl.controls[i].get('lastName').dirty ||
-              authorsCtl.controls[i].get('lastName').touched)
-          "
-          >last name required</mat-error
+      <!-- child form -->
+      <div [formGroupName]="i">
+        <!-- child actions -->
+        {{ i + 1 }}.
+        <button
+          mat-icon-button
+          type="button"
+          matTooltip="Remove this author"
+          color="warn"
+          (click)="removeAuthor(i)"
         >
-        <mat-error
-          *ngIf="
-            authorsCtl.controls[i].get('lastName').hasError('maxLength') &&
-            (authorsCtl.controls[i].get('lastName').dirty ||
-              authorsCtl.controls[i].get('lastName').touched)
-          "
-          >too long</mat-error
+          <mat-icon>remove_circle</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          type="button"
+          matTooltip="Add author below"
+          color="primary"
+          (click)="addAuthorBelow(i)"
         >
-      </mat-form-field>
-      <!-- first -->
-      <mat-form-field>
-        <input matInput formControlName="firstName" placeholder="first name" />
-        <mat-error>too long</mat-error>
-      </mat-form-field>
-      <!-- roleId -->
-      <mat-form-field *ngIf="roleThesaurus">
-        <mat-select formControlName="roleId" placeholder="role">
-          <mat-option [value]="null">(no role)</mat-option>
-          <mat-option *ngFor="let e of roleThesaurus.entries" [value]="e.id">{{
-            e.value
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field *ngIf="!roleThesaurus">
-        <input matInput formControlName="roleId" placeholder="role" />
-        <mat-error>too long</mat-error>
-      </mat-form-field>
+          <mat-icon>add_circle</mat-icon>
+        </button>
+        <button
+          [disabled]="first"
+          mat-icon-button
+          type="button"
+          matTooltip="Move author up"
+          (click)="moveAuthorUp(i)"
+        >
+          <mat-icon>arrow_upward</mat-icon>
+        </button>
+        <button
+          [disabled]="last"
+          mat-icon-button
+          type="button"
+          matTooltip="Move author down"
+          (click)="moveAuthorDown(i)"
+        >
+          <mat-icon>arrow_downward</mat-icon>
+        </button>
+        <!-- child controls -->
+        <!-- last -->
+        <mat-form-field>
+          <input
+            matInput
+            formControlName="lastName"
+            placeholder="last name"
+            spellcheck="false"
+            autofocus
+          />
+          <mat-error
+            *ngIf="
+              item.get('lastName').hasError('required') &&
+              (item.get('lastName').dirty || item.get('lastName').touched)
+            "
+            >last name required</mat-error
+          >
+          <mat-error
+            *ngIf="
+              item.get('lastName').hasError('maxLength') &&
+              (item.get('lastName').dirty || item.get('lastName').touched)
+            "
+            >too long</mat-error
+          >
+        </mat-form-field>
+        <!-- first -->
+        <mat-form-field>
+          <input
+            matInput
+            formControlName="firstName"
+            placeholder="first name"
+            spellcheck="false"
+          />
+          <mat-error>too long</mat-error>
+        </mat-form-field>
+        <!-- roleId -->
+        <mat-form-field *ngIf="roleThesaurus">
+          <mat-select formControlName="roleId" placeholder="role">
+            <mat-option [value]="null">(no role)</mat-option>
+            <mat-option
+              *ngFor="let e of roleThesaurus.entries"
+              [value]="e.id"
+              >{{ e.value }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf="!roleThesaurus">
+          <input
+            matInput
+            formControlName="roleId"
+            placeholder="role"
+            spellcheck="false"
+          />
+          <mat-error>too long</mat-error>
+        </mat-form-field>
+      </div>
     </div>
   </div>
-</div>
+</form>

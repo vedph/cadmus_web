@@ -57,7 +57,7 @@
 
       <!-- title -->
       <div>
-        <mat-form-field>
+        <mat-form-field class="full-width">
           <input
             matInput
             type="text"
@@ -79,7 +79,7 @@
 
       <!-- note -->
       <div>
-        <mat-form-field>
+        <mat-form-field class="full-width">
           <textarea
             matInput
             formControlName="note"
@@ -249,7 +249,7 @@
             matInput
             type="number"
             formControlName="lastPage"
-            placeholder="from"
+            placeholder="to"
           />
           <mat-error
             *ngIf="
@@ -270,8 +270,7 @@
     <!-- keywords -->
     <mat-tab label="Keywords">
       <form [formGroup]="keyForm" (submit)="addKeyword()">
-        <!-- language -->
-        <div>
+        <!-- <div>
           <mat-form-field>
             <mat-select formControlName="keyLanguage" placeholder="language">
               <mat-option *ngFor="let e of langThesaurus" [value]="e.id">{{
@@ -280,9 +279,13 @@
             </mat-select>
           </mat-form-field>
           &nbsp;
-          <!-- value -->
           <mat-form-field>
-            <input type="text" placeholder="value" formControlName="keyValue" />
+            <input
+              matInput
+              type="text"
+              placeholder="value"
+              formControlName="keyValue"
+            />
             <mat-error
               *ngIf="
                 keyValue.hasError('maxLength') &&
@@ -298,7 +301,7 @@
           >
             <mat-icon>add_circle</mat-icon>
           </button>
-        </div>
+        </div> -->
       </form>
       <!-- list -->
       <table *ngIf="keywords?.length">
