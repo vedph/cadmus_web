@@ -12,8 +12,10 @@ import { NotePartComponent } from './note-part/note-part.component';
 import { NotePartDemoComponent } from './note-part-demo/note-part-demo.component';
 import { TokenTextPartComponent } from './token-text-part/token-text-part.component';
 import { TokenTextPartDemoComponent } from './token-text-part-demo/token-text-part-demo.component';
+import { BibAuthorsEditorComponent } from './bib-authors-editor/bib-authors-editor.component';
 import { BibliographyEntryComponent } from './bibliography-entry/bibliography-entry.component';
 import { BibliographyPartComponent } from './bibliography-part/bibliography-part.component';
+import { BibliographyPartDemoComponent } from './bibliography-part-demo/bibliography-part-demo.component';
 import { CommentFragmentComponent } from './comment-fragment/comment-fragment.component';
 import { CommentFragmentDemoComponent } from './comment-fragment-demo/comment-fragment-demo.component';
 import { CategoriesPartComponent } from './categories-part/categories-part.component';
@@ -31,7 +33,6 @@ import { TextTileComponent } from './text-tile/text-tile.component';
 import { TiledTextPartDemoComponent } from './tiled-text-part-demo/tiled-text-part-demo.component';
 import { TiledDataComponent } from './tiled-data/tiled-data.component';
 import { IndexKeywordsPartDemoComponent } from './index-keywords-part-demo/index-keywords-part-demo.component';
-import { BibAuthorsEditorComponent } from './bib-authors-editor/bib-authors-editor.component';
 
 @NgModule({
   imports: [
@@ -46,8 +47,11 @@ import { BibAuthorsEditorComponent } from './bib-authors-editor/bib-authors-edit
     UiModule
   ],
   declarations: [
+    BibAuthorsEditorComponent,
     BibliographyEntryComponent,
     BibliographyPartComponent,
+    BibliographyPartComponent,
+    BibliographyPartDemoComponent,
     CategoriesPartComponent,
     CategoriesPartDemoComponent,
     ChronologyFragmentComponent,
@@ -70,11 +74,10 @@ import { BibAuthorsEditorComponent } from './bib-authors-editor/bib-authors-edit
     TokenTextPartDemoComponent,
     TiledDataComponent,
     IndexKeywordComponent,
-    BibliographyPartComponent,
-    BibAuthorsEditorComponent
   ],
   exports: [
     BibliographyPartComponent,
+    BibliographyPartDemoComponent,
     CategoriesPartComponent,
     CategoriesPartDemoComponent,
     ChronologyFragmentComponent,

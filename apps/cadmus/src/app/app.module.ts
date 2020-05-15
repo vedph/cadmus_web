@@ -46,6 +46,7 @@ import { FeatureTokenTextPartDemoComponent } from './demo/feature-token-text-par
 import { FeatureWitnessesFragmentDemoComponent } from './demo/feature-witnesses-fragment-demo/feature-witnesses-fragment-demo.component';
 import { PART_EDITOR_KEYS } from './part-editor-keys';
 import { ITEM_BROWSER_KEYS } from './item-browser-keys';
+import { FeatureBibliographyPartDemoComponent } from './demo/feature-bibliography-part-demo/feature-bibliography-part-demo.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { ITEM_BROWSER_KEYS } from './item-browser-keys';
     FeatureTokenTextPartDemoComponent,
     FeatureWitnessesFragmentDemoComponent,
     FeatureTiledTextPartDemoComponent,
-    FeatureIndexKeywordsPartDemoComponent
+    FeatureIndexKeywordsPartDemoComponent,
+    FeatureBibliographyPartDemoComponent
   ],
   imports: [
     BrowserModule,
@@ -105,6 +107,11 @@ import { ITEM_BROWSER_KEYS } from './item-browser-keys';
         {
           path: 'demo/historical-date-part',
           component: FeatureHistoricalDatePartDemoComponent,
+          pathMatch: 'full'
+        },
+        {
+          path: 'demo/bibliography-part',
+          component: FeatureBibliographyPartDemoComponent,
           pathMatch: 'full'
         },
         {

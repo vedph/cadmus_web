@@ -181,6 +181,9 @@ export class BibliographyPartComponent
   public getAuthors(authors: BibAuthor[]): string {
     const sb: string[] = [];
     for (let i = 0; i < authors?.length || 0; i++) {
+      if (i) {
+        sb.push("; ");
+      }
       sb.push(authors[i].lastName);
       if (authors[i].firstName) {
         sb.push(', ');
@@ -190,6 +193,6 @@ export class BibliographyPartComponent
         sb.push(` (${authors[i].roleId})`);
       }
     }
-    return sb.join('; ');
+    return sb.join('');
   }
 }

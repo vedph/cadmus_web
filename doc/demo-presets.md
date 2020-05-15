@@ -214,6 +214,185 @@ The thesaurus is optional. When not set, the editor allows free text for the tag
 
 No thesaurus is required for this part.
 
+## Part/Bibliography Part
+
+```json
+{
+  "itemId": "4a26ad5c-0a82-4a21-b1d7-15cddbb1bfd1",
+  "id": "1bf411d8-54ad-4f4c-bde6-2fc78226ebd5",
+  "typeId": "net.fusisoft.note",
+  "roleId": "",
+  "timeModified": "2019-11-29T16:48:49.694Z",
+  "userId": "zeus",
+  "entries": [
+    {
+      "typeId": "book",
+      "authors": [
+        {
+          "firstName": "Michel",
+          "lastName": "Lejeune"
+        }
+      ],
+      "title": "Phonétique historique du mycénien et du grec ancien",
+      "language": "fre",
+      "edition": 1,
+      "publisher": "Klincksieck",
+      "yearPub": 1982,
+      "placePub": "Paris",
+      "firstPage": 1,
+      "lastPage": 398,
+      "keywords": [
+        {
+          "language": "eng",
+          "value": "Greek language"
+        }
+      ],
+      "note": "This is a wonderful book."
+    },
+    {
+      "typeId": "article-b",
+      "authors": [
+        {
+          "firstName": "Mario",
+          "lastName": "Cantilena"
+        }
+      ],
+      "title": "Il ponte di Nicanore",
+      "language": "ita",
+      "contributors": [
+        {
+          "firstName": "Roberto",
+          "lastName": "Pretagostini",
+          "roleId": "ed"
+        },
+        {
+          "firstName": "Marco",
+          "lastName": "Fantuzzi",
+          "roleId": "ed"
+        }
+      ],
+      "container": "Struttura e storia dell'esametro greco",
+      "yearPub": 1995,
+      "placePub": "Roma",
+      "firstPage": 9,
+      "lastPage": 67,
+      "keywords": [
+        {
+          "language": "eng",
+          "value": "hexameter"
+        }
+      ]
+    }
+  ]
+}
+```
+
+Thesauri: the language thesaurus is required; other thesauri are optional, but normally present.
+
+```json
+{
+  "languages": {
+    "id": "languages@en",
+    "entries": [
+      {
+        "id": "eng",
+        "value": "English"
+      },
+      {
+        "id": "fre",
+        "value": "French"
+      },
+      {
+        "id": "deu",
+        "value": "German"
+      },
+      {
+        "id": "grc",
+        "value": "Ancient Greek"
+      },
+      {
+        "id": "gre",
+        "value": "Modern Greek"
+      },
+      {
+        "id": "ita",
+        "value": "Italian"
+      },
+      {
+        "id": "lat",
+        "value": "Latin"
+      },
+      {
+        "id": "spa",
+        "value": "Spanish"
+      }
+    ]
+  },
+  "bibliography-types": {
+    "id": "bibliography-types@en",
+    "entries": [
+      {
+        "id": "book",
+        "value": "book"
+      },
+      {
+        "id": "article-j",
+        "value": "journal article"
+      },
+      {
+        "id": "article-b",
+        "value": "book article"
+      },
+      {
+        "id": "article-p",
+        "value": "proceedings article"
+      },
+      {
+        "id": "review",
+        "value": "review"
+      },
+      {
+        "id": "ebook",
+        "value": "e-book"
+      },
+      {
+        "id": "site",
+        "value": "web site"
+      },
+      {
+        "id": "magazine",
+        "value": "magazine"
+      },
+      {
+        "id": "newspaper",
+        "value": "newspaper"
+      },
+      {
+        "id": "tweet",
+        "value": "tweet"
+      }
+    ]
+  },
+  "bibliography-author-roles": {
+    "id": "bibliography-author-roles@en",
+    "entries": [
+      {
+        "id": "ed",
+        "value": "editor"
+      },
+      {
+        "id": "tr",
+        "value": "translator"
+      },
+      {
+        "id": "org",
+        "value": "organization"
+      }
+    ]
+  }
+}
+```
+
 ## Part/Token Text Part
 
 ```json
