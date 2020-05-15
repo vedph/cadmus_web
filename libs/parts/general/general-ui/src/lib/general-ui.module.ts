@@ -31,6 +31,7 @@ import { TextTileComponent } from './text-tile/text-tile.component';
 import { TiledTextPartDemoComponent } from './tiled-text-part-demo/tiled-text-part-demo.component';
 import { TiledDataComponent } from './tiled-data/tiled-data.component';
 import { IndexKeywordsPartDemoComponent } from './index-keywords-part-demo/index-keywords-part-demo.component';
+import { BibAuthorsEditorComponent } from './bib-authors-editor/bib-authors-editor.component';
 
 @NgModule({
   imports: [
@@ -69,7 +70,8 @@ import { IndexKeywordsPartDemoComponent } from './index-keywords-part-demo/index
     TokenTextPartDemoComponent,
     TiledDataComponent,
     IndexKeywordComponent,
-    BibliographyPartComponent
+    BibliographyPartComponent,
+    BibAuthorsEditorComponent
   ],
   exports: [
     BibliographyPartComponent,
