@@ -1,0 +1,8 @@
+<cadmus-current-item-bar></cadmus-current-item-bar>
+<cadmus-bibliography-part
+  [json]="json$ | async"
+  (jsonChange)="save($event)"
+  [thesauri]="thesauri$ | async"
+  (editorClose)="close()"
+  (dirtyChange)="onDirtyChange($event)"
+></cadmus-bibliography-part>

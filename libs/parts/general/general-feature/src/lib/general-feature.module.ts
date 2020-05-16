@@ -14,7 +14,8 @@ import {
   TOKEN_TEXT_PART_TYPEID,
   HISTORICAL_DATE_PART_TYPEID,
   TILED_TEXT_PART_TYPEID,
-  INDEX_KEYWORDS_PART_TYPEID
+  INDEX_KEYWORDS_PART_TYPEID,
+  BIBLIOGRAPHY_PART_TYPEID
 } from '@cadmus/parts/general/general-ui';
 import { EditStateModule } from '@cadmus/features/edit-state';
 
@@ -34,6 +35,7 @@ import { IndexKeywordsPartFeatureComponent } from './index-keywords-part-feature
 import { TokenTextLayerPartFeatureComponent } from './token-text-layer-part-feature/token-text-layer-part-feature.component';
 import { TiledTextPartFeatureComponent } from './tiled-text-part-feature/tiled-text-part-feature.component';
 import { TiledTextLayerPartFeatureComponent } from './tiled-text-layer-part-feature/tiled-text-layer-part-feature.component';
+import { BibliographyPartFeatureComponent } from './bibliography-part-feature/bibliography-part-feature.component';
 
 @NgModule({
   imports: [
@@ -106,7 +108,13 @@ import { TiledTextLayerPartFeatureComponent } from './tiled-text-layer-part-feat
         pathMatch: 'full',
         component: ChronologyFragmentFeatureComponent,
         canDeactivate: [PendingChangesGuard]
-      }
+      },
+      {
+        path: `${BIBLIOGRAPHY_PART_TYPEID}/:pid`,
+        pathMatch: 'full',
+        component: BibliographyPartFeatureComponent,
+        canDeactivate: [PendingChangesGuard]
+      },
     ]),
     // cadmus
     CoreModule,
@@ -117,6 +125,7 @@ import { TiledTextLayerPartFeatureComponent } from './tiled-text-layer-part-feat
     FeaturesUiModule
   ],
   declarations: [
+    BibliographyPartFeatureComponent,
     CategoriesPartFeatureComponent,
     ChronologyFragmentFeatureComponent,
     CommentFragmentFeatureComponent,
@@ -127,9 +136,11 @@ import { TiledTextLayerPartFeatureComponent } from './tiled-text-layer-part-feat
     TiledTextLayerPartFeatureComponent,
     TiledTextPartFeatureComponent,
     TokenTextLayerPartFeatureComponent,
-    TokenTextPartFeatureComponent
+    TokenTextPartFeatureComponent,
+    BibliographyPartFeatureComponent
   ],
   exports: [
+    BibliographyPartFeatureComponent,
     CategoriesPartFeatureComponent,
     ChronologyFragmentFeatureComponent,
     CommentFragmentFeatureComponent,
