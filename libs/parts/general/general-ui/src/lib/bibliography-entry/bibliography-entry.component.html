@@ -45,6 +45,7 @@
       <cadmus-bib-authors-editor
         [(authors)]="authors"
         [roleThesaurus]="roleThesaurus"
+        (authorsChange)="onAuthorsChange($event)"
       ></cadmus-bib-authors-editor>
       <div
         *ngIf="
@@ -167,7 +168,7 @@
         <mat-form-field>
           <input
             matInput
-            type="text"
+            type="number"
             formControlName="edition"
             placeholder="ed."
           />

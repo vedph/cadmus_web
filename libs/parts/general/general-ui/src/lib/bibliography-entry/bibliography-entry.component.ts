@@ -208,6 +208,10 @@ export class BibliographyEntryComponent implements OnInit {
     };
   }
 
+  public onAuthorsChange(authors: BibAuthor[]) {
+    this.authorCount.setValue(authors?.length || 0);
+  }
+
   public addKeyword() {
     if (this.keyForm.invalid) {
       return;
