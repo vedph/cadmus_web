@@ -5,11 +5,13 @@ import {
   FormGroup,
   FormBuilder,
   FormControl,
-  Validators
+  Validators,
+  FormArray
 } from '@angular/forms';
 import { Keyword } from '../keywords-part';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { DialogService } from '@cadmus/ui';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 /**
  * Bibliography entry editor used by BibliographyPartComponent to edit a single
@@ -50,12 +52,11 @@ export class BibliographyEntryComponent implements OnInit {
   // form - general
   public type: FormControl;
   public language: FormControl;
-  public authors: BibAuthor[];
-  public authorCount: FormControl;
+  public authors$: BehaviorSubject<BibAuthor[]>;
   public title: FormControl;
   public note: FormControl;
   // form - container
-  public contributors: BibAuthor[];
+  public contributors$: BehaviorSubject<BibAuthor[]>;
   public edition: FormControl;
   public number: FormControl;
   public placePub: FormControl;
@@ -82,15 +83,14 @@ export class BibliographyEntryComponent implements OnInit {
       Validators.maxLength(50)
     ]);
     this.language = formBuilder.control(null, Validators.required);
-    this.authors = [];
-    this.authorCount = formBuilder.control(0, Validators.min(1));
+    this.authors$ = new BehaviorSubject([]);
     this.title = formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(300)
     ]);
     this.note = formBuilder.control(null, Validators.maxLength(1000));
     // form - container
-    this.contributors = [];
+    this.contributors$ = new BehaviorSubject([]);
     this.edition = formBuilder.control(0, [
       Validators.min(0),
       Validators.max(100)
@@ -128,7 +128,6 @@ export class BibliographyEntryComponent implements OnInit {
     this.form = formBuilder.group({
       type: this.type,
       language: this.language,
-      authorCount: this.authorCount,
       title: this.title,
       note: this.note,
       edition: this.edition,
@@ -160,18 +159,19 @@ export class BibliographyEntryComponent implements OnInit {
 
     this.type.setValue(entry.typeId);
     this.language.setValue(entry.language);
-    this.authors = [];
+    const authors = [];
     for (let i = 0; i < entry.authors?.length || 0; i++) {
-      this.authors.push(entry.authors[i]);
+      authors.push(entry.authors[i]);
     }
-    this.authorCount.setValue(this.authors.length);
+    this.authors$.next(authors);
     this.title.setValue(entry.title);
     this.note.setValue(entry.note);
 
-    this.contributors = [];
+    const contributors = [];
     for (let i = 0; i < entry.contributors?.length || 0; i++) {
-      this.contributors.push(entry.contributors[i]);
+      contributors.push(entry.contributors[i]);
     }
+    this.contributors$.next(contributors);
     this.edition.setValue(entry.edition);
     this.number.setValue(entry.number);
     this.placePub.setValue(entry.placePub);
@@ -189,14 +189,29 @@ export class BibliographyEntryComponent implements OnInit {
     this.form.markAsPristine();
   }
 
+  private getAuthors(name: string): BibAuthor[] {
+    const authors: BibAuthor[] = [];
+    const ctl: FormArray = this.form.controls[name] as FormArray;
+
+    for (let i = 0; i < ctl.length; i++) {
+      const g = ctl.at(i) as FormGroup;
+      authors.push({
+        lastName: g.controls['lastName'].value?.trim(),
+        firstName: g.controls['firstName'].value?.trim(),
+        roleId: g.controls['roleId'].value?.trim()
+      });
+    }
+    return authors.length? authors : null;
+  }
+
   private getEntry(): BibEntry {
     return {
       typeId: this.type.value?.trim(),
       language: this.language.value,
-      authors: this.authors,
+      authors: this.getAuthors('authors'),
       title: this.title.value?.trim(),
       note: this.note.value?.trim(),
-      contributors: this.contributors.length ? this.contributors : null,
+      contributors: this.getAuthors('contributors'),
       edition: this.edition.value,
       number: this.number.value?.trim(),
       placePub: this.placePub.value?.trim(),
@@ -207,10 +222,6 @@ export class BibliographyEntryComponent implements OnInit {
       lastPage: this.lastPage.value,
       keywords: this.keywords.length ? this.keywords : null
     };
-  }
-
-  public onAuthorsChange(authors: BibAuthor[]) {
-    this.authorCount.setValue(authors?.length || 0);
   }
 
   public addKeyword() {

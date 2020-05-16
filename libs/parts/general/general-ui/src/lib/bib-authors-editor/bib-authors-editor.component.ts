@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Thesaurus } from '@cadmus/core';
 import { BibAuthor } from '../bibliography-part';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cadmus-bib-authors-editor',
@@ -9,65 +10,47 @@ import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./bib-authors-editor.component.css']
 })
 export class BibAuthorsEditorComponent implements OnInit {
-  private _authors: BibAuthor[];
-
+  @Input()
+  public parentForm: FormGroup;
+  @Input()
+  public controlName: string;
+  @Input()
+  public required: boolean;
   @Input()
   public roleThesaurus: Thesaurus;
   @Input()
-  public get authors(): BibAuthor[] {
-    return this._authors;
-  }
-  public set authors(value: BibAuthor[]) {
-    this._authors = value;
-    this.updateForm(value);
-  }
+  public authors$: Observable<BibAuthor[]>;
 
-  @Output()
-  public authorsChange: EventEmitter<BibAuthor[]>;
-
-  public authorsCtl: FormArray;
-  public form: FormGroup;
+  public authors: FormArray;
 
   constructor(private _formBuilder: FormBuilder) {
-    this.authorsChange = new EventEmitter<BibAuthor[]>();
-    // form
-    this.authorsCtl = _formBuilder.array([]);
-    this.form = _formBuilder.group({
-      authorsCtl: this.authorsCtl
+    // defaults
+    this.controlName = 'authors';
+  }
+
+  ngOnInit(): void {
+    this.authors = this._formBuilder.array([]);
+    if (this.required) {
+      this.authors.setValidators(Validators.required);
+    }
+    this.parentForm.addControl(this.controlName, this.authors);
+
+    this.authors$.subscribe(authors => {
+      this.updateForm(authors);
     });
   }
 
-  ngOnInit(): void {}
-
   private updateForm(authors: BibAuthor[]) {
-    this.authorsCtl.clear();
-    if (authors) {
-      for (let i = 0; i < authors.length; i++) {
-        this.authorsCtl.push(this.getAuthorGroup(authors[i]));
-      }
-    }
-    this.form.markAsPristine();
-  }
-
-  private getAuthors(): BibAuthor[] {
-    const authors: BibAuthor[] = [];
-    for (let i = 0; i < this.authorsCtl.length; i++) {
-      const g = this.authorsCtl.at(i) as FormGroup;
-      authors.push({
-        lastName: g.controls['lastName'].value?.trim(),
-        firstName: g.controls['firstName'].value?.trim(),
-        roleId: g.controls['roleId'].value?.trim()
-      });
-    }
-    return authors;
-  }
-
-  private emitChange() {
-    if (this.form.invalid) {
+    if (!this.authors) {
       return;
     }
-    const authors = this.getAuthors();
-    this.authorsChange.emit(authors);
+    this.authors.clear();
+    if (authors) {
+      for (let i = 0; i < authors.length; i++) {
+        this.authors.push(this.getAuthorGroup(authors[i]));
+      }
+    }
+    this.authors.markAsPristine();
   }
 
   private getAuthorGroup(author?: BibAuthor): FormGroup {
@@ -88,44 +71,38 @@ export class BibAuthorsEditorComponent implements OnInit {
   }
 
   public addAuthor(item?: BibAuthor) {
-    this.authorsCtl.push(this.getAuthorGroup(item));
-    this.emitChange();
+    this.authors.push(this.getAuthorGroup(item));
   }
 
   public addAuthorBelow(index: number) {
-    this.authorsCtl.insert(index + 1, this.getAuthorGroup());
-    this.emitChange();
+    this.authors.insert(index + 1, this.getAuthorGroup());
   }
 
   public removeAuthor(index: number) {
-    this.authorsCtl.removeAt(index);
-    this.emitChange();
+    this.authors.removeAt(index);
   }
 
   public moveAuthorUp(index: number) {
     if (index < 1) {
       return;
     }
-    const item = this.authorsCtl.controls[index];
-    this.authorsCtl.removeAt(index);
-    this.authorsCtl.insert(index - 1, item);
-    this.emitChange();
+    const item = this.authors.controls[index];
+    this.authors.removeAt(index);
+    this.authors.insert(index - 1, item);
   }
 
   public moveAuthorDown(index: number) {
-    if (index + 1 >= this.authorsCtl.length) {
+    if (index + 1 >= this.authors.length) {
       return;
     }
-    const item = this.authorsCtl.controls[index];
-    this.authorsCtl.removeAt(index);
-    this.authorsCtl.insert(index + 1, item);
-    this.emitChange();
+    const item = this.authors.controls[index];
+    this.authors.removeAt(index);
+    this.authors.insert(index + 1, item);
   }
 
   public clearAuthors() {
-    for (let i = this.authorsCtl.length - 1; i > -1; i--) {
-      this.authorsCtl.removeAt(i);
+    for (let i = this.authors.length - 1; i > -1; i--) {
+      this.authors.removeAt(i);
     }
-    this.emitChange();
   }
 }

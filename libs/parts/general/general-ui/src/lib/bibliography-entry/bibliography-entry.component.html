@@ -43,18 +43,12 @@
 
       <!-- authors -->
       <cadmus-bib-authors-editor
-        [(authors)]="authors"
+        [authors$]="authors$"
+        [parentForm]="form"
+        [controlName]="'authors'"
+        [required]="true"
         [roleThesaurus]="roleThesaurus"
-        (authorsChange)="onAuthorsChange($event)"
       ></cadmus-bib-authors-editor>
-      <div
-        *ngIf="
-          authorCount.hasError('min') &&
-          (authorCount.dirty || authorCount.touched)
-        "
-      >
-        <mat-error>at least 1 author required</mat-error>
-      </div>
 
       <!-- title -->
       <div>
@@ -99,7 +93,9 @@
     <mat-tab label="Container">
       <!-- contributors -->
       <cadmus-bib-authors-editor
-        [(authors)]="contributors"
+        [authors$]="contributors$"
+        [parentForm]="form"
+        [controlName]="'contributors'"
         [roleThesaurus]="roleThesaurus"
       ></cadmus-bib-authors-editor>
 

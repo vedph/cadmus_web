@@ -1,6 +1,6 @@
-<form [formGroup]="form">
-  <div formArrayName="authorsCtl">
-    <div *ngIf="!authorsCtl.length">
+<form [formGroup]="parentForm">
+  <div [formArrayName]="controlName">
+    <div *ngIf="!authors || !authors.length">
       <button
         type="button"
         mat-raised-button
@@ -9,10 +9,16 @@
       >
         add author
       </button>
+      <mat-error
+        *ngIf="
+          authors.hasError('required') && (authors.touched || authors.dirty)
+        "
+        >author(s) required</mat-error
+      >
     </div>
     <div
       *ngFor="
-        let item of authorsCtl.controls;
+        let item of authors.controls;
         let i = index;
         let first = first;
         let last = last
