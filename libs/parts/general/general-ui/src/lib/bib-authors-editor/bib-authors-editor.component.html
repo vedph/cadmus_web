@@ -9,12 +9,7 @@
       >
         add author
       </button>
-      <mat-error
-        *ngIf="
-          authors.hasError('required') && (authors.touched || authors.dirty)
-        "
-        >author(s) required</mat-error
-      >
+      <mat-error *ngIf="required">author(s) required</mat-error>
     </div>
     <div
       *ngFor="
