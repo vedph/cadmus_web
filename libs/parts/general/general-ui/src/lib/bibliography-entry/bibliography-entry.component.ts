@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { Keyword } from '../keywords-part';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { DialogService } from '@cadmus/ui';
 
 /**
  * Bibliography entry editor used by BibliographyPartComponent to edit a single
@@ -71,7 +72,7 @@ export class BibliographyEntryComponent implements OnInit {
 
   public form: FormGroup;
 
-  constructor(formBuilder: FormBuilder) {
+  constructor(formBuilder: FormBuilder, private _dialogService: DialogService) {
     // events
     this.editorClose = new EventEmitter<any>();
     this.entryChange = new EventEmitter<BibEntry>();
@@ -253,7 +254,18 @@ export class BibliographyEntryComponent implements OnInit {
   }
 
   public cancel() {
-    this.editorClose.emit();
+    if (this.form.pristine) {
+      this.editorClose.emit();
+      return;
+    }
+
+    this._dialogService
+      .confirm('Confirm Close', `Drop entry changes?`)
+      .subscribe(result => {
+        if (result) {
+          this.editorClose.emit();
+        }
+      });
   }
 
   public save() {
