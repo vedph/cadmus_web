@@ -211,10 +211,15 @@
         <mat-form-field>
           <input
             matInput
-            type="date"
+            [matDatepicker]="picker"
             formControlName="accessDate"
             placeholder="access date"
           />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
 
@@ -270,12 +275,14 @@
     <!-- keywords -->
     <mat-tab label="Keywords">
       <form [formGroup]="keyForm" (submit)="addKeyword()">
-        <!-- <div>
+        <div>
           <mat-form-field>
             <mat-select formControlName="keyLanguage" placeholder="language">
-              <mat-option *ngFor="let e of langThesaurus" [value]="e.id">{{
-                e.value
-              }}</mat-option>
+              <mat-option
+                *ngFor="let e of langThesaurus.entries"
+                [value]="e.id"
+                >{{ e.value }}</mat-option
+              >
             </mat-select>
           </mat-form-field>
           &nbsp;
@@ -288,10 +295,18 @@
             />
             <mat-error
               *ngIf="
+                keyValue.hasError('required') &&
+                (keyValue.dirty || keyValue.touched)
+              "
+              >value required</mat-error
+            >
+            <mat-error
+              *ngIf="
                 keyValue.hasError('maxLength') &&
                 (keyValue.dirty || keyValue.touched)
               "
-            ></mat-error>
+              >too long</mat-error
+            >
           </mat-form-field>
           <button
             mat-icon-button
@@ -301,18 +316,55 @@
           >
             <mat-icon>add_circle</mat-icon>
           </button>
-        </div> -->
+        </div>
       </form>
       <!-- list -->
       <table *ngIf="keywords?.length">
         <thead>
           <tr>
+            <th></th>
             <th>language</th>
             <th>value</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let k of keywords">
+          <tr
+            *ngFor="
+              let k of keywords;
+              let i = index;
+              let first = first;
+              let last = last
+            "
+          >
+            <td>
+              <button
+                mat-icon-button
+                type="button"
+                matTooltip="Remove this keyword"
+                color="warn"
+                (click)="deleteKeyword(i)"
+              >
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+              <button
+                [disabled]="first"
+                mat-icon-button
+                type="button"
+                matTooltip="Move keyword up"
+                (click)="moveKeywordUp(i)"
+              >
+                <mat-icon>arrow_upward</mat-icon>
+              </button>
+              <button
+                [disabled]="last"
+                mat-icon-button
+                type="button"
+                matTooltip="Move keyword down"
+                (click)="moveKeywordDown(i)"
+              >
+                <mat-icon>arrow_downward</mat-icon>
+              </button>
+            </td>
             <td>{{ k.language }}</td>
             <td>{{ k.value }}</td>
           </tr>
@@ -322,6 +374,7 @@
   </mat-tab-group>
 
   <!-- buttons -->
+  <hr />
   <div>
     <button
       type="button"
@@ -332,7 +385,6 @@
     >
       <mat-icon>cancel</mat-icon>
     </button>
-    &nbsp;
     <button
       type="submit"
       [disabled]="form.invalid || form.pristine"

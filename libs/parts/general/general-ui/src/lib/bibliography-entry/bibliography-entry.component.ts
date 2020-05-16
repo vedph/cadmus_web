@@ -226,6 +226,10 @@ export class BibliographyEntryComponent implements OnInit {
     }
   }
 
+  public deleteKeyword(index: number) {
+    this.keywords.splice(index, 1);
+  }
+
   public moveKeywordUp(index: number) {
     if (index < 1) {
       return;
