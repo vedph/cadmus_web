@@ -322,6 +322,23 @@ export class Feature__NAME__FragmentDemoComponent {}
 <a mat-menu-item routerLink="/demo/__NAME__-fragment">__NAME__ fragment</a>
 ```
 
+4. in `part-editor-keys.ts`, add the mapping between the fragment and its group ID, e.g.:
+
+```ts
+export const PART_EDITOR_KEYS: PartEditorKeys = {
+  // ...
+  [TOKEN_TEXT_LAYER_PART_TYPEID]: {
+    part: GENERAL,
+    fragments: {
+      [COMMENT_FRAGMENT_TYPEID]: GENERAL,
+      [APPARATUS_FRAGMENT_TYPEID]: PHILOLOGY,
+      [ORTHOGRAPHY_FRAGMENT_TYPEID]: PHILOLOGY,
+      [WITNESSES_FRAGMENT_TYPEID]: PHILOLOGY
+    }
+  }
+};
+```
+
 ## Adding Fragment Feature to the PartGroup-Feature Library
 
 In a `<partgroup>-feature` module:

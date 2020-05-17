@@ -57,6 +57,7 @@ export class BibliographyEntryComponent implements OnInit {
   public note: FormControl;
   // form - container
   public contributors$: BehaviorSubject<BibAuthor[]>;
+  public container: FormControl;
   public edition: FormControl;
   public number: FormControl;
   public placePub: FormControl;
@@ -91,6 +92,7 @@ export class BibliographyEntryComponent implements OnInit {
     this.note = formBuilder.control(null, Validators.maxLength(1000));
     // form - container
     this.contributors$ = new BehaviorSubject([]);
+    this.container = formBuilder.control(null, Validators.maxLength(300));
     this.edition = formBuilder.control(0, [
       Validators.min(0),
       Validators.max(100)
@@ -130,6 +132,7 @@ export class BibliographyEntryComponent implements OnInit {
       language: this.language,
       title: this.title,
       note: this.note,
+      container: this.container,
       edition: this.edition,
       number: this.number,
       placePub: this.placePub,
@@ -172,6 +175,7 @@ export class BibliographyEntryComponent implements OnInit {
       contributors.push(entry.contributors[i]);
     }
     this.contributors$.next(contributors);
+    this.container.setValue(entry.container);
     this.edition.setValue(entry.edition);
     this.number.setValue(entry.number);
     this.placePub.setValue(entry.placePub);
@@ -212,6 +216,7 @@ export class BibliographyEntryComponent implements OnInit {
       title: this.title.value?.trim(),
       note: this.note.value?.trim(),
       contributors: this.getAuthors('contributors'),
+      container: this.container.value?.trim(),
       edition: this.edition.value,
       number: this.number.value?.trim(),
       placePub: this.placePub.value?.trim(),

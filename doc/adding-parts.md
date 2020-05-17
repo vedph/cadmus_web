@@ -1,8 +1,10 @@
 # Adding Parts
 
+When adding parts, you can choose to add them to an existing library, or to a new one. In the latter case, first add the library as specified below.
+
 ## Adding a Parts/Fragments Libraries
 
-To add new parts/fragments libraries:
+To add new parts/fragments *libraries*:
 
 - create a new Nrwl Angular library named `<partgroup>-ui` under `parts/<partgroup>` (use simple module name in generator). For instance, for general purpose parts I created `parts/general/general-ui`. This will host dumb components for editing and their demo counterparts.
 
@@ -357,6 +359,17 @@ export class Feature__NAME__PartDemoComponent {}
 
 ```html
 <a mat-menu-item routerLink="/demo/__NAME__-part">__NAME__ part</a>
+```
+
+4. in `part-editor-keys.ts`, add the mapping between the part and its group ID, e.g.:
+
+```ts
+export const PART_EDITOR_KEYS: PartEditorKeys = {
+    // ...
+    [BIBLIOGRAPHY_PART_TYPEID]: {
+    part: GENERAL
+  },
+};
 ```
 
 ## Adding Part Feature to the PartGroup-Feature Library

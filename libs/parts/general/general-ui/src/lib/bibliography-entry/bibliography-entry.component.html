@@ -99,6 +99,25 @@
         [roleThesaurus]="roleThesaurus"
       ></cadmus-bib-authors-editor>
 
+      <!-- container -->
+      <div>
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            formControlName="container"
+            placeholder="container"
+          />
+          <mat-error
+            *ngIf="
+              container.hasError('maxLength') &&
+              (container.dirty || container.touched)
+            "
+            >too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+
       <!-- number -->
       <div>
         <mat-form-field>
