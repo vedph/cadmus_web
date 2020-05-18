@@ -1,0 +1,179 @@
+<form [formGroup]="form" (submit)="save()">
+  <!-- tag -->
+  <div *ngIf="tagEntries">
+    <mat-form-field>
+      <mat-select placeholder="tag" formControlName="tag">
+        <mat-option [value]="null">(none)</mat-option>
+        <mat-option *ngFor="let e of tagEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div *ngIf="!tagEntries">
+    <mat-form-field>
+      <input
+        type="text"
+        matInput
+        placeholder="tag"
+        spellcheck="false"
+        formControlName="tag"
+      />
+      <mat-error *ngIf="tag.hasError('maxLength') && (tag.dirty || tag.touched)"
+        >tag too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- author -->
+  <div *ngIf="!workEntries">
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        placeholder="author"
+        spellcheck="false"
+        formControlName="author"
+      />
+      <mat-error
+        *ngIf="author.hasError('required') && (author.dirty || author.touched)"
+        >author required</mat-error
+      >
+      <mat-error
+        *ngIf="
+          author.hasError('max-length') && (author.dirty || author.touched)
+        "
+        >author too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <!-- TODO -->
+
+  <!-- work -->
+  <div *ngIf="!workEntries">
+    <mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          type="text"
+          placeholder="work"
+          spellcheck="false"
+          formControlName="work"
+        />
+        <mat-error
+          *ngIf="work.hasError('required') && (work.dirty || work.touched)"
+          >work required</mat-error
+        >
+        <mat-error
+          *ngIf="work.hasError('max-length') && (work.dirty || work.touched)"
+          >work too long</mat-error
+        >
+      </mat-form-field>
+    </mat-form-field>
+  </div>
+  <!-- TODO -->
+
+  <!-- citation -->
+  <div>
+    <mat-form-field>
+      <input
+        type="text"
+        matInput
+        placeholder="citation"
+        spellcheck="false"
+        formControlName="citation"
+      />
+      <mat-error
+        *ngIf="
+          citation.hasError('required') && (citation.dirty || citation.touched)
+        "
+        >citation required</mat-error
+      >
+      <mat-error
+        *ngIf="
+          citation.hasError('maxLength') && (citation.dirty || citation.touched)
+        "
+        >citation too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- citation URI -->
+  <div>
+    <mat-form-field>
+      <input
+        type="text"
+        matInput
+        placeholder="citation URI"
+        spellcheck="false"
+        formControlName="citationUri"
+      />
+      <mat-error
+        *ngIf="
+          citationUri.hasError('maxLength') &&
+          (citationUri.dirty || citationUri.touched)
+        "
+        >URI too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- variant -->
+  <div>
+    <mat-form-field>
+      <textarea
+        rows="2"
+        matInput
+        placeholder="variant"
+        spellcheck="false"
+        formControlName="variant"
+      ></textarea>
+      <mat-error
+        *ngIf="
+          variant.hasError('maxLength') && (variant.dirty || variant.touched)
+        "
+        >variant too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- note -->
+  <div>
+    <mat-form-field>
+      <textarea
+        rows="2"
+        matInput
+        placeholder="note"
+        spellcheck="false"
+        formControlName="note"
+      ></textarea>
+      <mat-error
+        *ngIf="note.hasError('maxLength') && (note.dirty || note.touched)"
+        >note too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- buttons -->
+  <hr />
+  <div>
+    <button
+      type="button"
+      mat-icon-button
+      color="warn"
+      matTooltip="Cancel edit"
+      (click)="cancel()"
+    >
+      <mat-icon>cancel</mat-icon>
+    </button>
+    <button
+      type="submit"
+      [disabled]="form.invalid || form.pristine"
+      mat-icon-button
+      color="primary"
+      matTooltip="Save entry"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>

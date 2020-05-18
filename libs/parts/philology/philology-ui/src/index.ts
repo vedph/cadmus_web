@@ -6,6 +6,8 @@ export * from './lib/msp-operation/msp-operation.component';
 export * from './lib/orthography-fragment';
 export * from './lib/orthography-fragment/orthography-fragment.component';
 export * from './lib/orthography-fragment-demo/orthography-fragment-demo.component';
+export * from './lib/quotations-fragment';
+export * from './lib/quotations-fragment/quotations-fragment.component';
 export * from './lib/witnesses-fragment';
 export * from './lib/witnesses-fragment/witnesses-fragment.component';
 export * from './lib/witnesses-fragment-demo/witnesses-fragment-demo.component';

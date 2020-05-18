@@ -276,7 +276,7 @@ export class BibliographyEntryComponent implements OnInit {
     }
 
     this._dialogService
-      .confirm('Confirm Close', `Drop entry changes?`)
+      .confirm('Confirm Close', 'Drop entry changes?')
       .subscribe(result => {
         if (result) {
           this.editorClose.emit();

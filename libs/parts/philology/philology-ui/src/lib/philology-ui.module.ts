@@ -9,13 +9,15 @@ import { MspOperationComponent } from './msp-operation/msp-operation.component';
 import { CoreModule } from '@cadmus/core';
 import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
-import { OrthographyFragmentComponent } from './orthography-fragment/orthography-fragment.component';
-import { OrthographyFragmentDemoComponent } from './orthography-fragment-demo/orthography-fragment-demo.component';
+import { ApparatusEntryComponent } from './apparatus-entry/apparatus-entry.component';
 import { ApparatusFragmentComponent } from './apparatus-fragment/apparatus-fragment.component';
 import { ApparatusFragmentDemoComponent } from './apparatus-fragment-demo/apparatus-fragment-demo.component';
+import { OrthographyFragmentComponent } from './orthography-fragment/orthography-fragment.component';
+import { OrthographyFragmentDemoComponent } from './orthography-fragment-demo/orthography-fragment-demo.component';
+import { QuotationsFragmentComponent } from './quotations-fragment/quotations-fragment.component';
 import { WitnessesFragmentComponent } from './witnesses-fragment/witnesses-fragment.component';
 import { WitnessesFragmentDemoComponent } from './witnesses-fragment-demo/witnesses-fragment-demo.component';
-import { ApparatusEntryComponent } from './apparatus-entry/apparatus-entry.component';
+import { QuotationEntryComponent } from './quotation-entry/quotation-entry.component';
 
 @NgModule({
   imports: [
@@ -36,6 +38,8 @@ import { ApparatusEntryComponent } from './apparatus-entry/apparatus-entry.compo
     MspOperationComponent,
     OrthographyFragmentComponent,
     OrthographyFragmentDemoComponent,
+    QuotationEntryComponent,
+    QuotationsFragmentComponent,
     WitnessesFragmentComponent,
     WitnessesFragmentDemoComponent,
   ],
@@ -46,6 +50,7 @@ import { ApparatusEntryComponent } from './apparatus-entry/apparatus-entry.compo
     MspOperationComponent,
     OrthographyFragmentComponent,
     OrthographyFragmentDemoComponent,
+    QuotationsFragmentComponent,
     WitnessesFragmentComponent,
     WitnessesFragmentDemoComponent
   ]
