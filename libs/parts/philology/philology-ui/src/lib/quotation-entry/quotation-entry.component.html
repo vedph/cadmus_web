@@ -52,23 +52,21 @@
   <!-- work -->
   <div *ngIf="!workEntries">
     <mat-form-field>
-      <mat-form-field>
-        <input
-          matInput
-          type="text"
-          placeholder="work"
-          spellcheck="false"
-          formControlName="work"
-        />
-        <mat-error
-          *ngIf="work.hasError('required') && (work.dirty || work.touched)"
-          >work required</mat-error
-        >
-        <mat-error
-          *ngIf="work.hasError('max-length') && (work.dirty || work.touched)"
-          >work too long</mat-error
-        >
-      </mat-form-field>
+      <input
+        matInput
+        type="text"
+        placeholder="work"
+        spellcheck="false"
+        formControlName="work"
+      />
+      <mat-error
+        *ngIf="work.hasError('required') && (work.dirty || work.touched)"
+        >work required</mat-error
+      >
+      <mat-error
+        *ngIf="work.hasError('max-length') && (work.dirty || work.touched)"
+        >work too long</mat-error
+      >
     </mat-form-field>
   </div>
   <!-- TODO -->
@@ -120,7 +118,7 @@
 
   <!-- variant -->
   <div>
-    <mat-form-field>
+    <mat-form-field class="full-width">
       <textarea
         rows="2"
         matInput
@@ -139,7 +137,7 @@
 
   <!-- note -->
   <div>
-    <mat-form-field>
+    <mat-form-field class="full-width">
       <textarea
         rows="2"
         matInput

@@ -1051,3 +1051,29 @@ The thesaurus is optional. When not set, the editor allows free text for the tag
 ```
 
 No thesaurus is required for this part.
+
+## Fragment/Quotations
+
+```json
+{
+  "location": "1.2",
+  "entries": [
+    {
+      "author": "Verg.",
+      "work": "Aen.",
+      "citation": "1.1",
+      "citationUri": "urn:vergaen",
+      "variant": "arma virumque cano Troiae qui primus ab undis",
+      "note": "a fake variant"
+    },
+    {
+      "author": "Sen.",
+      "work": "ep.",
+      "citation": "16.98",
+      "citationUri": "urn:senep",
+      "variant": "potest fortunam cavere is qui potest ferre",
+      "note": "added is"
+    }
+  ]
+}
+```
