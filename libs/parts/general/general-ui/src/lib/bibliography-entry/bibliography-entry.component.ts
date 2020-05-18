@@ -148,7 +148,7 @@ export class BibliographyEntryComponent implements OnInit {
     // automatically set last page when first is set to something > 0
     // and last is not set
     this.firstPage.valueChanges.pipe(distinctUntilChanged()).subscribe(_ => {
-      if (!this.lastPage.value && this.firstPage.value > 0) {
+      if (this.firstPage.value > 0 && this.lastPage.value < this.firstPage.value) {
         this.lastPage.setValue(this.firstPage.value);
       }
     });
