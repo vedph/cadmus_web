@@ -14,10 +14,11 @@ import { ApparatusFragmentComponent } from './apparatus-fragment/apparatus-fragm
 import { ApparatusFragmentDemoComponent } from './apparatus-fragment-demo/apparatus-fragment-demo.component';
 import { OrthographyFragmentComponent } from './orthography-fragment/orthography-fragment.component';
 import { OrthographyFragmentDemoComponent } from './orthography-fragment-demo/orthography-fragment-demo.component';
+import { QuotationEntryComponent } from './quotation-entry/quotation-entry.component';
 import { QuotationsFragmentComponent } from './quotations-fragment/quotations-fragment.component';
+import { QuotationsFragmentDemoComponent } from './quotations-fragment-demo/quotations-fragment-demo.component';
 import { WitnessesFragmentComponent } from './witnesses-fragment/witnesses-fragment.component';
 import { WitnessesFragmentDemoComponent } from './witnesses-fragment-demo/witnesses-fragment-demo.component';
-import { QuotationEntryComponent } from './quotation-entry/quotation-entry.component';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { QuotationEntryComponent } from './quotation-entry/quotation-entry.compo
     OrthographyFragmentDemoComponent,
     QuotationEntryComponent,
     QuotationsFragmentComponent,
+    QuotationsFragmentDemoComponent,
     WitnessesFragmentComponent,
     WitnessesFragmentDemoComponent,
   ],
@@ -51,6 +53,7 @@ import { QuotationEntryComponent } from './quotation-entry/quotation-entry.compo
     OrthographyFragmentComponent,
     OrthographyFragmentDemoComponent,
     QuotationsFragmentComponent,
+    QuotationsFragmentDemoComponent,
     WitnessesFragmentComponent,
     WitnessesFragmentDemoComponent
   ]

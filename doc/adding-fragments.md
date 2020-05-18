@@ -453,17 +453,20 @@ export class __NAME__FragmentFeatureComponent extends EditFragmentFeatureBase
     editItemQuery: EditItemQuery,
     editItemService: EditItemService,
     editLayersQuery: EditLayerPartQuery,
-    editLayersService: EditLayerPartService
+    editLayersService: EditLayerPartService,
+    libraryRouteService: LibraryRouteService
   ) {
     super(
       router,
       route,
+      appQuery,
       editFrQuery,
       editFrService,
       editItemQuery,
       editItemService,
       editLayersQuery,
-      editLayersService
+      editLayersService,
+      libraryRouteService
     );
   }
 

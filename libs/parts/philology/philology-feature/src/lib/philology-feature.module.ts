@@ -12,11 +12,13 @@ import {
   PhilologyUiModule,
   APPARATUS_FRAGMENT_TYPEID,
   ORTHOGRAPHY_FRAGMENT_TYPEID,
-  WITNESSES_FRAGMENT_TYPEID
+  WITNESSES_FRAGMENT_TYPEID,
+  QUOTATIONS_FRAGMENT_TYPEID
 } from '@cadmus/parts/philology/philology-ui';
 import { ApparatusFragmentFeatureComponent } from './apparatus-fragment-feature/apparatus-fragment-feature.component';
 import { OrthographyFragmentFeatureComponent } from './orthography-fragment-feature/orthography-fragment-feature.component';
 import { WitnessesFragmentFeatureComponent } from './witnesses-fragment-feature/witnesses-fragment-feature.component';
+import { QuotationsFragmentFeatureComponent } from './quotations-fragment-feature/quotations-fragment-feature.component';
 
 @NgModule({
   imports: [
@@ -37,6 +39,12 @@ import { WitnessesFragmentFeatureComponent } from './witnesses-fragment-feature/
         canDeactivate: [PendingChangesGuard]
       },
       {
+        path: `fragment/:pid/${QUOTATIONS_FRAGMENT_TYPEID}/:loc`,
+        pathMatch: 'full',
+        component: QuotationsFragmentFeatureComponent,
+        canDeactivate: [PendingChangesGuard]
+      },
+      {
         path: `fragment/:pid/${WITNESSES_FRAGMENT_TYPEID}/:loc`,
         pathMatch: 'full',
         component: WitnessesFragmentFeatureComponent,
@@ -54,11 +62,13 @@ import { WitnessesFragmentFeatureComponent } from './witnesses-fragment-feature/
   declarations: [
     ApparatusFragmentFeatureComponent,
     OrthographyFragmentFeatureComponent,
+    QuotationsFragmentFeatureComponent,
     WitnessesFragmentFeatureComponent
   ],
   exports: [
     ApparatusFragmentFeatureComponent,
     OrthographyFragmentFeatureComponent,
+    QuotationsFragmentFeatureComponent,
     WitnessesFragmentFeatureComponent
   ]
 })

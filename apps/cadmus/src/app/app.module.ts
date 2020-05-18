@@ -47,6 +47,7 @@ import { FeatureWitnessesFragmentDemoComponent } from './demo/feature-witnesses-
 import { PART_EDITOR_KEYS } from './part-editor-keys';
 import { ITEM_BROWSER_KEYS } from './item-browser-keys';
 import { FeatureBibliographyPartDemoComponent } from './demo/feature-bibliography-part-demo/feature-bibliography-part-demo.component';
+import { FeatureQuotationsFragmentDemoComponent } from './demo/feature-quotations-fragment-demo/feature-quotations-fragment-demo.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { FeatureBibliographyPartDemoComponent } from './demo/feature-bibliograph
     FeatureWitnessesFragmentDemoComponent,
     FeatureTiledTextPartDemoComponent,
     FeatureIndexKeywordsPartDemoComponent,
-    FeatureBibliographyPartDemoComponent
+    FeatureBibliographyPartDemoComponent,
+    FeatureQuotationsFragmentDemoComponent
   ],
   imports: [
     BrowserModule,
@@ -142,6 +144,11 @@ import { FeatureBibliographyPartDemoComponent } from './demo/feature-bibliograph
         {
           path: 'demo/orthography-fragment',
           component: FeatureOrthographyFragmentDemoComponent,
+          pathMatch: 'full'
+        },
+        {
+          path: 'demo/quotations-fragment',
+          component: FeatureQuotationsFragmentDemoComponent,
           pathMatch: 'full'
         },
         {
