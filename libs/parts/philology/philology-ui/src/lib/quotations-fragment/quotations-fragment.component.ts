@@ -96,6 +96,10 @@ export class QuotationsFragmentComponent
     return fr;
   }
 
+  public getNameFromId(id: string): string {
+    return this.worksThesaurus.entries.find((e) => e.id === id)?.value || id;
+  }
+
   public addEntry() {
     const entry: QuotationEntry = {
       author: null,

@@ -74,8 +74,8 @@
                   </button>
                 </td>
                 <td>{{ entry.tag }}</td>
-                <td>{{ entry.author }}</td>
-                <td>{{ entry.work }}</td>
+                <td>{{ getNameFromId(entry.author) }}</td>
+                <td>{{ getNameFromId(entry.work) }}</td>
                 <td>{{ entry.citation }}</td>
               </tr>
             </tbody>
