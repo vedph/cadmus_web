@@ -1077,3 +1077,42 @@ No thesaurus is required for this part.
   ]
 }
 ```
+
+Optional thesauri: `quotation-works`, `quotation-tags`.
+
+```json
+{
+  "quotation-tags": {
+    "id": "quotation-tags",
+    "language": "eng",
+    "entries": [
+      { "id": "anc", "value": "ancient" },
+      { "id": "hum", "value": "humanistic" },
+      { "id": "mod", "value": "modern" }
+    ]
+  },
+  "quotation-works": {
+    "id": "quotation-works",
+    "language": "eng",
+    "entries": [
+      { "id": "Verg.", "value": "Vergilius" },
+      { "id": "Verg.ecl.", "value": "eclogae" },
+      { "id": "Verg.georg.", "value": "georgica" },
+      { "id": "Verg.Aen.", "value": "Aeneis" },
+      { "id": "Sen.", "value": "Seneca" },
+      { "id": "Sen.apocol.", "value": "apocolocyntosis" },
+      { "id": "Sen.ben.", "value": "de beneficiis" },
+      { "id": "Sen.clem.", "value": "de clementia" },
+      { "id": "Sen.constant.", "value": "de constantia sapientis" },
+      { "id": "Sen.dial.", "value": "dialogi" },
+      { "id": "Sen.ep.", "value": "epistulae ad Lucilium" },
+      { "id": "Sen.epigr.", "value": "epigrammata super exilio" },
+      { "id": "Sen.Helv.", "value": "ad Helviam" },
+      { "id": "Sen.Med.", "value": "Medea" },
+      { "id": "Sen.prov.", "value": "de providentia" },
+      { "id": "Sen.qnat.", "value": "quaestiones naturales" },
+      { "id": "Sen.tranq.", "value": "de tranquillitate animi" }
+    ]
+  }
+}
+```

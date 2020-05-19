@@ -26,7 +26,7 @@
   </div>
 
   <!-- author -->
-  <div *ngIf="!workEntries">
+  <div *ngIf="!authors?.length">
     <mat-form-field>
       <input
         matInput
@@ -47,10 +47,22 @@
       >
     </mat-form-field>
   </div>
-  <!-- TODO -->
+  <div *ngIf="authors?.length">
+    <mat-form-field>
+      <mat-select formControlName="author" placeholder="author">
+        <mat-option *ngFor="let e of authors" [value]="e.id">
+          {{ e.value }} ({{ e.id }})</mat-option
+        >
+      </mat-select>
+      <mat-error
+        *ngIf="author.hasError('required') && (author.dirty || author.touched)"
+        >author required</mat-error
+      >
+    </mat-form-field>
+  </div>
 
   <!-- work -->
-  <div *ngIf="!workEntries">
+  <div *ngIf="!authors">
     <mat-form-field>
       <input
         matInput
@@ -69,7 +81,23 @@
       >
     </mat-form-field>
   </div>
-  <!-- TODO -->
+  <div *ngIf="authors">
+    <mat-form-field>
+      <mat-select formControlName="work" placeholder="work">
+        <mat-option *ngFor="let e of authorWorks" [value]="e.id">
+          {{ e.value }} ({{ e.id }})
+        </mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="work.hasError('required') && (work.dirty || work.touched)"
+        >work required</mat-error
+      >
+      <mat-error
+        *ngIf="work.hasError('max-length') && (work.dirty || work.touched)"
+        >work too long</mat-error
+      >
+    </mat-form-field>
+  </div>
 
   <!-- citation -->
   <div>

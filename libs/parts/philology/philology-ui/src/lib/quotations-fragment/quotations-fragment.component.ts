@@ -3,7 +3,8 @@ import { QuotationsFragment, QuotationEntry } from '../quotations-fragment';
 import { ModelEditorComponentBase, DialogService } from '@cadmus/ui';
 import { AuthService } from '@cadmus/api';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Thesaurus } from '@cadmus/core';
+import { Thesaurus, ThesaurusEntry } from '@cadmus/core';
+import { QuotationWorksService } from './quotation-works.service';
 
 /**
  * Quotations fragment editor.
@@ -25,13 +26,15 @@ export class QuotationsFragmentComponent
 
   public worksThesaurus: Thesaurus;
   public tagsThesaurus: Thesaurus;
+  public workDictionary: Record<string, ThesaurusEntry[]>;
 
   public entryCount: FormControl;
 
   constructor(
     authService: AuthService,
     formBuilder: FormBuilder,
-    private _dialogService: DialogService
+    private _dialogService: DialogService,
+    private _worksService: QuotationWorksService
   ) {
     super(authService);
     // form
@@ -50,8 +53,12 @@ export class QuotationsFragmentComponent
     const wKey = 'quotation-works';
     if (this.thesauri && this.thesauri[wKey]) {
       this.worksThesaurus = this.thesauri[wKey];
+      this.workDictionary = this._worksService.buildDictionary(
+        this.worksThesaurus.entries
+      );
     } else {
       this.worksThesaurus = null;
+      this.workDictionary = null;
     }
 
     const tKey = 'quotation-tags';

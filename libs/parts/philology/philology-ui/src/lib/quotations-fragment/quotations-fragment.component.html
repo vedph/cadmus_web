@@ -93,7 +93,7 @@
         <mat-tab label="Entry" *ngIf="editedEntry">
           <cadmus-quotation-entry
             [entry]="editedEntry"
-            [workEntries]="worksThesaurus?.entries"
+            [workDictionary]="workDictionary"
             [tagEntries]="tagsThesaurus?.entries"
             (editorClose)="onEntryClose()"
             (entryChange)="onEntrySave($event)"
