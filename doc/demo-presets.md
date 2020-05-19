@@ -1014,8 +1014,7 @@ The thesaurus is optional. When not set, the editor allows free text for the tag
   "baseText": "Marathonis",
   "date": {
     "a": {
-      "value": 123,
-      "isApproximate": true
+      "value": -490
     }
   },
   "label": "battle of Marathon",
