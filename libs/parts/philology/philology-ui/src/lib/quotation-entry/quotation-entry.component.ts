@@ -8,9 +8,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { DialogService } from '@cadmus/ui';
-import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { QuotationWorksService } from '../quotations-fragment/quotation-works.service';
-import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'cadmus-quotation-entry',
@@ -22,9 +22,9 @@ export class QuotationEntryComponent implements OnInit {
   private _workDct: Record<string, ThesaurusEntry[]>;
 
   // list of authors, collected from _workDct
-  public authors: ThesaurusEntry[];
+  public authors$: BehaviorSubject<ThesaurusEntry[]>;
   // list of selected author's works
-  public authorWorks: ThesaurusEntry[];
+  public authorWorks$: BehaviorSubject<ThesaurusEntry[]>;
 
   @Input()
   public get entry(): QuotationEntry {
@@ -41,9 +41,10 @@ export class QuotationEntryComponent implements OnInit {
   }
   public set workDictionary(value: Record<string, ThesaurusEntry[]>) {
     this._workDct = value;
-    this.work.reset();
-    this.author.reset();
-    this.authors = this._worksService.collectAuthors(value);
+    this.authors$.next(this._worksService.collectAuthors(value));
+    setTimeout(() => {
+      this.loadAuthorWorks(this.author.value);
+    }, 700);
   }
 
   @Input()
@@ -72,6 +73,9 @@ export class QuotationEntryComponent implements OnInit {
     this.editorClose = new EventEmitter<any>();
     this.entryChange = new EventEmitter<QuotationEntry>();
 
+    this.authors$ = new BehaviorSubject<ThesaurusEntry[]>([]);
+    this.authorWorks$ = new BehaviorSubject<ThesaurusEntry[]>([]);
+
     // form
     this.author = formBuilder.control(null, [
       Validators.required,
@@ -98,26 +102,30 @@ export class QuotationEntryComponent implements OnInit {
       tag: this.tag,
       note: this.note,
     });
+    // when author changes and we're using thesauri, get its works
+    this.author.valueChanges.subscribe((id) => {
+      if (this._workDct && id) {
+        this.loadAuthorWorks(id);
+      }
+    });
   }
 
   ngOnInit(): void {
-    // when author changes and we're using thesauri, get its works
-    this.author.valueChanges
-      .pipe(distinctUntilChanged(), debounceTime(300))
-      .subscribe((id) => {
-        if (this.authors) {
-          // in each dictionary the key is the author ID and the value is
-          // an array where the 1st entry is the author, and all the others
-          // his works. So here we skip the 1st entry.
-          const works: ThesaurusEntry[] = [];
-          if (this._workDct[id]?.length > 1) {
-            for (let i = 1; i < this._workDct[id].length; i++) {
-              works.push(this._workDct[id][i]);
-            }
-          }
-          this.authorWorks = works;
-        }
-      });
+  }
+
+  private loadAuthorWorks(authorId: string) {
+    // const oldWorkId = this.work.value;
+    const works: ThesaurusEntry[] = [];
+    // in each dictionary the key is the author ID and the value is
+    // an array where the 1st entry is the author, and all the others
+    // his works. So here we skip the 1st entry.
+    if (this._workDct[authorId]?.length > 1) {
+      for (let i = 1; i < this._workDct[authorId].length; i++) {
+        works.push(this._workDct[authorId][i]);
+      }
+    }
+    this.authorWorks$.next(works);
+    // this.work.setValue(oldWorkId);
   }
 
   private updateForm(entry: QuotationEntry) {
@@ -126,8 +134,8 @@ export class QuotationEntryComponent implements OnInit {
       return;
     }
 
-    this.author.setValue(entry.author);
     this.work.setValue(entry.work);
+    this.author.setValue(entry.author);
     this.citation.setValue(entry.citation);
     this.citationUri.setValue(entry.citationUri);
     this.variant.setValue(entry.variant);

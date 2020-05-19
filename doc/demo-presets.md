@@ -1059,16 +1059,16 @@ No thesaurus is required for this part.
   "location": "1.2",
   "entries": [
     {
-      "author": "Verg.",
-      "work": "Aen.",
+      "author": "verg",
+      "work": "verg.aen",
       "citation": "1.1",
       "citationUri": "urn:vergaen",
       "variant": "arma virumque cano Troiae qui primus ab undis",
       "note": "a fake variant"
     },
     {
-      "author": "Sen.",
-      "work": "ep.",
+      "author": "sen",
+      "work": "sen.ep",
       "citation": "16.98",
       "citationUri": "urn:senep",
       "variant": "potest fortunam cavere is qui potest ferre",
@@ -1095,23 +1095,23 @@ Optional thesauri: `quotation-works`, `quotation-tags`.
     "id": "quotation-works",
     "language": "eng",
     "entries": [
-      { "id": "Verg.", "value": "Vergilius" },
-      { "id": "Verg.ecl.", "value": "eclogae" },
-      { "id": "Verg.georg.", "value": "georgica" },
-      { "id": "Verg.Aen.", "value": "Aeneis" },
-      { "id": "Sen.", "value": "Seneca" },
-      { "id": "Sen.apocol.", "value": "apocolocyntosis" },
-      { "id": "Sen.ben.", "value": "de beneficiis" },
-      { "id": "Sen.clem.", "value": "de clementia" },
-      { "id": "Sen.constant.", "value": "de constantia sapientis" },
-      { "id": "Sen.dial.", "value": "dialogi" },
-      { "id": "Sen.ep.", "value": "epistulae ad Lucilium" },
-      { "id": "Sen.epigr.", "value": "epigrammata super exilio" },
-      { "id": "Sen.Helv.", "value": "ad Helviam" },
-      { "id": "Sen.Med.", "value": "Medea" },
-      { "id": "Sen.prov.", "value": "de providentia" },
-      { "id": "Sen.qnat.", "value": "quaestiones naturales" },
-      { "id": "Sen.tranq.", "value": "de tranquillitate animi" }
+      { "id": "verg", "value": "Vergilius" },
+      { "id": "verg.ecl", "value": "eclogae" },
+      { "id": "verg.georg", "value": "georgica" },
+      { "id": "verg.aen", "value": "Aeneis" },
+      { "id": "sen", "value": "Seneca" },
+      { "id": "sen.apocol", "value": "apocolocyntosis" },
+      { "id": "sen.ben", "value": "de beneficiis" },
+      { "id": "sen.clem", "value": "de clementia" },
+      { "id": "sen.constant", "value": "de constantia sapientis" },
+      { "id": "sen.dial", "value": "dialogi" },
+      { "id": "sen.ep", "value": "epistulae ad Lucilium" },
+      { "id": "sen.epigr", "value": "epigrammata super exilio" },
+      { "id": "sen.helv", "value": "ad Helviam" },
+      { "id": "sen.med", "value": "Medea" },
+      { "id": "sen.prov", "value": "de providentia" },
+      { "id": "sen.qnat", "value": "quaestiones naturales" },
+      { "id": "sen.tranq", "value": "de tranquillitate animi" }
     ]
   }
 }

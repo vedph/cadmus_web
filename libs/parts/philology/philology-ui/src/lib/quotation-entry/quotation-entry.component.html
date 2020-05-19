@@ -26,7 +26,7 @@
   </div>
 
   <!-- author -->
-  <div *ngIf="!authors?.length">
+  <div *ngIf="!workDictionary">
     <mat-form-field>
       <input
         matInput
@@ -47,10 +47,10 @@
       >
     </mat-form-field>
   </div>
-  <div *ngIf="authors?.length">
+  <div *ngIf="workDictionary">
     <mat-form-field>
       <mat-select formControlName="author" placeholder="author">
-        <mat-option *ngFor="let e of authors" [value]="e.id">
+        <mat-option *ngFor="let e of authors$ | async" [value]="e.id">
           {{ e.value }} ({{ e.id }})</mat-option
         >
       </mat-select>
@@ -62,8 +62,8 @@
   </div>
 
   <!-- work -->
-  <div *ngIf="!authors">
-    <mat-form-field>
+  <div *ngIf="!workDictionary">
+    <mat-form-field class="full-width">
       <input
         matInput
         type="text"
@@ -81,11 +81,11 @@
       >
     </mat-form-field>
   </div>
-  <div *ngIf="authors">
-    <mat-form-field>
+  <div *ngIf="workDictionary">
+    <mat-form-field class="full-width">
       <mat-select formControlName="work" placeholder="work">
-        <mat-option *ngFor="let e of authorWorks" [value]="e.id">
-          {{ e.value }} ({{ e.id }})
+        <mat-option *ngFor="let e of authorWorks$ | async" [value]="e.id">
+          {{ e.value }}
         </mat-option>
       </mat-select>
       <mat-error
