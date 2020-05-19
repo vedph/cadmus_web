@@ -7,6 +7,7 @@ export interface ChronologyFragment extends Fragment {
   date: HistoricalDate;
   label?: string;
   tag?: string;
+  eventId?: string;
 }
 
 export const CHRONOLOGY_FRAGMENT_TYPEID = 'fr.net.fusisoft.chronology';
@@ -99,6 +100,9 @@ export const CHRONOLOGY_FRAGMENT_SCHEMA = {
         type: 'string'
       },
       tag: {
+        type: 'string'
+      },
+      eventId: {
         type: 'string'
       }
     }

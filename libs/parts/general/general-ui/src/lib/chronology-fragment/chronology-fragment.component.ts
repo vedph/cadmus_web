@@ -31,6 +31,7 @@ export class ChronologyFragmentComponent
   public tag: FormControl;
   public tags: FormControl;
   public label: FormControl;
+  public eventId: FormControl;
 
   constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
@@ -42,12 +43,14 @@ export class ChronologyFragmentComponent
     this.tag = formBuilder.control(null, Validators.maxLength(100));
     this.tags = formBuilder.control([]);
     this.label = formBuilder.control(null, Validators.maxLength(150));
+    this.eventId = formBuilder.control(null, Validators.maxLength(300));
     this.form = formBuilder.group({
       txtDate: this.txtDate,
       range: this.range,
       tag: this.tag,
       tags: this.tags,
-      label: this.label
+      label: this.label,
+      eventId: this.eventId
     });
   }
 
@@ -99,6 +102,7 @@ export class ChronologyFragmentComponent
       // label and tag
       this.label.setValue(model.label);
       this.tag.setValue(model.tag);
+      this.eventId.setValue(model.eventId);
       this.tags.setValue(model.tag);
       this.form.markAsPristine();
     }
@@ -116,7 +120,8 @@ export class ChronologyFragmentComponent
     fr.date.a = this.a;
     fr.date.b = this.b;
     // label and tag
-    fr.label = this.label.value? this.label.value.trim() : null;
+    fr.label = this.label.value?.trim();
+    fr.eventId = this.eventId.value?.trim();
     fr.tag = this.tagEntries ? this.tags.value : this.tag.value;
     return fr;
   }

@@ -14,7 +14,7 @@
           <input type="text" matInput formControlName="tag" placeholder="tag" />
           <mat-error
             *ngIf="tag.hasError('maxLength') && (tag.dirty || tag.touched)"
-            >too long</mat-error
+            >tag too long</mat-error
           >
         </mat-form-field>
       </div>
@@ -43,7 +43,27 @@
             *ngIf="
               label.hasError('maxLength') && (label.dirty || label.touched)
             "
-            >too long</mat-error
+            >label too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <!-- event ID -->
+      <div>
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            formControlName="eventId"
+            placeholder="event ID"
+            spellcheck="false"
+          />
+          <mat-error
+            *ngIf="
+              eventId.hasError('maxLength') &&
+              (eventId.dirty || eventId.touched)
+            "
+            >event ID too long</mat-error
           >
         </mat-form-field>
       </div>
@@ -56,7 +76,9 @@
         <mat-tab-group>
           <mat-tab>
             <ng-template mat-tab-label>
-              <mat-icon class="tab-icon">{{range.value? 'arrow_right':'room'}}</mat-icon>
+              <mat-icon class="tab-icon">{{
+                range.value ? 'arrow_right' : 'room'
+              }}</mat-icon>
               A-point
             </ng-template>
             <cadmus-datation-editor
