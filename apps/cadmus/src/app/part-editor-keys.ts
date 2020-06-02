@@ -8,6 +8,7 @@ import {
   TILED_TEXT_PART_TYPEID,
   COMMENT_FRAGMENT_TYPEID,
   BIBLIOGRAPHY_PART_TYPEID,
+  CHRONOLOGY_FRAGMENT_TYPEID,
 } from '@cadmus/parts/general/general-ui';
 import {
   APPARATUS_FRAGMENT_TYPEID,
@@ -29,37 +30,35 @@ const TILED_TEXT_LAYER_PART_TYPEID = 'net.fusisoft.tiled-text-layer';
  * with the mappings between fragment type IDs and their editor keys.
  */
 export const PART_EDITOR_KEYS: PartEditorKeys = {
+  [BIBLIOGRAPHY_PART_TYPEID]: {
+    part: GENERAL,
+  },
   [CATEGORIES_PART_TYPEID]: {
     part: GENERAL,
   },
   [HISTORICAL_DATE_PART_TYPEID]: {
     part: GENERAL,
   },
-  [KEYWORDS_PART_TYPEID]: {
+  [INDEX_KEYWORDS_PART_TYPEID]: {
     part: GENERAL,
   },
-  [INDEX_KEYWORDS_PART_TYPEID]: {
+  [KEYWORDS_PART_TYPEID]: {
     part: GENERAL,
   },
   [NOTE_PART_TYPEID]: {
     part: GENERAL,
   },
-  [BIBLIOGRAPHY_PART_TYPEID]: {
-    part: GENERAL,
-  },
-  [TOKEN_TEXT_PART_TYPEID]: {
-    part: GENERAL,
-  },
   [TILED_TEXT_PART_TYPEID]: {
     part: GENERAL,
   },
-  [TILED_TEXT_LAYER_PART_TYPEID]: {
+  [TOKEN_TEXT_PART_TYPEID]: {
     part: GENERAL,
   },
   // layer parts
   [TOKEN_TEXT_LAYER_PART_TYPEID]: {
     part: GENERAL,
     fragments: {
+      [CHRONOLOGY_FRAGMENT_TYPEID]: GENERAL,
       [COMMENT_FRAGMENT_TYPEID]: GENERAL,
       [APPARATUS_FRAGMENT_TYPEID]: PHILOLOGY,
       [ORTHOGRAPHY_FRAGMENT_TYPEID]: PHILOLOGY,
@@ -70,6 +69,7 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
   [TILED_TEXT_LAYER_PART_TYPEID]: {
     part: GENERAL,
     fragments: {
+      [CHRONOLOGY_FRAGMENT_TYPEID]: GENERAL,
       [COMMENT_FRAGMENT_TYPEID]: GENERAL,
       [APPARATUS_FRAGMENT_TYPEID]: PHILOLOGY,
       [ORTHOGRAPHY_FRAGMENT_TYPEID]: PHILOLOGY,

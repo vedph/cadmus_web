@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LocalStorageService {
   /**
@@ -10,9 +10,9 @@ export class LocalStorageService {
    * @param session true to use session instead of local storage.
    */
   public retrieve<T>(key: string, session: boolean = false): T {
-    const json = (session ?
-      sessionStorage.getItem(key) :
-      localStorage.getItem(key));
+    const json = session
+      ? sessionStorage.getItem(key)
+      : localStorage.getItem(key);
 
     if (!json) {
       return null;
@@ -52,7 +52,7 @@ export class LocalStorageService {
    * @param prefix key prefix.
    * @param session true to use session instead of local storage.
    */
-  public getKeys(prefix: string, session = false) {
+  public getKeys(prefix: string, session = false): string[] {
     const keys: string[] = [];
     if (session) {
       for (let i = 0, len = sessionStorage.length; i < len; i++) {
@@ -69,6 +69,7 @@ export class LocalStorageService {
         }
       }
     }
+    return keys;
   }
 
   /**
