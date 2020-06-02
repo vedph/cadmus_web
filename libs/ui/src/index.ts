@@ -10,3 +10,4 @@ export * from './lib/services/dialog.service';
 export * from './lib/validators/custom-validators';
 export * from './lib/validators/json-schema-validators';
 export * from './lib/validators/json-validators';
+export * from './lib/utils';

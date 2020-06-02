@@ -3,6 +3,7 @@ import { Input, Output, EventEmitter, Directive } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 import { AuthService } from '@cadmus/api';
+import { extractPristineChanges } from '../utils';
 
 /**
  * Base class for part/fragment editors dumb components.
@@ -120,16 +121,20 @@ export abstract class ModelEditorComponentBase<T> {
    * Initialize the editor. You MUST call this at the end of your OnInit.
    */
   protected initEditor() {
-    this.form.valueChanges
-      .pipe(
-        map(_ => {
-          return this.form.dirty;
-        }),
-        distinctUntilChanged()
-      )
-      .subscribe((dirty: boolean) => {
-        this.dirtyChange.emit(dirty);
-      });
+    // this.form.valueChanges
+    //   .pipe(
+    //     map((_) => {
+    //       return this.form.dirty;
+    //     }),
+    //     distinctUntilChanged()
+    //   )
+    //   .subscribe((dirty: boolean) => {
+    //     this.dirtyChange.emit(dirty);
+    //   });
+
+    extractPristineChanges(this.form).subscribe(p => {
+      this.dirtyChange.emit(!p);
+    });
   }
 
   /**
