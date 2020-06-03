@@ -37,28 +37,35 @@ export const INDEX_KEYWORDS_PART_SCHEMA = {
   title: 'IndexKeywordsPart',
   required: ['id', 'itemId', 'timeModified', 'typeId', 'userId'],
   properties: {
+    timeCreated: {
+      type: 'string',
+      pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d+Z$',
+    },
+    creatorId: {
+      type: 'string',
+    },
     timeModified: {
       type: 'string',
-      pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d+Z$'
+      pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d+Z$',
     },
     userId: {
-      type: 'string'
+      type: 'string',
     },
     id: {
       type: 'string',
-      pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+      pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
     },
     itemId: {
       type: 'string',
-      pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+      pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
     },
     typeId: {
       type: 'string',
-      pattern: '^[a-z][-0-9a-z._]*$'
+      pattern: '^[a-z][-0-9a-z._]*$',
     },
     roleId: {
       type: ['string', 'null'],
-      pattern: '^([a-z][-0-9a-z._]*)?$'
+      pattern: '^([a-z][-0-9a-z._]*)?$',
     },
     keywords: {
       type: 'array',
@@ -67,22 +74,22 @@ export const INDEX_KEYWORDS_PART_SCHEMA = {
         required: ['indexId', 'language', 'value'],
         properties: {
           indexId: {
-            type: 'string'
+            type: 'string',
           },
           language: {
-            type: 'string'
+            type: 'string',
           },
           value: {
-            type: 'string'
+            type: 'string',
           },
           note: {
-            type: 'string'
+            type: 'string',
           },
           tag: {
-            type: 'string'
-          }
-        }
-      }
-    }
-  }
+            type: 'string',
+          },
+        },
+      },
+    },
+  },
 };

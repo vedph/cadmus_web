@@ -56,7 +56,7 @@ export class CategoriesPartComponent
     this.initEditor();
   }
 
-  protected onModelSet(model: CategoriesPart) {
+  private updateForm(model: CategoriesPart) {
     if (!model) {
       this.categories.reset();
       return;
@@ -64,6 +64,11 @@ export class CategoriesPartComponent
     const cc = Object.assign([], model.categories);
     cc.sort();
     this.categories.setValue(cc);
+    this.form.markAsPristine();
+  }
+
+  protected onModelSet(model: CategoriesPart) {
+    this.updateForm(model);
   }
 
   protected getModelFromForm(): CategoriesPart {
@@ -195,8 +200,8 @@ export class CategoriesPartComponent
     const cc = Object.assign([], this.categories.value);
     cc.push(node.id.toString());
     cc.sort();
-    this.categories.markAsDirty();
     this.categories.setValue(cc);
+    this.categories.markAsDirty();
   }
 
   public removeCategory(category: string) {
@@ -206,8 +211,8 @@ export class CategoriesPartComponent
     if (i > -1) {
       const cc = Object.assign([], this.categories.value);
       cc.splice(i, 1);
-      this.categories.markAsDirty();
       this.categories.setValue(cc);
+      this.categories.markAsDirty();
     }
   }
 }

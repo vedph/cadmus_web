@@ -12,6 +12,8 @@ From the visual view you can then save, and go back to the JSON code view. You c
   "id": "1bf411d8-54ad-4f4c-bde6-2fc78226ebd5",
   "typeId": "net.fusisoft.note",
   "roleId": "",
+  "timeCreated": "2019-11-29T16:48:49.694Z",
+  "creatorId": "zeus",
   "timeModified": "2019-11-29T16:48:49.694Z",
   "userId": "zeus",
   "categories": ["green"]
@@ -42,6 +44,8 @@ From the visual view you can then save, and go back to the JSON code view. You c
   "id": "1bf411d8-54ad-4f4c-bde6-2fc78226ebd5",
   "typeId": "net.fusisoft.keywords",
   "roleId": "",
+  "timeCreated": "2019-11-29T16:48:49.694Z",
+  "creatorId": "zeus",
   "timeModified": "2019-11-29T16:48:49.694Z",
   "userId": "zeus",
   "keywords": [
@@ -101,6 +105,8 @@ From the visual view you can then save, and go back to the JSON code view. You c
   "id": "1bf411d8-54ad-4f4c-bde6-2fc78226ebd5",
   "typeId": "net.fusisoft.index-keywords",
   "roleId": "",
+  "timeCreated": "2019-11-29T16:48:49.694Z",
+  "creatorId": "zeus",
   "timeModified": "2019-11-29T16:48:49.694Z",
   "userId": "zeus",
   "keywords": [
@@ -170,6 +176,8 @@ From the visual view you can then save, and go back to the JSON code view. You c
   "id": "1bf411d8-54ad-4f4c-bde6-2fc78226ebd5",
   "typeId": "net.fusisoft.note",
   "roleId": "",
+  "timeCreated": "2019-11-29T16:48:49.694Z",
+  "creatorId": "zeus",
   "timeModified": "2019-11-29T16:48:49.694Z",
   "userId": "zeus",
   "tag": "green",
@@ -201,6 +209,8 @@ The thesaurus is optional. When not set, the editor allows free text for the tag
   "id": "1bf411d8-54ad-4f4c-bde6-2fc78226ebd5",
   "typeId": "net.fusisoft.note",
   "roleId": "",
+  "timeCreated": "2019-11-29T16:48:49.694Z",
+  "creatorId": "zeus",
   "timeModified": "2019-11-29T16:48:49.694Z",
   "userId": "zeus",
   "date": {
@@ -222,6 +232,8 @@ No thesaurus is required for this part.
   "id": "1bf411d8-54ad-4f4c-bde6-2fc78226ebd5",
   "typeId": "net.fusisoft.note",
   "roleId": "",
+  "timeCreated": "2019-11-29T16:48:49.694Z",
+  "creatorId": "zeus",
   "timeModified": "2019-11-29T16:48:49.694Z",
   "userId": "zeus",
   "entries": [
@@ -401,6 +413,8 @@ Thesauri: the language thesaurus is required; other thesauri are optional, but n
   "id": "1bf411d8-54ad-4f4c-bde6-2fc78226ebd5",
   "typeId": "net.fusisoft.note",
   "roleId": "",
+  "timeCreated": "2019-11-29T16:48:49.694Z",
+  "creatorId": "zeus",
   "timeModified": "2019-11-29T16:48:49.694Z",
   "userId": "zeus",
   "lines": [
@@ -427,7 +441,9 @@ No thesaurus is required for this part.
   "itemId": "2c2eadb7-1972-4415-9a43-b8036b6fa685",
   "typeId": "net.fusisoft.tiled-text-part",
   "roleId": null,
-  "timeModified": "2019-12-10T20:31:31.7000245Z",
+  "timeCreated": "2019-11-29T16:48:49.694Z",
+  "creatorId": "zeus",
+  "timeModified": "2019-11-29T16:48:49.694Z",
   "userId": "zeus",
   "citation": "LVCR-rena xml:id=d002|type=section|decls=#md|met=H 1#d002l1",
   "rows": [
