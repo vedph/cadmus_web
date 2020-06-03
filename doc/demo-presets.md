@@ -16,7 +16,7 @@ From the visual view you can then save, and go back to the JSON code view. You c
   "creatorId": "zeus",
   "timeModified": "2019-11-29T16:48:49.694Z",
   "userId": "zeus",
-  "categories": ["green"]
+  "categories": ["green","red"]
 }
 ```
 
