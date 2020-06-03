@@ -35,7 +35,16 @@ export const INDEX_KEYWORDS_PART_SCHEMA = {
     '.json',
   type: 'object',
   title: 'IndexKeywordsPart',
-  required: ['id', 'itemId', 'timeModified', 'typeId', 'userId'],
+  required: [
+    'id',
+    'itemId',
+    'typeId',
+    'timeCreated',
+    'creatorId',
+    'timeModified',
+    'userId',
+    'keywords'
+  ],
   properties: {
     timeCreated: {
       type: 'string',

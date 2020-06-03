@@ -51,37 +51,46 @@ export const BIBLIOGRAPHY_PART_SCHEMA = {
     '.json',
   type: 'object',
   title: 'BibliographyPart',
-  required: ['id', 'itemId', 'timeModified', 'typeId', 'userId', 'entries'],
+  required: [
+    'id',
+    'itemId',
+    'typeId',
+    'timeCreated',
+    'creatorId',
+    'timeModified',
+    'userId',
+    'entries',
+  ],
   properties: {
     timeCreated: {
       type: 'string',
-      pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d+Z$'
+      pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d+Z$',
     },
     creatorId: {
-      type: 'string'
+      type: 'string',
     },
     timeModified: {
       type: 'string',
-      pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d+Z$'
+      pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d+Z$',
     },
     userId: {
-      type: 'string'
+      type: 'string',
     },
     id: {
       type: 'string',
-      pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+      pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
     },
     itemId: {
       type: 'string',
-      pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+      pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
     },
     typeId: {
       type: 'string',
-      pattern: '^[a-z][-0-9a-z._]*$'
+      pattern: '^[a-z][-0-9a-z._]*$',
     },
     roleId: {
       type: ['string', 'null'],
-      pattern: '^([a-z][-0-9a-z._]*)?$'
+      pattern: '^([a-z][-0-9a-z._]*)?$',
     },
     entries: {
       type: 'array',
@@ -93,7 +102,7 @@ export const BIBLIOGRAPHY_PART_SCHEMA = {
             properties: {
               typeId: {
                 type: 'string',
-                pattern: '^[a-z][-0-9a-z._]*$'
+                pattern: '^[a-z][-0-9a-z._]*$',
               },
               authors: {
                 type: 'array',
@@ -104,27 +113,27 @@ export const BIBLIOGRAPHY_PART_SCHEMA = {
                       required: ['lastName'],
                       properties: {
                         firstName: {
-                          type: 'string'
+                          type: 'string',
                         },
                         lastName: {
-                          type: 'string'
+                          type: 'string',
                         },
                         roleId: {
-                          type: 'string'
-                        }
-                      }
-                    }
-                  ]
-                }
+                          type: 'string',
+                        },
+                      },
+                    },
+                  ],
+                },
               },
               title: {
-                type: 'string'
+                type: 'string',
               },
               language: {
-                type: 'string'
+                type: 'string',
               },
               container: {
-                type: 'string'
+                type: 'string',
               },
               contributors: {
                 type: 'array',
@@ -135,46 +144,47 @@ export const BIBLIOGRAPHY_PART_SCHEMA = {
                       required: ['lastName'],
                       properties: {
                         firstName: {
-                          type: 'string'
+                          type: 'string',
                         },
                         lastName: {
-                          type: 'string'
+                          type: 'string',
                         },
                         roleId: {
-                          type: 'string'
-                        }
-                      }
-                    }
-                  ]
-                }
+                          type: 'string',
+                        },
+                      },
+                    },
+                  ],
+                },
               },
               edition: {
-                type: 'integer'
+                type: 'integer',
               },
               number: {
-                type: 'string'
+                type: 'string',
               },
               publisher: {
-                type: 'string'
+                type: 'string',
               },
               yearPub: {
-                type: 'integer'
+                type: 'integer',
               },
               placePub: {
-                type: 'string'
+                type: 'string',
               },
               location: {
-                type: 'string'
+                type: 'string',
               },
               accessDate: {
                 type: 'string',
-                pattern: '^\\d{4}-\\d{2}-\\d{2}(?:T\\d{2}:\\d{2}:\\d{2}.\\d+Z)$'
+                pattern:
+                  '^\\d{4}-\\d{2}-\\d{2}(?:T\\d{2}:\\d{2}:\\d{2}.\\d+Z)$',
               },
               firstPage: {
-                title: 'The firstPage schema'
+                title: 'The firstPage schema',
               },
               lastPage: {
-                type: 'integer'
+                type: 'integer',
               },
               keywords: {
                 type: 'array',
@@ -185,23 +195,23 @@ export const BIBLIOGRAPHY_PART_SCHEMA = {
                       required: ['language', 'value'],
                       properties: {
                         language: {
-                          type: 'string'
+                          type: 'string',
                         },
                         value: {
-                          type: 'string'
-                        }
-                      }
-                    }
-                  ]
-                }
+                          type: 'string',
+                        },
+                      },
+                    },
+                  ],
+                },
               },
               note: {
-                type: 'string'
-              }
-            }
-          }
-        ]
-      }
-    }
-  }
+                type: 'string',
+              },
+            },
+          },
+        ],
+      },
+    },
+  },
 };

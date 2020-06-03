@@ -45,7 +45,16 @@ export const TILEDTEXTPART_SCHEMA = {
     'www.fusisoft.net/cadmus/parts/general/' + TILED_TEXT_PART_TYPEID + '.json',
   type: 'object',
   title: 'TiledTextPart',
-  required: ['id', 'itemId', 'timeModified', 'typeId', 'userId', 'rows'],
+  required: [
+    'id',
+    'itemId',
+    'typeId',
+    'timeCreated',
+    'creatorId',
+    'timeModified',
+    'userId',
+    'rows'
+  ],
   properties: {
     timeCreated: {
       type: 'string',

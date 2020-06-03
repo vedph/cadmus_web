@@ -90,8 +90,10 @@ If you want to infer a schema in the [JSON schema tool](https://jsonschema.net/)
   "itemId": "2c2eadb7-1972-4415-9a43-b8036b6fa685",
   "typeId": "net.fusisoft.thetype",
   "roleId": null,
-  "timeModified": "2019-12-10T20:31:31.7000245Z",
-  "userId": "even",
+  "timeCreated": "2019-11-29T16:48:49.694Z",
+  "creatorId": "zeus",
+  "timeModified": "2019-11-29T16:48:49.694Z",
+  "userId": "zeus",
   "TODO": "add properties here"
 }
 ```
