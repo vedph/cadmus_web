@@ -445,7 +445,7 @@ No thesaurus is required for this part.
   "creatorId": "zeus",
   "timeModified": "2019-11-29T16:48:49.694Z",
   "userId": "zeus",
-  "citation": "LVCR-rena xml:id=d002|type=section|decls=#md|met=H 1#d002l1",
+  "citation": "Lucr.2,1-2",
   "rows": [
     {
       "y": 1,
