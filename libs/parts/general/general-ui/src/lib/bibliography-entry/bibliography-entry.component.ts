@@ -11,7 +11,7 @@ import {
 import { Keyword } from '../keywords-part';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { DialogService } from '@cadmus/ui';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 /**
  * Bibliography entry editor used by BibliographyPartComponent to edit a single
@@ -244,11 +244,13 @@ export class BibliographyEntryComponent implements OnInit {
         language: this.keyLanguage.value,
         value: this.keyValue.value
       });
+      this.form.markAsDirty();
     }
   }
 
   public deleteKeyword(index: number) {
     this.keywords.splice(index, 1);
+    this.form.markAsDirty();
   }
 
   public moveKeywordUp(index: number) {
@@ -258,6 +260,7 @@ export class BibliographyEntryComponent implements OnInit {
     const k = this.keywords[index];
     this.keywords.splice(index, 1);
     this.keywords.splice(index - 1, 0, k);
+    this.form.markAsDirty();
   }
 
   public moveKeywordDown(index: number) {
@@ -267,6 +270,7 @@ export class BibliographyEntryComponent implements OnInit {
     const k = this.keywords[index];
     this.keywords.splice(index, 1);
     this.keywords.splice(index + 1, 0, k);
+    this.form.markAsDirty();
   }
 
   public cancel() {

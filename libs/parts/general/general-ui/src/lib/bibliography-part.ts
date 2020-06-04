@@ -136,7 +136,7 @@ export const BIBLIOGRAPHY_PART_SCHEMA = {
                 type: 'string',
               },
               contributors: {
-                type: ['array', null],
+                type: ['array', 'null'],
                 items: {
                   anyOf: [
                     {
@@ -187,7 +187,7 @@ export const BIBLIOGRAPHY_PART_SCHEMA = {
                 type: 'integer',
               },
               keywords: {
-                type: ['array', null],
+                type: ['array', 'null'],
                 items: {
                   anyOf: [
                     {
