@@ -4,20 +4,21 @@ import {
   FormGroup,
   FormControl,
   FormBuilder,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 
+/**
+ * Editor for a single point in a historical date.
+ */
 @Component({
   selector: 'cadmus-datation-editor',
   templateUrl: './datation-editor.component.html',
-  styleUrls: ['./datation-editor.component.css']
+  styleUrls: ['./datation-editor.component.css'],
 })
 export class DatationEditorComponent implements OnInit {
   private _datation: Datation;
-  private _updatingText: boolean;
 
-  public inner: FormGroup;
   public value: FormControl;
   public century: FormControl;
   public span: FormControl;
@@ -26,8 +27,7 @@ export class DatationEditorComponent implements OnInit {
   public about: FormControl;
   public dubious: FormControl;
   public hint: FormControl;
-  public text: FormControl;
-  public editor: FormGroup;
+  public form: FormGroup;
 
   @Input() public set datation(value: Datation) {
     this._datation = new Datation(value);
@@ -46,17 +46,14 @@ export class DatationEditorComponent implements OnInit {
     this.span = formBuilder.control(false);
     this.month = formBuilder.control(0, [
       Validators.min(0),
-      Validators.max(12)
+      Validators.max(12),
     ]);
     this.day = formBuilder.control(0, [Validators.min(0), Validators.max(31)]);
     this.about = formBuilder.control(false);
     this.dubious = formBuilder.control(false);
     this.hint = formBuilder.control(null, Validators.maxLength(500));
-    this.text = formBuilder.control(null);
 
-    // we use a nested form as we want to listen to datation changes,
-    // but excluding the changes from the text.
-    this.inner = formBuilder.group({
+    this.form = formBuilder.group({
       value: this.value,
       century: this.century,
       span: this.span,
@@ -64,21 +61,11 @@ export class DatationEditorComponent implements OnInit {
       day: this.day,
       about: this.about,
       dubious: this.dubious,
-      hint: this.hint
-    });
-    this.editor = formBuilder.group({
-      inner: this.inner,
-      text: this.text
+      hint: this.hint,
     });
 
-    this.inner.valueChanges.pipe(debounceTime(1000)).subscribe(_ => {
-      if (this._updatingText) {
-        return;
-      }
+    this.form.valueChanges.pipe(debounceTime(1000)).subscribe(_ => {
       this.updateData();
-      this._updatingText = true;
-      this.text.setValue(this._datation.toString());
-      this._updatingText = false;
     });
   }
 
@@ -91,15 +78,14 @@ export class DatationEditorComponent implements OnInit {
     this.about.setValue(this._datation.isApproximate);
     this.dubious.setValue(this._datation.isDubious);
     this.hint.setValue(this._datation.hint);
-    this.text.setValue(this._datation.toString());
   }
 
   private updateData() {
-    this._datation.value = this.value.value;
+    this._datation.value = this.value.value ? +this.value.value : null;
     this._datation.isCentury = this.century.value;
     this._datation.isSpan = this.span.value;
-    this._datation.month = this.month.value;
-    this._datation.day = this.day.value;
+    this._datation.month = this.month.value ? +this.month.value : null;
+    this._datation.day = this.day.value ? +this.day.value : null;
     this._datation.isApproximate = this.about.value;
     this._datation.isDubious = this.dubious.value;
     this._datation.hint = Datation.sanitizeHint(this.hint.value);
@@ -110,25 +96,15 @@ export class DatationEditorComponent implements OnInit {
   public reset() {
     this._datation.reset();
     this.updateForm();
-    this.editor.markAsPristine();
-  }
-
-  public parse() {
-    if (!this.text.value) {
-      return;
-    }
-    try {
-      const d = Datation.parse(this.text.value);
-      this._datation = d;
-      this.updateForm();
-    } catch (error) {}
+    this.form.markAsPristine();
   }
 
   public save() {
-    if (!this.editor.valid) {
+    if (this.form.invalid) {
       return;
     }
     this.updateData();
+    this.form.markAsPristine();
     this.datationChange.emit(this._datation);
   }
 }

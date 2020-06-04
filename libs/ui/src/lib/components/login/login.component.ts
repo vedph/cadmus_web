@@ -39,8 +39,10 @@ export class LoginComponent implements OnInit {
   public name: FormControl;
   public password: FormControl;
   public form: FormGroup;
+  public hide: boolean;
 
   constructor(formBuilder: FormBuilder, route: ActivatedRoute) {
+    this.hide = true;
     // events
     this.submitted = new EventEmitter<Credentials>();
     // form
