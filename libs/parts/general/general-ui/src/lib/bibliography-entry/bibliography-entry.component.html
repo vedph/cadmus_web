@@ -43,10 +43,8 @@
 
       <!-- authors -->
       <cadmus-bib-authors-editor
-        [authors$]="authors$"
         [parentForm]="form"
         [controlName]="'authors'"
-        [required]="true"
         [roleThesaurus]="roleThesaurus"
       ></cadmus-bib-authors-editor>
 
@@ -93,7 +91,6 @@
     <mat-tab label="Container">
       <!-- contributors -->
       <cadmus-bib-authors-editor
-        [authors$]="contributors$"
         [parentForm]="form"
         [controlName]="'contributors'"
         [roleThesaurus]="roleThesaurus"

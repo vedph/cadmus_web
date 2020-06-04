@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Thesaurus } from '@cadmus/core';
 import { BibAuthor } from '../bibliography-part';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cadmus-bib-authors-editor',
@@ -15,11 +14,7 @@ export class BibAuthorsEditorComponent implements OnInit {
   @Input()
   public controlName: string;
   @Input()
-  public required: boolean;
-  @Input()
   public roleThesaurus: Thesaurus;
-  @Input()
-  public authors$: Observable<BibAuthor[]>;
 
   public authors: FormArray;
 
@@ -29,28 +24,7 @@ export class BibAuthorsEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authors = this._formBuilder.array([]);
-    if (this.required) {
-      this.authors.setValidators(Validators.required);
-    }
-    this.parentForm.addControl(this.controlName, this.authors);
-
-    this.authors$.subscribe(authors => {
-      this.updateForm(authors);
-    });
-  }
-
-  private updateForm(authors: BibAuthor[]) {
-    if (!this.authors) {
-      return;
-    }
-    this.authors.clear();
-    if (authors) {
-      for (let i = 0; i < authors.length; i++) {
-        this.authors.push(this.getAuthorGroup(authors[i]));
-      }
-    }
-    this.authors.markAsPristine();
+    this.authors = this.parentForm.controls[this.controlName] as FormArray;
   }
 
   private getAuthorGroup(author?: BibAuthor): FormGroup {
