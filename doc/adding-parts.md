@@ -51,8 +51,23 @@ export const __NAME___PART_SCHEMA = {
   $id: 'www.fusisoft.net/cadmus/parts/general/' + __NAME___PART_TYPEID + '.json',
   type: 'object',
   title: '__NAME__Part',
-  required: ['id', 'itemId', 'timeModified', 'typeId', 'userId'],
+  required: [
+    'id',
+    'itemId',
+    'typeId',
+    'timeCreated',
+    'creatorId',
+    'timeModified',
+    'userId'
+  ],
   properties: {
+    timeCreated: {
+      type: 'string',
+      pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d+Z$'
+    },
+    creatorId: {
+      type: 'string'
+    },
     timeModified: {
       type: 'string',
       pattern: '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d+Z$'
