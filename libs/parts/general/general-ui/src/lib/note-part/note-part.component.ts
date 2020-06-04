@@ -88,7 +88,7 @@ export class NotePartComponent extends ModelEditorComponentBase<NotePart>
       };
     }
     part.tag = this.tagEntries ? this.tags.value : this.tag.value;
-    part.text = this.text.value? this.text.value.trim() : null;
+    part.text = this.text.value?.trim();
     return part;
   }
 }

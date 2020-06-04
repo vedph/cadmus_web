@@ -132,8 +132,8 @@ export class KeywordsPartComponent
       if (n <= 0) {
         const ck = Object.assign([], this.keywords.value);
         ck.splice(i, 0, keyword);
-        this.keywords.markAsDirty();
         this.keywords.setValue(ck);
+        this.keywords.markAsDirty();
         break;
       }
       i++;
@@ -141,15 +141,15 @@ export class KeywordsPartComponent
     if (i === this.keywords.value.length) {
       const ck = Object.assign([], this.keywords.value);
       ck.push(keyword);
-      this.keywords.markAsDirty();
       this.keywords.setValue(ck);
+      this.keywords.markAsDirty();
     }
   }
 
   public deleteKeyword(keyword: Keyword) {
     const ck = Object.assign([], this.keywords.value);
     ck.splice(this.keywords.value.indexOf(keyword), 1);
-    this.keywords.markAsDirty();
     this.keywords.setValue(ck);
+    this.keywords.markAsDirty();
   }
 }

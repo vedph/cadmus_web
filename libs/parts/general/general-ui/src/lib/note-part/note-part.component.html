@@ -11,10 +11,16 @@
       <!-- free tag -->
       <div *ngIf="!tagEntries">
         <mat-form-field>
-          <input type="text" matInput formControlName="tag" placeholder="tag" />
+          <input
+            type="text"
+            matInput
+            formControlName="tag"
+            placeholder="tag"
+            spellcheck="false"
+          />
           <mat-error
             *ngIf="tag.hasError('maxLength') && (tag.dirty || tag.touched)"
-            >too long</mat-error
+            >tag too long</mat-error
           >
         </mat-form-field>
       </div>
