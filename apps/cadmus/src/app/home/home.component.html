@@ -1,29 +1,25 @@
-<h2>Cadmus - {{title}}</h2>
-<article>
-  <p>
+<h2>Cadmus - {{ title }}</h2>
+<div
+  gdAreas="image text"
+  gdGap="16px"
+  gdRows="auto"
+  gdAreas.lt-md="image | text"
+  gdRows.lt-md="auto auto"
+  gdAlignColumns="center"
+>
+  <div gdArea="image">
     <img src="./assets/img/cadmus-300.png" alt="Cadmus" />
-    Welcome to the Cadmus playground. This web UI supports the development of
-    the Cadmus editing system. It will grow together with the system itself, and
-    serve as a prototype for testing.
-  </p>
-  <p>The general edit model has these layers:</p>
-  <ol>
-    <li>items: the list of the records.</li>
-    <li>
-      item: edit the metadata of a single item, view its parts, delete a part
-      from it, or add a part to it.
-    </li>
-    <li>part: edit a new or existing part in an item.</li>
-    <li>
-      fragment: for text layers, edit a new or existing fragment in a part.
-    </li>
-  </ol>
-  <p>
-    From the <kbd>demo</kbd> menu, you can access every single data model
-    editor, whether it refers to a part or a fragment, in a general-purpose
-    testbed UI. This provides two views of the model: one is its raw JSON
-    representation, while the other is its graphical editing UI. You can freely
-    edit the model using the graphical UI and get the corresponding JSON; or
-    viceversa.
-  </p>
-</article>
+  </div>
+  <div gdArea="text">
+    <p>
+      Welcome to the Cadmus playground. This web UI supports the development of
+      the Cadmus editing system. It will grow together with the system itself,
+      and serve as a prototype.
+    </p>
+    <p>
+      You can find the full source code at
+      <a href="https://github.com/vedph" target="_blank">github.com/vedph</a>.
+    </p>
+    <p *ngIf="!logged">Please <a routerLink="/login">login</a> to start.</p>
+  </div>
+</div>
