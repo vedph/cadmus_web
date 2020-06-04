@@ -39,7 +39,6 @@ export const TOKEN_TEXT_PART_SCHEMA = {
     'creatorId',
     'timeModified',
     'userId',
-    'categories',
     'lines'
   ],
   properties: {
