@@ -7,16 +7,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 describe('Service: AuthGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientModule,
-        RouterTestingModule,
-        MatSnackBarModule
-      ],
-      providers: [
-        HttpClient,
-        { provide: 'apiEndpoint', useValue: 'none' },
-        { provide: 'databaseId', useValue: 'cadmus' }
-      ]
+      imports: [HttpClientModule, RouterTestingModule, MatSnackBarModule],
+      providers: [HttpClient],
     });
   });
 

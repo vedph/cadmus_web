@@ -1,5 +1,3 @@
-import { stringify } from 'querystring';
-
 /**
  * Roman number converter.
  */
@@ -17,7 +15,7 @@ export class RomanNumber {
     50,
     10,
     5,
-    1
+    1,
   ];
   private static _postAlpha = [
     'm',
@@ -32,7 +30,7 @@ export class RomanNumber {
     'L',
     'X',
     'V',
-    'I'
+    'I',
   ];
   private static _preVal = [
     900000,
@@ -47,7 +45,7 @@ export class RomanNumber {
     40,
     9,
     4,
-    1
+    1,
   ];
   private static _preAlpha = [
     'cm',
@@ -62,7 +60,7 @@ export class RomanNumber {
     'XL',
     'IX',
     'IV',
-    'I'
+    'I',
   ];
   private static _romanDigits = 'IVXLCDM';
   private static _romanSubdigits = ' IIXXCC';
@@ -70,6 +68,7 @@ export class RomanNumber {
 
   /**
    * Convert the specified numeric value to a Roman number.
+   *
    * @param value The value.
    * @param allowBar True to allow bar on letters. A bar on a letter
    * multiplies its value by 1000.
@@ -140,6 +139,7 @@ export class RomanNumber {
 
   /**
    * Convert the specified Roman number to a numeric value.
+   *
    * @param roman: The Roman number.
    * @param allowBar: True to allow bar-on-letter notation.
    */

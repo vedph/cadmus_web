@@ -4,27 +4,22 @@ import {
   Router,
   CanActivate,
   ActivatedRouteSnapshot,
-  RouterStateSnapshot
+  RouterStateSnapshot,
 } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthService } from './auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthGuardService implements CanActivate {
-  constructor(
-    private _router: Router,
-    private _snackbar: MatSnackBar,
-    private _authService: AuthService
-  ) {}
+  constructor(private _router: Router, private _authService: AuthService) {}
 
   private redirectToLogin(url: string) {
     this._router.navigate(['/login'], {
       queryParams: {
-        returnUrl: url
-      }
+        returnUrl: url,
+      },
     });
   }
 
@@ -37,7 +32,7 @@ export class AuthGuardService implements CanActivate {
     // if authenticated but not verified, redirect to login
     if (!this._authService.currentUserValue.emailConfirmed) {
       this.redirectToLogin(state.url);
-      this._snackbar.open('User not verified', 'OK', { duration: 3000 });
+      console.warn('User not verified');
       return false;
     }
     return true;

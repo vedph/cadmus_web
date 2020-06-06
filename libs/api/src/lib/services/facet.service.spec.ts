@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { FacetService } from './facet.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { EnvServiceProvider } from '@cadmus/core';
 
 describe('FacetService', () => {
   beforeEach(() => {
@@ -9,8 +10,7 @@ describe('FacetService', () => {
       imports: [HttpClientModule],
       providers: [
         HttpClient,
-        { provide: 'apiEndpoint', useValue: 'none' },
-        { provide: 'databaseId', useValue: 'cadmus' }
+        EnvServiceProvider
       ]
     });
   });

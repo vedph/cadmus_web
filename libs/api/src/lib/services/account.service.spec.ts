@@ -2,16 +2,13 @@ import { TestBed } from '@angular/core/testing';
 
 import { AccountService } from './account.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { EnvServiceProvider } from '@cadmus/core';
+import { EnvServiceProvider, CoreModule } from '@cadmus/core';
 
 describe('AccountService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
-      providers: [
-        HttpClient,
-        EnvServiceProvider
-      ]
+      imports: [HttpClientModule, CoreModule],
+      providers: [HttpClient, EnvServiceProvider],
     })
   );
 

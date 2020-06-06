@@ -117,5 +117,29 @@ describe('Class: HistoricalDate', () => {
     expect(a.hint).toBe('marriage of Julia and Marcellus');
   });
 
+  it('parse "123 AD -- 135 AD" should get A=123 and B=135', () => {
+    const d = HistoricalDate.parse('123 AD -- 135 AD');
+    expect(d).toBeTruthy();
+    expect(d.getDateType()).toBe(HistoricalDateType.range);
+    const a = d.a;
+    expect(a.value).toBe(123);
+    expect(a.isCentury).toBeFalsy();
+    expect(a.isSpan).toBeFalsy();
+    expect(a.isApproximate).toBeFalsy();
+    expect(a.isDubious).toBeFalsy();
+    expect(a.day).toBeFalsy();
+    expect(a.month).toBeFalsy();
+    expect(a.hint).toBeFalsy();
+    const b = d.b;
+    expect(b.value).toBe(135);
+    expect(b.isCentury).toBeFalsy();
+    expect(b.isSpan).toBeFalsy();
+    expect(b.isApproximate).toBeFalsy();
+    expect(b.isDubious).toBeFalsy();
+    expect(b.day).toBeFalsy();
+    expect(b.month).toBeFalsy();
+    expect(b.hint).toBeFalsy();
+  });
+
   // TODO: tests
 });
