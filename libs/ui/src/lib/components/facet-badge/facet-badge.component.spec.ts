@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FacetBadgeComponent } from './facet-badge.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from '@cadmus/material';
 
 describe('FacetBadgeComponent', () => {
   let component: FacetBadgeComponent;
@@ -8,9 +10,9 @@ describe('FacetBadgeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FacetBadgeComponent ]
-    })
-    .compileComponents();
+      imports: [FormsModule, ReactiveFormsModule, MaterialModule],
+      declarations: [FacetBadgeComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
