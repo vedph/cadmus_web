@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PartBadgeComponent } from './part-badge.component';
+import { ApiModule } from '@cadmus/api';
 
 describe('PartBadgeComponent', () => {
   let component: PartBadgeComponent;
@@ -8,9 +9,9 @@ describe('PartBadgeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PartBadgeComponent ]
-    })
-    .compileComponents();
+      imports: [ApiModule],
+      declarations: [PartBadgeComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
