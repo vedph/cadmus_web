@@ -526,8 +526,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="243"
-                            class="link-to-prism">libs/core/src/lib/datation.ts:243</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="247"
+                            class="link-to-prism">libs/core/src/lib/datation.ts:247</a></div>
                 </td>
             </tr>
 
@@ -605,8 +605,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="305"
-                            class="link-to-prism">libs/core/src/lib/datation.ts:305</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="311"
+                            class="link-to-prism">libs/core/src/lib/datation.ts:311</a></div>
                 </td>
             </tr>
 
@@ -808,8 +808,8 @@ datation (e.g. -5 for 480 B.C., +1 for 31 A.D.).</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="264"
-                            class="link-to-prism">libs/core/src/lib/datation.ts:264</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="270"
+                            class="link-to-prism">libs/core/src/lib/datation.ts:270</a></div>
                 </td>
             </tr>
 
@@ -851,8 +851,8 @@ datation (e.g. -5 for 480 B.C., +1 for 31 A.D.).</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="291"
-                            class="link-to-prism">libs/core/src/lib/datation.ts:291</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="297"
+                            class="link-to-prism">libs/core/src/lib/datation.ts:297</a></div>
                 </td>
             </tr>
 
@@ -898,15 +898,17 @@ is not a span, the function just returns the unique year value.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="257"
-                            class="link-to-prism">libs/core/src/lib/datation.ts:257</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="263"
+                            class="link-to-prism">libs/core/src/lib/datation.ts:263</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>True if this datation is undefined.</p>
+                    <div class="io-description"><p>True if this datation is undefined. A datation is undefined when
+its value is 0. Undefined datations are used as unknown points in a range
+for termini ante/post.</p>
 </div>
 
                     <div class="io-description">
@@ -941,8 +943,8 @@ is not a span, the function just returns the unique year value.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="314"
-                            class="link-to-prism">libs/core/src/lib/datation.ts:314</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="320"
+                            class="link-to-prism">libs/core/src/lib/datation.ts:320</a></div>
                 </td>
             </tr>
 
@@ -1037,8 +1039,8 @@ is not a span, the function just returns the unique year value.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="140"
-                            class="link-to-prism">libs/core/src/lib/datation.ts:140</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">libs/core/src/lib/datation.ts:144</a></div>
                 </td>
             </tr>
 
@@ -1108,7 +1110,11 @@ is not a span, the function just returns the unique year value.</p>
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>The parsed datation, or undefined if invalid or empty.
+Note that here we return undefined to mean a non-existing point.
+We do not want a non-existing point to be represented as a null,
+as this would be included as in the JSON code when serializing.</p>
+
                     </div>
                 </td>
             </tr>
@@ -1138,8 +1144,8 @@ is not a span, the function just returns the unique year value.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="327"
-                            class="link-to-prism">libs/core/src/lib/datation.ts:327</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="333"
+                            class="link-to-prism">libs/core/src/lib/datation.ts:333</a></div>
                 </td>
             </tr>
 
@@ -1283,8 +1289,8 @@ is not a span, the function just returns the unique year value.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="229"
-                            class="link-to-prism">libs/core/src/lib/datation.ts:229</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="233"
+                            class="link-to-prism">libs/core/src/lib/datation.ts:233</a></div>
                 </td>
             </tr>
 
@@ -1368,7 +1374,7 @@ null is returned.</p>
 
 
                                     <td>
-                                        <p>The hint or null.</p>
+                                        <p>The hint or null/undefined.</p>
 
                                     </td>
                                 </tr>
@@ -1382,7 +1388,7 @@ null is returned.</p>
 
                     </div>
                     <div class="io-description">
-                        <p>The sanitized hint or null.</p>
+                        <p>The sanitized hint or undefined.</p>
 
                     </div>
                 </td>
@@ -1413,8 +1419,8 @@ null is returned.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="208"
-                            class="link-to-prism">libs/core/src/lib/datation.ts:208</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="212"
+                            class="link-to-prism">libs/core/src/lib/datation.ts:212</a></div>
                 </td>
             </tr>
 
@@ -1492,8 +1498,8 @@ null is returned.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="429"
-                            class="link-to-prism">libs/core/src/lib/datation.ts:429</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="435"
+                            class="link-to-prism">libs/core/src/lib/datation.ts:435</a></div>
                 </td>
             </tr>
 
@@ -1688,12 +1694,12 @@ export class Datation implements DatationModel {
    * (no whitespaces at start/end and no sequence of whitespaces).
    * If the resulting sanitized string is empty, or it was null when received,
    * null is returned.
-   * @param hint The hint or null.
-   * @returns The sanitized hint or null.
+   * @param hint The hint or null/undefined.
+   * @returns The sanitized hint or undefined.
    */
   public static sanitizeHint(hint: string): string {
     if (!hint || !hint.trim()) {
-      return null;
+      return undefined;
     }
 
     // replace reserved characters
@@ -1703,7 +1709,7 @@ export class Datation implements DatationModel {
 
     // flatten and normalize whitespaces
     const s &#x3D; hint.replace(/\s+/g, &#x27; &#x27;).trim();
-    return s ? s : null;
+    return s ? s : undefined;
   }
 
   private static regexEscape(text: string): string {
@@ -1751,17 +1757,21 @@ export class Datation implements DatationModel {
    * Parse the specified text representing a datation.
    * @param text The text to be parsed.
    * @param options The formatter options.
+   * @returns The parsed datation, or undefined if invalid or empty.
+   * Note that here we return undefined to mean a non-existing point.
+   * We do not want a non-existing point to be represented as a null,
+   * as this would be included as in the JSON code when serializing.
    */
   public static parse(text: string,
     options: DatationFormatOptions &#x3D; DATATION_FORMAT_OPTIONS): Datation {
     if (!text) {
-      return null;
+      return undefined;
     }
     const datation &#x3D; new Datation();
     const datationRegex &#x3D; this.getParserRegex(options);
     const m &#x3D; datationRegex.exec(text);
     if (!m) {
-      return null;
+      return undefined;
     }
 
     // about
@@ -1848,7 +1858,7 @@ export class Datation implements DatationModel {
     this.isApproximate &#x3D; false;
     this.day &#x3D; 0;
     this.month &#x3D; 0;
-    this.hint &#x3D; null;
+    this.hint &#x3D; undefined;
   }
 
   /**
@@ -1863,11 +1873,13 @@ export class Datation implements DatationModel {
     this.isDubious &#x3D; datation.isDubious;
     this.day &#x3D; datation.day;
     this.month &#x3D; datation.month;
-    this.hint &#x3D; datation.hint;
+    this.hint &#x3D; datation.hint? datation.hint : undefined;
   }
 
   /**
-   * True if this datation is undefined.
+   * True if this datation is undefined. A datation is undefined when
+   * its value is 0. Undefined datations are used as unknown points in a range
+   * for termini ante/post.
    */
   public isUndefined(): boolean {
     return !this.value;

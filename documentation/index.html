@@ -32,11 +32,24 @@
 
 <h1 id="cadmus">Cadmus</h1>
 <p>This project was generated using <a href="https://nx.dev">Nx</a>.</p>
-<p>🔎 <strong>Nx is a set of Extensible Dev Tools for Monorepos.</strong></p>
+<ol>
+<li><code>npx create-nx-workspace@latest cadmus</code>.</li>
+<li><code>nx migrate @nrwl/workspace</code> to eventually upgrade nrwl.</li>
+<li><code>ng update</code> if some packages are still outdated.</li>
+</ol>
+<p>View dependencies: <code>nx dep-graph</code>.</p>
 <h2 id="quick-start--documentation">Quick Start &amp; Documentation</h2>
 <p><a href="https://nx.dev/angular">Nx Documentation</a></p>
 <p><a href="https://nx.dev/angular/getting-started/what-is-nx">10-minute video showing all Nx features</a></p>
 <p><a href="https://nx.dev/angular/tutorial/01-create-application">Interactive Tutorial</a></p>
+<p>Manually build Docker image: e.g. <code>docker build . -t naftis/fusi:cadmusweb</code>.</p>
+<h2 id="documentation-with-compodoc">Documentation with Compodoc</h2>
+<ul>
+<li><a href="https://compodoc.app/">main site</a></li>
+<li><a href="https://compodoc.app/guides/tips-and-tricks.html#documentation-of-several-apps-in-a-monorepository">additional docs and monorepos</a></li>
+</ul>
+<p>Ensure that you have installed compodoc globally: <code>npm install -g @compodoc/compodoc</code>.</p>
+<p>Generate the documentation for each project like this: <code>compodoc -p apps/demo/src/tsconfig.app.json -s</code>.</p>
 <h2 id="adding-capabilities-to-your-workspace">Adding capabilities to your workspace</h2>
 <p>Nx supports many plugins which add capabilities for developing different types of applications and different tools.</p>
 <p>These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.</p>
@@ -109,7 +122,7 @@
 
 
 
-
+                   
 
 
 

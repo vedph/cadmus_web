@@ -42,7 +42,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li>TextRange</li>
+  <li>TokenLocation</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -60,17 +60,9 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>libs/core/src/lib/text-range.ts</code>
+            <code>libs/core/src/lib/token-location.ts</code>
         </p>
 
-            <p class="comment">
-                <h3>Description</h3>
-            </p>
-            <p class="comment">
-                <p>A simple text range, expressed as start character index and characters
-length. This is used for misspellings operations.</p>
-
-            </p>
 
 
 
@@ -89,11 +81,12 @@ length. This is used for misspellings operations.</p>
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#length">length</a>
+                                <a href="#primary">primary</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#start">start</a>
+                                    <span class="modifier">Optional</span>
+                                <a href="#secondary">secondary</a>
                             </li>
                         </ul>
                     </td>
@@ -109,11 +102,15 @@ length. This is used for misspellings operations.</p>
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#end">end</a>
+                                <a href="#compareTo">compareTo</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#isEqual">isEqual</a>
+                                <a href="#isRange">isRange</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#overlaps">overlaps</a>
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
@@ -141,12 +138,12 @@ length. This is used for misspellings operations.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(start: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, length: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>constructor(primary: <a href="../classes/TokenPoint.html">TokenPoint</a>, secondary: <a href="../classes/TokenPoint.html">TokenPoint</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">libs/core/src/lib/text-range.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">libs/core/src/lib/token-location.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -164,10 +161,10 @@ length. This is used for misspellings operations.</p>
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>start</td>
+                                                        <td>primary</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                                        <code><a href="../classes/TokenPoint.html" target="_self" >TokenPoint</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -176,10 +173,10 @@ length. This is used for misspellings operations.</p>
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>length</td>
+                                                        <td>secondary</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                                        <code><a href="../classes/TokenPoint.html" target="_self" >TokenPoint</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -205,33 +202,27 @@ length. This is used for misspellings operations.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="length"></a>
+                        <a name="primary"></a>
                         <span class="name">
                             <b>
                                 <span class="modifier">Public</span>
-                            length</b>
-                            <a href="#length"><span class="icon ion-ios-link"></span></a>
+                            primary</b>
+                            <a href="#primary"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                            <i>Type : </i>        <code><a href="../classes/TokenPoint.html" target="_self" >TokenPoint</a></code>
 
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">libs/core/src/lib/text-range.ts:14</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="4" class="link-to-prism">libs/core/src/lib/token-location.ts:4</a></div>
                             </td>
                         </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>The length in characters.</p>
-</div>
-                    </td>
-                </tr>
 
             </tbody>
         </table>
@@ -239,33 +230,28 @@ length. This is used for misspellings operations.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="start"></a>
+                        <a name="secondary"></a>
                         <span class="name">
                             <b>
                                 <span class="modifier">Public</span>
-                            start</b>
-                            <a href="#start"><span class="icon ion-ios-link"></span></a>
+                                <span class="modifier">Optional</span>
+                            secondary</b>
+                            <a href="#secondary"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                            <i>Type : </i>        <code><a href="../classes/TokenPoint.html" target="_self" >TokenPoint</a></code>
 
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">libs/core/src/lib/text-range.ts:9</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="5" class="link-to-prism">libs/core/src/lib/token-location.ts:5</a></div>
                             </td>
                         </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>The start character index.</p>
-</div>
-                    </td>
-                </tr>
 
             </tbody>
         </table>
@@ -280,39 +266,109 @@ length. This is used for misspellings operations.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="end"></a>
+                    <a name="compareTo"></a>
                     <span class="name">
                         <b>
                             <span class="modifier">Public</span>
-                            end
+                            compareTo
                         </b>
-                        <a href="#end"><span class="icon ion-ios-link"></span></a>
+                        <a href="#compareTo"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>end()</code>
+                    <code>compareTo(other: <a href="../classes/TokenLocation.html">TokenLocation</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">libs/core/src/lib/text-range.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">libs/core/src/lib/token-location.ts:45</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Get the inclusive end of the range.</p>
-</div>
 
                     <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>other</td>
+                                    <td>
+                                                <code><a href="../classes/TokenLocation.html" target="_self" >TokenLocation</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isRange"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            isRange
+                        </b>
+                        <a href="#isRange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isRange()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">libs/core/src/lib/token-location.ts:34</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
                     </div>
                 </td>
@@ -323,36 +379,34 @@ length. This is used for misspellings operations.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="isEqual"></a>
+                    <a name="overlaps"></a>
                     <span class="name">
                         <b>
                             <span class="modifier">Public</span>
-                            isEqual
+                            overlaps
                         </b>
-                        <a href="#isEqual"><span class="icon ion-ios-link"></span></a>
+                        <a href="#overlaps"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>isEqual(other: <a href="../classes/TextRange.html">TextRange</a>)</code>
+                    <code>overlaps(other: <a href="../classes/TokenLocation.html">TokenLocation</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">libs/core/src/lib/text-range.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">libs/core/src/lib/token-location.ts:59</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>True if this range value is equal to the other range value.</p>
-</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -362,14 +416,13 @@ length. This is used for misspellings operations.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
-                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>other</td>
                                     <td>
-                                                <code><a href="../classes/TextRange.html" target="_self" >TextRange</a></code>
+                                                <code><a href="../classes/TokenLocation.html" target="_self" >TokenLocation</a></code>
                                     </td>
 
                                     <td>
@@ -377,10 +430,6 @@ length. This is used for misspellings operations.</p>
                                     </td>
 
 
-                                    <td>
-                                        <p>The other range.</p>
-
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -422,16 +471,18 @@ length. This is used for misspellings operations.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="22"
-                            class="link-to-prism">libs/core/src/lib/text-range.ts:22</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">libs/core/src/lib/token-location.ts:14</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Parse the specified text representing a range, in the form &quot;startxlength&quot;
-or just &quot;start&quot; when length is 1.</p>
+                    <div class="io-description"><p>Parse the text representing a token-based location,
+which has the form &quot;primary-secondary&quot;, or just &quot;primary&quot;,
+where each of these points has the format required by
+TokenPoint.parse (e.g. Y.X or Y.X@AxR or Y.X@A, where R=1).</p>
 </div>
 
                     <div class="io-description">
@@ -458,7 +509,7 @@ or just &quot;start&quot; when length is 1.</p>
 
 
                                     <td>
-                                        <p>The text.</p>
+                                        <p>The text to parse.</p>
 
                                     </td>
                                 </tr>
@@ -468,7 +519,7 @@ or just &quot;start&quot; when length is 1.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/TextRange.html" target="_self" >TextRange</a></code>
+                        <b>Returns : </b>        <code><a href="../classes/TokenLocation.html" target="_self" >TokenLocation</a></code>
 
                     </div>
                     <div class="io-description">
@@ -502,25 +553,17 @@ or just &quot;start&quot; when length is 1.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">libs/core/src/lib/text-range.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">libs/core/src/lib/token-location.ts:39</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Get a parsable textual representation of this range.</p>
-</div>
 
-                    <div>
-                    </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>Text.</p>
 
                     </div>
                 </td>
@@ -537,72 +580,92 @@ or just &quot;start&quot; when length is 1.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export class TextRange {
-  /**
-   * The start character index.
-   */
-  public start: number;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { TokenPoint } from &#x27;./token-point&#x27;;
+
+export class TokenLocation {
+  public primary: TokenPoint;
+  public secondary?: TokenPoint;
 
   /**
-   * The length in characters.
+   * Parse the text representing a token-based location,
+   * which has the form &quot;primary-secondary&quot;, or just &quot;primary&quot;,
+   * where each of these points has the format required by
+   * TokenPoint.parse (e.g. Y.X or Y.X@AxR or Y.X@A, where R&#x3D;1).
+   * @param text The text to parse.
    */
-  public length: number;
-
-  /**
-   * Parse the specified text representing a range, in the form &quot;startxlength&quot;
-   * or just &quot;start&quot; when length is 1.
-   *
-   * @param text The text.
-   */
-  public static parse(text: string): TextRange {
+  public static parse(text: string): TokenLocation {
     if (!text) {
       return null;
     }
-    // [1]&#x3D;start, ([2]&#x3D;length)
-    const m &#x3D; new RegExp(&#x27;(\\d+)(?:[×x](\\d+))?&#x27;, &#x27;gm&#x27;).exec(text);
-    if (!m) {
+    const pair &#x3D; text.split(&#x27;-&#x27;, 2);
+    if (pair.length &#x3D;&#x3D;&#x3D; 0) {
       return null;
     }
-    return new TextRange(
-      parseInt(m[1], 10),
-      m[2]? parseInt(m[2], 10) : 1);
+
+    return new TokenLocation(
+      TokenPoint.parse(pair[0]),
+      pair.length &gt; 1 ? TokenPoint.parse(pair[1]) : null
+    );
   }
 
-  constructor(start: number, length: number) {
-    if (start &lt; 0) throw new RangeError(&#x27;TextRange start less than 0&#x27;);
-    if (length &lt; 0) throw new RangeError(&#x27;TextRange length less than 0&#x27;);
-
-    this.start &#x3D; start;
-    this.length &#x3D; length;
+  constructor(primary: TokenPoint, secondary: TokenPoint &#x3D; null) {
+    this.primary &#x3D; primary;
+    this.secondary &#x3D; secondary;
   }
 
-  /**
-   * Get the inclusive end of the range.
-   */
-  public end(): number {
-    const n &#x3D; this.start + this.length;
-    return n &gt; 0? n - 1 : 0;
+  public isRange(): boolean {
+    // note that !&#x3D; checks for both null and undefined, whereas !&#x3D;&#x3D; does not
+    return this.secondary !&#x3D; null;
   }
 
-  /**
-   * True if this range value is equal to the other range value.
-   * @param other The other range.
-   */
-  public isEqual(other: TextRange): boolean {
-    if (!other) {
+  public toString(): string {
+    return this.secondary
+      ? &#x60;${this.primary.toString()}-${this.secondary.toString()}&#x60;
+      : this.primary.toString();
+  }
+
+  public compareTo(other: TokenLocation): number {
+    const n1 &#x3D; this.primary.compareTo(other.primary);
+    if (n1 !&#x3D;&#x3D; 0) {
+      return n1;
+    }
+    if (this.secondary &amp;&amp; other.secondary) {
+      return this.secondary.compareTo(other.secondary);
+    }
+    if (!this.secondary &amp;&amp; !other.secondary) {
+      return 0;
+    }
+    return this.secondary ? 1 : -1;
+  }
+
+  public overlaps(other: TokenLocation): boolean {
+    // empty coords never overlaps
+    if (!other.primary) {
       return false;
     }
-    return this.start &#x3D;&#x3D;&#x3D; other.start &amp;&amp; this.length &#x3D;&#x3D;&#x3D; other.length;
-  }
 
-  /**
-   * Get a parsable textual representation of this range.
-   * @returns Text.
-   */
-  public toString(): string {
-    return this.length &#x3D;&#x3D;&#x3D; 1
-      ? this.start.toString()
-      : &#x60;${this.start}×${this.length}&#x60;;
+    // (in the following comments A&#x3D;this and B&#x3D;other)
+    // 1) if B is a point, cases are:
+    //  1.1. A is a point: A overlaps with B (both points) if they&#x27;re equal.
+    //  1.2. A is a range: A (range) overlaps with B (point)
+    //       when A-left is &lt;&#x3D; B-left and A-right is &gt;&#x3D; B-right.
+    if (other.secondary &#x3D;&#x3D; null) {
+      return !this.secondary
+        ? this.primary.integralCompareTo(other.primary) &#x3D;&#x3D;&#x3D; 0
+        : this.primary.compareTo(other.primary) &lt;&#x3D; 0 &amp;&amp;
+            this.secondary.compareTo(other.primary) &gt;&#x3D; 0;
+    }
+
+    // 2) if B is a range, cases are:
+    // 2.1. A is a point: A (point) overlaps with B (range) when B-left &lt;&#x3D; A and
+    //  B-right &gt;&#x3D; A
+    // 2.2. A is a range: A (range) overlaps with B (range)
+    //  when B-right &gt;&#x3D; A-left and B-left &lt;&#x3D; A-right
+    return !this.secondary
+      ? other.primary.compareTo(this.primary) &lt;&#x3D; 0 &amp;&amp;
+          other.secondary.compareTo(this.primary) &gt;&#x3D; 0
+      : other.secondary.compareTo(this.primary) &gt;&#x3D; 0 &amp;&amp;
+          other.primary.compareTo(this.secondary) &lt;&#x3D; 0;
   }
 }
 </code></pre>
@@ -633,7 +696,7 @@ or just &quot;start&quot; when length is 1.</p>
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
-            var COMPODOC_CURRENT_PAGE_URL = 'TextRange.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'TokenLocation.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
