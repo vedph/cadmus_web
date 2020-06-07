@@ -6,7 +6,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '@cadmus/core';
 import { MaterialModule } from '@cadmus/material';
-import { GeneralUiModule } from '@cadmus/parts/general/general-ui';
+import {
+  GeneralUiModule,
+  BIBLIOGRAPHY_PART_TYPEID,
+} from '@cadmus/parts/general/general-ui';
 import { EditStateModule } from '@cadmus/features/edit-state';
 import { FeaturesUiModule } from '@cadmus/features/features-ui';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
@@ -32,6 +35,16 @@ describe('BibliographyPartFeatureComponent', () => {
         FeaturesUiModule,
       ],
       declarations: [BibliographyPartFeatureComponent],
+      providers: [
+        {
+          provide: 'partEditorKeys',
+          useValue: {
+            [BIBLIOGRAPHY_PART_TYPEID]: {
+              part: 'general',
+            },
+          },
+        },
+      ],
     }).compileComponents();
   }));
 

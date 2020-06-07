@@ -10,9 +10,10 @@ import { MomentModule } from 'ngx-moment';
 import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
 import { HAMMER_LOADER } from '@angular/platform-browser';
-import { CurrentItemBarComponent } from '@cadmus/features/features-ui';
+import { CurrentItemBarComponent, CurrentLayerPartBarComponent } from '@cadmus/features/features-ui';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CoreModule } from '@cadmus/core';
+import { TILED_TEXT_PART_TYPEID } from '@cadmus/parts/general/general-ui';
 
 describe('TokenTextLayerPartFeatureComponent', () => {
   let component: TokenTextLayerPartFeatureComponent;
@@ -30,43 +31,39 @@ describe('TokenTextLayerPartFeatureComponent', () => {
         MomentModule,
         CoreModule,
         MaterialModule,
-        UiModule
+        UiModule,
       ],
       // https://github.com/angular/components/issues/14668
       providers: [
         {
-          provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
-        },
-        {
-          provide: 'apiEndpoint',
-          useValue: 'http://localhost:60304/api/'
-        },
-        {
-          provide: 'databaseId',
-          useValue: 'cadmus'
+          provide: 'partEditorKeys',
+          useValue: {
+            [TILED_TEXT_PART_TYPEID]: {
+              part: 'general',
+            },
+          },
         },
         {
           provide: MatDialog,
           useValue: {
-            open: (_: any) => { },
-            closeAll: (): void => undefined
-          }
+            open: (_: any) => {},
+            closeAll: (): void => undefined,
+          },
         },
         {
           provide: MatDialogRef,
           useValue: {
-            close: (dialogResult: any) => { },
-            afterClosed: () => { }
-          }
-        }
+            close: (dialogResult: any) => {},
+            afterClosed: () => {},
+          },
+        },
       ],
       declarations: [
         CurrentItemBarComponent,
-        TokenTextLayerPartFeatureComponent
-      ]
-    })
-    .compileComponents();
+        CurrentLayerPartBarComponent,
+        TokenTextLayerPartFeatureComponent,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

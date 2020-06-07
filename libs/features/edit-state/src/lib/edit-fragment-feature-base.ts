@@ -48,7 +48,7 @@ export abstract class EditFragmentFeatureBase
   ) {
     this.itemId = route.snapshot.params['iid'];
     this.partId = route.snapshot.params['pid'];
-    this.frTypeId = route.snapshot.url[2].path;
+    this.frTypeId = route.snapshot.url[2]?.path;
     this.loc = route.snapshot.params['loc'];
     this.frRoleId = route.snapshot.queryParams['frrid'];
 

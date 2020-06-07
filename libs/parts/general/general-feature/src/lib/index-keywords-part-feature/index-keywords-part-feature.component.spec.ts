@@ -7,7 +7,10 @@ import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { CoreModule } from '@cadmus/core';
 import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
-import { GeneralUiModule } from '@cadmus/parts/general/general-ui';
+import {
+  GeneralUiModule,
+  INDEX_KEYWORDS_PART_TYPEID,
+} from '@cadmus/parts/general/general-ui';
 import { EditStateModule } from '@cadmus/features/edit-state';
 import { FeaturesUiModule } from '@cadmus/features/features-ui';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -30,6 +33,16 @@ describe('IndexKeywordsPartFeatureComponent', () => {
         GeneralUiModule,
         EditStateModule,
         FeaturesUiModule,
+      ],
+      providers: [
+        {
+          provide: 'partEditorKeys',
+          useValue: {
+            [INDEX_KEYWORDS_PART_TYPEID]: {
+              part: 'general',
+            },
+          },
+        },
       ],
       declarations: [IndexKeywordsPartFeatureComponent],
     }).compileComponents();

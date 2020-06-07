@@ -20,6 +20,7 @@ export * from './lib/keywords-part-demo/keywords-part-demo.component';
 export * from './lib/note-part';
 export * from './lib/note-part/note-part.component';
 export * from './lib/note-part-demo/note-part-demo.component';
+export * from './lib/tiled-data/tiled-data.component';
 export * from './lib/tiled-text-part';
 export * from './lib/text-tile/text-tile.component';
 export * from './lib/tiled-text-part/tiled-text-part.component';

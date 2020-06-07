@@ -45,6 +45,14 @@ describe('NotePartFeatureComponent', () => {
           provide: HAMMER_LOADER,
           useValue: () => new Promise(() => {}),
         },
+        {
+          provide: 'partEditorKeys',
+          useValue: {
+            [NOTE_PART_TYPEID]: {
+              part: 'general',
+            },
+          },
+        },
       ],
       declarations: [
         CurrentItemBarComponent,

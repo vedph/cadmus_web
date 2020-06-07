@@ -93,6 +93,7 @@ import { IndexKeywordsPartDemoComponent } from './index-keywords-part-demo/index
     KeywordsPartDemoComponent,
     NotePartComponent,
     NotePartDemoComponent,
+    TiledDataComponent,
     TextTileComponent,
     TiledTextPartComponent,
     TiledTextPartDemoComponent,

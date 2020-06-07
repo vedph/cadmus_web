@@ -8,7 +8,10 @@ import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 
 import { TokenTextPartFeatureComponent } from './token-text-part-feature.component';
 import { CurrentItemBarComponent } from '@cadmus/features/features-ui';
-import { TokenTextPartComponent } from '@cadmus/parts/general/general-ui';
+import {
+  TokenTextPartComponent,
+  TILED_TEXT_PART_TYPEID,
+} from '@cadmus/parts/general/general-ui';
 import { MomentModule } from 'ngx-moment';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -32,30 +35,24 @@ describe('TokenTextPartFeatureComponent', () => {
         MomentModule,
         CoreModule,
         MaterialModule,
-        UiModule
+        UiModule,
       ],
-      // https://github.com/angular/components/issues/14668
       providers: [
         {
-          provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
+          provide: 'partEditorKeys',
+          useValue: {
+            [TILED_TEXT_PART_TYPEID]: {
+              part: 'general',
+            },
+          },
         },
-        {
-          provide: 'apiEndpoint',
-          useValue: 'http://localhost:60304/api/'
-        },
-        {
-          provide: 'databaseId',
-          useValue: 'cadmus'
-        }
       ],
       declarations: [
         CurrentItemBarComponent,
         TokenTextPartComponent,
-        TokenTextPartFeatureComponent
-      ]
-    })
-    .compileComponents();
+        TokenTextPartFeatureComponent,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

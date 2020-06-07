@@ -8,7 +8,10 @@ import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 
 import { KeywordsPartFeatureComponent } from './keywords-part-feature.component';
 import { CurrentItemBarComponent } from '@cadmus/features/features-ui';
-import { KeywordsPartComponent } from '@cadmus/parts/general/general-ui';
+import {
+  KeywordsPartComponent,
+  KEYWORDS_PART_TYPEID,
+} from '@cadmus/parts/general/general-ui';
 import { MomentModule } from 'ngx-moment';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -31,44 +34,38 @@ describe('KeywordsPartFeatureComponent', () => {
         MomentModule,
         MaterialModule,
         CoreModule,
-        UiModule
+        UiModule,
       ],
       // https://github.com/angular/components/issues/14668
       providers: [
         {
-          provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
-        },
-        {
-          provide: 'apiEndpoint',
-          useValue: 'http://localhost:60304/api/'
-        },
-        {
-          provide: 'databaseId',
-          useValue: 'cadmus'
+          provide: 'partEditorKeys',
+          useValue: {
+            [KEYWORDS_PART_TYPEID]: {
+              part: 'general',
+            },
+          },
         },
         {
           provide: MatDialog,
           useValue: {
-            open: (_: any) => { },
-            closeAll: (): void => undefined
-          }
+            open: (_: any) => {},
+            closeAll: (): void => undefined,
+          },
         },
         {
           provide: MatDialogRef,
           useValue: {
-            close: (dialogResult: any) => { },
-            afterClosed: () => { }
-          }
-        }
+            close: (dialogResult: any) => {},
+            afterClosed: () => {},
+          },
+        },
       ],
       declarations: [
         CurrentItemBarComponent,
         KeywordsPartComponent,
-        KeywordsPartFeatureComponent
-      ]
-    })
-    .compileComponents();
+        KeywordsPartFeatureComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

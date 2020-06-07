@@ -10,7 +10,10 @@ import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { UiModule } from '@cadmus/ui';
 import { CategoriesPartFeatureComponent } from './categories-part-feature.component';
 import { CurrentItemBarComponent } from '@cadmus/features/features-ui';
-import { CategoriesPartComponent } from '@cadmus/parts/general/general-ui';
+import {
+  CategoriesPartComponent,
+  CATEGORIES_PART_TYPEID,
+} from '@cadmus/parts/general/general-ui';
 import { CoreModule } from '@cadmus/core';
 
 describe('CategoriesPartFeatureComponent', () => {
@@ -28,30 +31,24 @@ describe('CategoriesPartFeatureComponent', () => {
         MomentModule,
         CoreModule,
         MaterialModule,
-        UiModule
+        UiModule,
       ],
-      // https://github.com/angular/components/issues/14668
       providers: [
         {
-          provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
+          provide: 'partEditorKeys',
+          useValue: {
+            [CATEGORIES_PART_TYPEID]: {
+              part: 'general',
+            },
+          },
         },
-        {
-          provide: 'apiEndpoint',
-          useValue: 'http://localhost:60304/api/'
-        },
-        {
-          provide: 'databaseId',
-          useValue: 'cadmus'
-        }
       ],
       declarations: [
         CurrentItemBarComponent,
         CategoriesPartComponent,
-        CategoriesPartFeatureComponent
-      ]
-    })
-    .compileComponents();
+        CategoriesPartFeatureComponent,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

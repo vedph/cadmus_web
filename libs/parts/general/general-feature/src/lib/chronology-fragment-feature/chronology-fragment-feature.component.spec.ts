@@ -8,11 +8,15 @@ import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 
 import { ChronologyFragmentFeatureComponent } from './chronology-fragment-feature.component';
 import { CurrentItemBarComponent } from '@cadmus/features/features-ui';
-import { ChronologyFragmentComponent } from '@cadmus/parts/general/general-ui';
+import {
+  ChronologyFragmentComponent,
+  CHRONOLOGY_FRAGMENT_TYPEID,
+} from '@cadmus/parts/general/general-ui';
 import { MomentModule } from 'ngx-moment';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '@cadmus/core';
+import { ActivatedRoute } from '@angular/router';
 
 describe('ChronologyFragmentFeatureComponent', () => {
   let component: ChronologyFragmentFeatureComponent;
@@ -30,30 +34,38 @@ describe('ChronologyFragmentFeatureComponent', () => {
         CoreModule,
         MaterialModule,
         MomentModule,
-        UiModule
+        UiModule,
       ],
-      // https://github.com/angular/components/issues/14668
       providers: [
         {
-          provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
+          provide: 'partEditorKeys',
+          useValue: {
+            [CHRONOLOGY_FRAGMENT_TYPEID]: {
+              part: 'general',
+            },
+          },
         },
         {
-          provide: 'apiEndpoint',
-          useValue: 'http://localhost:60304/api/'
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              params: {
+                iid: '',
+                pid: '',
+                loc: '',
+              },
+              url: [{}, {}],
+              queryParams: {},
+            },
+          },
         },
-        {
-          provide: 'databaseId',
-          useValue: 'cadmus'
-        }
       ],
       declarations: [
         CurrentItemBarComponent,
         ChronologyFragmentComponent,
-        ChronologyFragmentFeatureComponent
-      ]
-    })
-    .compileComponents();
+        ChronologyFragmentFeatureComponent,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

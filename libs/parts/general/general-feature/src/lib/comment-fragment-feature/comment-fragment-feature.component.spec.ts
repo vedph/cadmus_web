@@ -8,13 +8,17 @@ import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 
 import { CommentFragmentFeatureComponent } from './comment-fragment-feature.component';
 import { CurrentItemBarComponent } from '@cadmus/features/features-ui';
-import { CommentFragmentComponent } from '@cadmus/parts/general/general-ui';
+import {
+  CommentFragmentComponent,
+  CHRONOLOGY_FRAGMENT_TYPEID,
+} from '@cadmus/parts/general/general-ui';
 import { MomentModule } from 'ngx-moment';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MarkdownModule } from 'ngx-markdown';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '@cadmus/core';
+import { ActivatedRoute } from '@angular/router';
 
 describe('CommentFragmentFeatureComponent', () => {
   let component: CommentFragmentFeatureComponent;
@@ -36,11 +40,28 @@ describe('CommentFragmentFeatureComponent', () => {
         CoreModule,
         UiModule,
       ],
-      // https://github.com/angular/components/issues/14668
       providers: [
         {
-          provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {}),
+          provide: 'partEditorKeys',
+          useValue: {
+            [CHRONOLOGY_FRAGMENT_TYPEID]: {
+              part: 'general',
+            },
+          },
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              params: {
+                iid: '',
+                pid: '',
+                loc: '',
+              },
+              url: [{}, {}],
+              queryParams: {},
+            },
+          },
         },
       ],
       declarations: [

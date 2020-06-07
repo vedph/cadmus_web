@@ -8,7 +8,10 @@ import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 
 import { HistoricalDatePartFeatureComponent } from './historical-date-part-feature.component';
 import { CurrentItemBarComponent } from '@cadmus/features/features-ui';
-import { HistoricalDatePartComponent } from '@cadmus/parts/general/general-ui';
+import {
+  HistoricalDatePartComponent,
+  HISTORICAL_DATE_PART_TYPEID,
+} from '@cadmus/parts/general/general-ui';
 import { MomentModule } from 'ngx-moment';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -30,30 +33,24 @@ describe('HistoricalDatePartFeatureComponent', () => {
         MomentModule,
         CoreModule,
         MaterialModule,
-        UiModule
+        UiModule,
       ],
-      // https://github.com/angular/components/issues/14668
       providers: [
         {
-          provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
+          provide: 'partEditorKeys',
+          useValue: {
+            [HISTORICAL_DATE_PART_TYPEID]: {
+              part: 'general',
+            },
+          },
         },
-        {
-          provide: 'apiEndpoint',
-          useValue: 'http://localhost:60304/api/'
-        },
-        {
-          provide: 'databaseId',
-          useValue: 'cadmus'
-        }
       ],
       declarations: [
         CurrentItemBarComponent,
         HistoricalDatePartComponent,
-        HistoricalDatePartFeatureComponent
-      ]
-    })
-    .compileComponents();
+        HistoricalDatePartFeatureComponent,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

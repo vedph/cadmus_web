@@ -9,9 +9,16 @@ import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { MomentModule } from 'ngx-moment';
 import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
-import { HAMMER_LOADER } from '@angular/platform-browser';
-import { CurrentItemBarComponent, FeaturesUiModule } from '@cadmus/features/features-ui';
+import {
+  FeaturesUiModule,
+} from '@cadmus/features/features-ui';
 import { CoreModule } from '@cadmus/core';
+import {
+  TILED_TEXT_PART_TYPEID,
+  TiledDataComponent,
+  TiledTextPartComponent,
+  TextTileComponent,
+} from '@cadmus/parts/general/general-ui';
 
 describe('TiledTextPartFeatureComponent', () => {
   let component: TiledTextPartFeatureComponent;
@@ -30,29 +37,25 @@ describe('TiledTextPartFeatureComponent', () => {
         MaterialModule,
         CoreModule,
         UiModule,
-        FeaturesUiModule
+        FeaturesUiModule,
       ],
-      // https://github.com/angular/components/issues/14668
       providers: [
         {
-          provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
+          provide: 'partEditorKeys',
+          useValue: {
+            [TILED_TEXT_PART_TYPEID]: {
+              part: 'general',
+            },
+          },
         },
-        {
-          provide: 'apiEndpoint',
-          useValue: 'http://localhost:60304/api/'
-        },
-        {
-          provide: 'databaseId',
-          useValue: 'cadmus'
-        }
       ],
       declarations: [
-        CurrentItemBarComponent,
+        TiledDataComponent,
+        TextTileComponent,
+        TiledTextPartComponent,
         TiledTextPartFeatureComponent,
-      ]
-    })
-    .compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
