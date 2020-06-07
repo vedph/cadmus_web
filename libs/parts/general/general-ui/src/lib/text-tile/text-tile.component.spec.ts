@@ -5,6 +5,7 @@ import { UiModule } from '@cadmus/ui';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from '@cadmus/core';
 import { MaterialModule } from '@cadmus/material';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('TextTileComponent', () => {
   let component: TextTileComponent;
@@ -15,6 +16,7 @@ describe('TextTileComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
+        NoopAnimationsModule,
         CoreModule,
         MaterialModule,
         UiModule,

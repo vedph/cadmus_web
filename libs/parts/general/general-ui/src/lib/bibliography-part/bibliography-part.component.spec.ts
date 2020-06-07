@@ -6,6 +6,8 @@ import { CoreModule } from '@cadmus/core';
 import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
 import { BibliographyEntryComponent } from '../bibliography-entry/bibliography-entry.component';
+import { BibAuthorsEditorComponent } from '../bib-authors-editor/bib-authors-editor.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('BibliographyPartComponent', () => {
   let component: BibliographyPartComponent;
@@ -17,10 +19,12 @@ describe('BibliographyPartComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         CoreModule,
+        NoopAnimationsModule,
         MaterialModule,
         UiModule,
       ],
       declarations: [
+        BibAuthorsEditorComponent,
         BibliographyEntryComponent,
         BibliographyPartComponent
       ],

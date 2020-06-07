@@ -6,8 +6,12 @@ import { MaterialModule } from '@cadmus/material';
 import { NotePartDemoComponent } from './note-part-demo.component';
 import { NotePartComponent } from '../note-part/note-part.component';
 import { UiModule } from '@cadmus/ui';
-import { MonacoEditorModule } from 'ngx-monaco-editor';
-import { MarkdownModule } from 'ngx-markdown';
+import {
+  MonacoEditorModule,
+  NGX_MONACO_EDITOR_CONFIG,
+} from 'ngx-monaco-editor';
+import { MarkdownModule, MarkdownService, MarkedOptions } from 'ngx-markdown';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('NotePartDemoComponent', () => {
   let component: NotePartDemoComponent;
@@ -19,12 +23,24 @@ describe('NotePartDemoComponent', () => {
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        NoopAnimationsModule,
         MaterialModule,
         MonacoEditorModule,
         MarkdownModule,
         UiModule,
       ],
       declarations: [NotePartComponent, NotePartDemoComponent],
+      providers: [
+        {
+          provide: NGX_MONACO_EDITOR_CONFIG,
+          useValue: {},
+        },
+        {
+          provide: MarkedOptions,
+          useValue: {},
+        },
+        MarkdownService,
+      ],
     }).compileComponents();
   }));
 

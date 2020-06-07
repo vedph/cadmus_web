@@ -1,13 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '@cadmus/material';
 
 import { TokenTextPartDemoComponent } from './token-text-part-demo.component';
 import { TokenTextPartComponent } from '../token-text-part/token-text-part.component';
 import { UiModule } from '@cadmus/ui';
-import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { MonacoEditorModule, NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor';
+import { TextTileComponent } from '../text-tile/text-tile.component';
 
 describe('TokenTextPartDemoComponent', () => {
   let component: TokenTextPartDemoComponent;
@@ -19,12 +20,22 @@ describe('TokenTextPartDemoComponent', () => {
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        BrowserAnimationsModule,
+        NoopAnimationsModule,
         MaterialModule,
         MonacoEditorModule,
         UiModule,
       ],
-      declarations: [TokenTextPartComponent, TokenTextPartDemoComponent],
+      declarations: [
+        TextTileComponent,
+        TokenTextPartComponent,
+        TokenTextPartDemoComponent
+      ],
+      providers: [
+        {
+          provide: NGX_MONACO_EDITOR_CONFIG,
+          useValue: {},
+        },
+      ],
     }).compileComponents();
   }));
 

@@ -6,6 +6,8 @@ import { MaterialModule } from '@cadmus/material';
 import { ChronologyFragmentDemoComponent } from './chronology-fragment-demo.component';
 import { ChronologyFragmentComponent } from '../chronology-fragment/chronology-fragment.component';
 import { UiModule } from '@cadmus/ui';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor';
 
 describe('ChronologyFragmentDemoComponent', () => {
   let component: ChronologyFragmentDemoComponent;
@@ -17,12 +19,19 @@ describe('ChronologyFragmentDemoComponent', () => {
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        NoopAnimationsModule,
         MaterialModule,
         UiModule,
       ],
       declarations: [
         ChronologyFragmentComponent,
         ChronologyFragmentDemoComponent,
+      ],
+      providers: [
+        {
+          provide: NGX_MONACO_EDITOR_CONFIG,
+          useValue: {},
+        },
       ],
     }).compileComponents();
   }));

@@ -1,4 +1,4 @@
-<form [formGroup]="parentForm">
+<form *ngIf="parentForm" [formGroup]="parentForm">
   <div [formArrayName]="controlName">
     <div *ngIf="!authors || !authors.length" style="margin: 8px 0;">
       <button

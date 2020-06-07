@@ -8,6 +8,8 @@ import { HistoricalDatePartDemoComponent } from './historical-date-part-demo.com
 import { HistoricalDatePartComponent } from '../historical-date-part/historical-date-part.component';
 import { UiModule } from '@cadmus/ui';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('HistoricalDatePartDemoComponent', () => {
   let component: HistoricalDatePartDemoComponent;
@@ -19,36 +21,40 @@ describe('HistoricalDatePartDemoComponent', () => {
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        NoopAnimationsModule,
         MaterialModule,
-        UiModule
+        UiModule,
       ],
       // https://github.com/angular/components/issues/14668
       providers: [
         {
           provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
+          useValue: () => new Promise(() => {}),
+        },
+        {
+          provide: NGX_MONACO_EDITOR_CONFIG,
+          useValue: {},
         },
         {
           provide: MatDialog,
           useValue: {
-            open: (_: any) => { },
-            closeAll: (): void => undefined
-          }
+            open: (_: any) => {},
+            closeAll: (): void => undefined,
+          },
         },
         {
           provide: MatDialogRef,
           useValue: {
-            close: (dialogResult: any) => { },
-            afterClosed: () => { }
-          }
-        }
+            close: (dialogResult: any) => {},
+            afterClosed: () => {},
+          },
+        },
       ],
       declarations: [
         HistoricalDatePartComponent,
-        HistoricalDatePartDemoComponent
-      ]
-    })
-    .compileComponents();
+        HistoricalDatePartDemoComponent,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

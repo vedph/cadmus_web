@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@cadmus/material';
 import { HAMMER_LOADER } from '@angular/platform-browser';
 import { UiModule } from '@cadmus/ui';
+import { NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor';
 
 describe('CategoriesPartComponent', () => {
   let component: CategoriesPartComponent;
@@ -21,6 +22,12 @@ describe('CategoriesPartComponent', () => {
         UiModule,
       ],
       declarations: [CategoriesPartComponent],
+      providers: [
+        {
+          provide: NGX_MONACO_EDITOR_CONFIG,
+          useValue: {},
+        },
+      ],
     }).compileComponents();
   }));
 

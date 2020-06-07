@@ -5,9 +5,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from '@cadmus/core';
 import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { IndexKeywordComponent } from '../index-keyword/index-keyword.component';
 
 describe('IndexKeywordsPartComponent', () => {
-  let component: IndexKeywordsPartComponent;
+let component: IndexKeywordsPartComponent;
   let fixture: ComponentFixture<IndexKeywordsPartComponent>;
 
   beforeEach(async(() => {
@@ -15,11 +17,13 @@ describe('IndexKeywordsPartComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
+        NoopAnimationsModule,
         CoreModule,
         MaterialModule,
         UiModule,
       ],
       declarations: [
+        IndexKeywordComponent,
         IndexKeywordsPartComponent
       ],
     }).compileComponents();

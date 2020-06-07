@@ -7,6 +7,8 @@ import { HAMMER_LOADER } from '@angular/platform-browser';
 import { KeywordsPartDemoComponent } from './keywords-part-demo.component';
 import { KeywordsPartComponent } from '../keywords-part/keywords-part.component';
 import { UiModule } from '@cadmus/ui';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor';
 
 describe('KeywordsPartDemoComponent', () => {
   let component: KeywordsPartDemoComponent;
@@ -18,10 +20,17 @@ describe('KeywordsPartDemoComponent', () => {
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        NoopAnimationsModule,
         MaterialModule,
         UiModule,
       ],
       declarations: [KeywordsPartComponent, KeywordsPartDemoComponent],
+      providers: [
+        {
+          provide: NGX_MONACO_EDITOR_CONFIG,
+          useValue: {},
+        },
+      ]
     }).compileComponents();
   }));
 

@@ -5,9 +5,11 @@
       <!-- typeId -->
       <mat-form-field *ngIf="typeThesaurus">
         <mat-select formControlName="type" placeholder="type">
-          <mat-option *ngFor="let e of typeThesaurus.entries" [value]="e.id">{{
-            e.value
-          }}</mat-option>
+          <mat-option
+            *ngFor="let e of typeThesaurus?.entries || []"
+            [value]="e.id"
+            >{{ e.value }}</mat-option
+          >
         </mat-select>
       </mat-form-field>
       <mat-form-field *ngIf="!typeThesaurus">
@@ -33,7 +35,7 @@
         <mat-form-field *ngIf="langThesaurus">
           <mat-select formControlName="language" placeholder="language">
             <mat-option
-              *ngFor="let e of langThesaurus.entries"
+              *ngFor="let e of langThesaurus?.entries || []"
               [value]="e.id"
               >{{ e.value }}</mat-option
             >
@@ -292,7 +294,7 @@
           <mat-form-field>
             <mat-select formControlName="keyLanguage" placeholder="language">
               <mat-option
-                *ngFor="let e of langThesaurus.entries"
+                *ngFor="let e of langThesaurus?.entries || []"
                 [value]="e.id"
                 >{{ e.value }}</mat-option
               >

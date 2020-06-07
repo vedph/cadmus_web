@@ -8,6 +8,7 @@ import { CommentFragmentComponent } from '../comment-fragment/comment-fragment.c
 import { UiModule } from '@cadmus/ui';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MarkdownModule } from 'ngx-markdown';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CommentFragmentDemoComponent', () => {
   let component: CommentFragmentDemoComponent;
@@ -19,6 +20,7 @@ describe('CommentFragmentDemoComponent', () => {
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        NoopAnimationsModule,
         MaterialModule,
         MonacoEditorModule.forRoot(),
         MarkdownModule.forRoot(),

@@ -24,7 +24,7 @@ export class BibAuthorsEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authors = this.parentForm.controls[this.controlName] as FormArray;
+    this.authors = this.parentForm?.controls[this.controlName] as FormArray;
   }
 
   private getAuthorGroup(author?: BibAuthor): FormGroup {
