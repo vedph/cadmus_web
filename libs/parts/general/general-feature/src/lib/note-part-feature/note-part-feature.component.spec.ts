@@ -8,12 +8,16 @@ import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 
 import { NotePartFeatureComponent } from './note-part-feature.component';
 import { CurrentItemBarComponent } from '@cadmus/features/features-ui';
-import { NotePartComponent } from '@cadmus/parts/general/general-ui';
+import {
+  NotePartComponent,
+  NOTE_PART_TYPEID,
+} from '@cadmus/parts/general/general-ui';
 import { MomentModule } from 'ngx-moment';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MarkdownModule } from 'ngx-markdown';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CoreModule, PartEditorKeys } from '@cadmus/core';
 
 describe('NotePartFeatureComponent', () => {
   let component: NotePartFeatureComponent;
@@ -32,30 +36,22 @@ describe('NotePartFeatureComponent', () => {
         MarkdownModule.forRoot(),
         MomentModule,
         MaterialModule,
-        UiModule
+        CoreModule,
+        UiModule,
       ],
       // https://github.com/angular/components/issues/14668
       providers: [
         {
           provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
+          useValue: () => new Promise(() => {}),
         },
-        {
-          provide: 'apiEndpoint',
-          useValue: 'http://localhost:60304/api/'
-        },
-        {
-          provide: 'databaseId',
-          useValue: 'cadmus'
-        }
       ],
       declarations: [
         CurrentItemBarComponent,
         NotePartComponent,
-        NotePartFeatureComponent
-      ]
-    })
-    .compileComponents();
+        NotePartFeatureComponent,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

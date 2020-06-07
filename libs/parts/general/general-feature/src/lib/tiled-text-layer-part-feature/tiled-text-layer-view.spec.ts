@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HAMMER_LOADER } from '@angular/platform-browser';
 
 import { TextTileRow } from '@cadmus/parts/general/general-ui';
-import { TokenLocation } from '@cadmus/core';
+import { TokenLocation, CoreModule } from '@cadmus/core';
 import { TiledTextLayerView } from './tiled-text-layer-view';
 
 describe('TiledTextLayerView', () => {
@@ -19,7 +19,8 @@ describe('TiledTextLayerView', () => {
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        RouterTestingModule
+        RouterTestingModule,
+        CoreModule,
       ],
       // https://github.com/angular/components/issues/14668
       providers: [

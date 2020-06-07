@@ -12,6 +12,7 @@ import { ChronologyFragmentComponent } from '@cadmus/parts/general/general-ui';
 import { MomentModule } from 'ngx-moment';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CoreModule } from '@cadmus/core';
 
 describe('ChronologyFragmentFeatureComponent', () => {
   let component: ChronologyFragmentFeatureComponent;
@@ -26,6 +27,7 @@ describe('ChronologyFragmentFeatureComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule,
         AkitaNgDevtools.forRoot(),
+        CoreModule,
         MaterialModule,
         MomentModule,
         UiModule

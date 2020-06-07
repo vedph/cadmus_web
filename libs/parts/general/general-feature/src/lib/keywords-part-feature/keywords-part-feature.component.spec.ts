@@ -13,6 +13,7 @@ import { MomentModule } from 'ngx-moment';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { CoreModule } from '@cadmus/core';
 
 describe('KeywordsPartFeatureComponent', () => {
   let component: KeywordsPartFeatureComponent;
@@ -29,6 +30,7 @@ describe('KeywordsPartFeatureComponent', () => {
         AkitaNgDevtools.forRoot(),
         MomentModule,
         MaterialModule,
+        CoreModule,
         UiModule
       ],
       // https://github.com/angular/components/issues/14668

@@ -11,6 +11,7 @@ import { UiModule } from '@cadmus/ui';
 import { CategoriesPartFeatureComponent } from './categories-part-feature.component';
 import { CurrentItemBarComponent } from '@cadmus/features/features-ui';
 import { CategoriesPartComponent } from '@cadmus/parts/general/general-ui';
+import { CoreModule } from '@cadmus/core';
 
 describe('CategoriesPartFeatureComponent', () => {
   let component: CategoriesPartFeatureComponent;
@@ -25,6 +26,7 @@ describe('CategoriesPartFeatureComponent', () => {
         RouterTestingModule,
         AkitaNgDevtools.forRoot(),
         MomentModule,
+        CoreModule,
         MaterialModule,
         UiModule
       ],

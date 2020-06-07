@@ -11,6 +11,7 @@ import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
 import { HAMMER_LOADER } from '@angular/platform-browser';
 import { CurrentItemBarComponent, FeaturesUiModule } from '@cadmus/features/features-ui';
+import { CoreModule } from '@cadmus/core';
 
 describe('TiledTextPartFeatureComponent', () => {
   let component: TiledTextPartFeatureComponent;
@@ -27,6 +28,7 @@ describe('TiledTextPartFeatureComponent', () => {
         AkitaNgDevtools.forRoot(),
         MomentModule,
         MaterialModule,
+        CoreModule,
         UiModule,
         FeaturesUiModule
       ],

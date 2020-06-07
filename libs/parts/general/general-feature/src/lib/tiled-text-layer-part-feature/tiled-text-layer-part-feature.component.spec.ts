@@ -12,6 +12,7 @@ import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
 import { HAMMER_LOADER } from '@angular/platform-browser';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { CoreModule } from '@cadmus/core';
 
 describe('TiledTextLayerPartFeatureComponent', () => {
   let component: TiledTextLayerPartFeatureComponent;
@@ -28,6 +29,7 @@ describe('TiledTextLayerPartFeatureComponent', () => {
         AkitaNgDevtools.forRoot(),
         MomentModule,
         MaterialModule,
+        CoreModule,
         UiModule,
         FeaturesUiModule
       ],

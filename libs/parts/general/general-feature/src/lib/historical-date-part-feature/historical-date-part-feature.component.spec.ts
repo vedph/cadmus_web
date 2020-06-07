@@ -12,6 +12,7 @@ import { HistoricalDatePartComponent } from '@cadmus/parts/general/general-ui';
 import { MomentModule } from 'ngx-moment';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CoreModule } from '@cadmus/core';
 
 describe('HistoricalDatePartFeatureComponent', () => {
   let component: HistoricalDatePartFeatureComponent;
@@ -27,6 +28,7 @@ describe('HistoricalDatePartFeatureComponent', () => {
         RouterTestingModule,
         AkitaNgDevtools.forRoot(),
         MomentModule,
+        CoreModule,
         MaterialModule,
         UiModule
       ],

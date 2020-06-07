@@ -13,6 +13,7 @@ import { MomentModule } from 'ngx-moment';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CoreModule } from '@cadmus/core';
 
 describe('TokenTextPartFeatureComponent', () => {
   let component: TokenTextPartFeatureComponent;
@@ -29,6 +30,7 @@ describe('TokenTextPartFeatureComponent', () => {
         AkitaNgDevtools.forRoot(),
         MonacoEditorModule.forRoot(),
         MomentModule,
+        CoreModule,
         MaterialModule,
         UiModule
       ],

@@ -14,6 +14,7 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MarkdownModule } from 'ngx-markdown';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CoreModule } from '@cadmus/core';
 
 describe('CommentFragmentFeatureComponent', () => {
   let component: CommentFragmentFeatureComponent;
@@ -32,30 +33,22 @@ describe('CommentFragmentFeatureComponent', () => {
         MonacoEditorModule.forRoot(),
         MarkdownModule.forRoot(),
         MomentModule,
-        UiModule
+        CoreModule,
+        UiModule,
       ],
       // https://github.com/angular/components/issues/14668
       providers: [
         {
           provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
+          useValue: () => new Promise(() => {}),
         },
-        {
-          provide: 'apiEndpoint',
-          useValue: 'http://localhost:60304/api/'
-        },
-        {
-          provide: 'databaseId',
-          useValue: 'cadmus'
-        }
       ],
       declarations: [
         CurrentItemBarComponent,
         CommentFragmentComponent,
-        CommentFragmentFeatureComponent
-      ]
-    })
-    .compileComponents();
+        CommentFragmentFeatureComponent,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

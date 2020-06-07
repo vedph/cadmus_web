@@ -12,6 +12,7 @@ import { UiModule } from '@cadmus/ui';
 import { HAMMER_LOADER } from '@angular/platform-browser';
 import { CurrentItemBarComponent } from '@cadmus/features/features-ui';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { CoreModule } from '@cadmus/core';
 
 describe('TokenTextLayerPartFeatureComponent', () => {
   let component: TokenTextLayerPartFeatureComponent;
@@ -27,6 +28,7 @@ describe('TokenTextLayerPartFeatureComponent', () => {
         RouterTestingModule,
         AkitaNgDevtools.forRoot(),
         MomentModule,
+        CoreModule,
         MaterialModule,
         UiModule
       ],
