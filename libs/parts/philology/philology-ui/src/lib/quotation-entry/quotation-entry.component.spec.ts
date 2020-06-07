@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { QuotationEntryComponent } from './quotation-entry.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CoreModule } from '@cadmus/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from '@cadmus/material';
+import { UiModule } from '@cadmus/ui';
 
 describe('QuotationEntryComponent', () => {
   let component: QuotationEntryComponent;
@@ -8,9 +13,16 @@ describe('QuotationEntryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QuotationEntryComponent ]
-    })
-    .compileComponents();
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        CoreModule,
+        NoopAnimationsModule,
+        MaterialModule,
+        UiModule,
+      ],
+      declarations: [QuotationEntryComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
