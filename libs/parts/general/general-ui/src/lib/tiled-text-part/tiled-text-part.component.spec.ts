@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TiledTextPartComponent } from './tiled-text-part.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CoreModule } from '@cadmus/core';
+import { MaterialModule } from '@cadmus/material';
+import { UiModule } from '@cadmus/ui';
 
 describe('TiledTextPartComponent', () => {
   let component: TiledTextPartComponent;
@@ -8,9 +12,15 @@ describe('TiledTextPartComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TiledTextPartComponent ]
-    })
-    .compileComponents();
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        CoreModule,
+        MaterialModule,
+        UiModule,
+      ],
+      declarations: [TiledTextPartComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

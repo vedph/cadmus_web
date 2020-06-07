@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '@cadmus/material';
-import { HAMMER_LOADER } from '@angular/platform-browser';
 
 import { HistoricalDatePartComponent } from './historical-date-part.component';
 import { UiModule } from '@cadmus/ui';
@@ -20,28 +19,10 @@ describe('HistoricalDatePartComponent', () => {
         ReactiveFormsModule,
         BrowserAnimationsModule,
         MaterialModule,
-        UiModule
+        UiModule,
       ],
-      // https://github.com/angular/components/issues/14668
-      providers: [
-        {
-          provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
-        },
-        {
-          provide: 'apiEndpoint',
-          useValue: 'http://localhost:60304/api/'
-        },
-        {
-          provide: 'databaseId',
-          useValue: 'cadmus'
-        }
-      ],
-      declarations: [
-        HistoricalDatePartComponent
-      ]
-    })
-    .compileComponents();
+      declarations: [HistoricalDatePartComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@cadmus/material';
-import { HAMMER_LOADER } from '@angular/platform-browser';
 
 import { NotePartDemoComponent } from './note-part-demo.component';
 import { NotePartComponent } from '../note-part/note-part.component';
@@ -23,21 +22,10 @@ describe('NotePartDemoComponent', () => {
         MaterialModule,
         MonacoEditorModule,
         MarkdownModule,
-        UiModule
+        UiModule,
       ],
-      // https://github.com/angular/components/issues/14668
-      providers: [
-        {
-          provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
-        }
-      ],
-      declarations: [
-        NotePartComponent,
-        NotePartDemoComponent
-      ]
-    })
-    .compileComponents();
+      declarations: [NotePartComponent, NotePartDemoComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

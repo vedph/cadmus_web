@@ -9,7 +9,7 @@ import { CommentFragmentComponent } from './comment-fragment.component';
 import { UiModule } from '@cadmus/ui';
 import {
   MonacoEditorModule,
-  NGX_MONACO_EDITOR_CONFIG
+  NGX_MONACO_EDITOR_CONFIG,
 } from 'ngx-monaco-editor';
 import { MarkdownModule } from 'ngx-markdown';
 
@@ -27,28 +27,20 @@ describe('CommentFragmentComponent', () => {
         MaterialModule,
         MonacoEditorModule.forRoot(),
         MarkdownModule.forRoot(),
-        UiModule
+        UiModule,
       ],
       // https://github.com/angular/components/issues/14668
       providers: [
         {
           provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
+          useValue: () => new Promise(() => {}),
         },
         {
           provide: NGX_MONACO_EDITOR_CONFIG,
-          useValue: {}
+          useValue: {},
         },
-        {
-          provide: 'apiEndpoint',
-          useValue: 'http://localhost:60304/api/'
-        },
-        {
-          provide: 'databaseId',
-          useValue: 'cadmus'
-        }
       ],
-      declarations: [CommentFragmentComponent]
+      declarations: [CommentFragmentComponent],
     }).compileComponents();
   }));
 

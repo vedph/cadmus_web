@@ -21,42 +21,31 @@ describe('KeywordsPartComponent', () => {
         ReactiveFormsModule,
         BrowserAnimationsModule,
         MaterialModule,
-        UiModule
+        UiModule,
       ],
       // https://github.com/angular/components/issues/14668
       providers: [
         {
           provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
+          useValue: () => new Promise(() => {}),
         },
         {
           provide: MatDialog,
           useValue: {
-            open: (_: any) => { },
-            closeAll: (): void => undefined
-          }
+            open: (_: any) => {},
+            closeAll: (): void => undefined,
+          },
         },
         {
           provide: MatDialogRef,
           useValue: {
-            close: (dialogResult: any) => { },
-            afterClosed: () => { }
-          }
+            close: (dialogResult: any) => {},
+            afterClosed: () => {},
+          },
         },
-        {
-          provide: 'apiEndpoint',
-          useValue: 'http://localhost:60304/api/'
-        },
-        {
-          provide: 'databaseId',
-          useValue: 'cadmus'
-        }
       ],
-      declarations: [
-        KeywordsPartComponent
-      ]
-    })
-    .compileComponents();
+      declarations: [KeywordsPartComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

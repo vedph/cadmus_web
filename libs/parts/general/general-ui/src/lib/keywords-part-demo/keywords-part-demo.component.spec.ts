@@ -19,21 +19,10 @@ describe('KeywordsPartDemoComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
-        UiModule
+        UiModule,
       ],
-      // https://github.com/angular/components/issues/14668
-      providers: [
-        {
-          provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
-        }
-      ],
-      declarations: [
-        KeywordsPartComponent,
-        KeywordsPartDemoComponent
-      ]
-    })
-    .compileComponents();
+      declarations: [KeywordsPartComponent, KeywordsPartDemoComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TextTileComponent } from './text-tile.component';
+import { UiModule } from '@cadmus/ui';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CoreModule } from '@cadmus/core';
+import { MaterialModule } from '@cadmus/material';
 
 describe('TextTileComponent', () => {
   let component: TextTileComponent;
@@ -8,9 +12,15 @@ describe('TextTileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TextTileComponent ]
-    })
-    .compileComponents();
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        CoreModule,
+        MaterialModule,
+        UiModule,
+      ],
+      declarations: [TextTileComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

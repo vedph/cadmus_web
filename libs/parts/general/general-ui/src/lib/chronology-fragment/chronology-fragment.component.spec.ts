@@ -22,21 +22,6 @@ describe('ChronologyFragmentComponent', () => {
         MaterialModule,
         UiModule
       ],
-      // https://github.com/angular/components/issues/14668
-      providers: [
-        {
-          provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
-        },
-        {
-          provide: 'apiEndpoint',
-          useValue: 'http://localhost:60304/api/'
-        },
-        {
-          provide: 'databaseId',
-          useValue: 'cadmus'
-        }
-      ],
       declarations: [
         ChronologyFragmentComponent
       ]

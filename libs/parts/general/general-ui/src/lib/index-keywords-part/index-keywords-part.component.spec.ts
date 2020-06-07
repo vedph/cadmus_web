@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IndexKeywordsPartComponent } from './index-keywords-part.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CoreModule } from '@cadmus/core';
+import { MaterialModule } from '@cadmus/material';
+import { UiModule } from '@cadmus/ui';
 
 describe('IndexKeywordsPartComponent', () => {
   let component: IndexKeywordsPartComponent;
@@ -8,9 +12,17 @@ describe('IndexKeywordsPartComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IndexKeywordsPartComponent ]
-    })
-    .compileComponents();
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        CoreModule,
+        MaterialModule,
+        UiModule,
+      ],
+      declarations: [
+        IndexKeywordsPartComponent
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

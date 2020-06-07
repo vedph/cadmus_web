@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BibliographyPartComponent } from './bibliography-part.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CoreModule } from '@cadmus/core';
+import { MaterialModule } from '@cadmus/material';
+import { UiModule } from '@cadmus/ui';
+import { BibliographyEntryComponent } from '../bibliography-entry/bibliography-entry.component';
 
 describe('BibliographyPartComponent', () => {
   let component: BibliographyPartComponent;
@@ -8,9 +13,18 @@ describe('BibliographyPartComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BibliographyPartComponent ]
-    })
-    .compileComponents();
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        CoreModule,
+        MaterialModule,
+        UiModule,
+      ],
+      declarations: [
+        BibliographyEntryComponent,
+        BibliographyPartComponent
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

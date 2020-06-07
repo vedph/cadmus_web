@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TiledDataComponent } from './tiled-data.component';
+import { UiModule } from '@cadmus/ui';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CoreModule } from '@cadmus/core';
+import { MaterialModule } from '@cadmus/material';
 
 describe('TiledDataComponent', () => {
   let component: TiledDataComponent;
@@ -8,9 +12,15 @@ describe('TiledDataComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TiledDataComponent ]
-    })
-    .compileComponents();
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        CoreModule,
+        MaterialModule,
+        UiModule,
+      ],
+      declarations: [TiledDataComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

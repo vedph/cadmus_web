@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BibAuthorsEditorComponent } from './bib-authors-editor.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CoreModule } from '@cadmus/core';
+import { MaterialModule } from '@cadmus/material';
+import { UiModule } from '@cadmus/ui';
 
 describe('BibAuthorsEditorComponent', () => {
   let component: BibAuthorsEditorComponent;
@@ -8,9 +12,15 @@ describe('BibAuthorsEditorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BibAuthorsEditorComponent ]
-    })
-    .compileComponents();
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        CoreModule,
+        MaterialModule,
+        UiModule,
+      ],
+      declarations: [BibAuthorsEditorComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
