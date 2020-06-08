@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { QuotationsFragmentComponent } from './quotations-fragment.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CoreModule } from '@cadmus/core';
+import { CoreModule, JsonSchemaService } from '@cadmus/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
@@ -20,6 +20,12 @@ describe('QuotationsFragmentComponent', () => {
         NoopAnimationsModule,
         MaterialModule,
         UiModule,
+      ],
+      providers: [
+        {
+          provide: JsonSchemaService,
+          useValue: {},
+        },
       ],
       declarations: [QuotationsFragmentComponent],
     }).compileComponents();

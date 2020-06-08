@@ -8,6 +8,7 @@ import { WitnessesFragmentComponent } from './witnesses-fragment.component';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { UiModule } from '@cadmus/ui';
 import { MarkdownModule } from 'ngx-markdown';
+import { JsonSchemaService } from '@cadmus/core';
 
 describe('WitnessesFragmentComponent', () => {
   let component: WitnessesFragmentComponent;
@@ -24,20 +25,11 @@ describe('WitnessesFragmentComponent', () => {
         MaterialModule,
         UiModule
       ],
-      // https://github.com/angular/components/issues/14668
       providers: [
         {
-          provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
+          provide: JsonSchemaService,
+          useValue: {},
         },
-        {
-          provide: 'apiEndpoint',
-          useValue: 'http://localhost:60304/api/'
-        },
-        {
-          provide: 'databaseId',
-          useValue: 'cadmus'
-        }
       ],
       declarations: [
         WitnessesFragmentComponent

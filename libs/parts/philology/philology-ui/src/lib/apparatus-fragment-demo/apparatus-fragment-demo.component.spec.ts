@@ -2,11 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@cadmus/material';
-import { HAMMER_LOADER } from '@angular/platform-browser';
 
 import { ApparatusFragmentDemoComponent } from './apparatus-fragment-demo.component';
 import { ApparatusFragmentComponent } from '../apparatus-fragment/apparatus-fragment.component';
 import { UiModule } from '@cadmus/ui';
+import { JsonSchemaService } from '@cadmus/core';
 
 describe('ApparatusFragmentDemoComponent', () => {
   let component: ApparatusFragmentDemoComponent;
@@ -19,21 +19,19 @@ describe('ApparatusFragmentDemoComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
-        UiModule
+        UiModule,
       ],
-      // https://github.com/angular/components/issues/14668
       providers: [
         {
-          provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
-        }
+          provide: JsonSchemaService,
+          useValue: {},
+        },
       ],
       declarations: [
         ApparatusFragmentComponent,
-        ApparatusFragmentDemoComponent
-      ]
-    })
-    .compileComponents();
+        ApparatusFragmentDemoComponent,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -2,10 +2,19 @@ import { TestBed } from '@angular/core/testing';
 import { diff_match_patch } from 'diff-match-patch';
 import { DifferResultToMspAdapter } from './differ-result-to-msp-adapter';
 import { MspOperator } from './msp-operation';
+import { CoreModule, JsonSchemaService } from '@cadmus/core';
 
 describe('Class: DifferResultToMspAdapter', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [CoreModule],
+      providers: [
+        {
+          provide: JsonSchemaService,
+          useValue: {},
+        },
+      ],
+    });
   });
 
   it('equal should provide no msp', () => {
