@@ -6,7 +6,10 @@ import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
 import { RouterTestingModule } from '@angular/router/testing';
 import { WitnessesFragmentFeatureComponent } from './witnesses-fragment-feature.component';
-import { WitnessesFragmentComponent } from '@cadmus/parts/philology/philology-ui';
+import {
+  WitnessesFragmentComponent,
+  WITNESSES_FRAGMENT_TYPEID,
+} from '@cadmus/parts/philology/philology-ui';
 import { CurrentItemBarComponent } from '@cadmus/features/features-ui';
 import { MomentModule } from 'ngx-moment';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
@@ -27,30 +30,25 @@ describe('WitnessesFragmentFeatureComponent', () => {
         MarkdownModule.forRoot(),
         MomentModule,
         MaterialModule,
-        UiModule
+        UiModule,
       ],
       // https://github.com/angular/components/issues/14668
       providers: [
         {
-          provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
+          provide: 'partEditorKeys',
+          useValue: {
+            [WITNESSES_FRAGMENT_TYPEID]: {
+              part: 'philology',
+            },
+          },
         },
-        {
-          provide: 'apiEndpoint',
-          useValue: 'http://localhost:60304/api/'
-        },
-        {
-          provide: 'databaseId',
-          useValue: 'cadmus'
-        }
       ],
       declarations: [
         CurrentItemBarComponent,
         WitnessesFragmentComponent,
-        WitnessesFragmentFeatureComponent
-      ]
-    })
-    .compileComponents();
+        WitnessesFragmentFeatureComponent,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

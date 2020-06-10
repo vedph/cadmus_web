@@ -7,7 +7,11 @@ import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OrthographyFragmentFeatureComponent } from './orthography-fragment-feature.component';
-import { OrthographyFragmentComponent, MspOperationComponent } from '@cadmus/parts/philology/philology-ui';
+import {
+  OrthographyFragmentComponent,
+  MspOperationComponent,
+  ORTHOGRAPHY_FRAGMENT_TYPEID,
+} from '@cadmus/parts/philology/philology-ui';
 import { CurrentItemBarComponent } from '@cadmus/features/features-ui';
 import { MomentModule } from 'ngx-moment';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -26,45 +30,39 @@ describe('OrthographyFragmentFeatureComponent', () => {
         BrowserAnimationsModule,
         MomentModule,
         MaterialModule,
-        UiModule
+        UiModule,
       ],
-      // https://github.com/angular/components/issues/14668
       providers: [
         {
-          provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
+          provide: 'partEditorKeys',
+          useValue: {
+            [ORTHOGRAPHY_FRAGMENT_TYPEID]: {
+              part: 'philology',
+            },
+          },
         },
         {
           provide: MatDialog,
           useValue: {
-            open: (_: any) => { },
-            closeAll: (): void => undefined
-          }
+            open: (_: any) => {},
+            closeAll: (): void => undefined,
+          },
         },
         {
           provide: MatDialogRef,
           useValue: {
-            close: (dialogResult: any) => { },
-            afterClosed: () => { }
-          }
+            close: (dialogResult: any) => {},
+            afterClosed: () => {},
+          },
         },
-        {
-          provide: 'apiEndpoint',
-          useValue: 'http://localhost:60304/api/'
-        },
-        {
-          provide: 'databaseId',
-          useValue: 'cadmus'
-        }
       ],
       declarations: [
         CurrentItemBarComponent,
         MspOperationComponent,
         OrthographyFragmentComponent,
-        OrthographyFragmentFeatureComponent
-      ]
-    })
-    .compileComponents();
+        OrthographyFragmentFeatureComponent,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

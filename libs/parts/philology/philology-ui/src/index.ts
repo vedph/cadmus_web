@@ -1,4 +1,5 @@
 export * from './lib/philology-ui.module';
+export * from './lib/apparatus-entry/apparatus-entry.component';
 export * from './lib/apparatus-fragment';
 export * from './lib/apparatus-fragment/apparatus-fragment.component';
 export * from './lib/apparatus-fragment-demo/apparatus-fragment-demo.component';
@@ -6,6 +7,7 @@ export * from './lib/msp-operation/msp-operation.component';
 export * from './lib/orthography-fragment';
 export * from './lib/orthography-fragment/orthography-fragment.component';
 export * from './lib/orthography-fragment-demo/orthography-fragment-demo.component';
+export * from './lib/quotation-entry/quotation-entry.component';
 export * from './lib/quotations-fragment';
 export * from './lib/quotations-fragment/quotations-fragment.component';
 export * from './lib/witnesses-fragment';
