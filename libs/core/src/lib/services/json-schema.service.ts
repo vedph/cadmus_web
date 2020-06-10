@@ -1,4 +1,4 @@
-import { Injectable, Inject, InjectionToken, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as Ajv from 'ajv';
 
