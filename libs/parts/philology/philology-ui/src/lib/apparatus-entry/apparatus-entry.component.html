@@ -106,7 +106,7 @@
     <mat-expansion-panel-header>
       <mat-panel-title>witnesses</mat-panel-title>
       <mat-panel-description>{{
-        entry.witnesses?.length
+        entry?.witnesses?.length
       }}</mat-panel-description>
     </mat-expansion-panel-header>
 
@@ -202,7 +202,7 @@
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>authors</mat-panel-title>
-      <mat-panel-description>{{ entry.authors?.length }}</mat-panel-description>
+      <mat-panel-description>{{ entry?.authors?.length }}</mat-panel-description>
     </mat-expansion-panel-header>
 
     <div formArrayName="authors">

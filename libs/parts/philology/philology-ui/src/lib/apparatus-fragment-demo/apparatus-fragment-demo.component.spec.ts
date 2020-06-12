@@ -7,6 +7,9 @@ import { ApparatusFragmentDemoComponent } from './apparatus-fragment-demo.compon
 import { ApparatusFragmentComponent } from '../apparatus-fragment/apparatus-fragment.component';
 import { UiModule } from '@cadmus/ui';
 import { JsonSchemaService } from '@cadmus/core';
+import { ApparatusEntryComponent } from '../apparatus-entry/apparatus-entry.component';
+import { NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ApparatusFragmentDemoComponent', () => {
   let component: ApparatusFragmentDemoComponent;
@@ -18,16 +21,24 @@ describe('ApparatusFragmentDemoComponent', () => {
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        NoopAnimationsModule,
         MaterialModule,
         UiModule,
       ],
       providers: [
         {
           provide: JsonSchemaService,
+          useValue: {
+            addSchema: () => {},
+          },
+        },
+        {
+          provide: NGX_MONACO_EDITOR_CONFIG,
           useValue: {},
         },
       ],
       declarations: [
+        ApparatusEntryComponent,
         ApparatusFragmentComponent,
         ApparatusFragmentDemoComponent,
       ],

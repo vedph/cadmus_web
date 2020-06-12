@@ -6,6 +6,7 @@ import { CoreModule, JsonSchemaService } from '@cadmus/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '@cadmus/material';
 import { UiModule } from '@cadmus/ui';
+import { QuotationEntryComponent } from '../quotation-entry/quotation-entry.component';
 
 describe('QuotationsFragmentComponent', () => {
   let component: QuotationsFragmentComponent;
@@ -24,10 +25,15 @@ describe('QuotationsFragmentComponent', () => {
       providers: [
         {
           provide: JsonSchemaService,
-          useValue: {},
+          useValue: {
+            addSchema: () => {},
+          },
         },
       ],
-      declarations: [QuotationsFragmentComponent],
+      declarations: [
+        QuotationEntryComponent,
+        QuotationsFragmentComponent
+      ],
     }).compileComponents();
   }));
 

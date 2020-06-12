@@ -7,6 +7,7 @@ import { HAMMER_LOADER } from '@angular/platform-browser';
 
 import { ApparatusFragmentComponent } from './apparatus-fragment.component';
 import { UiModule } from '@cadmus/ui';
+import { ApparatusEntryComponent } from '../apparatus-entry/apparatus-entry.component';
 
 describe('ApparatusFragmentComponent', () => {
   let component: ApparatusFragmentComponent;
@@ -22,22 +23,8 @@ describe('ApparatusFragmentComponent', () => {
         MaterialModule,
         UiModule
       ],
-      // https://github.com/angular/components/issues/14668
-      providers: [
-        {
-          provide: HAMMER_LOADER,
-          useValue: () => new Promise(() => {})
-        },
-        {
-          provide: 'apiEndpoint',
-          useValue: 'http://localhost:60304/api/'
-        },
-        {
-          provide: 'databaseId',
-          useValue: 'cadmus'
-        }
-      ],
       declarations: [
+        ApparatusEntryComponent,
         ApparatusFragmentComponent
       ]
     })

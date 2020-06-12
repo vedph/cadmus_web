@@ -9,6 +9,7 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { UiModule } from '@cadmus/ui';
 import { MarkdownModule } from 'ngx-markdown';
 import { JsonSchemaService } from '@cadmus/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('WitnessesFragmentComponent', () => {
   let component: WitnessesFragmentComponent;
@@ -20,6 +21,7 @@ describe('WitnessesFragmentComponent', () => {
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        NoopAnimationsModule,
         MonacoEditorModule.forRoot(),
         MarkdownModule.forRoot(),
         MaterialModule,

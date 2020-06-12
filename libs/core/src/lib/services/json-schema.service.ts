@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import * as Ajv from 'ajv';
+// this requires "allowSyntheticDefaultImports": true in tsconfig.json compiler options
+import Ajv from 'ajv';
 
 // npm i ajv --save
 // https://tane.dev/2019/09/validating-data-with-json-schema-angular-and-typescript/

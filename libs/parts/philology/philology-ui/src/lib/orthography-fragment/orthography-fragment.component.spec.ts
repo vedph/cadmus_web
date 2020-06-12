@@ -7,6 +7,7 @@ import { HAMMER_LOADER } from '@angular/platform-browser';
 import { OrthographyFragmentComponent } from './orthography-fragment.component';
 import { MspOperationComponent } from '../msp-operation/msp-operation.component';
 import { UiModule } from '@cadmus/ui';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('OrthographyFragmentComponent', () => {
   let component: OrthographyFragmentComponent;
@@ -18,6 +19,7 @@ describe('OrthographyFragmentComponent', () => {
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        NoopAnimationsModule,
         MaterialModule,
         UiModule
       ],

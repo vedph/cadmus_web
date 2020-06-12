@@ -6,6 +6,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule, JsonSchemaService } from '@cadmus/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '@cadmus/material';
+import { QuotationsFragmentComponent } from '../quotations-fragment/quotations-fragment.component';
+import { QuotationEntryComponent } from '../quotation-entry/quotation-entry.component';
+import { NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor';
 
 describe('QuotationsFragmentDemoComponent', () => {
   let component: QuotationsFragmentDemoComponent;
@@ -28,8 +31,16 @@ describe('QuotationsFragmentDemoComponent', () => {
             addSchema: () => {},
           },
         },
+        {
+          provide: NGX_MONACO_EDITOR_CONFIG,
+          useValue: {},
+        },
       ],
-      declarations: [QuotationsFragmentDemoComponent],
+      declarations: [
+        QuotationEntryComponent,
+        QuotationsFragmentComponent,
+        QuotationsFragmentDemoComponent
+      ],
     }).compileComponents();
   }));
 
