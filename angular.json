@@ -85,7 +85,7 @@
               "apps/cadmus/tsconfig.app.json",
               "apps/cadmus/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/cadmus/**"]
+            "exclude": ["**/node_modules/**", "!apps/cadmus/**/*"]
           }
         },
         "test": {
@@ -121,7 +121,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": ["apps/cadmus-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/cadmus-e2e/**"]
+            "exclude": ["**/node_modules/**", "!apps/cadmus-e2e/**/*"]
           }
         }
       }
@@ -139,7 +139,7 @@
               "libs/core/tsconfig.lib.json",
               "libs/core/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/core/**"]
+            "exclude": ["**/node_modules/**", "!libs/core/**/*"]
           }
         },
         "test": {
@@ -169,7 +169,7 @@
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/parts/philology/philology-ui/**"
+              "!libs/parts/philology/philology-ui/**/*"
             ]
           }
         },
@@ -198,7 +198,7 @@
               "libs/material/tsconfig.lib.json",
               "libs/material/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/material/**"]
+            "exclude": ["**/node_modules/**", "!libs/material/**/*"]
           }
         },
         "test": {
@@ -226,7 +226,7 @@
               "libs/ui/tsconfig.lib.json",
               "libs/ui/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/ui/**"]
+            "exclude": ["**/node_modules/**", "!libs/ui/**/*"]
           }
         },
         "test": {
@@ -256,7 +256,7 @@
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/features/feature-layer-demo/**"
+              "!libs/features/feature-layer-demo/**/*"
             ]
           }
         },
@@ -287,7 +287,7 @@
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/parts/general/general-ui/**"
+              "!libs/parts/general/general-ui/**/*"
             ]
           }
         },
@@ -318,7 +318,7 @@
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/features/feature-item-list/**"
+              "!libs/features/feature-item-list/**/*"
             ]
           }
         },
@@ -347,7 +347,7 @@
               "libs/api/tsconfig.lib.json",
               "libs/api/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/api/**"]
+            "exclude": ["**/node_modules/**", "!libs/api/**/*"]
           }
         },
         "test": {
@@ -375,7 +375,10 @@
               "libs/features/feature-login/tsconfig.lib.json",
               "libs/features/feature-login/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/features/feature-login/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/features/feature-login/**/*"
+            ]
           }
         },
         "test": {
@@ -405,7 +408,7 @@
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/features/feature-item-editor/**"
+              "!libs/features/feature-item-editor/**/*"
             ]
           }
         },
@@ -436,7 +439,7 @@
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/parts/general/general-feature/**"
+              "!libs/parts/general/general-feature/**/*"
             ]
           }
         },
@@ -465,7 +468,7 @@
               "libs/features/edit-state/tsconfig.lib.json",
               "libs/features/edit-state/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/features/edit-state/**"]
+            "exclude": ["**/node_modules/**", "!libs/features/edit-state/**/*"]
           }
         },
         "test": {
@@ -493,7 +496,7 @@
               "libs/features/features-ui/tsconfig.lib.json",
               "libs/features/features-ui/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/features/features-ui/**"]
+            "exclude": ["**/node_modules/**", "!libs/features/features-ui/**/*"]
           }
         },
         "test": {
@@ -521,7 +524,10 @@
               "libs/features/feature-admin/tsconfig.lib.json",
               "libs/features/feature-admin/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/features/feature-admin/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/features/feature-admin/**/*"
+            ]
           }
         },
         "test": {
@@ -549,7 +555,10 @@
               "libs/features/feature-user/tsconfig.lib.json",
               "libs/features/feature-user/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/features/feature-user/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/features/feature-user/**/*"
+            ]
           }
         },
         "test": {
@@ -579,7 +588,7 @@
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/features/feature-reset-password/**"
+              "!libs/features/feature-reset-password/**/*"
             ]
           }
         },
@@ -610,7 +619,7 @@
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/parts/philology/philology-feature/**"
+              "!libs/parts/philology/philology-feature/**/*"
             ]
           }
         },
@@ -639,7 +648,7 @@
               "libs/browsers/hierarchy/tsconfig.lib.json",
               "libs/browsers/hierarchy/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/browsers/hierarchy/**"]
+            "exclude": ["**/node_modules/**", "!libs/browsers/hierarchy/**/*"]
           }
         },
         "test": {
@@ -669,7 +678,7 @@
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/features/feature-item-search/**"
+              "!libs/features/feature-item-search/**/*"
             ]
           }
         },
@@ -700,7 +709,7 @@
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/features/feature-thesaurus-list/**"
+              "!libs/features/feature-thesaurus-list/**/*"
             ]
           }
         },
@@ -731,7 +740,7 @@
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/features/feature-thesaurus-editor/**"
+              "!libs/features/feature-thesaurus-editor/**/*"
             ]
           }
         },
