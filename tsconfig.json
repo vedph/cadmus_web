@@ -1,73 +1,83 @@
+/*
+  This is a "Solution Style" tsconfig.json file, and is used by editors and TypeScript’s language server to improve development experience.
+  It is not intended to be used to perform a compilation.
+
+  To learn more about this file see: https://angular.io/config/solution-tsconfig.
+*/
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "rootDir": ".",
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "target": "es2015",
-    "module": "esnext",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2017", "dom"],
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "@cadmus/core": ["libs/core/src/index.ts"],
-      "@cadmus/parts/philology/philology-ui": [
-        "libs/parts/philology/philology-ui/src/index.ts"
-      ],
-      "@cadmus/material": ["libs/material/src/index.ts"],
-      "@cadmus/ui": ["libs/ui/src/index.ts"],
-      "@cadmus/features/feature-layer-demo": [
-        "libs/features/feature-layer-demo/src/index.ts"
-      ],
-      "@cadmus/parts/general/general-ui": [
-        "libs/parts/general/general-ui/src/index.ts"
-      ],
-      "@cadmus/features/feature-item-list": [
-        "libs/features/feature-item-list/src/index.ts"
-      ],
-      "@cadmus/api": ["libs/api/src/index.ts"],
-      "@cadmus/features/feature-login": [
-        "libs/features/feature-login/src/index.ts"
-      ],
-      "@cadmus/features/feature-item-editor": [
-        "libs/features/feature-item-editor/src/index.ts"
-      ],
-      "@cadmus/parts/general/general-feature": [
-        "libs/parts/general/general-feature/src/index.ts"
-      ],
-      "@cadmus/features/edit-state": ["libs/features/edit-state/src/index.ts"],
-      "@cadmus/features/features-ui": [
-        "libs/features/features-ui/src/index.ts"
-      ],
-      "@cadmus/features/feature-admin": [
-        "libs/features/feature-admin/src/index.ts"
-      ],
-      "@cadmus/features/feature-user": [
-        "libs/features/feature-user/src/index.ts"
-      ],
-      "@cadmus/features/feature-reset-password": [
-        "libs/features/feature-reset-password/src/index.ts"
-      ],
-      "@cadmus/parts/philology/philology-feature": [
-        "libs/parts/philology/philology-feature/src/index.ts"
-      ],
-      "@cadmus/browsers/hierarchy": ["libs/browsers/hierarchy/src/index.ts"],
-      "@cadmus/features/feature-item-search": [
-        "libs/features/feature-item-search/src/index.ts"
-      ],
-      "@cadmus/features/feature-thesaurus-list": [
-        "libs/features/feature-thesaurus-list/src/index.ts"
-      ],
-      "@cadmus/features/feature-thesaurus-editor": [
-        "libs/features/feature-thesaurus-editor/src/index.ts"
-      ]
+  "files": [],
+  "references": [
+    {
+      "path": "./apps/cadmus/tsconfig.app.json"
+    },
+    {
+      "path": "./apps/cadmus/tsconfig.spec.json"
+    },
+    {
+      "path": "./apps/cadmus-e2e/tsconfig.e2e.json"
+    },
+    {
+      "path": "./libs/core/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/parts/philology/philology-ui/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/material/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/ui/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/features/feature-layer-demo/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/parts/general/general-ui/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/features/feature-item-list/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/api/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/features/feature-login/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/features/feature-item-editor/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/parts/general/general-feature/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/features/edit-state/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/features/features-ui/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/features/feature-admin/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/features/feature-user/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/features/feature-reset-password/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/parts/philology/philology-feature/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/browsers/hierarchy/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/features/feature-item-search/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/features/feature-thesaurus-list/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/features/feature-thesaurus-editor/tsconfig.spec.json"
     }
-  },
-  "exclude": ["node_modules", "tmp"]
+  ]
 }

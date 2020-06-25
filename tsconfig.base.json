@@ -1,0 +1,73 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@cadmus/core": ["libs/core/src/index.ts"],
+      "@cadmus/parts/philology/philology-ui": [
+        "libs/parts/philology/philology-ui/src/index.ts"
+      ],
+      "@cadmus/material": ["libs/material/src/index.ts"],
+      "@cadmus/ui": ["libs/ui/src/index.ts"],
+      "@cadmus/features/feature-layer-demo": [
+        "libs/features/feature-layer-demo/src/index.ts"
+      ],
+      "@cadmus/parts/general/general-ui": [
+        "libs/parts/general/general-ui/src/index.ts"
+      ],
+      "@cadmus/features/feature-item-list": [
+        "libs/features/feature-item-list/src/index.ts"
+      ],
+      "@cadmus/api": ["libs/api/src/index.ts"],
+      "@cadmus/features/feature-login": [
+        "libs/features/feature-login/src/index.ts"
+      ],
+      "@cadmus/features/feature-item-editor": [
+        "libs/features/feature-item-editor/src/index.ts"
+      ],
+      "@cadmus/parts/general/general-feature": [
+        "libs/parts/general/general-feature/src/index.ts"
+      ],
+      "@cadmus/features/edit-state": ["libs/features/edit-state/src/index.ts"],
+      "@cadmus/features/features-ui": [
+        "libs/features/features-ui/src/index.ts"
+      ],
+      "@cadmus/features/feature-admin": [
+        "libs/features/feature-admin/src/index.ts"
+      ],
+      "@cadmus/features/feature-user": [
+        "libs/features/feature-user/src/index.ts"
+      ],
+      "@cadmus/features/feature-reset-password": [
+        "libs/features/feature-reset-password/src/index.ts"
+      ],
+      "@cadmus/parts/philology/philology-feature": [
+        "libs/parts/philology/philology-feature/src/index.ts"
+      ],
+      "@cadmus/browsers/hierarchy": ["libs/browsers/hierarchy/src/index.ts"],
+      "@cadmus/features/feature-item-search": [
+        "libs/features/feature-item-search/src/index.ts"
+      ],
+      "@cadmus/features/feature-thesaurus-list": [
+        "libs/features/feature-thesaurus-list/src/index.ts"
+      ],
+      "@cadmus/features/feature-thesaurus-editor": [
+        "libs/features/feature-thesaurus-editor/src/index.ts"
+      ]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
