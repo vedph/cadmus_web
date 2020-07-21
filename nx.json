@@ -10,7 +10,9 @@
   "projects": {
     "cadmus-e2e": {
       "tags": [],
-      "implicitDependencies": ["cadmus"]
+      "implicitDependencies": [
+        "cadmus"
+      ]
     },
     "cadmus": {
       "tags": []
@@ -83,8 +85,16 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ]
       }
     }
+  },
+  "affected": {
+    "defaultBase": "master"
   }
 }
