@@ -48,6 +48,7 @@ import { PART_EDITOR_KEYS } from './part-editor-keys';
 import { ITEM_BROWSER_KEYS } from './item-browser-keys';
 import { FeatureBibliographyPartDemoComponent } from './demo/feature-bibliography-part-demo/feature-bibliography-part-demo.component';
 import { FeatureQuotationsFragmentDemoComponent } from './demo/feature-quotations-fragment-demo/feature-quotations-fragment-demo.component';
+import { INDEX_LOOKUP_DEFINITIONS } from './index-lookup-definitions';
 
 @NgModule({
   declarations: [
@@ -281,6 +282,11 @@ import { FeatureQuotationsFragmentDemoComponent } from './demo/feature-quotation
     {
       provide: 'partEditorKeys',
       useValue: PART_EDITOR_KEYS
+    },
+    // index lookup definitions
+    {
+      provide: 'indexLookupDefinitions',
+      useValue: INDEX_LOOKUP_DEFINITIONS
     },
     // item browsers IDs to editor keys mappings
     // inject like: @Inject('itemBrowserKeys') itemBrowserKeys: { [key: string]: string }

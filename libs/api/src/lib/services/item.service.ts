@@ -12,7 +12,8 @@ import {
   LayerPartInfo,
   LayerHint,
   EnvService,
-  ErrorWrapper
+  ErrorWrapper,
+  DataPinInfo
 } from '@cadmus/core';
 import { Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
@@ -99,6 +100,37 @@ export class ItemService {
 
     return this._http
       .post<ErrorWrapper<DataPage<ItemInfo>>>(
+        `${this._env.apiUrl}${this._env.databaseId}/search`,
+        {
+          query: query,
+          pageNumber: pageNumber,
+          pageSize: pageSize
+        },
+        {
+          params: httpParams
+        }
+      )
+      .pipe(retry(3), catchError(this._error.handleError));
+  }
+
+  /**
+   * Search the item's parts pins using the specified query.
+   *
+   * @param query The query text.
+   * @param pageNumber The page number.
+   * @param pageSize The page size.
+   */
+  public searchPins(
+    query: string,
+    pageNumber: number,
+    pageSize: number
+  ): Observable<ErrorWrapper<DataPage<DataPinInfo>>> {
+    let httpParams = new HttpParams();
+    httpParams = httpParams.set('pageNumber', pageNumber.toString());
+    httpParams = httpParams.set('pageSize', pageSize.toString());
+
+    return this._http
+      .post<ErrorWrapper<DataPage<DataPinInfo>>>(
         `${this._env.apiUrl}${this._env.databaseId}/search`,
         {
           query: query,

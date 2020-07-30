@@ -72,6 +72,18 @@ export interface ItemInfo extends HasVersion {
 }
 
 /**
+ * Information about a data pin; returned by pins search.
+ */
+export interface DataPinInfo {
+  itemId: string;
+  partId: string;
+  roleId: string;
+  partTypeId: string;
+  name: string;
+  value: string;
+}
+
+/**
  * Part type and role IDs.
  */
 export interface PartTypeIds {
@@ -241,6 +253,23 @@ export interface PartGroupKey {
  */
 export interface PartEditorKeys {
   [key: string]: PartGroupKey;
+}
+
+/**
+ * An index lookup definition, used in dynamic lookup to provide the set
+ * of parameters required for a data pins based search.
+ */
+export interface IndexLookupDefinition {
+  typeId?: string;
+  roleId?: string;
+  name: string;
+}
+
+/**
+ * A dictionary of index lookup definitions.
+ */
+export interface IndexLookupDefinitions {
+  [key: string]: IndexLookupDefinition;
 }
 
 /**
