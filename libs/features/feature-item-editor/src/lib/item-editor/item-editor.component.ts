@@ -9,18 +9,22 @@ import {
   Part,
   LibraryRouteService,
   User,
-  LayerPartInfo
+  LayerPartInfo,
 } from '@cadmus/core';
 import {
   FormControl,
   FormGroup,
   FormBuilder,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from '@cadmus/ui';
-import { EditItemQuery, EditItemService, AppQuery } from '@cadmus/features/edit-state';
+import {
+  EditItemQuery,
+  EditItemService,
+  AppQuery,
+} from '@cadmus/features/edit-state';
 import { AuthService, FacetService } from '@cadmus/api';
 import { PartScopeSetRequest } from '../parts-scope-editor/parts-scope-editor.component';
 
@@ -30,7 +34,7 @@ import { PartScopeSetRequest } from '../parts-scope-editor/parts-scope-editor.co
 @Component({
   selector: 'cadmus-item-editor',
   templateUrl: './item-editor.component.html',
-  styleUrls: ['./item-editor.component.css']
+  styleUrls: ['./item-editor.component.css'],
 })
 export class ItemEditorComponent implements OnInit {
   public id: string;
@@ -87,16 +91,16 @@ export class ItemEditorComponent implements OnInit {
     // item's metadata form
     this.title = formBuilder.control(null, [
       Validators.required,
-      Validators.maxLength(500)
+      Validators.maxLength(500),
     ]);
     this.sortKey = formBuilder.control(null, [
       Validators.required,
-      Validators.maxLength(500)
+      Validators.maxLength(500),
     ]);
     this.sortKey.disable();
     this.description = formBuilder.control(null, [
       Validators.required,
-      Validators.maxLength(1000)
+      Validators.maxLength(1000),
     ]);
     this.facet = formBuilder.control(null, Validators.required);
     this.group = formBuilder.control(null, Validators.maxLength(100));
@@ -108,7 +112,7 @@ export class ItemEditorComponent implements OnInit {
       description: this.description,
       facet: this.facet,
       group: this.group,
-      flags: this.flags
+      flags: this.flags,
     });
     this.userLevel = 0;
   }
@@ -122,8 +126,8 @@ export class ItemEditorComponent implements OnInit {
 
     this.item$ = this._query.selectItem();
     this.parts$ = this._query.selectParts();
-    this.partGroups$ = this._query.select(state => state.partGroups);
-    this.layerPartInfos$ = this._query.select(state => state.layerPartInfos);
+    this.partGroups$ = this._query.select((state) => state.partGroups);
+    this.layerPartInfos$ = this._query.select((state) => state.layerPartInfos);
     this.facet$ = this._query.selectFacet();
     this.facets$ = this._appQuery.selectFacets();
     this.flags$ = this._appQuery.selectFlags();
@@ -133,7 +137,7 @@ export class ItemEditorComponent implements OnInit {
     this.error$ = this._query.selectError();
 
     // update the metadata form when item changes
-    this.item$.subscribe(item => {
+    this.item$.subscribe((item) => {
       this.updateMetadataForm(item);
       this.newPartDefinitions = this.getNewPartDefinitions();
     });
@@ -142,7 +146,10 @@ export class ItemEditorComponent implements OnInit {
     this._editItemService.load(this.id);
   }
 
-  private getExistingPartTypeAndRoleIds(): { typeId: string, roleId: string}[] {
+  private getExistingPartTypeAndRoleIds(): {
+    typeId: string;
+    roleId: string;
+  }[] {
     const groups = this._query.getValue().partGroups;
     if (!groups) {
       return [];
@@ -153,7 +160,7 @@ export class ItemEditorComponent implements OnInit {
         const part = groups[i].parts[j];
         results.push({
           typeId: part.typeId,
-          roleId: part.roleId
+          roleId: part.roleId,
         });
       }
     }
@@ -177,9 +184,11 @@ export class ItemEditorComponent implements OnInit {
         continue;
       }
       // exclude parts present in the item
-      if (existingTypeRoleIds.find(tr => {
-        return (tr.typeId === def.typeId && tr.roleId === def.roleId);
-      })) {
+      if (
+        existingTypeRoleIds.find((tr) => {
+          return tr.typeId === def.typeId && tr.roleId === def.roleId;
+        })
+      ) {
         continue;
       }
       defs.push(def);
@@ -200,7 +209,7 @@ export class ItemEditorComponent implements OnInit {
       const n = 1 << i;
       // tslint:disable-next-line:no-bitwise
       if ((n & value) === n) {
-        const flag = flags.find(f => {
+        const flag = flags.find((f) => {
           return f.id === n;
         });
         if (flag) {
@@ -235,7 +244,7 @@ export class ItemEditorComponent implements OnInit {
     if (!state || !state.typeThesaurus) {
       return typeId;
     }
-    const entry = state.typeThesaurus.entries.find(e => e.id === typeId);
+    const entry = state.typeThesaurus.entries.find((e) => e.id === typeId);
     return entry ? entry.value : typeId;
   }
 
@@ -255,7 +264,7 @@ export class ItemEditorComponent implements OnInit {
       return;
     }
 
-    const item = this._query.getValue().item;
+    const item = { ...this._query.getValue().item };
     item.title = this.tryTrim(this.title.value);
     item.sortKey = this.sortKey.value;
     item.description = this.tryTrim(this.description.value);
@@ -266,7 +275,7 @@ export class ItemEditorComponent implements OnInit {
     const set: FlagDefinition[] = this.flags.value;
     let flags = 0;
     if (set) {
-      set.forEach(d => {
+      set.forEach((d) => {
         // tslint:disable-next-line:no-bitwise
         flags |= d.id;
       });
@@ -281,12 +290,12 @@ export class ItemEditorComponent implements OnInit {
     }
     if (!this.id) {
       this._snackbar.open('Please save the item before adding parts', 'OK', {
-        duration: 3000
+        duration: 3000,
       });
       return;
     }
-    const typeId = def? def.typeId : this.newPartType.value.typeId;
-    const roleId = def? def.roleId : this.newPartType.value.roleId;
+    const typeId = def ? def.typeId : this.newPartType.value.typeId;
+    const roleId = def ? def.roleId : this.newPartType.value.roleId;
 
     let route = `/item/${this.id}/${typeId}/new/`;
     route += roleId ? roleId : 'default';
@@ -308,8 +317,8 @@ export class ItemEditorComponent implements OnInit {
       part.roleId
         ? {
             queryParams: {
-              rid: part.roleId
-            }
+              rid: part.roleId,
+            },
           }
         : {}
     );
@@ -318,7 +327,7 @@ export class ItemEditorComponent implements OnInit {
   public deletePart(part: Part) {
     this._dialogService
       .confirm('Confirm Deletion', `Delete part "${part.typeId}"?`)
-      .subscribe(result => {
+      .subscribe((result) => {
         if (!result) {
           return;
         }
@@ -333,7 +342,7 @@ export class ItemEditorComponent implements OnInit {
     }
     this._dialogService
       .confirm('Confirm Addition', `Add layer "${name}"?`)
-      .subscribe(result => {
+      .subscribe((result) => {
         if (!result) {
           return;
         }
