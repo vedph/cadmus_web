@@ -121,7 +121,7 @@
 
           <!-- facet -->
           <div>
-            <mat-form-field style="width:400px">
+            <mat-form-field style="width: 400px;">
               <mat-select
                 placeholder="facet"
                 formControlName="facet"
@@ -149,20 +149,18 @@
           </div>
 
           <!-- flags -->
-          <div *ngIf="flags$ | async as flags">
-            <mat-form-field style="width:400px">
-              <mat-select
-                multiple="true"
-                placeholder="flags"
-                formControlName="flags"
-              >
-                <mat-option *ngFor="let f of flags" [value]="f.id">
-                  {{ f.label }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+          <div formArrayName="flagChecks" *ngIf="flagDefinitions">
+            <mat-checkbox
+              *ngFor="let c of flagChecks.controls; let i = index"
+              [formControlName]="i"
+            >
+              <span [style.color]="'#' + flagDefinitions[i].colorKey">&#x2b24;</span>
+              &nbsp;
+              {{ flagDefinitions[i].label }}
+            </mat-checkbox>
           </div>
           <br />
+
           <div>
             <button
               type="submit"
@@ -234,7 +232,7 @@
           <table>
             <thead>
               <tr>
-                <th style="width:124px"></th>
+                <th style="width: 124px;"></th>
                 <th>type</th>
                 <th>role</th>
                 <th>modified</th>

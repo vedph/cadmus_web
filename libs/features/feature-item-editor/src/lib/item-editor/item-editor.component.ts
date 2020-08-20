@@ -16,6 +16,7 @@ import {
   FormGroup,
   FormBuilder,
   Validators,
+  FormArray,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -25,7 +26,7 @@ import {
   EditItemService,
   AppQuery,
 } from '@cadmus/features/edit-state';
-import { AuthService, FacetService } from '@cadmus/api';
+import { AuthService } from '@cadmus/api';
 import { PartScopeSetRequest } from '../parts-scope-editor/parts-scope-editor.component';
 
 /**
@@ -37,6 +38,8 @@ import { PartScopeSetRequest } from '../parts-scope-editor/parts-scope-editor.co
   styleUrls: ['./item-editor.component.css'],
 })
 export class ItemEditorComponent implements OnInit {
+  public flagDefinitions: FlagDefinition[];
+
   public id: string;
   public item$: Observable<Item>;
   public parts$: Observable<Part[]>;
@@ -48,7 +51,6 @@ export class ItemEditorComponent implements OnInit {
   public facet$: Observable<FacetDefinition>;
   public newPartDefinitions: PartDefinition[];
   public facets$: Observable<FacetDefinition[]>;
-  public flags$: Observable<FlagDefinition[]>;
   public loading$: Observable<boolean>;
   public saving$: Observable<boolean>;
   public deletingPart$: Observable<boolean>;
@@ -64,6 +66,7 @@ export class ItemEditorComponent implements OnInit {
   public facet: FormControl;
   public group: FormControl;
   public flags: FormControl;
+  public flagChecks: FormArray;
   public metadata: FormGroup;
 
   constructor(
@@ -76,49 +79,48 @@ export class ItemEditorComponent implements OnInit {
     private _libraryRouteService: LibraryRouteService,
     private _dialogService: DialogService,
     private _authService: AuthService,
-    private _facetService: FacetService,
-    formBuilder: FormBuilder
+    private _formBuilder: FormBuilder
   ) {
     this.id = this._route.snapshot.params['id'];
     if (this.id === 'new') {
       this.id = null;
     }
     // new part form
-    this.newPartType = formBuilder.control(null, Validators.required);
-    this.newPart = formBuilder.group({
+    this.newPartType = _formBuilder.control(null, Validators.required);
+    this.newPart = _formBuilder.group({
       newPartType: this.newPartType,
     });
     // item's metadata form
-    this.title = formBuilder.control(null, [
+    this.title = _formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(500),
     ]);
-    this.sortKey = formBuilder.control(null, [
+    this.sortKey = _formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(500),
     ]);
     this.sortKey.disable();
-    this.description = formBuilder.control(null, [
+    this.description = _formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(1000),
     ]);
-    this.facet = formBuilder.control(null, Validators.required);
-    this.group = formBuilder.control(null, Validators.maxLength(100));
-    this.flags = formBuilder.control([]);
+    this.facet = _formBuilder.control(null, Validators.required);
+    this.group = _formBuilder.control(null, Validators.maxLength(100));
+    this.flags = _formBuilder.control(0);
+    this.flagChecks = _formBuilder.array([]);
 
-    this.metadata = formBuilder.group({
+    this.metadata = _formBuilder.group({
       title: this.title,
       sortKey: this.sortKey,
       description: this.description,
       facet: this.facet,
       group: this.group,
-      flags: this.flags,
+      flagChecks: this.flagChecks,
     });
     this.userLevel = 0;
   }
 
   ngOnInit() {
-    // this.user = this._authService.currentUserValue;
     this._authService.currentUser$.subscribe((user: User) => {
       this.user = user;
       this.userLevel = this._authService.getCurrentUserLevel();
@@ -130,11 +132,20 @@ export class ItemEditorComponent implements OnInit {
     this.layerPartInfos$ = this._query.select((state) => state.layerPartInfos);
     this.facet$ = this._query.selectFacet();
     this.facets$ = this._appQuery.selectFacets();
-    this.flags$ = this._appQuery.selectFlags();
+    // rebuild the flags controls array when flags definitions change
+    this._appQuery.selectFlags().subscribe(defs => {
+      this.flagDefinitions = defs;
+      this.buildFlagsControls();
+    });
     this.loading$ = this._query.selectLoading();
     this.saving$ = this._query.selectSaving();
     this.deletingPart$ = this._query.selectDeletingPart();
     this.error$ = this._query.selectError();
+
+    // when flags controls values change, update the flags value
+    this.flagChecks.valueChanges.subscribe(_ => {
+      this.flags.setValue(this.getFlagsValue());
+    });
 
     // update the metadata form when item changes
     this.item$.subscribe((item) => {
@@ -196,48 +207,68 @@ export class ItemEditorComponent implements OnInit {
     return defs;
   }
 
-  private getFlags(value: number): FlagDefinition[] {
-    const flags = this._appQuery.getValue().flags;
-    if (!flags) {
-      return [];
+  /**
+   * Builds the array of flags controls according to the current flags
+   * definitions and the current flags value.
+   */
+  private buildFlagsControls() {
+    this.flagChecks.clear();
+
+    for (let i = 0; i < this.flagDefinitions.length; i++) {
+      const flagValue = this.flagDefinitions[i].id;
+      // tslint:disable-next-line: no-bitwise
+      const checked = ((this.flags.value & flagValue) !== 0);
+      this.flagChecks.push(this._formBuilder.control(checked));
     }
+  }
 
-    const results: FlagDefinition[] = [];
+  /**
+   * Update the flags controls from the current flags value.
+   */
+  private updateFlagControls() {
+    if (!this.flagDefinitions) {
+      return;
+    }
+    for (let i = 0; i < this.flagDefinitions.length; i++) {
+      const flagValue = this.flagDefinitions[i].id;
+      // tslint:disable-next-line: no-bitwise
+      const checked = ((this.flags.value & flagValue) !== 0);
+      this.flagChecks.at(i).setValue(checked);
+    }
+  }
 
-    for (let i = 0; i < 32; i++) {
-      // tslint:disable-next-line:no-bitwise
-      const n = 1 << i;
-      // tslint:disable-next-line:no-bitwise
-      if ((n & value) === n) {
-        const flag = flags.find((f) => {
-          return f.id === n;
-        });
-        if (flag) {
-          results.push(flag);
-        }
+  /**
+   * Get the flags value from the flags controls.
+   */
+  private getFlagsValue(): number {
+    let flagsValue = 0;
+
+    for (let i = 0; i < this.flagDefinitions.length; i++) {
+      const flagValue = this.flagDefinitions[i].id;
+      if (this.flagChecks.at(i).value) {
+        // tslint:disable-next-line: no-bitwise
+        flagsValue |= flagValue;
       }
     }
-    return results;
+    return flagsValue;
   }
 
   private updateMetadataForm(item: Item) {
     if (!item) {
       this.metadata.reset();
+      this.updateFlagControls();
     } else {
       this.title.setValue(item.title);
       this.sortKey.setValue(item.sortKey);
       this.description.setValue(item.description);
       this.facet.setValue(item.facetId);
       this.group.setValue(item.groupId);
-      this.flags.setValue(this.getFlags(item.flags));
+      this.flags.setValue(item.flags);
+      this.updateFlagControls();
+
       this.metadata.markAsPristine();
     }
   }
-
-  // public getPartColor(typeId: string, roleId: string): string {
-  //   const state = this._query.getValue();
-  //   return this._facetService.getPartColor(typeId, roleId, state?.facet);
-  // }
 
   public getTypeIdName(typeId: string): string {
     const state = this._appQuery.getValue();
