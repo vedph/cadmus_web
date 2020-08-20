@@ -7,7 +7,7 @@ import {
   ItemFilter,
   User,
   FlagDefinition,
-  FacetDefinition
+  FacetDefinition,
 } from '@cadmus/core';
 import { ITEMS_PAGINATOR } from '../services/items-paginator';
 import { map, switchMap, tap, startWith } from 'rxjs/operators';
@@ -23,7 +23,7 @@ import { AppQuery } from '@cadmus/features/edit-state';
 @Component({
   selector: 'cadmus-item-list',
   templateUrl: './item-list.component.html',
-  styleUrls: ['./item-list.component.css']
+  styleUrls: ['./item-list.component.css'],
 })
 export class ItemListComponent implements OnInit {
   public pagination$: Observable<PaginationResponse<ItemInfo>>;
@@ -33,6 +33,7 @@ export class ItemListComponent implements OnInit {
   public pageSize: FormControl;
   public user: User;
   public userLevel: number;
+  private _refresh$: BehaviorSubject<number>;
 
   constructor(
     @Inject(ITEMS_PAGINATOR) public paginator: PaginatorPlugin<ItemsState>,
@@ -45,6 +46,7 @@ export class ItemListComponent implements OnInit {
     formBuilder: FormBuilder
   ) {
     this.pageSize = formBuilder.control(20);
+    this._refresh$ = new BehaviorSubject(0);
   }
 
   private getRequest(
@@ -59,7 +61,7 @@ export class ItemListComponent implements OnInit {
             perPage: p.pageSize,
             lastPage: p.pageCount,
             data: p.items,
-            total: p.total
+            total: p.total,
           };
         })
       );
@@ -79,7 +81,7 @@ export class ItemListComponent implements OnInit {
     this.filter$ = new BehaviorSubject<ItemFilter>(
       this.paginator.metadata.get('filter') || {
         pageNumber: 1,
-        pageSize: initialPageSize
+        pageSize: initialPageSize,
       }
     );
     this.pageSize.setValue(initialPageSize);
@@ -88,6 +90,7 @@ export class ItemListComponent implements OnInit {
     // -page number changes from paginator
     // -page size changes from control
     // -filter changes from filter (in this case, clearing the cache)
+    // -refresh request (in this case, clearing the cache)
     this.pagination$ = combineLatest([
       this.paginator.pageChanges,
       this.pageSize.valueChanges.pipe(
@@ -95,20 +98,26 @@ export class ItemListComponent implements OnInit {
         // as combineLatest emits only if ALL observables have emitted
         startWith(initialPageSize),
         // clear the cache when page size changes
-        tap(_ => {
+        tap((_) => {
           this.paginator.clearCache();
         })
       ),
       this.filter$.pipe(
         // clear the cache when filters changed
-        tap(_ => {
+        tap((_) => {
           this.paginator.clearCache();
         })
-      )
+      ),
+      this._refresh$.pipe(
+        // clear the cache when forcing refresh
+        tap((_) => {
+          this.paginator.clearCache();
+        })
+      ),
     ]).pipe(
       // for each emitted value, combine into a filter and use it
       // to request the page from server
-      switchMap(([pageNumber, pageSize, filter]) => {
+      switchMap(([pageNumber, pageSize, filter, refresh]) => {
         filter.pageNumber = pageNumber;
         filter.pageSize = pageSize;
         const request = this.getRequest(filter);
@@ -136,7 +145,7 @@ export class ItemListComponent implements OnInit {
   }
 
   public deleteItem(item: ItemInfo) {
-    if (this.user.roles.every(r => r !== 'admin' && r !== 'editor')) {
+    if (this.user.roles.every((r) => r !== 'admin' && r !== 'editor')) {
       return;
     }
 
@@ -146,7 +155,16 @@ export class ItemListComponent implements OnInit {
         if (!ok) {
           return;
         }
-        this._itemListService.delete(item.id);
+        // force a refresh once deletion has completed,
+        // even if it failed (a refresh is useful in this case)
+        this._itemListService.delete(item.id).then(
+          (_) => {
+            this._refresh$.next(new Date().getUTCMilliseconds());
+          },
+          (_) => {
+            this._refresh$.next(new Date().getUTCMilliseconds());
+          }
+        );
       });
   }
 }
