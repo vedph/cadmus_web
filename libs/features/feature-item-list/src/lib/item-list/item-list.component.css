@@ -3,6 +3,8 @@ tr:nth-child(odd) {
 }
 th {
   text-align: left;
+  font-weight: normal;
+  color: silver;
 }
 td.command {
   width: 24px;

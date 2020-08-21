@@ -4,109 +4,118 @@
       Items
     </mat-card-title>
   </mat-card-header>
-  <mat-card-content fxLayout="row">
+  <mat-card-content
+    gdAreas="spinner spinner | filters list | . paginator"
+    gdAreas.lt-md="spinner | list | paginator | filters"
+    gdColumns="210px 1fr"
+    gdColumns.lt-md="1fr"
+    gdGap="8px"
+  >
+    <!-- spinner -->
     <div
       *ngIf="paginator.isLoading$ | async"
-      fxFlex
-      fxLayoutAlign="center center"
+      gdArea="spinner"
+      gdAlignColumns="center"
+      gdAlignRows="center"
     >
       <mat-spinner [diameter]="48" [strokeWidth]="4"></mat-spinner>
     </div>
 
-    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="8px">
-      <!-- filters -->
-      <div fxFlex="0 0 auto">
-        <cadmus-item-filter [filter$]="filter$"></cadmus-item-filter>
-      </div>
+    <!-- filters -->
+    <div gdArea="filters" gdAlignRows.lt-md="center">
+      <cadmus-item-filter [filter$]="filter$"></cadmus-item-filter>
+    </div>
 
-      <!-- list -->
-      <div fxFill fxLayout="column" *ngIf="pagination$ | async as pagination">
-        <table>
-          <thead>
-            <th></th>
-            <th
+    <!-- list -->
+    <div gdArea="list" *ngIf="pagination$ | async as pagination">
+      <table>
+        <thead>
+          <th></th>
+          <th
+            *ngIf="
+              user.roles.includes('admin') || user.roles.includes('editor')
+            "
+          ></th>
+          <th>facet</th>
+          <th>flags</th>
+          <th>title</th>
+          <th>description</th>
+          <th fxHide.lt-md>group</th>
+          <th fxHide.lt-md>user</th>
+          <th fxHide.lt-md>last saved</th>
+          <th fxHide.lt-md>creator</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of pagination.data">
+            <td class="command">
+              <button
+                mat-icon-button
+                type="button"
+                matTooltip="Edit {{ item.title }}"
+                color="primary"
+                (click)="editItem(item)"
+              >
+                <mat-icon>mode_edit</mat-icon>
+              </button>
+            </td>
+            <td
+              class="command"
               *ngIf="
                 user.roles.includes('admin') || user.roles.includes('editor')
               "
-            ></th>
-            <th>facet</th>
-            <th>flags</th>
-            <th>title</th>
-            <th>description</th>
-            <th fxHide.lt-md>group</th>
-            <th fxHide.lt-md>user</th>
-            <th fxHide.lt-md>last saved</th>
-            <th fxHide.lt-md>creator</th>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of pagination.data">
-              <td class="command">
-                <button
-                  mat-icon-button
-                  type="button"
-                  matTooltip="Edit {{ item.title }}"
-                  color="primary"
-                  (click)="editItem(item)"
-                >
-                  <mat-icon>mode_edit</mat-icon>
-                </button>
-              </td>
-              <td
-                class="command"
-                *ngIf="
-                  user.roles.includes('admin') || user.roles.includes('editor')
-                "
+            >
+              <button
+                *ngIf="userLevel > 2"
+                mat-icon-button
+                type="button"
+                matTooltip="Delete {{ item.title }}"
+                color="warn"
+                (click)="deleteItem(item)"
               >
-                <button
-                  *ngIf="userLevel > 2"
-                  mat-icon-button
-                  type="button"
-                  matTooltip="Delete {{ item.title }}"
-                  color="warn"
-                  (click)="deleteItem(item)"
-                >
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </td>
-              <td>
-                <cadmus-facet-badge
-                  [facetId]="item.facetId"
-                  [facetDefinitions]="facetDefinitions$ | async"
-                ></cadmus-facet-badge>
-              </td>
-              <td>
-                <cadmus-flags-badge
-                  [flags]="item.flags"
-                  [flagDefinitions]="flagDefinitions$ | async"
-                ></cadmus-flags-badge>
-              </td>
-              <td>{{ item.title }}</td>
-              <td>{{ item.description }}</td>
-              <td fxHide.lt-md>{{ item.groupId }}</td>
-              <td fxHide.lt-md>{{ item.userId }}</td>
-              <td
-                fxHide.lt-md
-                matTooltip="{{
-                  item.timeModified | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'
-                }}"
-              >
-                {{ item.timeModified | amLocal | amTimeAgo }}
-              </td>
-              <td fxHide.lt-md>{{ item.creatorId }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <mat-paginator
-          fxFlex="0 0 auto"
-          fxFlexAlign="start"
-          [length]="pagination.total"
-          [pageSize]="pageSize?.value"
-          [pageSizeOptions]="[20, 50, 75, 100]"
-          [pageIndex]="pagination.currentPage - 1"
-          [showFirstLastButtons]="true"
-          (page)="pageChanged($event)"
-        ></mat-paginator>
-      </div>
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+            <td>
+              <cadmus-facet-badge
+                [facetId]="item.facetId"
+                [facetDefinitions]="facetDefinitions$ | async"
+              ></cadmus-facet-badge>
+            </td>
+            <td>
+              <cadmus-flags-badge
+                [flags]="item.flags"
+                [flagDefinitions]="flagDefinitions$ | async"
+              ></cadmus-flags-badge>
+            </td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.description }}</td>
+            <td fxHide.lt-md>{{ item.groupId }}</td>
+            <td fxHide.lt-md>{{ item.userId }}</td>
+            <td
+              fxHide.lt-md
+              matTooltip="{{
+                item.timeModified | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'
+              }}"
+            >
+              {{ item.timeModified | amLocal | amTimeAgo }}
+            </td>
+            <td fxHide.lt-md>{{ item.creatorId }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- pagination -->
+      <mat-paginator
+        gdArea="pagination"
+        gdAlignColumns="center"
+        gdAlignRows="start"
+        [length]="pagination.total"
+        [pageSize]="pageSize?.value"
+        [pageSizeOptions]="[20, 50, 75, 100]"
+        [pageIndex]="pagination.currentPage - 1"
+        [showFirstLastButtons]="true"
+        (page)="pageChanged($event)"
+      ></mat-paginator>
     </div>
   </mat-card-content>
   <mat-card-actions

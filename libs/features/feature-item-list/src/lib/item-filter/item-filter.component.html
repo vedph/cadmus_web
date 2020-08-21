@@ -1,6 +1,11 @@
-<form role="form" [formGroup]="form" (submit)="apply()">
+<form
+  role="form"
+  [formGroup]="form"
+  (submit)="apply()"
+  gdAreas="title | description | facet | flags | user | min-date | max-date | actions"
+>
   <!-- title -->
-  <div>
+  <div gdArea="title">
     <mat-form-field>
       <input
         matInput
@@ -12,7 +17,7 @@
   </div>
 
   <!-- description -->
-  <div>
+  <div gdArea="description">
     <mat-form-field>
       <input
         matInput
@@ -24,7 +29,7 @@
   </div>
 
   <!-- facet -->
-  <div *ngIf="lookup$ | async as lookup">
+  <div *ngIf="lookup$ | async as lookup" gdArea="facet">
     <div>
       <mat-form-field>
         <mat-select placeholder="facet" formControlName="facet">
@@ -48,7 +53,7 @@
     </div>
 
     <!-- flags -->
-    <div *ngIf="lookup.flags && lookup.flags.length > 0">
+    <div *ngIf="lookup.flags && lookup.flags.length > 0" gdArea="flags">
       <mat-form-field>
         <mat-select multiple="true" placeholder="flags" formControlName="flags">
           <mat-option *ngFor="let f of lookup.flags" [value]="f.id">
@@ -59,7 +64,7 @@
     </div>
 
     <!-- user -->
-    <div>
+    <div gdArea="user">
       <mat-form-field>
         <mat-select placeholder="user" formControlName="user">
           <mat-option [value]="null">(any)</mat-option>
@@ -72,7 +77,7 @@
   </div>
 
   <!-- min date -->
-  <div>
+  <div gdArea="min-date">
     <mat-form-field>
       <input
         matInput
@@ -86,7 +91,7 @@
   </div>
 
   <!-- max date -->
-  <div>
+  <div gdArea="max-date">
     <mat-form-field>
       <input
         matInput
@@ -99,24 +104,26 @@
     <mat-datepicker #maxPicker></mat-datepicker>
   </div>
 
-  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="4px">
-    <button
-      type="button"
-      mat-mini-fab
-      (click)="reset()"
-      color="warn"
-      matTooltip="Reset all the filters"
-    >
-      <mat-icon>clear</mat-icon>
-    </button>
-    <button
-      type="submit"
-      mat-mini-fab
-      color="primary"
-      [disabled]="form.invalid"
-      matTooltip="Apply filters"
-    >
-      <mat-icon>check_circle</mat-icon>
-    </button>
+  <div gdArea="actions" gdAlignRows="center">
+    <div>
+      <button
+        type="button"
+        mat-icon-button
+        (click)="reset()"
+        color="warn"
+        matTooltip="Reset all the filters"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+      <button
+        type="submit"
+        mat-icon-button
+        color="primary"
+        [disabled]="form.invalid"
+        matTooltip="Apply filters"
+      >
+        <mat-icon>check_circle</mat-icon>
+      </button>
+    </div>
   </div>
 </form>
