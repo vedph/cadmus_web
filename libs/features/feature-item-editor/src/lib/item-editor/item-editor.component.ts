@@ -301,17 +301,7 @@ export class ItemEditorComponent implements OnInit {
     item.description = this.tryTrim(this.description.value);
     item.facetId = this.tryTrim(this.facet.value);
     item.groupId = this.tryTrim(this.group.value);
-
-    // flags
-    const set: FlagDefinition[] = this.flags.value;
-    let flags = 0;
-    if (set) {
-      set.forEach((d) => {
-        // tslint:disable-next-line:no-bitwise
-        flags |= d.id;
-      });
-    }
-    item.flags = flags;
+    item.flags = this.flags.value;
     this._editItemService.save(item);
   }
 
