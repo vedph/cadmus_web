@@ -4,6 +4,6 @@
 
   // environment-dependent settings
   window.__env.apiUrl = 'http://localhost:60304/api/';
-  window.__env.databaseId = 'cadmus';
+  window.__env.databaseId = 'co';
   window.__env.name = 'Demo';
 }(this));
