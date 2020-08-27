@@ -176,25 +176,28 @@ export class LibraryRouteService {
    * where the role ID is as above, and the fragment's type ID is derived
    * from the part's role ID, stripping the eventual fragment's role ID out.
    *
-   * @param partDefs The parts definitions.
    * @param itemId The ID of the item the parts belongs to.
    * @param partId The part's ID.
    * @param typeId The part's type ID.
+   * @param roleId The optional part's role ID.
    * @returns Object with a route property and an optional rid property
    * representing the role ID, which will be rendered as a query parameter.
    */
   public buildPartEditorRoute(
-    partDefs: PartDefinition[],
     itemId: string,
     partId: string,
-    typeId: string
-  ): string {
+    typeId: string,
+    roleId?: string
+  ): { route: string; rid: string | null } {
     let route: string;
     const editorKey = this.getEditorKeyFromPartType(typeId);
 
     // /items/<id>/<part-group>/<part-typeid>/<part-id>?rid=<role-id>
     route = `/items/${itemId}/${editorKey.partKey}/${typeId}/${partId}`;
-    return route;
+    return {
+      route: route,
+      rid: roleId
+    };
   }
 
   /**

@@ -133,7 +133,7 @@ export class ItemEditorComponent implements OnInit {
     this.facet$ = this._query.selectFacet();
     this.facets$ = this._appQuery.selectFacets();
     // rebuild the flags controls array when flags definitions change
-    this._appQuery.selectFlags().subscribe(defs => {
+    this._appQuery.selectFlags().subscribe((defs) => {
       this.flagDefinitions = defs;
       this.buildFlagsControls();
     });
@@ -143,7 +143,7 @@ export class ItemEditorComponent implements OnInit {
     this.error$ = this._query.selectError();
 
     // when flags controls values change, update the flags value
-    this.flagChecks.valueChanges.subscribe(_ => {
+    this.flagChecks.valueChanges.subscribe((_) => {
       this.flags.setValue(this.getFlagsValue());
     });
 
@@ -217,7 +217,7 @@ export class ItemEditorComponent implements OnInit {
     for (let i = 0; i < this.flagDefinitions.length; i++) {
       const flagValue = this.flagDefinitions[i].id;
       // tslint:disable-next-line: no-bitwise
-      const checked = ((this.flags.value & flagValue) !== 0);
+      const checked = (this.flags.value & flagValue) !== 0;
       this.flagChecks.push(this._formBuilder.control(checked));
     }
   }
@@ -232,7 +232,7 @@ export class ItemEditorComponent implements OnInit {
     for (let i = 0; i < this.flagDefinitions.length; i++) {
       const flagValue = this.flagDefinitions[i].id;
       // tslint:disable-next-line: no-bitwise
-      const checked = ((this.flags.value & flagValue) !== 0);
+      const checked = (this.flags.value & flagValue) !== 0;
       this.flagChecks.at(i).setValue(checked);
     }
   }
@@ -306,7 +306,7 @@ export class ItemEditorComponent implements OnInit {
   }
 
   public addPart(def?: PartDefinition) {
-    if (!def && this.newPart.valid) {
+    if (!def && !this.newPartType.valid) {
       return;
     }
     if (!this.id) {
@@ -318,27 +318,42 @@ export class ItemEditorComponent implements OnInit {
     const typeId = def ? def.typeId : this.newPartType.value.typeId;
     const roleId = def ? def.roleId : this.newPartType.value.roleId;
 
-    let route = `/item/${this.id}/${typeId}/new/`;
-    route += roleId ? roleId : 'default';
-    this._router.navigate([route]);
+    const route = this._libraryRouteService.buildPartEditorRoute(
+      this.id,
+      'new',
+      typeId,
+      roleId
+    );
+
+    // navigate to the editor
+    this._router.navigate(
+      [route.route],
+      route.rid
+        ? {
+            queryParams: {
+              rid: route.rid,
+            },
+          }
+        : {}
+    );
   }
 
   public editPart(part: Part) {
     // build the target route to the appropriate part editor
     const route = this._libraryRouteService.buildPartEditorRoute(
-      this._query.getValue().facet.partDefinitions,
       part.itemId,
       part.id,
-      part.typeId
+      part.typeId,
+      part.roleId
     );
 
     // navigate to the editor
     this._router.navigate(
-      [route],
-      part.roleId
+      [route.route],
+      route.rid
         ? {
             queryParams: {
-              rid: part.roleId,
+              rid: route.rid,
             },
           }
         : {}
