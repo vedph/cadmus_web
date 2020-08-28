@@ -7,6 +7,7 @@ import {
   EditItemService,
   EditPartFeatureBase
 } from '@cadmus/features/edit-state';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'cadmus-bibliography-part-feature',
@@ -18,6 +19,7 @@ export class BibliographyPartFeatureComponent extends EditPartFeatureBase
   constructor(
     router: Router,
     route: ActivatedRoute,
+    snackbar: MatSnackBar,
     editPartQuery: EditBibliographyPartQuery,
     editPartService: EditBibliographyPartService,
     editItemQuery: EditItemQuery,
@@ -26,6 +28,7 @@ export class BibliographyPartFeatureComponent extends EditPartFeatureBase
     super(
       router,
       route,
+      snackbar,
       editPartQuery,
       editPartService,
       editItemQuery,

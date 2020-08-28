@@ -100,10 +100,10 @@ export class KeywordsPartComponent
     let part = this.getModelFromJson();
     if (!part) {
       part = {
-        itemId: null,
+        itemId: this.itemId,
         id: null,
         typeId: KEYWORDS_PART_TYPEID,
-        roleId: null,
+        roleId: this.roleId,
         timeCreated: new Date(),
         creatorId: null,
         timeModified: new Date(),

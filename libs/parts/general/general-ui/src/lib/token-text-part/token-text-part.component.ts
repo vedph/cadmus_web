@@ -87,10 +87,10 @@ export class TokenTextPartComponent
     let part = this.getModelFromJson();
     if (!part) {
       part = {
-        itemId: null,
+        itemId: this.itemId,
         id: null,
         typeId: TOKEN_TEXT_PART_TYPEID,
-        roleId: null,
+        roleId: this.roleId,
         lines: null,
         timeCreated: new Date(),
         creatorId: null,

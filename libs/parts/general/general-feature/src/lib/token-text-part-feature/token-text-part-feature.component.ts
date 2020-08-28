@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { EditItemQuery, EditItemService, EditPartFeatureBase } from '@cadmus/features/edit-state';
 import { EditTokenTextPartQuery } from './edit-token-text-part.query';
 import { EditTokenTextPartService } from './edit-token-text-part.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'cadmus-token-text-part-feature',
@@ -23,6 +24,7 @@ export class TokenTextPartFeatureComponent extends EditPartFeatureBase
   constructor(
     router: Router,
     route: ActivatedRoute,
+    snackbar: MatSnackBar,
     editPartQuery: EditTokenTextPartQuery,
     editPartService: EditTokenTextPartService,
     editItemQuery: EditItemQuery,
@@ -31,6 +33,7 @@ export class TokenTextPartFeatureComponent extends EditPartFeatureBase
     super(
       router,
       route,
+      snackbar,
       editPartQuery,
       editPartService,
       editItemQuery,

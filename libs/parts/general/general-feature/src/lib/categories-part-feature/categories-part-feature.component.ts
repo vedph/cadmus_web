@@ -3,6 +3,7 @@ import { EditPartFeatureBase, EditItemQuery, EditItemService } from '@cadmus/fea
 import { Router, ActivatedRoute } from '@angular/router';
 import { EditCategoriesPartQuery } from './edit-categories-part.query';
 import { EditCategoriesPartService } from './edit-categories-part.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'cadmus-categories-part-feature',
@@ -14,6 +15,7 @@ export class CategoriesPartFeatureComponent extends EditPartFeatureBase
     constructor(
       router: Router,
       route: ActivatedRoute,
+      snackbar: MatSnackBar,
       editPartQuery: EditCategoriesPartQuery,
       editPartService: EditCategoriesPartService,
       editItemQuery: EditItemQuery,
@@ -22,6 +24,7 @@ export class CategoriesPartFeatureComponent extends EditPartFeatureBase
       super(
         router,
         route,
+        snackbar,
         editPartQuery,
         editPartService,
         editItemQuery,

@@ -3,6 +3,7 @@ import { EditPartFeatureBase, EditItemQuery, EditItemService } from '@cadmus/fea
 import { Router, ActivatedRoute } from '@angular/router';
 import { EditKeywordsPartQuery } from './edit-keywords-part.query';
 import { EditKeywordsPartService } from './edit-keywords-part.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'cadmus-keywords-part-feature',
@@ -14,6 +15,7 @@ implements OnInit {
   constructor(
     router: Router,
     route: ActivatedRoute,
+    snackbar: MatSnackBar,
     editPartQuery: EditKeywordsPartQuery,
     editPartService: EditKeywordsPartService,
     editItemQuery: EditItemQuery,
@@ -22,6 +24,7 @@ implements OnInit {
     super(
       router,
       route,
+      snackbar,
       editPartQuery,
       editPartService,
       editItemQuery,

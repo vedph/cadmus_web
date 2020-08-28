@@ -1,5 +1,7 @@
 <cadmus-current-item-bar></cadmus-current-item-bar>
 <cadmus-tiled-text-part
+  [itemId]="itemId"
+  [roleId]="roleId"
   [json]="json$ | async"
   (jsonChange)="save($event)"
   [thesauri]="thesauri$ | async"

@@ -1,7 +1,6 @@
 import { ThesauriSet, User } from '@cadmus/core';
 import { Input, Output, EventEmitter, Directive } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { map, distinctUntilChanged } from 'rxjs/operators';
 import { AuthService } from '@cadmus/api';
 import { extractPristineChanges } from '../utils';
 
@@ -26,6 +25,18 @@ export abstract class ModelEditorComponentBase<T> {
 
   // thesaurus
   private _thesauri: ThesauriSet | null;
+
+  /**
+   * The part's item ID.
+   */
+  @Input()
+  public itemId: string;
+
+  /**
+   * The part's role ID.
+   */
+  @Input()
+  public roleId: string;
 
   /**
    * The JSON code representing the part being edited.
@@ -149,7 +160,12 @@ export abstract class ModelEditorComponentBase<T> {
     if (!json) {
       json = this._json;
     }
-    return json ? JSON.parse(json) : null;
+    const model: T = json ? JSON.parse(json) : null;
+    if (!model) {
+      return null;
+    }
+    // an empty object ({}) must be treated as null
+    return Object.keys(model).length? model : null;
   }
 
   /**

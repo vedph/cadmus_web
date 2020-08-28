@@ -3,6 +3,7 @@ import { EditPartFeatureBase, EditItemQuery, EditItemService } from '@cadmus/fea
 import { Router, ActivatedRoute } from '@angular/router';
 import { EditHistoricalDatePartQuery } from './edit-historical-date-part.query';
 import { EditHistoricalDatePartService } from './edit-historical-date-part.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'cadmus-historical-date-part-feature',
@@ -15,6 +16,7 @@ export class HistoricalDatePartFeatureComponent extends EditPartFeatureBase
     constructor(
       router: Router,
       route: ActivatedRoute,
+      snackbar: MatSnackBar,
       editPartQuery: EditHistoricalDatePartQuery,
       editPartService: EditHistoricalDatePartService,
       editItemQuery: EditItemQuery,
@@ -23,6 +25,7 @@ export class HistoricalDatePartFeatureComponent extends EditPartFeatureBase
       super(
         router,
         route,
+        snackbar,
         editPartQuery,
         editPartService,
         editItemQuery,

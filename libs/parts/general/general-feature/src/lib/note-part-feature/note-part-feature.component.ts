@@ -7,6 +7,7 @@ import {
   EditItemService,
   EditPartFeatureBase
 } from '@cadmus/features/edit-state';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'cadmus-note-part-feature',
@@ -18,6 +19,7 @@ export class NotePartFeatureComponent extends EditPartFeatureBase
   constructor(
     router: Router,
     route: ActivatedRoute,
+    snackbar: MatSnackBar,
     editPartQuery: EditNotePartQuery,
     editPartService: EditNotePartService,
     editItemQuery: EditItemQuery,
@@ -26,6 +28,7 @@ export class NotePartFeatureComponent extends EditPartFeatureBase
     super(
       router,
       route,
+      snackbar,
       editPartQuery,
       editPartService,
       editItemQuery,

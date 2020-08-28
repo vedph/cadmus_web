@@ -7,6 +7,7 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 import { EditIndexKeywordsPartQuery } from './edit-index-keywords-part.query';
 import { EditIndexKeywordsPartService } from './edit-index-keywords-part.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'cadmus-index-keywords-part-feature',
@@ -18,6 +19,7 @@ export class IndexKeywordsPartFeatureComponent extends EditPartFeatureBase
   constructor(
     router: Router,
     route: ActivatedRoute,
+    snackbar: MatSnackBar,
     editPartQuery: EditIndexKeywordsPartQuery,
     editPartService: EditIndexKeywordsPartService,
     editItemQuery: EditItemQuery,
@@ -26,6 +28,7 @@ export class IndexKeywordsPartFeatureComponent extends EditPartFeatureBase
     super(
       router,
       route,
+      snackbar,
       editPartQuery,
       editPartService,
       editItemQuery,

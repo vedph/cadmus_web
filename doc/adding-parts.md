@@ -201,10 +201,10 @@ export class NotePartComponent extends ModelEditorComponentBase<NotePart>
     let part = this.getModelFromJson();
     if (!part) {
       part = {
-        itemId: null,
+        itemId: this.itemId,
         id: null,
         typeId: NOTE_PART_TYPEID,
-        roleId: null,
+        roleId: this.roleId,
         timeCreated: new Date(),
         creatorId: null,
         timeModified: new Date(),
@@ -496,6 +496,7 @@ export class __NAME__PartFeatureComponent extends EditPartFeatureBase
   constructor(
     router: Router,
     route: ActivatedRoute,
+    snackbar: MatSnackBar,
     editPartQuery: Edit__NAME__PartQuery,
     editPartService: Edit__NAME__PartService,
     editItemQuery: EditItemQuery,
@@ -504,6 +505,7 @@ export class __NAME__PartFeatureComponent extends EditPartFeatureBase
     super(
       router,
       route,
+      snackbar,
       editPartQuery,
       editPartService,
       editItemQuery,
@@ -530,6 +532,8 @@ Define the corresponding HTML template like:
 ```html
 <cadmus-current-item-bar></cadmus-current-item-bar>
 <cadmus-__NAME__-part
+  [itemId]="itemId"
+  [roleId]="roleId"
   [json]="json$ | async"
   (jsonChange)="save($event)"
   [thesauri]="thesauri$ | async"

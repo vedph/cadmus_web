@@ -92,10 +92,10 @@ export class TiledTextPartComponent
     let part = this.getModelFromJson();
     if (!part) {
       part = {
-        itemId: null,
+        itemId: this.itemId,
         id: null,
         typeId: TILED_TEXT_PART_TYPEID,
-        roleId: null,
+        roleId: this.roleId,
         timeCreated: new Date(),
         creatorId: null,
         timeModified: new Date(),

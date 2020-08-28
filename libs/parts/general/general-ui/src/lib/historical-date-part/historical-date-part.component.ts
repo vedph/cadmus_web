@@ -123,10 +123,10 @@ export class HistoricalDatePartComponent
     let part = this.getModelFromJson();
     if (!part) {
       part = {
-        itemId: null,
+        itemId: this.itemId,
         id: null,
         typeId: HISTORICAL_DATE_PART_TYPEID,
-        roleId: null,
+        roleId: this.roleId,
         timeCreated: new Date(),
         creatorId: null,
         timeModified: new Date(),
