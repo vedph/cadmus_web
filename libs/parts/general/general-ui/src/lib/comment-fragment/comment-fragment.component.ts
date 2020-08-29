@@ -12,7 +12,7 @@ import { AuthService } from '@cadmus/api';
 @Component({
   selector: 'cadmus-comment-fragment',
   templateUrl: './comment-fragment.component.html',
-  styleUrls: ['./comment-fragment.component.css']
+  styleUrls: ['./comment-fragment.component.css'],
 })
 export class CommentFragmentComponent
   extends ModelEditorComponentBase<CommentFragment>
@@ -30,7 +30,7 @@ export class CommentFragmentComponent
     language: 'markdown',
     wordWrap: 'on',
     // https://github.com/atularen/ngx-monaco-editor/issues/19
-    automaticLayout: true
+    automaticLayout: true,
   };
 
   constructor(authService: AuthService, formBuilder: FormBuilder) {
@@ -42,7 +42,7 @@ export class CommentFragmentComponent
     this.form = formBuilder.group({
       tag: this.tag,
       tags: this.tags,
-      text: this.text
+      text: this.text,
     });
   }
 
@@ -81,7 +81,7 @@ export class CommentFragmentComponent
       fr = {
         location: this.fragment ? this.fragment.location : null,
         tag: null,
-        text: null
+        text: null,
       };
     }
     fr.tag = this.trimIfAny(this.tag.value, true);

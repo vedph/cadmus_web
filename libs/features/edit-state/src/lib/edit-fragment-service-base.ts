@@ -40,35 +40,45 @@ export abstract class EditFragmentServiceBase {
         return this._thesaurusService.getScopedId(id, null);
       });
 
-      forkJoin({
-        part: this._itemService.getPart(partId),
-        thesauri: this._thesaurusService.getThesauriSet(unscopedIds)
-      }).subscribe(result => {
-        const layerPart = result.part as TextLayerPart;
+      forkJoin([
+        this._itemService.getPart(partId),
+        this._thesaurusService.getThesauriSet(unscopedIds)
+      ]).subscribe(([part, thesauri]) => {
+        const layerPart = part as TextLayerPart;
         const fr = layerPart.fragments.find(f => f.location === loc);
         if (!fr) {
-          this.setNotFoundError(partId, loc);
+          // this.setNotFoundError(partId, loc);
+          // not found: it's a new fragment
+          this.store.update({
+            fragment: {
+              location: loc
+            },
+            thesauri: thesauri,
+            loading: false,
+            error: null
+          });
         } else {
+          // found
           this.store.update({
             fragment: fr,
-            thesauri: result.thesauri,
+            thesauri: thesauri,
             loading: false,
             error: null
           });
         }
         // if the loaded layer part has a thesaurus scope, reload the thesauri
-        if (result.part.thesaurusScope) {
+        if (part.thesaurusScope) {
           const scopedIds = thesauriIds.map(id => {
             return this._thesaurusService.getScopedId(
               id,
-              result.part.thesaurusScope
+              part.thesaurusScope
             );
           });
           this.store.setLoading(true);
           this._thesaurusService.getThesauriSet(scopedIds).subscribe(
-            thesauri => {
+            scopedThesauri => {
               this.store.update({
-                thesauri: thesauri
+                thesauri: scopedThesauri
               });
             },
             error => {
