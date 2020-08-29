@@ -35,14 +35,14 @@ export class TiledTextLayerView {
       // for each row
       for (let i = 0; i < rows.length; i++) {
         this._rows[i] = {
-          tiles: []
+          tiles: [],
         };
         // for each tile in row
         for (let j = 0; j < (rows[i].tiles ? rows[i].tiles.length : 0); j++) {
           this._rows[i].tiles[j] = {
             checked: false,
             frIndex: -1,
-            model: rows[i].tiles[j]
+            model: rows[i].tiles[j],
           };
         }
       }
@@ -91,7 +91,7 @@ export class TiledTextLayerView {
         row.tiles[j] = {
           checked: hasChecked ? state.checked : tile.checked,
           frIndex: hasFrIndex ? state.frIndex : tile.frIndex,
-          model: tile.model
+          model: tile.model,
         };
       }
     }
@@ -128,18 +128,20 @@ export class TiledTextLayerView {
             row.tiles[x - 1] = {
               checked: tile.checked,
               frIndex: i,
-              model: tile.model
+              model: tile.model,
             };
           }
         }
       } else {
         // point
         const tile = this.getTileAt(loc.primary.y, loc.primary.x);
-        this._rows[loc.primary.y - 1].tiles[loc.primary.x - 1] = {
-          checked: tile.checked,
-          frIndex: i,
-          model: tile.model
-        };
+        if (tile) {
+          this._rows[loc.primary.y - 1].tiles[loc.primary.x - 1] = {
+            checked: tile.checked,
+            frIndex: i,
+            model: tile.model,
+          };
+        }
       }
     }
   }
@@ -167,7 +169,7 @@ export class TiledTextLayerView {
           if (this.getTileAt(y, xi).checked === checked) {
             return {
               y: y,
-              x: xi
+              x: xi,
             };
           }
         }
@@ -184,7 +186,7 @@ export class TiledTextLayerView {
           if (this.getTileAt(y, xi).checked === checked) {
             return {
               y: y,
-              x: xi
+              x: xi,
             };
           }
         }
@@ -226,7 +228,7 @@ export class TiledTextLayerView {
         row.tiles[x - 1] = {
           frIndex: tile.frIndex,
           checked: checked,
-          model: tile.model
+          model: tile.model,
         };
       }
     }
@@ -249,7 +251,7 @@ export class TiledTextLayerView {
     if (x < this._rows[y - 1].tiles.length) {
       return {
         y: y,
-        x: x + 1
+        x: x + 1,
       };
     }
     y++;
@@ -257,7 +259,7 @@ export class TiledTextLayerView {
       if (this._rows[y - 1].tiles.length > 0) {
         return {
           y: y,
-          x: 1
+          x: 1,
         };
       }
       y++;
@@ -282,7 +284,7 @@ export class TiledTextLayerView {
     if (x > 1) {
       return {
         y: y,
-        x: x - 1
+        x: x - 1,
       };
     }
     y--;
@@ -290,7 +292,7 @@ export class TiledTextLayerView {
       if (this._rows[y - 1].tiles.length > 0) {
         return {
           y: y,
-          x: this._rows[y - 1].tiles.length
+          x: this._rows[y - 1].tiles.length,
         };
       }
       y--;
@@ -337,7 +339,7 @@ export class TiledTextLayerView {
       this._rows[y - 1].tiles[x - 1] = {
         checked: true,
         frIndex: tile.frIndex,
-        model: tile.model
+        model: tile.model,
       };
     } else {
       // it was toggled from checked:
@@ -426,7 +428,7 @@ export class TiledTextLayerView {
             if (fr !== row.tiles[x - 1].frIndex) {
               return {
                 fragment: -1,
-                location: loc
+                location: loc,
               };
             }
           } else {
@@ -437,7 +439,7 @@ export class TiledTextLayerView {
     }
     return {
       fragment: fr,
-      location: loc
+      location: loc,
     };
   }
 }
