@@ -34,12 +34,6 @@ export class TiledTextPartFeatureComponent extends EditPartFeatureBase
       editItemQuery,
       editItemService
     );
-    this.itemId = route.snapshot.params['iid'];
-    this.partId = route.snapshot.params['pid'];
-    if (this.partId === 'new') {
-      this.partId = null;
-    }
-    this.roleId = route.snapshot.queryParams['rid'];
   }
 
   ngOnInit() {

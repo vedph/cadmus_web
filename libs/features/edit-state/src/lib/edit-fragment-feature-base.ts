@@ -4,7 +4,7 @@ import {
   TokenLocation,
   ComponentCanDeactivate,
   LibraryRouteService,
-  FacetDefinition
+  Fragment
 } from '@cadmus/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -15,7 +15,6 @@ import {
   EditFragmentServiceBase,
   EditFragmentQueryBase
 } from '@cadmus/features/edit-state';
-import { AppQuery } from './app.query';
 
 export abstract class EditFragmentFeatureBase
   implements ComponentCanDeactivate {
@@ -37,7 +36,6 @@ export abstract class EditFragmentFeatureBase
   constructor(
     private _router: Router,
     route: ActivatedRoute,
-    private _appQuery: AppQuery,
     private _editFrQuery: EditFragmentQueryBase,
     private _editFrService: EditFragmentServiceBase,
     private _editItemQuery: EditItemQuery,
@@ -106,19 +104,28 @@ export abstract class EditFragmentFeatureBase
   }
 
   public save(json: string) {
-    this._editFrService.save(json);
+    const part = JSON.parse(JSON.stringify(this._editLayersQuery.getValue().part));
+    const fr = JSON.parse(json) as Fragment;
+    const frIndex = part.fragments.findIndex(f => f.location === this.loc);
+    if (frIndex > -1) {
+      part.fragments.splice(frIndex, 1, fr);
+    }
+    else {
+      part.fragments.push(fr);
+    }
+    this._editFrService.save(JSON.stringify(part));
   }
 
   public close() {
     // /items/<id>/<part-group>/<part-typeid>/<part-id>?rid=<role-id>
     const part = this._editLayersQuery.getValue().part;
-    const item = this._editItemQuery.getValue().item;
-    const facet: FacetDefinition = this._appQuery.getValue().facets.find(f => {
-      return f.id === item.facetId;
-    });
-    const partDef = facet.partDefinitions.find(d => {
-      return d.typeId === part.typeId && d.roleId === d.roleId;
-    });
+    // const item = this._editItemQuery.getValue().item;
+    // const facet: FacetDefinition = this._appQuery.getValue().facets.find(f => {
+    //   return f.id === item.facetId;
+    // });
+    // const partDef = facet.partDefinitions.find(d => {
+    //   return d.typeId === part.typeId && d.roleId === d.roleId;
+    // });
 
     const editorKey = this._libraryRouteService.getEditorKeyFromPartType(
       part.typeId,

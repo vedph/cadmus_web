@@ -128,7 +128,7 @@ export abstract class EditFragmentServiceBase {
       error => {
         console.error(error);
         this.store.setSaving(true);
-        this.store.setError('Error saving part');
+        this.store.setError('Error saving fragment');
       }
     );
   }

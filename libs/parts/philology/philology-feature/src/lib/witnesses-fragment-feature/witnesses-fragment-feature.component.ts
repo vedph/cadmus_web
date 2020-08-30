@@ -7,8 +7,7 @@ import {
   EditItemService,
   EditLayerPartQuery,
   EditLayerPartService,
-  EditFragmentFeatureBase,
-  AppQuery
+  EditFragmentFeatureBase
 } from '@cadmus/features/edit-state';
 import { LibraryRouteService } from '@cadmus/core';
 
@@ -22,7 +21,6 @@ export class WitnessesFragmentFeatureComponent extends EditFragmentFeatureBase
   constructor(
     router: Router,
     route: ActivatedRoute,
-    appQuery: AppQuery,
     editFrQuery: EditWitnessesFragmentQuery,
     editFrService: EditWitnessesFragmentService,
     editItemQuery: EditItemQuery,
@@ -34,7 +32,6 @@ export class WitnessesFragmentFeatureComponent extends EditFragmentFeatureBase
     super(
       router,
       route,
-      appQuery,
       editFrQuery,
       editFrService,
       editItemQuery,

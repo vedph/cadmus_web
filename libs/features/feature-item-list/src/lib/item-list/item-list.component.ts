@@ -37,7 +37,7 @@ export class ItemListComponent implements OnInit {
 
   constructor(
     @Inject(ITEMS_PAGINATOR) public paginator: PaginatorPlugin<ItemsState>,
-    private _itemsService: ItemService,
+    private _itemService: ItemService,
     private _itemListService: ItemsListService,
     private _dialogService: DialogService,
     private _router: Router,
@@ -53,7 +53,7 @@ export class ItemListComponent implements OnInit {
     filter: ItemFilter
   ): () => Observable<PaginationResponse<ItemInfo>> {
     return () =>
-      this._itemsService.getItems(filter).pipe(
+      this._itemService.getItems(filter).pipe(
         // adapt server results to the paginator plugin
         map((p: DataPage<ItemInfo>) => {
           return {

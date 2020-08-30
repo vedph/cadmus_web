@@ -48,6 +48,9 @@ export abstract class EditPartFeatureBase implements ComponentCanDeactivate {
       this.partId = null;
     }
     this.roleId = route.snapshot.queryParams['rid'];
+    if (this.roleId === 'default') {
+      this.roleId = null;
+    }
 
     // connect _stateDirty to the value of the edit state
     this._editPartQuery.selectDirty().subscribe(d => {
