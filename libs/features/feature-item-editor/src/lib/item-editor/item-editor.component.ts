@@ -10,6 +10,7 @@ import {
   LibraryRouteService,
   User,
   LayerPartInfo,
+  Thesaurus,
 } from '@cadmus/core';
 import {
   FormControl,
@@ -55,6 +56,7 @@ export class ItemEditorComponent implements OnInit {
   public saving$: Observable<boolean>;
   public deletingPart$: Observable<boolean>;
   public error$: Observable<string>;
+  public typeThesaurus$: Observable<Thesaurus>;
 
   // new part form
   public newPartType: FormControl;
@@ -137,6 +139,7 @@ export class ItemEditorComponent implements OnInit {
       this.flagDefinitions = defs;
       this.buildFlagsControls();
     });
+    this.typeThesaurus$ = this._appQuery.selectTypeThesaurus();
     this.loading$ = this._query.selectLoading();
     this.saving$ = this._query.selectSaving();
     this.deletingPart$ = this._query.selectDeletingPart();

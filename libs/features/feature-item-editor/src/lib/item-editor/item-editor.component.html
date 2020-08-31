@@ -287,6 +287,7 @@
                     [partTypeIds]="part"
                     [facetDefinition]="facet$ | async"
                     [badgeType]="1"
+                    [typeThesaurus]="typeThesaurus$ | async"
                   ></cadmus-part-badge>
                 </td>
                 <td>
@@ -294,6 +295,7 @@
                     [partTypeIds]="part"
                     [facetDefinition]="facet$ | async"
                     [badgeType]="2"
+                    [typeThesaurus]="typeThesaurus$ | async"
                   ></cadmus-part-badge>
                 </td>
                 <td>{{ part.timeModified | amLocal | amTimeAgo }}</td>
@@ -306,6 +308,7 @@
         <cadmus-missing-parts
           [partDefinitions]="(facet$ | async)?.partDefinitions"
           [parts]="parts$ | async"
+          [typeThesaurus]="typeThesaurus$ | async"
           (addRequest)="addPart($event)"
         ></cadmus-missing-parts>
       </mat-tab>
@@ -369,6 +372,7 @@
                   [partTypeIds]="part"
                   [facetDefinition]="facet$ | async"
                   [badgeType]="1"
+                  [typeThesaurus]="typeThesaurus$ | async"
                 ></cadmus-part-badge>
               </td>
               <td>
@@ -376,6 +380,7 @@
                   [partTypeIds]="part"
                   [facetDefinition]="facet$ | async"
                   [badgeType]="2"
+                  [typeThesaurus]="typeThesaurus$ | async"
                 ></cadmus-part-badge>
               </td>
               <td

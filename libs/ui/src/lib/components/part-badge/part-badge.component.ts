@@ -83,10 +83,10 @@ export class PartBadgeComponent implements OnInit {
   }
 
   private getTypeIdName(typeId: string): string {
-    if (!this.typeThesaurus) {
+    if (!this._typeThesaurus) {
       return typeId;
     }
-    const entry = this.typeThesaurus.entries.find(e => e.id === typeId);
+    const entry = this._typeThesaurus.entries.find(e => e.id === typeId);
     return entry ? entry.value : typeId;
   }
 
@@ -98,10 +98,10 @@ export class PartBadgeComponent implements OnInit {
   }
 
   private updateBadge() {
-    if (this.partTypeIds) {
-      this.color = this.getPartColor(this.partTypeIds.typeId, this.partTypeIds.roleId);
-      this.typeName = this.getTypeIdName(this.partTypeIds.typeId);
-      this.roleName = this.getRoleIdName(this.partTypeIds.roleId);
+    if (this._partTypeIds) {
+      this.color = this.getPartColor(this._partTypeIds.typeId, this._partTypeIds.roleId);
+      this.typeName = this.getTypeIdName(this._partTypeIds.typeId);
+      this.roleName = this.getRoleIdName(this._partTypeIds.roleId);
     } else {
       this.color = 'transparent';
       this.typeName = null;

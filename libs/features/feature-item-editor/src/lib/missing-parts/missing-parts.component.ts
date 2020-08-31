@@ -1,14 +1,15 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { PartDefinition, Part } from '@cadmus/core';
+import { PartDefinition, Part, Thesaurus } from '@cadmus/core';
 
 @Component({
   selector: 'cadmus-missing-parts',
   templateUrl: './missing-parts.component.html',
-  styleUrls: ['./missing-parts.component.css']
+  styleUrls: ['./missing-parts.component.css'],
 })
 export class MissingPartsComponent implements OnInit {
   private _partDefinitions: PartDefinition[];
   private _parts: Part[];
+  private _typeThesaurus: Thesaurus;
 
   public missingDefinitions: PartDefinition[];
 
@@ -30,6 +31,18 @@ export class MissingPartsComponent implements OnInit {
     this.updateMissing();
   }
 
+  /**
+   * The types thesaurus.
+   */
+  @Input()
+  public get typeThesaurus(): Thesaurus {
+    return this._typeThesaurus;
+  }
+  public set typeThesaurus(value: Thesaurus) {
+    this._typeThesaurus = value;
+    this.updateMissing();
+  }
+
   @Output()
   public addRequest: EventEmitter<PartDefinition>;
 
@@ -42,7 +55,7 @@ export class MissingPartsComponent implements OnInit {
 
   private isPartPresent(typeId: string, roleId: string): boolean {
     return this._partDefinitions.some(
-      d => d.typeId === typeId && d.roleId === roleId
+      (d) => d.typeId === typeId && d.roleId === roleId
     );
   }
 

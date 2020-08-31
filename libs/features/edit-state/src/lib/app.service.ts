@@ -17,27 +17,24 @@ export class AppService {
 
     const facets$ = this._facetService.getFacets();
     const flags$ = this._flagService.getFlags();
-    const thesauri$ = this._thesaurusService.getThesauriSet(
-      ['model-types@en', 'item-browsers@en']
-    );
+    const thesauri$ = this._thesaurusService.getThesauriSet([
+      'model-types@en',
+      'item-browsers@en',
+    ]);
 
-    forkJoin({
-      facets: facets$,
-      flags: flags$,
-      thesauri: thesauri$
-    }).subscribe(
-      result => {
+    forkJoin([facets$, flags$, thesauri$]).subscribe(
+      ([facets, flags, thesauri]) => {
         this._store.setLoading(false);
         this._store.setError(null);
 
         this._store.update({
-          facets: result.facets,
-          flags: result.flags,
-          typeThesaurus: result.thesauri['model-types'],
-          itemBrowserThesaurus: result.thesauri['item-browsers']
+          facets: facets,
+          flags: flags,
+          typeThesaurus: thesauri['model-types'],
+          itemBrowserThesaurus: thesauri['item-browsers'],
         });
       },
-      error => {
+      (error) => {
         console.error(error);
         this._store.setLoading(false);
         this._store.setError('Error loading app state');
