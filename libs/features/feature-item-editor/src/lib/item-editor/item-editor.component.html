@@ -34,6 +34,11 @@
       </mat-error>
     </p>
 
+    <mat-progress-bar
+      mode="indeterminate"
+      *ngIf="(loading$ | async) || (saving$ | async)"
+    ></mat-progress-bar>
+
     <!-- item content -->
     <mat-tab-group [selectedIndex]="id ? 1 : 0">
       <!-- metadata -->
@@ -154,7 +159,9 @@
               *ngFor="let c of flagChecks.controls; let i = index"
               [formControlName]="i"
             >
-              <span [style.color]="'#' + flagDefinitions[i].colorKey">&#x2b24;</span>
+              <span [style.color]="'#' + flagDefinitions[i].colorKey"
+                >&#x2b24;</span
+              >
               &nbsp;
               {{ flagDefinitions[i].label }}
             </mat-checkbox>
@@ -235,8 +242,8 @@
                 <th style="width: 124px;"></th>
                 <th>type</th>
                 <th>role</th>
-                <th>modified</th>
-                <th>user</th>
+                <th fxHide.xs>modified</th>
+                <th fxHide.xs>user</th>
               </tr>
             </thead>
             <tbody>
@@ -298,8 +305,8 @@
                     [typeThesaurus]="typeThesaurus$ | async"
                   ></cadmus-part-badge>
                 </td>
-                <td>{{ part.timeModified | amLocal | amTimeAgo }}</td>
-                <td>{{ part.userId }}</td>
+                <td fxHide.xs>{{ part.timeModified | amLocal | amTimeAgo }}</td>
+                <td fxHide.xs>{{ part.userId }}</td>
               </tr>
             </tbody>
           </table>
