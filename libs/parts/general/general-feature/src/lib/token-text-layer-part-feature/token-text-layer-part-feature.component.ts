@@ -5,7 +5,7 @@ import {
   LibraryRouteService,
   TextLayerService,
   ComponentCanDeactivate,
-  LayerHint
+  LayerHint,
 } from '@cadmus/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '@cadmus/ui';
@@ -13,7 +13,7 @@ import {
   EditLayerPartQuery,
   EditLayerPartService,
   EditItemQuery,
-  EditItemService
+  EditItemService,
 } from '@cadmus/features/edit-state';
 import { AuthService } from '@cadmus/api';
 
@@ -27,7 +27,7 @@ import { AuthService } from '@cadmus/api';
 @Component({
   selector: 'cadmus-token-text-layer-part-feature',
   templateUrl: './token-text-layer-part-feature.component.html',
-  styleUrls: ['./token-text-layer-part-feature.component.css']
+  styleUrls: ['./token-text-layer-part-feature.component.css'],
 })
 export class TokenTextLayerPartFeatureComponent
   implements OnInit, ComponentCanDeactivate {
@@ -85,8 +85,8 @@ export class TokenTextLayerPartFeatureComponent
   ngOnInit() {
     this.loading$ = this._editQuery.selectLoading();
     this.error$ = this._editQuery.selectError();
-    this.baseText$ = this._editQuery.select(state => state.baseText);
-    this.locations$ = this._editQuery.select(state => state.locations);
+    this.baseText$ = this._editQuery.select((state) => state.baseText);
+    this.locations$ = this._editQuery.select((state) => state.locations);
     this.refreshingBreakChance$ = this._editQuery.selectRefreshingBreakChance();
     this.breakChance$ = this._editQuery.selectBreakChance();
     this.layerHints$ = this._editQuery.selectLayerHints();
@@ -106,25 +106,25 @@ export class TokenTextLayerPartFeatureComponent
   }
 
   public deleteFragment() {
-    const loc = this._textLayerService.getSelectedLocationForEdit(
+    const location = this._textLayerService.getSelectedLocationForEdit(
       this._textLayerService.getSelectedRange()
     );
-    if (!loc) {
+    if (!location) {
       return;
     }
 
     this._dialogService
-      .confirm('Delete Fragment', `Delete the fragment at ${loc}?`)
+      .confirm('Delete Fragment', `Delete the fragment at ${location}?`)
       .subscribe((ok: boolean) => {
         if (ok) {
           // find the fragment and remove it from the part
-          const i = this._editQuery.getValue().part.fragments.findIndex(p => {
-            return TokenLocation.parse(p.location).overlaps(loc);
+          const i = this._editQuery.getValue().part.fragments.findIndex((p) => {
+            return TokenLocation.parse(p.location).overlaps(location);
           });
           if (i === -1) {
             return;
           }
-          this._editService.deleteFragment(loc);
+          this._editService.deleteFragment(location);
         }
       });
   }
@@ -156,18 +156,20 @@ export class TokenTextLayerPartFeatureComponent
       rid
         ? {
             queryParams: {
-              rid: part.roleId
-            }
+              rid: part.roleId,
+            },
           }
         : {}
     );
   }
 
   public editFragment() {
-    const loc = this._textLayerService.getSelectedLocationForEdit(
+    const location = this._textLayerService.getSelectedLocationForEdit(
       this._textLayerService.getSelectedRange()
     );
-    this.navigateToFragmentEditor(loc.toString());
+    if (location) {
+      this.navigateToFragmentEditor(location.toString());
+    }
   }
 
   public editFragmentFromHint(hint: LayerHint) {
@@ -175,11 +177,13 @@ export class TokenTextLayerPartFeatureComponent
   }
 
   public addFragment() {
-    const loc = this._textLayerService.getSelectedLocationForNew(
+    const location = this._textLayerService.getSelectedLocationForNew(
       this._textLayerService.getSelectedRange(),
       this._editQuery.getValue().baseText
     );
-    this.navigateToFragmentEditor(loc.toString());
+    if (location) {
+      this.navigateToFragmentEditor(location.toString());
+    }
   }
 
   public moveFragmentFromHint(hint: LayerHint) {
@@ -187,7 +191,7 @@ export class TokenTextLayerPartFeatureComponent
       return;
     }
     this._editService.applyLayerPatches(this.partId, [
-      `mov ${hint.location} ${this.pickedLocation}`
+      `mov ${hint.location} ${this.pickedLocation}`,
     ]);
   }
 
