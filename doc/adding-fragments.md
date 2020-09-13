@@ -446,6 +446,7 @@ export class __NAME__FragmentFeatureComponent extends EditFragmentFeatureBase
   constructor(
     router: Router,
     route: ActivatedRoute,
+    snackbar: MatSnackBar,
     editFrQuery: Edit__NAME__FragmentQuery,
     editFrService: Edit__NAME__FragmentService,
     editItemQuery: EditItemQuery,
@@ -457,6 +458,7 @@ export class __NAME__FragmentFeatureComponent extends EditFragmentFeatureBase
     super(
       router,
       route,
+      snackbar,
       editFrQuery,
       editFrService,
       editItemQuery,

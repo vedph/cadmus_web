@@ -36,7 +36,7 @@ export abstract class EditPartFeatureBase implements ComponentCanDeactivate {
   constructor(
     protected router: Router,
     route: ActivatedRoute,
-    private _snackbar: MatSnackBar,
+    protected snackbar: MatSnackBar,
     private _editPartQuery: EditPartQueryBase,
     private _editPartService: EditPartServiceBase,
     private _editItemQuery: EditItemQuery,
@@ -111,12 +111,12 @@ export abstract class EditPartFeatureBase implements ComponentCanDeactivate {
    */
   public save(json: string) {
     this._editPartService.save(json).then(_ => {
-      this._snackbar.open('Part saved', 'OK', {
+      this.snackbar.open('Part saved', 'OK', {
         duration: 3000
       });
     },
     error => {
-      this._snackbar.open('Error saving part', 'OK');
+      this.snackbar.open('Error saving part', 'OK');
     });
   }
 

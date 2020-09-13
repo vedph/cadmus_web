@@ -23,7 +23,7 @@ export abstract class EditFragmentServiceBase {
       fragment: null,
       thesauri: null,
       loading: false,
-      error: `Fragment at ${loc} in part ${partId} not found`
+      error: `Fragment at ${loc} in part ${partId} not found`,
     });
   }
 
@@ -36,26 +36,26 @@ export abstract class EditFragmentServiceBase {
 
     if (thesauriIds) {
       // remove trailing ! from IDs if any
-      const unscopedIds = thesauriIds.map(id => {
+      const unscopedIds = thesauriIds.map((id) => {
         return this._thesaurusService.getScopedId(id, null);
       });
 
       forkJoin([
         this._itemService.getPart(partId),
-        this._thesaurusService.getThesauriSet(unscopedIds)
+        this._thesaurusService.getThesauriSet(unscopedIds),
       ]).subscribe(([part, thesauri]) => {
         const layerPart = part as TextLayerPart;
-        const fr = layerPart.fragments.find(f => f.location === loc);
+        const fr = layerPart.fragments.find((f) => f.location === loc);
         if (!fr) {
           // this.setNotFoundError(partId, loc);
           // not found: it's a new fragment
           this.store.update({
             fragment: {
-              location: loc
+              location: loc,
             },
             thesauri: thesauri,
             loading: false,
-            error: null
+            error: null,
           });
         } else {
           // found
@@ -63,25 +63,22 @@ export abstract class EditFragmentServiceBase {
             fragment: fr,
             thesauri: thesauri,
             loading: false,
-            error: null
+            error: null,
           });
         }
         // if the loaded layer part has a thesaurus scope, reload the thesauri
         if (part.thesaurusScope) {
-          const scopedIds = thesauriIds.map(id => {
-            return this._thesaurusService.getScopedId(
-              id,
-              part.thesaurusScope
-            );
+          const scopedIds = thesauriIds.map((id) => {
+            return this._thesaurusService.getScopedId(id, part.thesaurusScope);
           });
           this.store.setLoading(true);
           this._thesaurusService.getThesauriSet(scopedIds).subscribe(
-            scopedThesauri => {
+            (scopedThesauri) => {
               this.store.update({
-                thesauri: scopedThesauri
+                thesauri: scopedThesauri,
               });
             },
-            error => {
+            (error) => {
               console.error(error);
               this.store.setLoading(false);
               this.store.setError(
@@ -93,20 +90,20 @@ export abstract class EditFragmentServiceBase {
       });
     } else {
       this._itemService.getPart(partId).subscribe(
-        part => {
+        (part) => {
           const layerPart = part as TextLayerPart;
-          const fr = layerPart.fragments.find(f => f.location === loc);
+          const fr = layerPart.fragments.find((f) => f.location === loc);
           if (!fr) {
             this.setNotFoundError(partId, loc);
           } else {
             this.store.update({
               fragment: fr,
               loading: false,
-              error: null
+              error: null,
             });
           }
         },
-        error => {
+        (error) => {
           console.error(error);
           this.store.setLoading(false);
           this.store.setError('Error loading part ' + partId);
@@ -115,22 +112,26 @@ export abstract class EditFragmentServiceBase {
     }
   }
 
-  public save(json: string) {
+  public save(json: string): Promise<boolean> {
     this.store.setSaving(true);
     this.store.setDirty(true);
 
-    this._itemService.addPartJson(json).subscribe(
-      _ => {
-        this.store.setSaving(false);
-        this.store.setDirty(false);
-        this.store.setError(null);
-      },
-      error => {
-        console.error(error);
-        this.store.setSaving(true);
-        this.store.setError('Error saving fragment');
-      }
-    );
+    return new Promise((resolve, reject) => {
+      this._itemService.addPartJson(json).subscribe(
+        (_) => {
+          this.store.setSaving(false);
+          this.store.setDirty(false);
+          this.store.setError(null);
+          resolve(true);
+        },
+        (error) => {
+          console.error(error);
+          this.store.setSaving(true);
+          this.store.setError('Error saving fragment');
+          reject(error);
+        }
+      );
+    });
   }
 
   public setDirty(value = true) {

@@ -4,7 +4,7 @@ import {
   TokenLocation,
   ComponentCanDeactivate,
   LibraryRouteService,
-  Fragment
+  Fragment,
 } from '@cadmus/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -13,8 +13,9 @@ import {
   EditLayerPartQuery,
   EditLayerPartService,
   EditFragmentServiceBase,
-  EditFragmentQueryBase
+  EditFragmentQueryBase,
 } from '@cadmus/features/edit-state';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export abstract class EditFragmentFeatureBase
   implements ComponentCanDeactivate {
@@ -36,6 +37,7 @@ export abstract class EditFragmentFeatureBase
   constructor(
     private _router: Router,
     route: ActivatedRoute,
+    protected snackbar: MatSnackBar,
     private _editFrQuery: EditFragmentQueryBase,
     private _editFrService: EditFragmentServiceBase,
     private _editItemQuery: EditItemQuery,
@@ -51,7 +53,7 @@ export abstract class EditFragmentFeatureBase
     this.frRoleId = route.snapshot.queryParams['frrid'];
 
     // connect _stateDirty to the value of the edit state
-    this._editFrQuery.selectDirty().subscribe(d => {
+    this._editFrQuery.selectDirty().subscribe((d) => {
       this._stateDirty = d;
     });
   }
@@ -82,7 +84,7 @@ export abstract class EditFragmentFeatureBase
   protected initEditor(thesauriIds: string[]) {
     this.json$ = this._editFrQuery.selectJson();
     this.thesauri$ = this._editFrQuery.selectThesauri();
-    this.baseText$ = this._editLayersQuery.select(state => state.baseText);
+    this.baseText$ = this._editLayersQuery.select((state) => state.baseText);
     this.frLoc = TokenLocation.parse(this.loc);
 
     // load item if required
@@ -104,16 +106,26 @@ export abstract class EditFragmentFeatureBase
   }
 
   public save(json: string) {
-    const part = JSON.parse(JSON.stringify(this._editLayersQuery.getValue().part));
+    const part = JSON.parse(
+      JSON.stringify(this._editLayersQuery.getValue().part)
+    );
     const fr = JSON.parse(json) as Fragment;
-    const frIndex = part.fragments.findIndex(f => f.location === this.loc);
+    const frIndex = part.fragments.findIndex((f) => f.location === this.loc);
     if (frIndex > -1) {
       part.fragments.splice(frIndex, 1, fr);
-    }
-    else {
+    } else {
       part.fragments.push(fr);
     }
-    this._editFrService.save(JSON.stringify(part));
+    this._editFrService.save(JSON.stringify(part)).then(
+      (_) => {
+        this.snackbar.open('Fragment saved', 'OK', {
+          duration: 3000,
+        });
+      },
+      (error) => {
+        this.snackbar.open('Error saving fragment', 'OK');
+      }
+    );
   }
 
   public close() {
@@ -135,8 +147,8 @@ export abstract class EditFragmentFeatureBase
     const url = `/items/${this.itemId}/${editorKey.partKey}/${part.typeId}/${this.partId}`;
     this._router.navigate([url], {
       queryParams: {
-        rid: this.frTypeId
-      }
+        rid: this.frTypeId,
+      },
     });
   }
 }

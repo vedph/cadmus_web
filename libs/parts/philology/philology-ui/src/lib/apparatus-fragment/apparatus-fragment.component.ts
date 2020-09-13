@@ -109,6 +109,9 @@ export class ApparatusFragmentComponent
 
   public addEntry() {
     const entry = { type: ApparatusEntryType.replacement };
+    if (!this.fragment.entries) {
+      this.fragment.entries = [];
+    }
     this.fragment.entries.push(entry);
     this.entryCount.setValue(this.fragment.entries.length);
     this._newEditedEntry = true;

@@ -10,6 +10,7 @@ import {
   EditFragmentFeatureBase
 } from '@cadmus/features/edit-state';
 import { LibraryRouteService } from '@cadmus/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'cadmus-orthography-fragment-feature',
@@ -21,6 +22,7 @@ export class OrthographyFragmentFeatureComponent extends EditFragmentFeatureBase
   constructor(
     router: Router,
     route: ActivatedRoute,
+    snackbar: MatSnackBar,
     editFrQuery: EditOrthographyFragmentQuery,
     editFrService: EditOrthographyFragmentService,
     editItemQuery: EditItemQuery,
@@ -32,6 +34,7 @@ export class OrthographyFragmentFeatureComponent extends EditFragmentFeatureBase
     super(
       router,
       route,
+      snackbar,
       editFrQuery,
       editFrService,
       editItemQuery,
