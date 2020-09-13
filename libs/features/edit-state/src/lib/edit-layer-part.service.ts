@@ -6,7 +6,7 @@ import {
   TextLayerPart,
   TokenLocation,
   UtilService,
-  Fragment
+  Fragment,
 } from '@cadmus/core';
 
 @Injectable({ providedIn: 'root' })
@@ -18,6 +18,17 @@ export class EditLayerPartService {
     private _utilService: UtilService,
     private _thesaurusService: ThesaurusService
   ) {}
+
+  private getLocations(part: TextLayerPart): TokenLocation[] {
+    const locations: TokenLocation[] = [];
+
+    if (part && part.fragments) {
+      part.fragments.forEach((p) => {
+        locations.push(TokenLocation.parse(p.location));
+      });
+    }
+    return locations;
+  }
 
   /**
    * Load the state for editing layer part(s).
@@ -38,7 +49,7 @@ export class EditLayerPartService {
 
     if (thesauriIds) {
       // remove trailing ! from IDs if any
-      const unscopedIds = thesauriIds.map(id => {
+      const unscopedIds = thesauriIds.map((id) => {
         return this._thesaurusService.getScopedId(id, null);
       });
 
@@ -49,22 +60,23 @@ export class EditLayerPartService {
         layers: this._facetService.getFacetParts(itemId, true),
         breakChance: this._itemService.getLayerPartBreakChance(partId),
         layerHints: this._itemService.getLayerPartHints(partId),
-        thesauri: this._thesaurusService.getThesauriSet(unscopedIds)
+        thesauri: this._thesaurusService.getThesauriSet(unscopedIds),
       }).subscribe(
-        result => {
+        (result) => {
           this._store.update({
             part: result.layerPart as TextLayerPart,
             baseText: result.baseText.text,
             baseTextPart: result.baseText.part,
+            locations: this.getLocations(result.layerPart as TextLayerPart),
             breakChance: result.breakChance.chance,
             layerHints: result.layerHints,
             thesauri: result.thesauri,
             loading: false,
-            error: null
+            error: null,
           });
           // if the loaded part has a thesaurus scope, reload the thesauri
           if (result.layerPart.thesaurusScope) {
-            const scopedIds: string[] = thesauriIds.map(id => {
+            const scopedIds: string[] = thesauriIds.map((id) => {
               return this._thesaurusService.getScopedId(
                 id,
                 result.layerPart.thesaurusScope
@@ -72,12 +84,12 @@ export class EditLayerPartService {
             });
             this._store.setLoading(true);
             this._thesaurusService.getThesauriSet(scopedIds).subscribe(
-              thesauri => {
+              (thesauri) => {
                 this._store.update({
-                  thesauri: thesauri
+                  thesauri: thesauri,
                 });
               },
-              error => {
+              (error) => {
                 console.error(error);
                 this._store.setLoading(false);
                 this._store.setError(
@@ -87,7 +99,7 @@ export class EditLayerPartService {
             );
           } // scoped
         },
-        error => {
+        (error) => {
           console.error(error);
           this._store.setLoading(false);
           this._store.setError('Error loading text layer part ' + partId);
@@ -100,20 +112,21 @@ export class EditLayerPartService {
         baseText: this._itemService.getBaseTextPart(itemId),
         layers: this._facetService.getFacetParts(itemId, true),
         breakChance: this._itemService.getLayerPartBreakChance(partId),
-        layerHints: this._itemService.getLayerPartHints(partId)
+        layerHints: this._itemService.getLayerPartHints(partId),
       }).subscribe(
-        result => {
+        (result) => {
           this._store.update({
             part: result.layerPart as TextLayerPart,
             baseText: result.baseText.text,
             baseTextPart: result.baseText.part,
+            locations: this.getLocations(result.layerPart as TextLayerPart),
             breakChance: result.breakChance.chance,
             layerHints: result.layerHints,
             loading: false,
-            error: null
+            error: null,
           });
         },
-        error => {
+        (error) => {
           console.error(error);
           this._store.setLoading(false);
           this._store.setError('Error loading text layer part ' + partId);
@@ -133,11 +146,11 @@ export class EditLayerPartService {
     }
     this._store.setRefreshingBreakChance(true);
     this._itemService.getLayerPartBreakChance(part.id).subscribe(
-      result => {
+      (result) => {
         this._store.setRefreshingBreakChance(false);
         this._store.setBreakChance(result.chance);
       },
-      error => {
+      (error) => {
         console.error(error);
         this._store.setRefreshingBreakChance(false);
         this._store.setBreakChance(-1);
@@ -152,11 +165,11 @@ export class EditLayerPartService {
     this._store.setPatchingLayer(true);
 
     this._itemService.applyLayerPatches(partId, patches).subscribe(
-      part => {
+      (part) => {
         this._store.setPatchingLayer(false);
         this.load(part.itemId, partId);
       },
-      error => {
+      (error) => {
         console.error(error);
         this._store.setPatchingLayer(false);
         this._store.setError('Error patching text layer part ' + partId);
@@ -177,7 +190,7 @@ export class EditLayerPartService {
     if (!part) {
       return;
     }
-    const i = part.fragments.findIndex(p => {
+    const i = part.fragments.findIndex((p) => {
       return TokenLocation.parse(p.location).overlaps(loc);
     });
     if (i === -1) {
@@ -191,7 +204,7 @@ export class EditLayerPartService {
 
     // update the part and reload state once done
     this._itemService.addPart(part).subscribe(
-      _ => {
+      (_) => {
         this._store.setDeletingFragment(false);
         this.load(part.itemId, part.id);
         // this._store.update({
@@ -200,7 +213,7 @@ export class EditLayerPartService {
         //   error: null
         // });
       },
-      error => {
+      (error) => {
         console.error(error);
         this._store.setDeletingFragment(false);
         this._store.setError(
@@ -249,7 +262,7 @@ export class EditLayerPartService {
 
     // update the part and reload once done
     this._itemService.addPart(part).subscribe(
-      _ => {
+      (_) => {
         this.load(part.itemId, part.id);
         // this._store.update({
         //   part: part,
@@ -257,7 +270,7 @@ export class EditLayerPartService {
         //   error: null
         // });
       },
-      error => {
+      (error) => {
         console.error(error);
         this._store.setSavingFragment(false);
         this._store.setError(

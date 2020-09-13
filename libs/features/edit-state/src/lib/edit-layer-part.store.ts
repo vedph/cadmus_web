@@ -1,5 +1,11 @@
 import { StoreConfig, Store } from '@datorama/akita';
-import { TextLayerPart, Part, LayerHint, ThesauriSet } from '@cadmus/core';
+import {
+  TextLayerPart,
+  Part,
+  LayerHint,
+  ThesauriSet,
+  TokenLocation,
+} from '@cadmus/core';
 import { Injectable } from '@angular/core';
 
 /**
@@ -24,6 +30,10 @@ export interface EditLayerPartState {
    */
   baseTextPart: Part | null;
   /**
+   * The fragments locations, collected from all the fragments.
+   */
+  locations: TokenLocation[];
+  /**
    * The estimated chance of broken fragments in this layer: 0=safe,
    * 1=potentially broken, 2=broken.
    */
@@ -35,7 +45,7 @@ export interface EditLayerPartState {
   layerHints: LayerHint[];
   // this is implemented in Akita stores, but you must add the keys
   // https://github.com/datorama/akita/issues/61
-  thesauri: ThesauriSet,
+  thesauri: ThesauriSet;
   loading?: boolean;
   error?: string;
   deletingFragment?: boolean;
@@ -48,6 +58,7 @@ const initialState: EditLayerPartState = {
   part: null,
   baseText: null,
   baseTextPart: null,
+  locations: [],
   breakChance: -1,
   layerHints: [],
   thesauri: {},
@@ -56,7 +67,7 @@ const initialState: EditLayerPartState = {
   deletingFragment: false,
   savingFragment: false,
   refreshingBreakChance: false,
-  patchingLayer: false
+  patchingLayer: false,
 };
 
 @Injectable({ providedIn: 'root' })
@@ -84,5 +95,9 @@ export class EditLayerPartStore extends Store<EditLayerPartState> {
 
   public setPatchingLayer(value = true) {
     this.update({ patchingLayer: value });
+  }
+
+  public setLocations(locations: TokenLocation[]) {
+    this.update({ locations: locations });
   }
 }

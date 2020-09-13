@@ -38,6 +38,7 @@ export class TokenTextLayerPartFeatureComponent
   public loading$: Observable<boolean>;
   public error$: Observable<string>;
   public baseText$: Observable<string>;
+  public locations$: Observable<TokenLocation[]>;
   public refreshingBreakChance$: Observable<boolean>;
   public breakChance$: Observable<number>;
   public layerHints$: Observable<LayerHint[]>;
@@ -45,7 +46,6 @@ export class TokenTextLayerPartFeatureComponent
   public deletingFragment$: Observable<boolean>;
 
   public pickedLocation: string;
-  public locations: TokenLocation[];
   public userLevel: number;
 
   constructor(
@@ -82,22 +82,11 @@ export class TokenTextLayerPartFeatureComponent
     }
   }
 
-  private loadAllFragmentLocations() {
-    const locations: TokenLocation[] = [];
-    const part = this._editQuery.getValue().part;
-
-    if (part && part.fragments) {
-      part.fragments.forEach(p => {
-        locations.push(TokenLocation.parse(p.location));
-      });
-    }
-    this.locations = locations;
-  }
-
   ngOnInit() {
     this.loading$ = this._editQuery.selectLoading();
     this.error$ = this._editQuery.selectError();
     this.baseText$ = this._editQuery.select(state => state.baseText);
+    this.locations$ = this._editQuery.select(state => state.locations);
     this.refreshingBreakChance$ = this._editQuery.selectRefreshingBreakChance();
     this.breakChance$ = this._editQuery.selectBreakChance();
     this.layerHints$ = this._editQuery.selectLayerHints();
@@ -105,9 +94,9 @@ export class TokenTextLayerPartFeatureComponent
     this.deletingFragment$ = this._editQuery.selectDeletingFragment();
 
     // when the base text changes, load all the fragments locations
-    this.baseText$.subscribe(_ => {
-      this.loadAllFragmentLocations();
-    });
+    // this.baseText$.subscribe(_ => {
+    //   this.loadAllFragmentLocations();
+    // });
 
     // ensure the container item is loaded
     this.ensureItemLoaded(this.itemId);

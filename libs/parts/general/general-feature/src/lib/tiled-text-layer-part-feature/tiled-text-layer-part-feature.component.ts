@@ -4,19 +4,17 @@ import {
   TokenLocation,
   LibraryRouteService,
   ComponentCanDeactivate,
-  LayerHint
+  LayerHint,
 } from '@cadmus/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   EditLayerPartQuery,
   EditLayerPartService,
   EditItemQuery,
-  EditItemService
+  EditItemService,
 } from '@cadmus/features/edit-state';
 import { DialogService } from '@cadmus/ui';
-import {
-  TextTileRow,
-  TiledTextPart} from '@cadmus/parts/general/general-ui';
+import { TextTileRow, TiledTextPart } from '@cadmus/parts/general/general-ui';
 import { TiledTextLayerView, TextTileLayerView } from './tiled-text-layer-view';
 import { AuthService } from '@cadmus/api';
 
@@ -36,7 +34,7 @@ import { AuthService } from '@cadmus/api';
 @Component({
   selector: 'cadmus-tiled-text-layer-part-feature',
   templateUrl: './tiled-text-layer-part-feature.component.html',
-  styleUrls: ['./tiled-text-layer-part-feature.component.css']
+  styleUrls: ['./tiled-text-layer-part-feature.component.css'],
 })
 export class TiledTextLayerPartFeatureComponent
   implements OnInit, ComponentCanDeactivate {
@@ -50,6 +48,7 @@ export class TiledTextLayerPartFeatureComponent
   public loading$: Observable<boolean>;
   public error$: Observable<string>;
   public baseText$: Observable<string>;
+  public locations$: Observable<TokenLocation[]>;
   public rows$: Observable<TextTileRow[]>;
   public refreshingBreakChance$: Observable<boolean>;
   public breakChance$: Observable<number>;
@@ -58,7 +57,6 @@ export class TiledTextLayerPartFeatureComponent
   public deletingFragment$: Observable<boolean>;
 
   public pickedLocation: string;
-  public locations: TokenLocation[];
   public userLevel: number;
 
   constructor(
@@ -97,13 +95,14 @@ export class TiledTextLayerPartFeatureComponent
   ngOnInit() {
     // base text: connect rows to the base text part
     this.rows$ = this._editQuery.select(
-      state => (state.baseTextPart as TiledTextPart)?.rows
+      (state) => (state.baseTextPart as TiledTextPart)?.rows
     );
 
     // layers part
     this.loading$ = this._editQuery.selectLoading();
     this.error$ = this._editQuery.selectError();
-    this.baseText$ = this._editQuery.select(state => state.baseText);
+    this.baseText$ = this._editQuery.select((state) => state.baseText);
+    this.locations$ = this._editQuery.select((state) => state.locations);
     this.refreshingBreakChance$ = this._editQuery.selectRefreshingBreakChance();
     this.breakChance$ = this._editQuery.selectBreakChance();
     this.layerHints$ = this._editQuery.selectLayerHints();
@@ -112,10 +111,9 @@ export class TiledTextLayerPartFeatureComponent
 
     // when the base text changes, load all the fragments locations
     // and setup their UI state
-    this.rows$.subscribe(rows => {
-      this.loadAllFragmentLocations();
-      this.view = rows? new TiledTextLayerView(rows) : null;
-      this.view?.setFragmentLocations(this.locations);
+    this.rows$.subscribe((rows) => {
+      this.view = rows ? new TiledTextLayerView(rows) : null;
+      this.view?.setFragmentLocations(this._editQuery.getValue().locations);
     });
 
     // ensure that the container item is loaded
@@ -129,30 +127,18 @@ export class TiledTextLayerPartFeatureComponent
     this._editService.refreshBreakChance();
   }
 
-  private loadAllFragmentLocations() {
-    const locations: TokenLocation[] = [];
-    const part = this._editQuery.getValue().part;
-
-    if (part && part.fragments) {
-      part.fragments.forEach(p => {
-        locations.push(TokenLocation.parse(p.location));
-      });
-    }
-    this.locations = locations;
-  }
-
   public onTileChecked(y: number, x: number, checked: boolean) {
     this.view.toggleLinearTileCheck(y, x, checked);
   }
 
-  private getSelectedTileCoords(): { y: number, x: number } | null {
+  private getSelectedTileCoords(): { y: number; x: number } | null {
     if (!this.selectedTile || !this.view) {
       return null;
     }
     for (let i = 0; i < this.view.rows.length; i++) {
       const j = this.view.rows[i].tiles.indexOf(this.selectedTile);
       if (j > -1) {
-        return { y: i + 1, x: j + 1};
+        return { y: i + 1, x: j + 1 };
       }
     }
     return null;
@@ -184,13 +170,14 @@ export class TiledTextLayerPartFeatureComponent
       return;
     }
 
-    const loc = this.locations[lf.fragment];
+    const locations = this._editQuery.getValue().locations;
+    const loc = locations[lf.fragment];
     this._dialogService
       .confirm('Delete Fragment', `Delete the fragment at ${loc}?`)
       .subscribe((ok: boolean) => {
         if (ok) {
           // find the fragment and remove it from the part
-          const i = this._editQuery.getValue().part.fragments.findIndex(p => {
+          const i = this._editQuery.getValue().part.fragments.findIndex((p) => {
             return TokenLocation.parse(p.location).overlaps(loc);
           });
           if (i === -1) {
@@ -224,8 +211,8 @@ export class TiledTextLayerPartFeatureComponent
       rid
         ? {
             queryParams: {
-              rid: part.roleId
-            }
+              rid: part.roleId,
+            },
           }
         : {}
     );
@@ -236,7 +223,8 @@ export class TiledTextLayerPartFeatureComponent
     if (!lf || lf.fragment === -1) {
       return;
     }
-    this.navigateToFragmentEditor(this.locations[lf.fragment].toString());
+    const locations = this._editQuery.getValue().locations;
+    this.navigateToFragmentEditor(locations[lf.fragment].toString());
   }
 
   public editFragmentFromHint(hint: LayerHint) {
@@ -248,7 +236,7 @@ export class TiledTextLayerPartFeatureComponent
       return;
     }
     this._editService.applyLayerPatches(this.partId, [
-      `mov ${hint.location} ${this.pickedLocation}`
+      `mov ${hint.location} ${this.pickedLocation}`,
     ]);
   }
 
@@ -265,14 +253,15 @@ export class TiledTextLayerPartFeatureComponent
     if (!lf) {
       return;
     }
+    const locations = this._editQuery.getValue().locations;
     this.pickedLocation = (lf.fragment === -1
       ? lf.location
-      : this.locations[lf.fragment]
+      : locations[lf.fragment]
     ).toString();
   }
 
   public clearTileChecks() {
-    this.view.setAllTilesViewState({checked: false});
+    this.view.setAllTilesViewState({ checked: false });
     this.pickedLocation = null;
   }
 

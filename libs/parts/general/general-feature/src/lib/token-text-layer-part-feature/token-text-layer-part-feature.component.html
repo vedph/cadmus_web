@@ -72,7 +72,7 @@
     <cadmus-decorated-token-text
       *ngIf="baseText$ | async as baseText"
       [baseText]="baseText"
-      [locations]="locations"
+      [locations]="locations$ | async"
     ></cadmus-decorated-token-text>
   </mat-card-content>
   <div>
