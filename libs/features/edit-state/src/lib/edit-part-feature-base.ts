@@ -89,10 +89,8 @@ export abstract class EditPartFeatureBase implements ComponentCanDeactivate {
     this.thesauri$ = this._editPartQuery.selectThesauri();
     // load item if required
     this.ensureItemLoaded(this.itemId);
-    // load part
-    if (this.partId) {
-      this._editPartService.load(this.partId, thesauriIds);
-    }
+    // load part (none if new) and thesauri
+    this._editPartService.load(this.partId, thesauriIds);
   }
 
   /**

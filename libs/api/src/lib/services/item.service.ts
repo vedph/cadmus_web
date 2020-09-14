@@ -15,7 +15,7 @@ import {
   ErrorWrapper,
   DataPinInfo
 } from '@cadmus/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
 export interface RolePartId {
@@ -186,6 +186,9 @@ export class ItemService {
    * @returns Observable with result.
    */
   public getPart(id: string): Observable<Part> {
+    if (!id) {
+      return of(null);
+    }
     const url = `${this._env.apiUrl}${this._env.databaseId}/part/${id}`;
     return this._http
       .get<Part>(url)

@@ -17,7 +17,7 @@ export abstract class EditPartServiceBase {
     protected thesaurusService: ThesaurusService
   ) {}
 
-  public load(partId: string, thesauriIds: string[] | null = null) {
+  public load(partId: string | null, thesauriIds: string[] | null = null) {
     this.store.setLoading(true);
 
     if (thesauriIds) {
@@ -36,7 +36,7 @@ export abstract class EditPartServiceBase {
           thesauri: result.thesauri,
         });
         // if the loaded part has a thesaurus scope, reload the thesauri
-        if (result.part.thesaurusScope) {
+        if (result.part?.thesaurusScope) {
           const scopedIds: string[] = thesauriIds.map((id) => {
             return this.thesaurusService.getScopedId(
               id,
@@ -61,6 +61,9 @@ export abstract class EditPartServiceBase {
         } // scoped
       });
     } else {
+      if (!partId) {
+        return;
+      }
       this.itemService.getPart(partId).subscribe(
         (part) => {
           this.store.update({
