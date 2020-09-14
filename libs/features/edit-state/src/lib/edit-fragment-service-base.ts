@@ -10,6 +10,9 @@ export interface EditFragmentStoreApi {
   setError(value: string): void;
 }
 
+/**
+ * Base class for fragment editing services.
+ */
 export abstract class EditFragmentServiceBase {
   protected store: EditFragmentStoreApi;
 
@@ -18,15 +21,13 @@ export abstract class EditFragmentServiceBase {
     private _thesaurusService: ThesaurusService
   ) {}
 
-  private setNotFoundError(partId: string, loc: string) {
-    this.store.update({
-      fragment: null,
-      thesauri: null,
-      loading: false,
-      error: `Fragment at ${loc} in part ${partId} not found`,
-    });
-  }
-
+  /**
+   * Load the specified fragment and thesauri.
+   *
+   * @param partId The ID of the part the fragment belongs to.
+   * @param loc The fragment's location.
+   * @param thesauriIds The optional requested thesauri IDs.
+   */
   public load(
     partId: string,
     loc: string,
@@ -47,8 +48,7 @@ export abstract class EditFragmentServiceBase {
         const layerPart = part as TextLayerPart;
         const fr = layerPart.fragments.find((f) => f.location === loc);
         if (!fr) {
-          // this.setNotFoundError(partId, loc);
-          // not found: it's a new fragment
+          // not found: new fragment
           this.store.update({
             fragment: {
               location: loc,
@@ -58,7 +58,7 @@ export abstract class EditFragmentServiceBase {
             error: null,
           });
         } else {
-          // found
+          // found: existing fragment
           this.store.update({
             fragment: fr,
             thesauri: thesauri,
@@ -94,7 +94,14 @@ export abstract class EditFragmentServiceBase {
           const layerPart = part as TextLayerPart;
           const fr = layerPart.fragments.find((f) => f.location === loc);
           if (!fr) {
-            this.setNotFoundError(partId, loc);
+            // not found: new fragment
+            this.store.update({
+              fragment: {
+                location: loc,
+              },
+              loading: false,
+              error: null,
+            });
           } else {
             this.store.update({
               fragment: fr,
@@ -112,6 +119,12 @@ export abstract class EditFragmentServiceBase {
     }
   }
 
+  /**
+   * Save the fragments serialized into the specified JSON code
+   * representing their part.
+   *
+   * @param json The JSON code representing the fragment.
+   */
   public save(json: string): Promise<boolean> {
     this.store.setSaving(true);
     this.store.setDirty(true);
@@ -126,7 +139,7 @@ export abstract class EditFragmentServiceBase {
         },
         (error) => {
           console.error(error);
-          this.store.setSaving(true);
+          this.store.setSaving(false);
           this.store.setError('Error saving fragment');
           reject(error);
         }

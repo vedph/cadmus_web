@@ -92,7 +92,7 @@ export abstract class EditPartServiceBase {
         },
         (error) => {
           console.error(error);
-          this.store.setSaving(true);
+          this.store.setSaving(false);
           this.store.setError('Error saving part');
           reject(error);
         }

@@ -123,6 +123,7 @@ export abstract class EditFragmentFeatureBase
         });
       },
       (error) => {
+        console.error(error);
         this.snackbar.open('Error saving fragment', 'OK');
       }
     );

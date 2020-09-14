@@ -116,6 +116,7 @@ export abstract class EditPartFeatureBase implements ComponentCanDeactivate {
       });
     },
     error => {
+      console.error(error);
       this.snackbar.open('Error saving part', 'OK');
     });
   }
