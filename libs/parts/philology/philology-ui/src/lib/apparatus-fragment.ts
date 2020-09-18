@@ -48,7 +48,7 @@ export interface ApparatusFragment extends Fragment {
   entries: ApparatusEntry[];
 }
 
-export const APPARATUS_FRAGMENT_TYPEID = 'fr.net.fusisoft.apparatus';
+export const APPARATUS_FRAGMENT_TYPEID = 'fr.it.vedph.apparatus';
 
 export const APPARATUS_FRAGMENT_SCHEMA = {
   definitions: {},

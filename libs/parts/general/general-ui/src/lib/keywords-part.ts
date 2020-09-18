@@ -15,7 +15,7 @@ export interface KeywordsPart extends Part {
 /**
  * The type ID used to identify the KeywordsPart type.
  */
-export const KEYWORDS_PART_TYPEID = 'net.fusisoft.keywords';
+export const KEYWORDS_PART_TYPEID = 'it.vedph.keywords';
 
 /**
  * JSON schema for the Keywords part. This is used in the editor demo.

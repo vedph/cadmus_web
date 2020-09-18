@@ -10,7 +10,7 @@ From the visual view you can then save, and go back to the JSON code view. You c
 {
   "itemId": "4a26ad5c-0a82-4a21-b1d7-15cddbb1bfd1",
   "id": "1bf411d8-54ad-4f4c-bde6-2fc78226ebd5",
-  "typeId": "net.fusisoft.note",
+  "typeId": "it.vedph.note",
   "roleId": "",
   "timeCreated": "2019-11-29T16:48:49.694Z",
   "creatorId": "zeus",
@@ -42,7 +42,7 @@ From the visual view you can then save, and go back to the JSON code view. You c
 {
   "itemId": "4a26ad5c-0a82-4a21-b1d7-15cddbb1bfd1",
   "id": "1bf411d8-54ad-4f4c-bde6-2fc78226ebd5",
-  "typeId": "net.fusisoft.keywords",
+  "typeId": "it.vedph.keywords",
   "roleId": "",
   "timeCreated": "2019-11-29T16:48:49.694Z",
   "creatorId": "zeus",
@@ -103,7 +103,7 @@ From the visual view you can then save, and go back to the JSON code view. You c
 {
   "itemId": "4a26ad5c-0a82-4a21-b1d7-15cddbb1bfd1",
   "id": "1bf411d8-54ad-4f4c-bde6-2fc78226ebd5",
-  "typeId": "net.fusisoft.index-keywords",
+  "typeId": "it.vedph.index-keywords",
   "roleId": "",
   "timeCreated": "2019-11-29T16:48:49.694Z",
   "creatorId": "zeus",
@@ -174,7 +174,7 @@ From the visual view you can then save, and go back to the JSON code view. You c
 {
   "itemId": "4a26ad5c-0a82-4a21-b1d7-15cddbb1bfd1",
   "id": "1bf411d8-54ad-4f4c-bde6-2fc78226ebd5",
-  "typeId": "net.fusisoft.note",
+  "typeId": "it.vedph.note",
   "roleId": "",
   "timeCreated": "2019-11-29T16:48:49.694Z",
   "creatorId": "zeus",
@@ -207,7 +207,7 @@ The thesaurus is optional. When not set, the editor allows free text for the tag
 {
   "itemId": "4a26ad5c-0a82-4a21-b1d7-15cddbb1bfd1",
   "id": "1bf411d8-54ad-4f4c-bde6-2fc78226ebd5",
-  "typeId": "net.fusisoft.note",
+  "typeId": "it.vedph.note",
   "roleId": "",
   "timeCreated": "2019-11-29T16:48:49.694Z",
   "creatorId": "zeus",
@@ -230,7 +230,7 @@ No thesaurus is required for this part.
 {
   "itemId": "4a26ad5c-0a82-4a21-b1d7-15cddbb1bfd1",
   "id": "1bf411d8-54ad-4f4c-bde6-2fc78226ebd5",
-  "typeId": "net.fusisoft.note",
+  "typeId": "it.vedph.note",
   "roleId": "",
   "timeCreated": "2019-11-29T16:48:49.694Z",
   "creatorId": "zeus",
@@ -411,7 +411,7 @@ Thesauri: the language thesaurus is required; other thesauri are optional, but n
 {
   "itemId": "4a26ad5c-0a82-4a21-b1d7-15cddbb1bfd1",
   "id": "1bf411d8-54ad-4f4c-bde6-2fc78226ebd5",
-  "typeId": "net.fusisoft.note",
+  "typeId": "it.vedph.note",
   "roleId": "",
   "timeCreated": "2019-11-29T16:48:49.694Z",
   "creatorId": "zeus",
@@ -439,7 +439,7 @@ No thesaurus is required for this part.
 {
   "id": "009dcbd9-b1f1-4dc2-845d-1d9c88c83269",
   "itemId": "2c2eadb7-1972-4415-9a43-b8036b6fa685",
-  "typeId": "net.fusisoft.tiled-text-part",
+  "typeId": "it.vedph.tiled-text-part",
   "roleId": null,
   "timeCreated": "2019-11-29T16:48:49.694Z",
   "creatorId": "zeus",

@@ -10,7 +10,7 @@ export interface CategoriesPart extends Part {
 /**
  * The type ID used to identify the CategoriesPart type.
  */
-export const CATEGORIES_PART_TYPEID = 'net.fusisoft.categories';
+export const CATEGORIES_PART_TYPEID = 'it.vedph.categories';
 
 /**
  * JSON schema for the Categories part. This is used in the editor demo.

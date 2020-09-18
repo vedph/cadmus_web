@@ -40,7 +40,7 @@ export interface __NAME__Part extends Part {
 /**
  * The type ID used to identify the __NAME__Part type.
  */
-export const __NAME___PART_TYPEID = 'net.fusisoft.__NAME__';
+export const __NAME___PART_TYPEID = 'it.vedph.__NAME__';
 
 /**
  * JSON schema for the __NAME__ part. This is used in the editor demo.
@@ -103,7 +103,7 @@ If you want to infer a schema in the [JSON schema tool](https://jsonschema.net/)
 {
   "id": "009dcbd9-b1f1-4dc2-845d-1d9c88c83269",
   "itemId": "2c2eadb7-1972-4415-9a43-b8036b6fa685",
-  "typeId": "net.fusisoft.thetype",
+  "typeId": "it.vedph.thetype",
   "roleId": null,
   "timeCreated": "2019-11-29T16:48:49.694Z",
   "creatorId": "zeus",

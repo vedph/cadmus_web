@@ -16,7 +16,7 @@ import { PartDefinition, PartEditorKeys } from '../models';
  * In turn, the feature UI editor component for the same part is located
  * in the "parts/general/general-feature" library. This library has
  * a route for each part editor. For instance, the NotePart editor
- * component route is "items/:iid/general/net.fusisoft.note/:pid", where
+ * component route is "items/:iid/general/it.vedph.note/:pid", where
  * ":iid" is the item ID and ":pid" the part ID.
  */
 @Injectable({
@@ -29,8 +29,8 @@ export class LibraryRouteService {
 
   /**
    * Strip the eventual fragment-role ID from the specified part's role ID.
-   * For instance, a part's role ID like "fr.net.fusisoft.comment:scholarly"
-   * becomes "fr.net.fusisoft.comment".
+   * For instance, a part's role ID like "fr.it.vedph.comment:scholarly"
+   * becomes "fr.it.vedph.comment".
    *
    * @param roleId The part's role ID.
    */
@@ -46,9 +46,9 @@ export class LibraryRouteService {
   /**
    * Get the fragment type and role from the part's role ID. This starts
    * with "fr.", and might be followed by the role proper, introduced
-   * by the first dot if any. For instance, "fr.net.fusisoft.comment" would just
-   * return "fr.net.fusisoft.comment", while "fr.net.fusisoft.comment:scholarly"
-   * would return "fr.net.fusisoft.comment". This is required to navigate to
+   * by the first dot if any. For instance, "fr.it.vedph.comment" would just
+   * return "fr.it.vedph.comment", while "fr.it.vedph.comment:scholarly"
+   * would return "fr.it.vedph.comment". This is required to navigate to
    * the correct fragment editor, which is the same for each fragment type,
    * independently from its role.
    * @param role The part role ID.

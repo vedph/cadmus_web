@@ -50,17 +50,17 @@ Routes **examples**:
 - `/items/`
 - `41d5208b-1af7-44a1-b690-33f85c7d24fa/`: item's ID.
 - `general/`: group key.
-- `net.fusisoft.note/`: part's type ID.
+- `it.vedph.note/`: part's type ID.
 - `eafc9d63-f790-4c96-8107-294f4cb1a952`: part's ID.
 
-Here the group key follows the route to the lazily loaded module with the part editor (`general`), while the part's type ID (`net.fusisoft.net`) tells which editor should be used from that module.
+Here the group key follows the route to the lazily loaded module with the part editor (`general`), while the part's type ID (`it.vedph.net`) tells which editor should be used from that module.
 
 2. a **part** route with **role**: this is the same as #1, except for the final `rid` query parameter.
 
 - `/items/`
 - `41d5208b-1af7-44a1-b690-33f85c7d24fa/`: item's ID.
 - `general/`: group key.
-- `net.fusisoft.note/`: part's type ID.
+- `it.vedph.note/`: part's type ID.
 - `eafc9d63-f790-4c96-8107-294f4cb1a952`: part's ID.
 - `?rid=scholarly`: part's role ID. This distinguishes a scholarly note, as opposed to a general purpose note (this sample is limited to the note part for clarity; but in the case of a note you would not require a role, as the note part has a `tag` property right for the purpose of grouping notes into different sets).
 
@@ -73,7 +73,7 @@ Here the role ID is ignored as for determining the target page, as the part's ed
 - `general/`: group key.
 - `fragment/`
 - `eafc9d63-f790-4c96-8107-294f4cb1a952/`: part's ID.
-- `fr.net.fusisoft.comment`: fragment's type ID. This is equal to the part's role ID, stripping an eventual layer's role ID out.
+- `fr.it.vedph.comment`: fragment's type ID. This is equal to the part's role ID, stripping an eventual layer's role ID out.
 - `2.1`: the fragment's location.
 
 4. a **text layer fragment** route with layer **role**:
@@ -83,6 +83,6 @@ Here the role ID is ignored as for determining the target page, as the part's ed
 - `general/`: group key.
 - `fragment/`
 - `eafc9d63-f790-4c96-8107-294f4cb1a952/`: part's ID.
-- `fr.net.fusisoft.comment`: fragment's type ID. This is equal to the part's role ID, stripping an eventual layer's role ID out.
+- `fr.it.vedph.comment`: fragment's type ID. This is equal to the part's role ID, stripping an eventual layer's role ID out.
 - `2.1`: the fragment's location.
-- `?rid=scholarly`: the layer's role. This is the optional suffix appended to the text layer part's role after a colon. For instance, the part's role might be `fr.net.fusisoft.comment:scholarly`; in this case, the fragment type ID is `fr.net.fusisoft.comment`, and the layer role ID is `scholarly`.
+- `?rid=scholarly`: the layer's role. This is the optional suffix appended to the text layer part's role after a colon. For instance, the part's role might be `fr.it.vedph.comment:scholarly`; in this case, the fragment type ID is `fr.it.vedph.comment`, and the layer role ID is `scholarly`.

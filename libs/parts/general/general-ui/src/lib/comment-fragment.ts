@@ -8,7 +8,7 @@ export interface CommentFragment extends Fragment {
   text: string;
 }
 
-export const COMMENT_FRAGMENT_TYPEID = 'fr.net.fusisoft.comment';
+export const COMMENT_FRAGMENT_TYPEID = 'fr.it.vedph.comment';
 
 export const COMMENT_FRAGMENT_SCHEMA = {
   definitions: {},

@@ -33,7 +33,7 @@ export interface TiledTextPart extends Part {
 /**
  * The type ID used to identify the TiledTextPart type.
  */
-export const TILED_TEXT_PART_TYPEID = 'net.fusisoft.tiled-text';
+export const TILED_TEXT_PART_TYPEID = 'it.vedph.tiled-text';
 
 /**
  * JSON schema for the tiled text part. This is used in the editor demo.

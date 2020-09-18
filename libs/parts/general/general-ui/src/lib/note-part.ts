@@ -11,7 +11,7 @@ export interface NotePart extends Part {
 /**
  * The type ID used to identify the NotePart type.
  */
-export const NOTE_PART_TYPEID = 'net.fusisoft.note';
+export const NOTE_PART_TYPEID = 'it.vedph.note';
 
 /**
  * JSON schema for the note part. This is used in the editor demo.

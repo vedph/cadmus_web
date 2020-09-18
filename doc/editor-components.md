@@ -69,7 +69,7 @@ For instance, here is the definition of the base text part in a Cadmus profile:
 
 ```json
 {
-  "typeId": "net.fusisoft.token-text",
+  "typeId": "it.vedph.token-text",
   "roleId": "base-text",
   "name": "text",
   "description": "Item's token-based text.",

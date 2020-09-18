@@ -252,11 +252,11 @@ export class ItemService {
    * Should you need to have several layers of the same type (e.g. 2 comment
    * layers), you can add a layer-specific role to the fragment type ID,
    * by appending it preceded by a colon. For instance, the fragment type ID
-   * "fr.net.fusisoft.comment:scholarly" has the ID proper followed by ":"
+   * "fr.it.vedph.comment:scholarly" has the ID proper followed by ":"
    * and its role ("scholarly").
    * Thus, the role IDs (=layer type) for layer parts may just be equal
-   * to the fragment type ID (e.g. "fr.net.fusisoft.comment"), or include
-   * this + colon + role ID proper (e.g."fr.net.fusisoft.comment:scholarly").
+   * to the fragment type ID (e.g. "fr.it.vedph.comment"), or include
+   * this + colon + role ID proper (e.g."fr.it.vedph.comment:scholarly").
    * @param itemId The item's ID.
    * @returns Observable with array of RolePartId's.
    */

@@ -10,7 +10,7 @@ export interface HistoricalDatePart extends Part {
 /**
  * The type ID used to identify the HistoricalDatePart type.
  */
-export const HISTORICAL_DATE_PART_TYPEID = 'net.fusisoft.historical-date';
+export const HISTORICAL_DATE_PART_TYPEID = 'it.vedph.historical-date';
 
 /**
  * JSON schema for the HistoricalDate part. This is used in the editor demo.

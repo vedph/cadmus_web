@@ -10,7 +10,7 @@ export interface ChronologyFragment extends Fragment {
   eventId?: string;
 }
 
-export const CHRONOLOGY_FRAGMENT_TYPEID = 'fr.net.fusisoft.chronology';
+export const CHRONOLOGY_FRAGMENT_TYPEID = 'fr.it.vedph.chronology';
 
 export const CHRONOLOGY_FRAGMENT_SCHEMA = {
   definitions: {},

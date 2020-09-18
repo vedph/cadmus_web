@@ -21,7 +21,7 @@ export interface IndexKeywordsPart extends Part {
 /**
  * The type ID used to identify the IndexKeywordsPart type.
  */
-export const INDEX_KEYWORDS_PART_TYPEID = 'net.fusisoft.index-keywords';
+export const INDEX_KEYWORDS_PART_TYPEID = 'it.vedph.index-keywords';
 
 /**
  * JSON schema for the index keywords part. This is used in the editor demo.

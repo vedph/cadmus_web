@@ -37,7 +37,7 @@ export interface BibliographyPart extends Part {
 /**
  * The type ID used to identify the BibliographyPart type.
  */
-export const BIBLIOGRAPHY_PART_TYPEID = 'net.fusisoft.bibliography';
+export const BIBLIOGRAPHY_PART_TYPEID = 'it.vedph.bibliography';
 
 /**
  * JSON schema for the Bibliography part. This is used in the editor demo.

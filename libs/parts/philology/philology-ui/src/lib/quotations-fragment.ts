@@ -20,7 +20,7 @@ export interface QuotationsFragment extends Fragment {
   entries: QuotationEntry[];
 }
 
-export const QUOTATIONS_FRAGMENT_TYPEID = 'fr.net.fusisoft.quotations';
+export const QUOTATIONS_FRAGMENT_TYPEID = 'fr.it.vedph.quotations';
 
 export const QUOTATIONS_FRAGMENT_SCHEMA = {
   definitions: {},

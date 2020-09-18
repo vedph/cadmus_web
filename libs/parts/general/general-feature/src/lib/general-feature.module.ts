@@ -86,13 +86,13 @@ import { BibliographyPartFeatureComponent } from './bibliography-part-feature/bi
         canDeactivate: [PendingChangesGuard]
       },
       {
-        path: 'net.fusisoft.token-text-layer/:pid',
+        path: 'it.vedph.token-text-layer/:pid',
         pathMatch: 'full',
         component: TokenTextLayerPartFeatureComponent,
         canDeactivate: [PendingChangesGuard]
       },
       {
-        path: 'net.fusisoft.tiled-text-layer/:pid',
+        path: 'it.vedph.tiled-text-layer/:pid',
         pathMatch: 'full',
         component: TiledTextLayerPartFeatureComponent,
         canDeactivate: [PendingChangesGuard]

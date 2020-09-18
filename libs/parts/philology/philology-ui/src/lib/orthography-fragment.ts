@@ -8,7 +8,7 @@ export interface OrthographyFragment extends Fragment {
   operations?: string[];
 }
 
-export const ORTHOGRAPHY_FRAGMENT_TYPEID = 'fr.net.fusisoft.orthography';
+export const ORTHOGRAPHY_FRAGMENT_TYPEID = 'fr.it.vedph.orthography';
 
 export const ORTHOGRAPHY_FRAGMENT_SCHEMA = {
   definitions: {},

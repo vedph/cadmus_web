@@ -20,7 +20,7 @@ export interface __NAME__Fragment extends Fragment {
   // TODO: add properties
 }
 
-export const __NAME___FRAGMENT_TYPEID = 'fr.net.fusisoft.__NAME__';
+export const __NAME___FRAGMENT_TYPEID = 'fr.it.vedph.__NAME__';
 
 export const __NAME___FRAGMENT_SCHEMA = {
   definitions: {},

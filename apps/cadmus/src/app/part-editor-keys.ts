@@ -20,8 +20,8 @@ import { PartEditorKeys } from '@cadmus/core';
 
 const GENERAL = 'general';
 const PHILOLOGY = 'philology';
-const TOKEN_TEXT_LAYER_PART_TYPEID = 'net.fusisoft.token-text-layer';
-const TILED_TEXT_LAYER_PART_TYPEID = 'net.fusisoft.tiled-text-layer';
+const TOKEN_TEXT_LAYER_PART_TYPEID = 'it.vedph.token-text-layer';
+const TILED_TEXT_LAYER_PART_TYPEID = 'it.vedph.tiled-text-layer';
 
 /**
  * The parts and fragments editor keys for this UI.

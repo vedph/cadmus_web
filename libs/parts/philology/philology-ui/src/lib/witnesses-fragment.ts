@@ -17,7 +17,7 @@ export interface WitnessesFragment extends Fragment {
   witnesses: Witness[];
 }
 
-export const WITNESSES_FRAGMENT_TYPEID = 'fr.net.fusisoft.witnesses';
+export const WITNESSES_FRAGMENT_TYPEID = 'fr.it.vedph.witnesses';
 
 export const WITNESSES_FRAGMENT_SCHEMA = {
   definitions: {},

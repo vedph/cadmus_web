@@ -19,7 +19,7 @@ export interface TokenTextPart extends Part {
 /**
  * The type ID used to identify the TokenTextPart type.
  */
-export const TOKEN_TEXT_PART_TYPEID = 'net.fusisoft.token-text';
+export const TOKEN_TEXT_PART_TYPEID = 'it.vedph.token-text';
 
 /**
  * JSON schema for the TookenTextPart. This is used in the editor demo.
