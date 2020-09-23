@@ -21,7 +21,7 @@ export class EditItemService {
       return null;
     }
     // if there is a facet with id="default", pick it
-    const defaultFacet = facets.find(f => f.id === 'default');
+    const defaultFacet = facets.find((f) => f.id === 'default');
     if (defaultFacet) {
       return defaultFacet;
     }
@@ -43,13 +43,13 @@ export class EditItemService {
     if (itemId) {
       forkJoin({
         item: this._itemService.getItem(itemId, true),
-        layers: layers$
+        layers: layers$,
       }).subscribe(
-        result => {
+        (result) => {
           this._store.setLoading(false);
           this._store.setError(null);
 
-          const itemFacet = appState.facets.find(f => {
+          const itemFacet = appState.facets.find((f) => {
             return f.id === result.item.facetId;
           });
           const facetParts = itemFacet ? itemFacet.partDefinitions : [];
@@ -62,10 +62,10 @@ export class EditItemService {
               facetParts
             ),
             layerPartInfos: result.layers,
-            facet: appState.facets.find(f => f.id === result.item.facetId)
+            facet: appState.facets.find((f) => f.id === result.item.facetId),
           });
         },
-        error => {
+        (error) => {
           console.error(error);
           this._store.setLoading(false);
           this._store.setError('Error loading item ' + itemId);
@@ -74,9 +74,9 @@ export class EditItemService {
     } else {
       // if new, just set an empty item
       forkJoin({
-        layers: layers$
+        layers: layers$,
       }).subscribe(
-        result => {
+        (result) => {
           this._store.setLoading(false);
           this._store.setError(null);
 
@@ -92,15 +92,15 @@ export class EditItemService {
               timeCreated: new Date(),
               creatorId: null,
               timeModified: new Date(),
-              userId: null
+              userId: null,
             },
             parts: [],
             partGroups: [],
             layerPartInfos: result.layers,
-            facet: this.pickDefaultFacet(appState.facets)
+            facet: this.pickDefaultFacet(appState.facets),
           });
         },
-        error => {
+        (error) => {
           console.error(error);
           this._store.setLoading(false);
           this._store.setError('Error loading item ' + itemId);
@@ -120,20 +120,25 @@ export class EditItemService {
    * Save the item and update the store.
    * @param item The item to be saved.
    */
-  public save(item: Item) {
+  public save(item: Item): Promise<Item> {
     this._store.setSaving();
-    this._itemService.addItem(item).subscribe(
-      _ => {
-        this._store.setSaving(false);
-        // reload the store
-        this.load(this._store.getValue().item.id);
-      },
-      error => {
-        console.error(error);
-        this._store.setSaving(false);
-        this._store.setError('Error saving item');
-      }
-    );
+
+    return new Promise((resolve, reject) => {
+      this._itemService.addItem(item).subscribe(
+        (saved) => {
+          this._store.setSaving(false);
+          // reload the store
+          this.load(saved.id);
+          resolve(saved);
+        },
+        (error) => {
+          console.error(error);
+          this._store.setSaving(false);
+          this._store.setError('Error saving item');
+          reject(error);
+        }
+      );
+    });
   }
 
   /**
@@ -144,12 +149,12 @@ export class EditItemService {
     this._store.setDeletingPart();
     // delete from server
     this._itemService.deletePart(id).subscribe(
-      _ => {
+      (_) => {
         this._store.setDeletingPart(false);
         // reload the store
         this.load(this._store.getValue().item.id);
       },
-      error => {
+      (error) => {
         console.log(error);
         this._store.setDeletingPart(false);
         this._store.setError('Error deleting part ' + id);
@@ -166,16 +171,16 @@ export class EditItemService {
       creatorId: null,
       userId: null,
       timeCreated: new Date(),
-      timeModified: new Date()
+      timeModified: new Date(),
     };
     this._store.setSaving();
     this._itemService.addPart(part).subscribe(
-      _ => {
+      (_) => {
         this._store.setSaving(false);
         // reload the store
         this.load(this._store.getValue().item.id);
       },
-      error => {
+      (error) => {
         console.log(error);
         this._store.setSaving(false);
         this._store.setError('Error adding new layer part for item ' + itemId);
@@ -186,15 +191,15 @@ export class EditItemService {
   public setPartThesaurusScope(ids: string[], scope: string) {
     this._store.setSaving();
     this._itemService.setPartThesaurusScope(ids, scope).subscribe(
-      _ => {
+      (_) => {
         this._store.setSaving(false);
         // reload the store
         this.load(this._store.getValue().item.id);
       },
-      error => {
+      (error) => {
         console.log(error);
         this._store.setSaving(false);
-        this._store.setError('Error setting item\'s parts scope');
+        this._store.setError("Error setting item's parts scope");
       }
     );
   }

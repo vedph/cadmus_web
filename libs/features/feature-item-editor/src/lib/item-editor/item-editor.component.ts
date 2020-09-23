@@ -11,6 +11,7 @@ import {
   User,
   LayerPartInfo,
   Thesaurus,
+  ComponentCanDeactivate,
 } from '@cadmus/core';
 import {
   FormControl,
@@ -38,7 +39,7 @@ import { PartScopeSetRequest } from '../parts-scope-editor/parts-scope-editor.co
   templateUrl: './item-editor.component.html',
   styleUrls: ['./item-editor.component.css'],
 })
-export class ItemEditorComponent implements OnInit {
+export class ItemEditorComponent implements OnInit, ComponentCanDeactivate {
   public flagDefinitions: FlagDefinition[];
 
   public id: string;
@@ -158,6 +159,10 @@ export class ItemEditorComponent implements OnInit {
 
     // load the item (if any) and its lookup
     this._editItemService.load(this.id);
+  }
+
+  public canDeactivate(): boolean | Observable<boolean> {
+    return !this.metadata.dirty;
   }
 
   private getExistingPartTypeAndRoleIds(): {
@@ -305,7 +310,14 @@ export class ItemEditorComponent implements OnInit {
     item.facetId = this.tryTrim(this.facet.value);
     item.groupId = this.tryTrim(this.group.value);
     item.flags = this.flags.value;
-    this._editItemService.save(item);
+    // save and reload as edited if was new
+    this._editItemService.save(item).then((saved) => {
+      this.metadata.markAsPristine();
+      if (!item.id) {
+        this.id = saved.id;
+        this._router.navigate(['/items', saved.id]);
+      }
+    });
   }
 
   public addPart(def?: PartDefinition) {

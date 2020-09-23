@@ -193,11 +193,11 @@ export class CategoriesPartComponent
   public onTreeNodeClick(node: TreeNode) {
     if (
       (node.children && node.children.length > 0) ||
-      this.categories.value.some((id: string) => id === node.id)
+      this.categories.value?.some((id: string) => id === node.id)
     ) {
       return;
     }
-    const cc = Object.assign([], this.categories.value);
+    const cc = Object.assign([], this.categories.value || []);
     cc.push(node.id.toString());
     cc.sort();
     this.categories.setValue(cc);
