@@ -11,7 +11,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class EnvService {
-  public apiUrl = 'http://localhost:60304/api/';
+  public apiUrl = 'http://localhost:60380/api/';
   public databaseId = 'cadmus';
   public name = 'Demo';
 

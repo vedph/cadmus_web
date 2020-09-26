@@ -31,7 +31,7 @@ describe('OrthographyFragmentComponent', () => {
         },
         {
           provide: 'apiEndpoint',
-          useValue: 'http://localhost:60304/api/'
+          useValue: 'http://localhost:60380/api/'
         },
         {
           provide: 'databaseId',

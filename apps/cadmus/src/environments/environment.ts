@@ -16,6 +16,6 @@ export const environment = {
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
 
 // export const config = {
-//   apiEndpoint: 'http://localhost:60304/api/',
+//   apiEndpoint: 'http://localhost:60380/api/',
 //   databaseId: 'cadmus'
 // }

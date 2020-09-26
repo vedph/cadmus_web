@@ -1,7 +1,7 @@
 # Modified compose version using volumes in a Linux-based host
 # MongoDB: localhost:27017, host folder: /var/db/mongo
 # MySql: localhost:3306, host folder: /var/db/mysql
-# API: localhost:60304
+# API: localhost:60380
 # web: localhost:4200
 
 version: '3.7'
@@ -49,7 +49,7 @@ services:
     image: vedph2020/cadmus_api:latest
     ports:
       # https://stackoverflow.com/questions/48669548/why-does-aspnet-core-start-on-port-80-from-within-docker
-      - 60304:80
+      - 60380:80
     depends_on:
       - cadmus-mongo
       - cadmus-index
