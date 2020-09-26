@@ -1,0 +1,87 @@
+# Modified compose version using volumes in a Linux-based host
+# MongoDB: localhost:27017, host folder: /var/db/mongo
+# MySql: localhost:3306, host folder: /var/db/mysql
+# API: localhost:60304
+# web: localhost:4200
+
+version: '3.7'
+
+services:
+  # MongoDB
+  cadmus-mongo:
+    image: mongo
+    container_name: cadmus-mongo
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    command: mongod --logpath=/dev/null # --quiet
+    ports:
+      - 27017:27017
+    volumes:
+      - /var/db/mongo:/data/db
+    networks:
+      - cadmus-network
+
+  # MySql
+  # https://github.com/docker-library/docs/tree/master/mysql#mysql_database
+  # https://docs.docker.com/samples/library/mysql/#environment-variables
+  # https://github.com/docker-library/mysql/issues/275 (troubleshooting connection)
+  cadmus-index:
+    image: mysql
+    container_name: cadmus-index
+    # https://github.com/docker-library/mysql/issues/454
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      # the password that will be set for the MySQL root superuser account
+      # Note: use dictionary like here rather than array (- name = value)
+      # or you might get MySql connection errors!
+      # https://stackoverflow.com/questions/37459031/connecting-to-a-docker-compose-mysql-container-denies-access-but-docker-running/37460872#37460872
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - 3306:3306
+    volumes:
+      - /var/db/mysql:/var/lib/mysql
+    networks:
+      - cadmus-network
+
+  cadmus-api:
+    image: vedph2020/cadmus_api:latest
+    ports:
+      # https://stackoverflow.com/questions/48669548/why-does-aspnet-core-start-on-port-80-from-within-docker
+      - 60304:80
+    depends_on:
+      - cadmus-mongo
+      - cadmus-index
+    # wait for mongo before starting: https://github.com/vishnubob/wait-for-it
+    command: ["./wait-for-it.sh", "cadmus-mongo:27017", "--", "dotnet", "CadmusApi.dll"]
+    environment:
+      # for Windows use : as separator, for non Windows use __
+      # (see https://github.com/aspnet/Configuration/issues/469)
+      - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-mongo:27017/{0}
+      - CONNECTIONSTRINGS__INDEX=Server=cadmus-index;port=3306;Database={0};Uid=root;Pwd=mysql
+      - SEED__INDEXDELAY=25
+      - MESSAGING__APIROOTURL=http://cadmusapi.azurewebsites.net
+      - MESSAGING__APPROOTURL=http://cadmusapi.com/
+      - MESSAGING__SUPPORTEMAIL=support@cadmus.com
+      - SENDGRID__ISENABLED=true
+      - SENDGRID__SENDEREMAIL=info@cadmus.com
+      - SENDGRID__SENDERNAME=cadmus
+      - SENDGRID__APIKEY=todo
+      - SERILOG__CONNECTIONSTRING=mongodb://cadmus-mongo:27017/cadmus-logs
+      - STOCKUSERS__0__PASSWORD=P4ss-W0rd!
+    networks:
+      - cadmus-network
+
+  cadmus-web:
+    image: vedph2020/cadmus_web:latest
+    ports:
+      - 4200:80
+    depends_on:
+      - cadmus-api
+    networks:
+      - cadmus-network
+
+networks:
+  cadmus-network:
+    driver: bridge
