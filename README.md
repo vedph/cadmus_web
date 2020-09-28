@@ -1,5 +1,7 @@
 # Cadmus
 
+Quick Docker image build: `docker build . -t vedph2020/cadmus_web:1.0.6` (replace with the current version).
+
 This project was generated using [Nx](https://nx.dev).
 
 1. `npx create-nx-workspace@latest cadmus`.
