@@ -50,7 +50,7 @@ services:
       # (see https://github.com/aspnet/Configuration/issues/469)
       - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-mongo:27017/{0}
       - CONNECTIONSTRINGS__INDEX=Server=cadmus-index;port=3306;Database={0};Uid=root;Pwd=mysql
-      - SEED__INDEXDELAY=25
+      - SEED__INDEXDELAY=35
       - MESSAGING__APIROOTURL=http://cadmusapi.azurewebsites.net
       - MESSAGING__APPROOTURL=http://cadmusapi.com/
       - MESSAGING__SUPPORTEMAIL=support@cadmus.com
