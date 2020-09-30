@@ -16,7 +16,7 @@ import { debounceTime } from 'rxjs/operators';
   templateUrl: './datation-editor.component.html',
   styleUrls: ['./datation-editor.component.css'],
 })
-export class DatationEditorComponent implements OnInit {
+export class DatationEditorComponent {
   private _datation: Datation;
 
   public value: FormControl;
@@ -69,7 +69,7 @@ export class DatationEditorComponent implements OnInit {
     });
   }
 
-  private updateForm() {
+  private updateForm(): void {
     this.value.setValue(this._datation.value);
     this.century.setValue(this._datation.isCentury);
     this.span.setValue(this._datation.isSpan);
@@ -80,26 +80,24 @@ export class DatationEditorComponent implements OnInit {
     this.hint.setValue(this._datation.hint);
   }
 
-  private updateData() {
-    this._datation.value = this.value.value ? +this.value.value : null;
-    this._datation.isCentury = this.century.value;
-    this._datation.isSpan = this.span.value;
-    this._datation.month = this.month.value ? +this.month.value : null;
-    this._datation.day = this.day.value ? +this.day.value : null;
-    this._datation.isApproximate = this.about.value;
-    this._datation.isDubious = this.dubious.value;
+  private updateData(): void {
+    this._datation.value = this.value.value ? +this.value.value : 0;
+    this._datation.isCentury = this.century.value || false;
+    this._datation.isSpan = this.span.value || false;
+    this._datation.month = this.month.value ? +this.month.value : 0;
+    this._datation.day = this.day.value ? +this.day.value : 0;
+    this._datation.isApproximate = this.about.value || false;
+    this._datation.isDubious = this.dubious.value || false;
     this._datation.hint = Datation.sanitizeHint(this.hint.value);
   }
 
-  ngOnInit() {}
-
-  public reset() {
+  public reset(): void {
     this._datation.reset();
     this.updateForm();
     this.form.markAsPristine();
   }
 
-  public save() {
+  public save(): void {
     if (this.form.invalid) {
       return;
     }
