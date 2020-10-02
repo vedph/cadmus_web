@@ -183,7 +183,7 @@ export class TextLayerService {
     // 1.token's left-part
     if (loc.primary.at > 0) {
       // to...
-      sb.push(token.substr(0, loc.primary.at));
+      sb.push(token.substr(0, loc.primary.at - 1));
     }
 
     // 2.span: [
