@@ -85,7 +85,7 @@ export class ItemFilterComponent implements OnInit {
       pageSize: 0,
       title: this.title.value,
       description: this.description.value,
-      facetId: this.facet.value ? this.facet.value.id : null,
+      facetId: this.facet.value,
       groupId: this.group.value,
       flags: 0, // this.getFlagsValue(),
       userId: this.user.value ? this.user.value.userName : null,

@@ -1,19 +1,20 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Thesaurus, FacetDefinition, PartTypeIds } from '@cadmus/core';
 import { FacetService } from '@cadmus/api';
+import { ColorService } from '../../services/color.service';
 
 export enum PartBadgeType {
   partAndRole = 0,
   partOnly = 1,
-  roleOnly = 2
+  roleOnly = 2,
 }
 
 @Component({
   selector: 'cadmus-part-badge',
   templateUrl: './part-badge.component.html',
-  styleUrls: ['./part-badge.component.css']
+  styleUrls: ['./part-badge.component.css'],
 })
-export class PartBadgeComponent implements OnInit {
+export class PartBadgeComponent {
   private _typeThesaurus: Thesaurus;
   private _facetDefinition: FacetDefinition;
   private _partTypeIds: PartTypeIds;
@@ -21,6 +22,7 @@ export class PartBadgeComponent implements OnInit {
   public typeName: string;
   public roleName: string;
   public color: string;
+  public contrastColor: string;
 
   /**
    * The badge type: 0=part and role, 1=part only, 2=role only.
@@ -64,12 +66,14 @@ export class PartBadgeComponent implements OnInit {
     this.updateBadge();
   }
 
-  constructor(private _facetService: FacetService) {
+  constructor(
+    private _facetService: FacetService,
+    private _colorService: ColorService
+  ) {
     this.badgeType = PartBadgeType.partAndRole;
     this.color = 'transparent';
+    this.contrastColor = 'black';
   }
-
-  ngOnInit(): void {}
 
   private getPartColor(typeId: string, roleId: string): string {
     if (!this._facetDefinition) {
@@ -86,7 +90,7 @@ export class PartBadgeComponent implements OnInit {
     if (!this._typeThesaurus) {
       return typeId;
     }
-    const entry = this._typeThesaurus.entries.find(e => e.id === typeId);
+    const entry = this._typeThesaurus.entries.find((e) => e.id === typeId);
     return entry ? entry.value : typeId;
   }
 
@@ -99,7 +103,10 @@ export class PartBadgeComponent implements OnInit {
 
   private updateBadge() {
     if (this._partTypeIds) {
-      this.color = this.getPartColor(this._partTypeIds.typeId, this._partTypeIds.roleId);
+      this.color = this.getPartColor(
+        this._partTypeIds.typeId,
+        this._partTypeIds.roleId
+      );
       this.typeName = this.getTypeIdName(this._partTypeIds.typeId);
       this.roleName = this.getRoleIdName(this._partTypeIds.roleId);
     } else {
@@ -107,5 +114,6 @@ export class PartBadgeComponent implements OnInit {
       this.typeName = null;
       this.roleName = null;
     }
+    this.contrastColor = this._colorService.getContrastColor(this.color);
   }
 }

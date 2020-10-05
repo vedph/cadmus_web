@@ -14,6 +14,7 @@ export * from './lib/components/part-badge/part-badge.component';
 export * from './lib/components/password-strength-bar/password-strength-bar.component';
 export * from './lib/components/model-editor-component-base';
 export * from './lib/pipes/safe-html.pipe';
+export * from './lib/services/color.service';
 export * from './lib/services/dialog.service';
 export * from './lib/validators/custom-validators';
 export * from './lib/validators/json-schema-validators';

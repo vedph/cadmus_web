@@ -1,18 +1,20 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FacetDefinition } from '@cadmus/core';
+import { ColorService } from '../../services/color.service';
 
 @Component({
   selector: 'cadmus-facet-badge',
   templateUrl: './facet-badge.component.html',
   styleUrls: ['./facet-badge.component.css']
 })
-export class FacetBadgeComponent implements OnInit {
+export class FacetBadgeComponent {
   private _facetColors: { [key: string]: string };
   private _facetTips: { [key: string]: string };
   private _facetId: string;
   private _facetDefinitions: FacetDefinition[];
 
   public color: string;
+  public contrastColor: string;
   public tip: string;
 
   /**
@@ -44,13 +46,12 @@ export class FacetBadgeComponent implements OnInit {
     this.updateBadge();
   }
 
-  constructor() {
+  constructor(private _colorService: ColorService) {
     this._facetColors = {};
     this._facetTips = {};
     this.color = 'transparent';
+    this.contrastColor = 'black';
   }
-
-  ngOnInit(): void {}
 
   private getFacetColor(facetId: string): string {
     if (this._facetColors[facetId]) {
@@ -103,6 +104,7 @@ export class FacetBadgeComponent implements OnInit {
 
   private updateBadge() {
     this.color = this.getFacetColor(this._facetId);
+    this.contrastColor = this._colorService.getContrastColor(this.color);
     this.tip = this.getFacetTip(this._facetId);
   }
 }
