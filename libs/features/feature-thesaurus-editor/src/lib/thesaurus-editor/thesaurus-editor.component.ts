@@ -82,7 +82,7 @@ export class ThesaurusEditorComponent implements OnInit {
       id: this._formBuilder.control(entry ? entry.id : null, [
         Validators.required,
         Validators.maxLength(100),
-        Validators.pattern(/^[a-zA-Z0-9_\-\.]+$/g)
+        Validators.pattern('^[a-zA-Z0-9_\\-\\.]+$')
       ]),
       value: this._formBuilder.control(entry ? entry.value : null, [
         Validators.required,
@@ -189,6 +189,13 @@ export class ThesaurusEditorComponent implements OnInit {
       return;
     }
     const thesaurus = this.getThesaurus();
-    this._editService.save(thesaurus);
+    // save and reload as edited if was new
+    this._editService.save(thesaurus).then((saved) => {
+      this.form.markAsPristine();
+      if (!this.id) {
+        this.id = saved.id;
+        this._router.navigate(['thesauri', saved.id]);
+      }
+    });
   }
 }
